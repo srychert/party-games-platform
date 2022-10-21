@@ -5,7 +5,7 @@ import "./navbar.css";
 function NavBar() {
   return (
     <div>
-      <h1>Party Games Platform</h1>
+      <h1>Games Guru</h1>
       <nav>
         <ul>
           <li>
