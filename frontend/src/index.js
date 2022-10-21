@@ -2,8 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import GameVoting from "./GameView/Game";
-import NewGame from "./NewGame/StartGame";
+import PhoneView from "./PhoneView/PhoneView";
+import EnterGame from "./EnterGame/EnterGame";
+import MainGame from "./MainGame/MainGame";
 
 const router = createBrowserRouter([
   {
@@ -12,12 +13,16 @@ const router = createBrowserRouter([
     errorElement: <div>Error 404</div>,
   },
   {
-    path: "/game_voting",
-    element: <GameVoting />,
+    path: "/phone-view",
+    element: <PhoneView />,
   },
   {
-    path: "/new_game",
-    element: <NewGame />,
+    path: "/enter-game",
+    element: <EnterGame />,
+  },
+  {
+    path: "/main-game",
+    element: <MainGame />,
   },
 ]);
 

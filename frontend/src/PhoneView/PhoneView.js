@@ -1,7 +1,7 @@
 import React from "react";
 import NavBar from "../NavBar/Navbar";
-import "./gameview.css";
-function GameVoting() {
+import "./phoneView.css";
+function PhoneView() {
   return (
     <div className="game-voting">
       {<NavBar />}
@@ -24,4 +24,4 @@ function GameVoting() {
   );
 }
 
-export default GameVoting;
+export default PhoneView;

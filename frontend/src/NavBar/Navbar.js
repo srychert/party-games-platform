@@ -12,7 +12,13 @@ function NavBar() {
             <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to="/game_voting">Game Voting</Link>
+            <Link to="/phone-view">Phone View</Link>
+          </li>
+          <li>
+            <Link to="/enter-game">Enter Game</Link>
+          </li>
+          <li>
+            <Link to="/main-game">Main Game</Link>
           </li>
         </ul>
       </nav>
