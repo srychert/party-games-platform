@@ -1,5 +1,4 @@
 import React from "react";
-import NavBar from "../NavBar/Navbar";
 import "./phoneView.css";
 import UserGuide from "./UserGuide/UserGuide";
 function PhoneView() {
@@ -7,8 +6,17 @@ function PhoneView() {
 
   return (
     <div className="game-voting">
-      {<NavBar />}
-      <h1>Game Voting</h1>
+      <div className="hero-menu">
+        <div className="hero-image">
+          <img src="" alt="hero" />
+        </div>
+        <div className="hero-stats">
+          <div className="hero-name">Hero Name</div>
+          <div className="hero-level">Level 1</div>
+          <div className="hero-health">Health 100</div>
+          <div className="hero-mana">Mana 100</div>
+        </div>
+      </div>
       <div className="user-guide__slider">
         <button className="user-guide__slider__button">
           <div
