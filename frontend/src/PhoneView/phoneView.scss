@@ -67,3 +67,14 @@ main.phoneView{ // To jest ekran do głosowania
     }
 }
 
+.user-guide__content{
+    height: 15vh;
+    overflow-y: scroll;
+    border: #000 1px solid;
+    // scrollbar do zmiany na inny, lepszy
+    .user-guide-img{
+        width: 50px;
+        height: 50px;
+        border: #000 1px solid;
+    }
+}

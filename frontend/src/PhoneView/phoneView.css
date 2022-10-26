@@ -59,4 +59,15 @@ main.phoneView button:hover {
   -o-object-fit: cover;
      object-fit: cover;
   border: #000 1px solid;
+}
+
+.user-guide__content {
+  height: 15vh;
+  overflow-y: scroll;
+  border: #000 1px solid;
+}
+.user-guide__content .user-guide-img {
+  width: 50px;
+  height: 50px;
+  border: #000 1px solid;
 }/*# sourceMappingURL=phoneView.css.map */
