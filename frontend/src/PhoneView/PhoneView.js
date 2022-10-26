@@ -1,7 +1,7 @@
 import React from "react";
 import HeroStats from "./HeroStats/HeroStats";
-import "./phoneView.css";
 import UserGuide from "./UserGuide/UserGuide";
+import "./phoneView.css";
 function PhoneView() {
   const [showUserGuide, setShowUserGuide] = React.useState(false);
 
@@ -21,7 +21,7 @@ function PhoneView() {
           </button>
         </div>
       </div>
-      <main>
+      <main className="phoneView">
         {[1, 2, 3, 4].map((item) => (
           <div className="game-voting__item" id={item}>
             <button className="game-voting__item__button">

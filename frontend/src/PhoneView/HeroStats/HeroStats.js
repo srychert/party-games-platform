@@ -13,9 +13,9 @@ function HeroStats() {
       </div>
       <div className="hero-stats">
         <div className="hero-name">{heroName}</div>
-        <div className="hero-level">{heroLevel}</div>
-        <div className="hero-health">{heroHealth}</div>
-        <div className="hero-mana">{heroMana}</div>
+        <div className="hero-level">Poziom: {heroLevel}</div>
+        <div className="hero-health">Życie: {heroHealth}</div>
+        <div className="hero-mana">Mana: {heroMana}</div>
       </div>
     </div>
   );

@@ -1,5 +1,4 @@
 import React from "react";
-import "./userGuide.css";
 
 function UserGuide() {
   const [gameItems, setGameItems] = React.useState([
