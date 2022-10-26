@@ -1,9 +1,10 @@
-FROM openjdk:17-slim as build
+FROM openjdk:17-oracle AS build
 
 COPY . .
 
-RUN chmod +x ./gradlew && \
-    ./gradlew clean build --info
+RUN microdnf install findutils && \
+    chmod +x ./gradlew && \
+    ./gradlew bootJar
 
 
 FROM openjdk:17 AS main

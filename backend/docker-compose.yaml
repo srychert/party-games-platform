@@ -37,7 +37,6 @@ services:
     depends_on:
       - mongodb
     environment:
-      - SERVER_PORT:8080
       - SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE=admin
       - SPRING_DATA_MONGODB_AUTO_INDEX_CREATION=$MONGO_AUTO_INDEX_CREATION
       - SPRING_DATA_MONGODB_HOST=mongodb
