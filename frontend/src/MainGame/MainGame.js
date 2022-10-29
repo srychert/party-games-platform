@@ -1,6 +1,11 @@
 import React from "react";
 import "./mainGame.css";
+import Map from "./Map/Map";
+
 function MainGame() {
+
+  
+  
   return (
     <div className="main-game-screen">
       <div className="main-game-screen__content">
@@ -9,7 +14,7 @@ function MainGame() {
             <div className="main-game-screen-equipment__content">Equipment</div>
           </div>
           <div className="main-game-screen-map">
-            <div className="main-game-screen-map__content">Mapa</div>
+              <Map />
           </div>
           <div className="main-game-screen-quest">
             <div className="main-game-screen-quest__content">Main Quest</div>

@@ -1,0 +1,26 @@
+.main-game-screen-map__content {
+  width: 100%;
+  height: 100%;
+  display: -ms-grid;
+  display: grid;
+  position: relative;
+  -ms-grid-columns: (calc(80vw/7))[7];
+      grid-template-columns: repeat(7, calc(80vw/7));
+  -ms-grid-rows: (calc(100vh/7))[7];
+      grid-template-rows: repeat(7, calc(100vh/7));
+  grid-auto-flow: row;
+}
+
+.main-game-screen-map__content .tile {
+  border: 1px solid black;
+}
+
+.main-game-screen-map__content .player-hero {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  text-align: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+}
+/*# sourceMappingURL=map.css.map */
