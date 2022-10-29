@@ -1,9 +1,17 @@
 .menu {
   height: 20vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
 }
+
 .menu button {
   border: 1px solid #fff;
   background-color: #000;
@@ -11,8 +19,10 @@
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
+  -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
+
 .menu button:hover {
   background-color: #fff;
   color: #000;
@@ -23,18 +33,26 @@ main.phoneView {
   color: #fff;
   height: 80vh;
   width: 100vw;
+  display: -ms-grid;
   display: grid;
-  grid-template-columns: 50vw 50vw;
-  grid-template-rows: 40vh 40vh;
+  -ms-grid-columns: 50vw 50vw;
+      grid-template-columns: 50vw 50vw;
+  -ms-grid-rows: 40vh 40vh;
+      grid-template-rows: 40vh 40vh;
 }
+
 main.phoneView .game-voting__item {
   border: 1px solid #fff;
   border-radius: 5px;
   margin: 10px;
   cursor: pointer;
+  -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
+
 main.phoneView button {
   border: 1px solid #fff;
   background-color: #000;
@@ -42,17 +60,25 @@ main.phoneView button {
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
+  -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
+
 main.phoneView button:hover {
   background-color: #fff;
   color: #000;
 }
 
 .game-voting .hero-menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: row;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
 }
+
 .game-voting .hero-menu .hero-image {
   width: 100px;
   height: 100px;
@@ -66,8 +92,10 @@ main.phoneView button:hover {
   overflow-y: scroll;
   border: #000 1px solid;
 }
+
 .user-guide__content .user-guide-img {
   width: 50px;
   height: 50px;
   border: #000 1px solid;
-}/*# sourceMappingURL=phoneView.css.map */
+}
+/*# sourceMappingURL=phoneView.css.map */

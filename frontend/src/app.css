@@ -3,7 +3,7 @@ body {
   height: 100vh;
   padding: 0;
   margin: 0;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   overflow: hidden;
 }
 
@@ -14,19 +14,29 @@ body {
   margin: 10px;
   border: 1px solid #000;
   border-radius: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
+
 .app__content h1 {
   font-size: 20px;
   text-align: center;
   margin-bottom: 10px;
 }
+
 .app__content p {
   font-size: 16px;
   text-align: center;
 }
+
 .app__content .App__new-game-button {
   background: #000;
   color: #fff;
@@ -35,9 +45,12 @@ body {
   border-radius: 5px;
   margin: 10px;
   cursor: pointer;
+  -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
+
 .app__content .App__new-game-button:hover {
   background-color: #fff;
   color: #000;
-}/*# sourceMappingURL=app.css.map */
+}
+/*# sourceMappingURL=app.css.map */

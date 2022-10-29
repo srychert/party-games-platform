@@ -3,14 +3,20 @@ nav {
   color: #fff;
   padding: 10px;
 }
+
 nav ul {
   list-style: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-around;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
 }
+
 nav ul li {
   margin-right: 20px;
 }
+
 nav ul li a {
   text-decoration: none;
   color: #fff;
@@ -18,6 +24,7 @@ nav ul li a {
   border: 1px solid #fff;
   border-radius: 5px;
 }
+
 nav ul li a:hover {
   color: #000;
   background-color: #fff;
@@ -27,4 +34,5 @@ h1 {
   font-size: 20px;
   text-align: center;
   margin-bottom: 10px;
-}/*# sourceMappingURL=navbar.css.map */
+}
+/*# sourceMappingURL=navbar.css.map */
