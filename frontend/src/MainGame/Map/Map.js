@@ -3,11 +3,12 @@ import './map.css';
 
 
 function Map() {
+    // pozycje liczone od 0, ale grid od 1 (Uwaga!!)
     const [playersPosition, setPlayersPosition] = React.useState([
-        {x:0, y:0}
+        {x:0, y:0},
+        {x:5, y: 2}
     ]);
     function checkPlayerPos(x, y){
-        console.log(x, y)
         const res =  playersPosition.filter(player => 
             player.x+1 === x && player.y+1 === y
         )
@@ -20,8 +21,8 @@ function Map() {
             {[...Array(49)].map((_, y) => (
                 <div className="tile" key={y} id={y}>
                     {checkPlayerPos (
-                        y % 7 + 1,
-                        y / 7 + 1
+                        parseInt(y % 7 + 1),
+                        parseInt(y / 7 + 1)
                         ) ? (
                         <div style={{color: 'red'}}>
                             Mapa z graczem
