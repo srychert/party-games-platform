@@ -8,6 +8,27 @@
     grid-auto-flow: row;
     .tile{
         border: 1px solid black; 
+       div{
+        height: 100%;
+        width: 100%;
+        position: absolute;
+            img{
+                position: relative;
+                border: 1px solid  black;
+            }
+            .hero-img{
+                z-index: 2;
+                object-fit: cover;
+                height: 50px;
+                width: 50px;
+            }
+            .map-img{
+                z-index: 1;
+                object-fit: cover;
+                height: 100px;
+                width: 100px;
+            }
+       }
     }
     .player-hero{
         display: flex;

@@ -25,11 +25,12 @@ function Map() {
                         parseInt(y / 7 + 1)
                         ) ? (
                         <div style={{color: 'red'}}>
-                            Mapa z graczem
+                            <img alt="Mapa" className="map-img"/>
+                            <img alt="Hero" className="hero-img"/>
                         </div>
                     ) : (
                         <div style={{color: 'green'}}> 
-                            Mapa bez gracza
+                            <img alt="Mapa"/>
                         </div>
                     )}
                     </div>
