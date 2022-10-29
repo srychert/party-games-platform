@@ -1,5 +1,4 @@
 import React from "react";
-import NavBar from "../NavBar/Navbar";
 import "./mainGame.css";
 function MainGame() {
   return (
