@@ -4,6 +4,7 @@ COPY . .
 
 RUN microdnf install findutils && \
     chmod +x ./gradlew && \
+    ./gradlew clean && \
     ./gradlew bootJar
 
 

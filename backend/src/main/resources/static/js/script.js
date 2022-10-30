@@ -2,9 +2,18 @@
 
 let stompClient
 let username
+let pin
 
 const connect = (event) => {
+    event.preventDefault()
     username = document.querySelector('#username').value.trim()
+
+    if(!pin){
+        const status = document.querySelector('#status')
+        status.innerHTML = 'Get pin first!'
+        status.style.color = 'red'
+        return;
+    }
 
     if (username) {
         const login = document.querySelector('#login')
@@ -17,12 +26,11 @@ const connect = (event) => {
         stompClient = Stomp.over(socket)
         stompClient.connect({}, onConnected, onError)
     }
-    event.preventDefault()
 }
 
 const onConnected = () => {
-    stompClient.subscribe('/topic/public', onMessageReceived)
-    stompClient.send("/app/chat.newUser",
+    stompClient.subscribe(`/topic/public/${pin}`, onMessageReceived)
+    stompClient.send(`/app/chat/${pin}.newUser`,
         {},
         JSON.stringify({sender: username, type: 'CONNECT'})
     )
@@ -47,7 +55,7 @@ const sendMessage = (event) => {
             type: 'CHAT',
             time: moment().calendar()
         }
-        stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage))
+        stompClient.send(`/app/chat/${pin}.send`, {}, JSON.stringify(chatMessage))
         messageInput.value = ''
     }
     event.preventDefault();
@@ -120,6 +128,20 @@ const getAvatarColor = (messageSender) => {
     return colours[index]
 }
 
+const getPin = (async (event) =>{
+    event.preventDefault();
+    // put localhost instead of api if not in docker container
+    pin = await axios.post("/api/v1/games/new").then(function (response) {
+            console.log(response);
+            const status = document.querySelector('#status');
+            status.innerHTML = response.data.pin;
+            status.style.color = 'green';
+            return response.data.pin;
+    })
+});
+
+const newGameForm = document.querySelector('#new-game-form')
+newGameForm.addEventListener('submit', getPin, true)
 const loginForm = document.querySelector('#login-form')
 loginForm.addEventListener('submit', connect, true)
 const messageControls = document.querySelector('#message-controls')

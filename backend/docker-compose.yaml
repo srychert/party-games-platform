@@ -1,5 +1,12 @@
 version: "3.8"
 services:
+  redis:
+    image: redis:7.0-alpine
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - ./cache:/data
   mongodb:
     image: mongo
     container_name: mongodb
@@ -36,6 +43,7 @@ services:
     restart: on-failure
     depends_on:
       - mongodb
+      - redis
     environment:
       - SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE=admin
       - SPRING_DATA_MONGODB_AUTO_INDEX_CREATION=$MONGO_AUTO_INDEX_CREATION
