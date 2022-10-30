@@ -16,8 +16,6 @@
 }
 
 .main-game-screen-map__content .tile div {
-  height: 100%;
-  width: 100%;
   position: absolute;
 }
 

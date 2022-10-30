@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import './map.css';
 
 
 function Map() {
     // pozycje liczone od 0, ale grid od 1 (Uwaga!!)
     const [playersPosition, setPlayersPosition] = React.useState([
-        {x:0, y:0},
-        {x:5, y: 2}
+        {x:0, y:0, color: 'green'},
+        {x:5, y: 2, color: 'red'},
+        {x:0, y: 0, color: 'blue'},
     ]);
     function checkPlayerPos(x, y){
         const res =  playersPosition.filter(player => 
@@ -16,8 +17,13 @@ function Map() {
     }
     // x = i % 7 + 1
     // y = i / 7 + 1
+    
+
+    // Zmienic src obrazków na pobieranie z bazy albo coś!!
+    
     return (
         <div className="main-game-screen-map__content">
+            <img src={require('./test-map.jpeg')} alt="map" style={{width: '90vw', height: '100vh', zIndex: -1}}/>
             {[...Array(49)].map((_, y) => (
                 <div className="tile" key={y} id={y}>
                     {checkPlayerPos (
@@ -25,12 +31,10 @@ function Map() {
                         parseInt(y / 7 + 1)
                         ) ? (
                         <div style={{color: 'red'}}>
-                            <img alt="Mapa" className="map-img"/>
-                            <img alt="Hero" className="hero-img"/>
+                            <div>Player</div>
                         </div>
                     ) : (
                         <div style={{color: 'green'}}> 
-                            <img alt="Mapa"/>
                         </div>
                     )}
                     </div>
