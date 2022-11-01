@@ -130,8 +130,11 @@ const getAvatarColor = (messageSender) => {
 
 const getPin = (async (event) =>{
     event.preventDefault();
-    // put localhost instead of api if not in docker container
-    pin = await axios.post("/api/v1/games/new").then(function (response) {
+    let gameId = document.querySelector('#gameId').value.trim()
+    if(gameId === ""){
+        return
+    }
+    pin = await axios.post(`/api/v1/games/new/${gameId}`).then(function (response) {
             console.log(response);
             const status = document.querySelector('#status');
             status.innerHTML = response.data.pin;
