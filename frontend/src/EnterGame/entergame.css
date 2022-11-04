@@ -1,0 +1,36 @@
+.new-game {
+  background: #000;
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5em;
+  height: 100%;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.new-game .new-game__start-button {
+  background: #000;
+  color: #fff;
+  padding: 10px;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  margin: 10px;
+  cursor: pointer;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.new-game .new-game__start-button:hover {
+  background-color: #fff;
+  color: #000;
+}
+/*# sourceMappingURL=entergame.css.map */
