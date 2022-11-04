@@ -7,6 +7,7 @@ function App() {
   const [gameVersions, setGameVersions] = useState([
     { id: 0, name: "test game" },
   ]);
+
   useEffect(() => {
     fetch("http://localhost:5000/api/v1/games")
       .then((res) => res.json())
@@ -14,9 +15,10 @@ function App() {
         setGameVersions(data);
       });
   }, []);
+
   return (
     <div className="App">
-      TOTALNE DEMO - WERSJA 0.1
+      TOTALNE DEMO - WERSJA 0.2
       {<NavBar />}
       <div className="app__content">
         <p>

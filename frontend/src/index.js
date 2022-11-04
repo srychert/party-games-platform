@@ -7,6 +7,7 @@ import EnterGame from "./EnterGame/EnterGame";
 import MainGame from "./MainGame/MainGame";
 import EnterGamePhone from "./PhoneView/EnterGame/EnterGamePhone";
 import GameForm from "./AddGame/GameForm";
+import Login from "./Login/Login";
 
 const router = createBrowserRouter([
   {
@@ -40,9 +41,15 @@ const router = createBrowserRouter([
     element: <GameForm />,
     errorElement: <div>Error 404</div>,
   },
+  {
+    path: "/login",
+    element: <Login />,
+    errorElement: <div>Error 404</div>,
+  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
   <React.StrictMode>
     <RouterProvider router={router} />

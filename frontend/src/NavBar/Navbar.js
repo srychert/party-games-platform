@@ -23,6 +23,9 @@ function NavBar() {
           <li>
             <Link to="/add-game">Add Game</Link>
           </li>
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
         </ul>
       </nav>
     </div>
