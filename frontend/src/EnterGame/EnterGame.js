@@ -1,12 +1,23 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import "./entergame.css";
+import axios from "axios";
+
 function EnterGame() {
-  // random number generator
-  const [randomNumber, setRandomNumber] = React.useState(0);
-  const [players, setPlayers] = React.useState([]);
+  let params = useParams();
+  console.log(params);
+
+  const [pin, setPin] = useState("");
+  const [players, setPlayers] = useState([]);
   useEffect(() => {
-    setRandomNumber(Math.floor(Math.random() * 1000000));
+    axios
+      .post(`http://localhost:5000/api/v1/games/new/${params.id}`)
+      .then((res) => {
+        setPin(res.data.pin);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
   return (
     <div className="new-game">
@@ -14,9 +25,7 @@ function EnterGame() {
       <div className="new-game__start">
         <div className="new-game__pin">
           <h2>Twój PIN</h2>
-          <div className="new-game-pin__content">
-            {Math.floor(randomNumber / 1000)} {randomNumber % 1000}
-          </div>
+          <div className="new-game-pin__content">{pin}</div>
         </div>
         <Link to="/phone-view">
           <button className="new-game__start-button">Rozpocznij grę</button>

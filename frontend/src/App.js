@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "./NavBar/Navbar";
 import { Link } from "react-router-dom";
 import "./app.css";
 
 function App() {
-  const [gameVersions, setGameVersions] = React.useState([1, 2, 3, 4]);
-
+  const [gameVersions, setGameVersions] = useState([
+    { id: 0, name: "test game" },
+  ]);
+  useEffect(() => {
+    fetch("http://localhost:5000/api/v1/games")
+      .then((res) => res.json())
+      .then((data) => {
+        setGameVersions(data);
+      });
+  }, []);
   return (
     <div className="App">
       TOTALNE DEMO - WERSJA 0.1
@@ -19,8 +27,13 @@ function App() {
           <h2>Wybierz grę</h2>
           {gameVersions.map((gameVersion) => (
             <div>
-              {gameVersion}
-              <Link to="/main-game">
+              {gameVersion.name}
+              <Link
+                to={{
+                  pathname: `/enter-game/${gameVersion.id}`,
+                  state: { id: gameVersion.id },
+                }}
+              >
                 <button className="App__new-game-button">Nowa gra</button>
               </Link>
             </div>
