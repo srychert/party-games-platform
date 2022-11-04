@@ -5,10 +5,9 @@ import axios from "axios";
 
 function EnterGame() {
   let params = useParams();
-  console.log(params);
-
   const [pin, setPin] = useState("");
   const [players, setPlayers] = useState([]);
+
   useEffect(() => {
     axios
       .post(`http://localhost:5000/api/v1/games/new/${params.id}`)
@@ -18,7 +17,10 @@ function EnterGame() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [params.id]);
+  // TODO
+  // gracz może dołączyć do gry, wyświetla aktywnych graczy (websocket)
+  // WEBSOCKET
   return (
     <div className="new-game">
       <h1>Nowa gra</h1>

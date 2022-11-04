@@ -6,6 +6,7 @@ import PhoneView from "./PhoneView/GameVoting/PhoneView";
 import EnterGame from "./EnterGame/EnterGame";
 import MainGame from "./MainGame/MainGame";
 import EnterGamePhone from "./PhoneView/EnterGame/EnterGamePhone";
+import GameForm from "./AddGame/GameForm";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,11 @@ const router = createBrowserRouter([
   {
     path: "/phone-enter",
     element: <EnterGamePhone />,
+    errorElement: <div>Error 404</div>,
+  },
+  {
+    path: "/add-game",
+    element: <GameForm />,
     errorElement: <div>Error 404</div>,
   },
 ]);
