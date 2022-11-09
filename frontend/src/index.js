@@ -21,29 +21,30 @@ const router = createBrowserRouter([
     errorElement: <div>Error 404</div>,
   },
   {
+    path: "/phone-enter",
+    element: <EnterGamePhone />,
+    errorElement: <div>Error 404</div>,
+  },
+  {
     path: "/enter-game/:id",
     element: <EnterGame />,
     errorElement: <div>Error 404</div>,
     useParams: true,
   },
   {
-    path: "/main-game",
+    path: "/main-game/:id",
     element: <MainGame />,
     errorElement: <div>Error 404</div>,
+    useParams: true,
   },
   {
-    path: "/phone-enter",
-    element: <EnterGamePhone />,
+    path: "/login",
+    element: <Login />,
     errorElement: <div>Error 404</div>,
   },
   {
     path: "/add-game",
     element: <GameForm />,
-    errorElement: <div>Error 404</div>,
-  },
-  {
-    path: "/login",
-    element: <Login />,
     errorElement: <div>Error 404</div>,
   },
 ]);

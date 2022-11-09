@@ -29,7 +29,7 @@ function EnterGame() {
           <h2>Twój PIN</h2>
           <div className="new-game-pin__content">{pin}</div>
         </div>
-        <Link to="/phone-view">
+        <Link to={`/main-game/${params.id}`}>
           <button className="new-game__start-button">Rozpocznij grę</button>
         </Link>
         <div className="new-game__players">
