@@ -32,7 +32,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((auth) -> {
                             try {
                                 auth
-                                        .antMatchers("/api/v1/games/new").hasRole("ADMIN")
+                                        .antMatchers("/api/v1/games/new/**").hasRole("ADMIN")
                                         .antMatchers("/api/v1/games/**").hasAnyRole("ADMIN", "USER")
                                         .antMatchers("/").permitAll()
                                         .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
