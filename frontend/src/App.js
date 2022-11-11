@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
-import NavBar from "./NavBar/Navbar";
+import NavBar from "./Host/NavBar/Navbar";
 import { Link } from "react-router-dom";
 import "./app.css";
 
 function App() {
-  const [gameVersions, setGameVersions] = useState([
-    { id: 0, name: "test game" },
-  ]);
+  const [gameVersions, setGameVersions] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/v1/games")
+    fetch("http://localhost:8080/api/v1/games")
       .then((res) => res.json())
       .then((data) => {
         setGameVersions(data);
@@ -21,15 +19,11 @@ function App() {
       TOTALNE DEMO - WERSJA 0.2
       {<NavBar />}
       <div className="app__content">
-        <p>
-          Twórz własne gry i baw się z przyjaciółmi w grach, które sami
-          stworzyliście :)
-        </p>
         <div className="app__select-game">
           <h2>Wybierz grę</h2>
           {gameVersions.map((gameVersion) => (
-            <div>
-              {gameVersion.name}
+            <div key={gameVersion.id}>
+              {gameVersion.description}
               <Link
                 to={{
                   pathname: `/enter-game/${gameVersion.id}`,

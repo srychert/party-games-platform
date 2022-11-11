@@ -2,16 +2,22 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { CookiesProvider } from "react-cookie";
 import PhoneView from "./PhoneView/GameVoting/PhoneView";
-import EnterGame from "./EnterGame/EnterGame";
-import MainGame from "./MainGame/MainGame";
+import EnterGame from "./Host/CreateGame/CreateGame";
+import CreateGame from "./Host/CreateGame/CreateGame";
 import EnterGamePhone from "./PhoneView/EnterGame/EnterGamePhone";
-import GameForm from "./AddGame/GameForm";
+import GameForm from "./Host/AddGame/GameForm";
 import Login from "./Login/Login";
 
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <EnterGamePhone />,
+    errorElement: <div>Error 404</div>,
+  },
+  {
+    path: "/logged",
     element: <App />,
     errorElement: <div>Error 404</div>,
   },
@@ -33,7 +39,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/main-game/:id",
-    element: <MainGame />,
+    element: <CreateGame />,
     errorElement: <div>Error 404</div>,
     useParams: true,
   },
@@ -53,6 +59,8 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <CookiesProvider>
+      <RouterProvider router={router} />
+    </CookiesProvider>
   </React.StrictMode>
 );

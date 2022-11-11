@@ -2,15 +2,22 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./entergame.css";
 import axios from "axios";
+import stompClient from "../../SocketFactory/mySocketFactory";
 
-function EnterGame() {
+const client = stompClient;
+function CreateGame() {
   let params = useParams();
   const [pin, setPin] = useState("");
   const [players, setPlayers] = useState([]);
-
+  useEffect(() => {
+    client.subscribe(`topic/public/${pin}`, (message) => {
+      console.log("message", message);
+      setPlayers(JSON.parse(message.body));
+    });
+  }, [pin]);
   useEffect(() => {
     axios
-      .post(`http://localhost:5000/api/v1/games/new/${params.id}`)
+      .post(`http://localhost:8080/api/v1/games/new/${params.id}`)
       .then((res) => {
         setPin(res.data.pin);
       })
@@ -45,4 +52,4 @@ function EnterGame() {
   );
 }
 
-export default EnterGame;
+export default CreateGame;

@@ -1,10 +1,21 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import stompClient from "../../SocketFactory/mySocketFactory";
+const client = stompClient;
 function EnterGamePhone() {
-  // Tutaj będzie websocket do serwera
+  let navigate = useNavigate();
   const HanldeSubmit = (e) => {
-    console.log(e.target.name.value);
+    e.preventDefault();
+    client.subscribe(`/topic/public/${e.target.pin.value}`, () => {
+      console.log("subscribed");
+    });
+    client.publish({
+      destination: `/app/public/${e.target.pin.value}.newUser`,
+      body: JSON.stringify({ sender: e.target.name.value, type: "CONNECT" }),
+    });
+    navigate(`/phone-view`);
   };
+
   return (
     <div className="new-game">
       <form onSubmit={(e) => HanldeSubmit(e)}>
@@ -16,9 +27,7 @@ function EnterGamePhone() {
           <label htmlFor="name">Imię</label>
           <input type="text" name="name" id="name" />
         </div>
-        <Link to="/phone-view">
-          <button type="submit">Dołącz do gry</button>
-        </Link>
+        <button type="submit">Dołącz do gry</button>
       </form>
     </div>
   );

@@ -2,9 +2,10 @@ import React from "react";
 import HeroStats from "./HeroStats/HeroStats";
 import UserGuide from "./UserGuide/UserGuide";
 import "./phoneView.css";
+
 function PhoneView() {
   const [showUserGuide, setShowUserGuide] = React.useState(false);
-
+  const handleClick = (answer) => {};
   return (
     <div className="game-voting">
       <div className="menu">
@@ -24,7 +25,10 @@ function PhoneView() {
       <main className="phoneView">
         {[1, 2, 3, 4].map((item) => (
           <div className="game-voting__item" id={item}>
-            <button className="game-voting__item__button">
+            <button
+              className="game-voting__item__button"
+              onClick={() => handleClick(item)}
+            >
               Odpowiedź {item}
             </button>
           </div>
