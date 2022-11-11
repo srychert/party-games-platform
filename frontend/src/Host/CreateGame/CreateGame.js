@@ -11,7 +11,8 @@ function CreateGame() {
   const [players, setPlayers] = useState([]);
   useEffect(() => {
     client.subscribe(`topic/public/${pin}`, (message) => {
-      console.log("message", message);
+      const data = JSON.parse(message.body);
+      console.log("message", data);
       setPlayers(JSON.parse(message.body));
     });
   }, [pin]);

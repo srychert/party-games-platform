@@ -11,7 +11,13 @@ function EnterGamePhone() {
     });
     client.publish({
       destination: `/app/public/${e.target.pin.value}.newUser`,
-      body: JSON.stringify({ sender: e.target.name.value, type: "CONNECT" }),
+      body: JSON.stringify({
+        sender: e.target.name.value,
+        content: "",
+        type: "CONNECT",
+        time: new Date().getTime(),
+      }),
+      skipContentLengthHeader: true,
     });
     navigate(`/phone-view`);
   };
