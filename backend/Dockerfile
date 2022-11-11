@@ -1,9 +1,8 @@
-FROM openjdk:17-oracle AS build
+FROM openjdk:17-alpine AS build
 
 COPY . .
 
-RUN microdnf install findutils && \
-    chmod +x ./gradlew && \
+RUN chmod +x ./gradlew && \
     ./gradlew clean && \
     ./gradlew bootJar
 
