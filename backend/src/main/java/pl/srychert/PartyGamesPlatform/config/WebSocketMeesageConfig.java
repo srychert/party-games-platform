@@ -1,4 +1,4 @@
-package pl.srychert.PartyGamesPlatform.web;
+package pl.srychert.PartyGamesPlatform.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
