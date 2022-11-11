@@ -3,15 +3,12 @@ package pl.srychert.PartyGamesPlatform.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.SmartInitializingSingleton;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import pl.srychert.PartyGamesPlatform.model.GameState;
-import pl.srychert.PartyGamesPlatform.redis.RedisConfig;
+import pl.srychert.PartyGamesPlatform.config.RedisConfig;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @AllArgsConstructor
