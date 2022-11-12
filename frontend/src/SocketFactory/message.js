@@ -1,8 +1,15 @@
-const chatMessage = {
-  sender: "",
-  content: "",
-  type: "",
-  time: "",
+export const chatMessage = (sender, content, type) => {
+  const msg = {
+    sender,
+    content,
+    type,
+    time: new Date().toLocaleString(),
+  }
+  return JSON.stringify(msg)
 };
 
-export default chatMessage;
+export const messageType = {
+  "CHAT": "CHAT",
+  "CONNECT": "CONNECT",
+  "DISCONNECT": "DISCONNECT"
+}
