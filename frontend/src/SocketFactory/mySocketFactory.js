@@ -1,5 +1,5 @@
 import SockJS from "sockjs-client";
-import { Client, Message } from "@stomp/stompjs";
+import { Client } from "@stomp/stompjs";
 
 function mySocketFactory() {
   return new SockJS("http://localhost:8080/chat-example");
@@ -15,12 +15,10 @@ const client = new Client({
   heartbeatOutgoing: 4000,
 });
 
-client.onConnect = function (frame) {
-  // Do something, all subscribes must be done is this callback
-  // This is needed because this will be executed after a (re)connect
-  console.log("connected");
-  // client.subscribe("/topic/public", onMessageReceived);
-};
+// client.onConnect = function (frame) {
+//   // Do something, all subscribes must be done is this callback
+//   // This is needed because this will be executed after a (re)connect
+// };
 
 client.onStompError = function (frame) {
   // Will be invoked in case of error encountered at Broker
@@ -30,7 +28,5 @@ client.onStompError = function (frame) {
   console.log("Broker reported error: " + frame.headers["message"]);
   console.log("Additional details: " + frame.body);
 };
-
-client.activate();
 
 export default client;
