@@ -28,14 +28,15 @@ public class SecurityConfiguration {
         http
                 .authorizeHttpRequests((auth) -> {
                             auth
-                                    .antMatchers("/api/v1/games/new/**").hasRole("ADMIN")
-                                    .antMatchers("/api/v1/games/**").hasAnyRole("ADMIN", "USER")
+//                                    .antMatchers("/api/v1/games/new/**").hasRole("ADMIN")
+//                                    .antMatchers("/api/v1/games/**").hasAnyRole("ADMIN", "USER")
                                     .antMatchers("/").permitAll();
                         }
                 );
                 // by default uses a Bean by the name of corsConfigurationSource
                 http.cors().and();
-                http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                http.csrf().disable();
+//                http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
                 http.formLogin(withDefaults());
         return http.build();
     }
