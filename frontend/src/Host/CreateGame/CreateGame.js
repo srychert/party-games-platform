@@ -2,12 +2,25 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./entergame.css";
 import axios from "axios";
-import stompClient from "../../SocketFactory/mySocketFactory";
-
+import client from "../../SocketFactory/mySocketFactory";
+// Ale tutaj będzie kodu o jezu
 function CreateGame() {
   const params = useParams();
   const [pin, setPin] = useState("");
   const [players, setPlayers] = useState([]);
+
+  const callback = function (message) {
+    // called when the client receives a STOMP message from the server
+    if (message.body) {
+      const parsed = JSON.parse(message.body);
+      // Logika gry
+      // Teraz dołączania
+      setPlayers((prev) => [...prev, parsed.sender]);
+    } else {
+      console.log("got empty message");
+    }
+  };
+
   useEffect(() => {
     axios
       .post(`http://localhost:8080/api/v1/games/new/${params.id}`)
@@ -18,26 +31,12 @@ function CreateGame() {
         console.log(err);
       });
   }, [params.id]);
-  useEffect(() => {
-    if (pin) {
-      const client = stompClient;
-      client.subscribe(`topic/public/${pin}`, (message) => {
-        const data = JSON.parse(message);
-        console.log("message", data);
-        setPlayers(JSON.parse(data));
-      });
 
-      client.publish({
-        destination: `/app/chat/${pin}.newUser`,
-        body: JSON.stringify({
-          type: "CONNECT",
-          content: "",
-          sender: "Host",
-          time: new Date().getTime(),
-        }),
-        skipContentLengthHeader: true,
-      });
-    }
+  useEffect(() => {
+    client.activate();
+    client.onConnect = (frame) => {
+      client.subscribe(`/topic/public/${pin}`, callback);
+    };
   }, [pin]);
   return (
     <div className="new-game">
