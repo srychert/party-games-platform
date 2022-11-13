@@ -16,12 +16,10 @@ const client = new Client({
   heartbeatOutgoing: 4000,
 });
 
-client.onConnect = function (frame) {
-  // Do something, all subscribes must be done is this callback
-  // This is needed because this will be executed after a (re)connect
-  console.log("connected");
-  // client.subscribe("/topic/public", onMessageReceived);
-};
+// client.onConnect = function (frame) {
+//   // Do something, all subscribes must be done is this callback
+//   // This is needed because this will be executed after a (re)connect
+// };
 
 client.onStompError = function (frame) {
   // Will be invoked in case of error encountered at Broker
@@ -35,7 +33,5 @@ client.onUnhandledMessage = function (message) {
   // Will be invoked for any incoming messages which don't match a subscription
   console.log("Unhandled message", message);
 };
-
-client.activate();
 
 export default client;
