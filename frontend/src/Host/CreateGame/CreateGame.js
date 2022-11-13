@@ -4,18 +4,10 @@ import "./entergame.css";
 import axios from "axios";
 import stompClient from "../../SocketFactory/mySocketFactory";
 
-const client = stompClient;
 function CreateGame() {
-  let params = useParams();
+  const params = useParams();
   const [pin, setPin] = useState("");
   const [players, setPlayers] = useState([]);
-  useEffect(() => {
-    client.subscribe(`topic/public/${pin}`, (message) => {
-      const data = JSON.parse(message.body);
-      console.log("message", data);
-      setPlayers(JSON.parse(message.body));
-    });
-  }, [pin]);
   useEffect(() => {
     axios
       .post(`http://localhost:8080/api/v1/games/new/${params.id}`)
@@ -26,9 +18,27 @@ function CreateGame() {
         console.log(err);
       });
   }, [params.id]);
-  // TODO
-  // gracz może dołączyć do gry, wyświetla aktywnych graczy (websocket)
-  // WEBSOCKET
+  useEffect(() => {
+    if (pin) {
+      const client = stompClient;
+      client.subscribe(`topic/public/${pin}`, (message) => {
+        const data = JSON.parse(message);
+        console.log("message", data);
+        setPlayers(JSON.parse(data));
+      });
+
+      client.publish({
+        destination: `/app/chat/${pin}.newUser`,
+        body: JSON.stringify({
+          type: "CONNECT",
+          content: "",
+          sender: "Host",
+          time: new Date().getTime(),
+        }),
+        skipContentLengthHeader: true,
+      });
+    }
+  }, [pin]);
   return (
     <div className="new-game">
       <h1>Nowa gra</h1>

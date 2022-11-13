@@ -6,15 +6,17 @@ function EnterGamePhone() {
   let navigate = useNavigate();
   const HanldeSubmit = (e) => {
     e.preventDefault();
+    console.log(e.target.pin.value);
+    console.log(e.target.name.value);
     client.subscribe(`/topic/public/${e.target.pin.value}`, () => {
       console.log("subscribed");
     });
     client.publish({
-      destination: `/app/public/${e.target.pin.value}.newUser`,
+      destination: `/chat/${e.target.pin.value}.newUser`,
       body: JSON.stringify({
-        sender: e.target.name.value,
-        content: "",
         type: "CONNECT",
+        content: "",
+        sender: e.target.name.value,
         time: new Date().getTime(),
       }),
       skipContentLengthHeader: true,
