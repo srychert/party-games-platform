@@ -35,19 +35,19 @@ public class UserService {
         return user.orElse(null);
     }
 
-    public User updateUser(String id, String userName, String password, String roles, String email){
+    public User updateUser(String id, String userName, String password, String roles, String email){;
         User user = userRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException(String.format("Game with ID %s does not exist", id)));
-        if(userName !=null){
+        if(userName != null){
             user.setUserName(userName);
         }
-        if(password !=null){
+        if(password != null){
             user.setPassword(password);
         }
-        if(roles !=null){
+        if(roles != null){
             user.setRoles(roles);
         }
-        if(email !=null){
+        if(email != null){
             user.setEmail(email);
         }
         return userRepository.save(user);
@@ -66,8 +66,8 @@ public class UserService {
                 new IllegalArgumentException(String.format("Game with ID %s does not exist", id)));
 
         long time = System.currentTimeMillis();
-        user.setAccountExpiryTime(time+7776000000L);
-        user.setCredentialsExpiryTime(time+2592000000L);
+//        user.setAccountExpiryTime(time+7776000000L);
+//        user.setCredentialsExpiryTime(time+2592000000L);
         return userRepository.save(user);
     }
 

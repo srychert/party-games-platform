@@ -5,6 +5,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -16,14 +17,14 @@ public class MyUserDetails implements UserDetails {
     private String password;
     private boolean active;
     private List<GrantedAuthority> authorities;
-    private Long accountExpiryTime;
-    private Long credentialsExpiryTime;
+    private LocalDateTime accountExpiryTime;
+    private LocalDateTime credentialsExpiryTime;
     public MyUserDetails(User user){
         this.userName = user.getUserName();
         this.password = user.getPassword();
         this.active = user.isActive();
-        this.accountExpiryTime=user.getAccountExpiryTime();
-        this.credentialsExpiryTime= user.getCredentialsExpiryTime();
+        this.accountExpiryTime = user.getAccountExpiryTime();
+        this.credentialsExpiryTime = user.getCredentialsExpiryTime();
         this.authorities = Arrays.stream(user.getRoles().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
@@ -56,7 +57,8 @@ public class MyUserDetails implements UserDetails {
     @Override
     public boolean isAccountNonExpired() {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        return timestamp.getTime() <= accountExpiryTime;
+//        return timestamp.getTime() <= accountExpiryTime;
+        return true;
     }
 
     @Override
@@ -67,7 +69,8 @@ public class MyUserDetails implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        return timestamp.getTime() <= credentialsExpiryTime;
+//        return timestamp.getTime() <= credentialsExpiryTime;
+        return true;
     }
 
     @Override

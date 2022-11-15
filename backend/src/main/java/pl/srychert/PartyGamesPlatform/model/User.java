@@ -7,6 +7,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
+
 
 @Data
 @Document
@@ -21,17 +23,16 @@ public class User {
     private String roles;
     @Indexed(unique = true)
     private String email;
-    private Long accountExpiryTime;
-    private Long credentialsExpiryTime;
+    private LocalDateTime accountExpiryTime;
+    private LocalDateTime credentialsExpiryTime;
 
-
-    public User(String userName, String password, boolean active, String roles, String email, Long currenTime) {
+    public User(String userName, String password, boolean active, String roles, String email) {
         this.userName = userName;
         this.password = password;
         this.active = active;
         this.roles = roles;
         this.email = email;
-        this.accountExpiryTime=currenTime+7776000000L;
-        this.credentialsExpiryTime=currenTime+2592000000L;
+        this.accountExpiryTime = LocalDateTime.now().plusMonths(1L);
+        this.credentialsExpiryTime = LocalDateTime.now().plusMonths(1L);
     }
 }

@@ -37,13 +37,8 @@ public class UserController {
 
     @PutMapping(path = "{userId}")
     public User updateUser(
-            @PathVariable("userId") String id,
-            @RequestParam(required = false) String userName,
-            @RequestParam(required = false)String password,
-            @RequestParam(required = false) String roles,
-            @RequestParam(required = false) String email){
-        return userService.updateUser(id,userName,password,roles,email);
-
+            @PathVariable("userId") String id, @RequestBody User user){
+        return userService.updateUser(id, user.getUserName(), user.getPassword(),user.getRoles(),user.getRoles());
     }
 
     @PutMapping(path = "{userId}/active")
