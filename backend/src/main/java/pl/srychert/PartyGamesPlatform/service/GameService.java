@@ -25,18 +25,35 @@ public class GameService {
         return gameRepository.findById(id);
     }
 
-    public void addGame(Game game) {
-        gameRepository.insert(game);
+    public Game addGame(Game game) {
+       return gameRepository.insert(game);
     }
 
-    public void deleteGame(String id) {
-        gameRepository.deleteById(id);
+
+    public Game deleteGame(String id) {
+        Optional<Game> game = gameRepository.findById(id);
+        if(game.isPresent()) {
+            gameRepository.deleteById(id);
+        }
+        return game.orElse(null);
     }
 
-    public Game updateGame(String id, String description) {
+
+    public Game updateGame(String id, String description, List<String> allowedActions, Long totalTimesPlayed, String createdBy) {
         Game game = gameRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException(String.format("Game with ID %s does not exist", id)));
-        game.setDescription(description);
+        if(description != null){
+            game.setDescription(description);
+        }
+        if(allowedActions != null){
+            game.setAllowedActions(allowedActions);
+        }
+        if(totalTimesPlayed != null){
+            game.setTotalTimesPlayed(totalTimesPlayed);
+        }
+        if(createdBy != null){
+            game.setCreatedBy(createdBy);
+        }
         return gameRepository.save(game);
     }
 }

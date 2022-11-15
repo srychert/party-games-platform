@@ -47,20 +47,23 @@ public class GameController {
     }
 
     @PostMapping
-    public void addGame(@RequestBody Game game){
-        gameService.addGame(game);
+    public Game addGame(@RequestBody Game game){
+        return gameService.addGame(game);
     }
 
     @DeleteMapping(path = "{gameId}")
-    public void deleteGame(@PathVariable("gameId") String id){
-        gameService.deleteGame(id);
+    public Game deleteGame(@PathVariable("gameId") String id){
+        return gameService.deleteGame(id);
     }
 
     @PutMapping(path = "{gameId}")
     public Game updateGame(
             @PathVariable("gameId") String id,
-            @RequestParam(required = false) String description) {
-        return gameService.updateGame(id, description);
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) List<String> allowedActions,
+            @RequestParam(required = false) Long totalTimesPlayed,
+            @RequestParam(required = false) String createdBy) {
+        return gameService.updateGame(id, description,allowedActions,totalTimesPlayed,createdBy);
     }
 
 }

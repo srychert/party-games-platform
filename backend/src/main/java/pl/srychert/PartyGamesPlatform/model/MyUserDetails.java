@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -15,14 +16,18 @@ public class MyUserDetails implements UserDetails {
     private String password;
     private boolean active;
     private List<GrantedAuthority> authorities;
-
+    private Long accountExpiryTime;
+    private Long credentialsExpiryTime;
     public MyUserDetails(User user){
         this.userName = user.getUserName();
         this.password = user.getPassword();
         this.active = user.isActive();
+        this.accountExpiryTime=user.getAccountExpiryTime();
+        this.credentialsExpiryTime= user.getCredentialsExpiryTime();
         this.authorities = Arrays.stream(user.getRoles().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
+
     }
 
     @Override
@@ -35,28 +40,38 @@ public class MyUserDetails implements UserDetails {
         return password;
     }
 
+    public void setPassword(String password){
+        this.password=password;
+    }
+
     @Override
     public String getUsername() {
         return userName;
     }
 
+    public void setUserName(String userName){
+        this.userName=userName;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        return timestamp.getTime() <= accountExpiryTime;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return active;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        return timestamp.getTime() <= credentialsExpiryTime;
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return active;
     }
 }
