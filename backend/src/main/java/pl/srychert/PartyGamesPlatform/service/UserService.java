@@ -6,6 +6,7 @@ import pl.srychert.PartyGamesPlatform.model.User;
 import pl.srychert.PartyGamesPlatform.model.UserRepository;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,9 +66,8 @@ public class UserService {
         User user = userRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException(String.format("Game with ID %s does not exist", id)));
 
-        long time = System.currentTimeMillis();
-//        user.setAccountExpiryTime(time+7776000000L);
-//        user.setCredentialsExpiryTime(time+2592000000L);
+        user.setAccountExpiryTime(LocalDateTime.now().plusMonths(1L));
+        user.setCredentialsExpiryTime(LocalDateTime.now().plusMonths(1L));
         return userRepository.save(user);
     }
 

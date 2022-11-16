@@ -57,13 +57,11 @@ public class GameController {
     }
 
     @PutMapping(path = "{gameId}")
+    @ResponseBody
     public Game updateGame(
             @PathVariable("gameId") String id,
-            @RequestParam(required = false) String description,
-            @RequestParam(required = false) List<String> allowedActions,
-            @RequestParam(required = false) Long totalTimesPlayed,
-            @RequestParam(required = false) String createdBy) {
-        return gameService.updateGame(id, description,allowedActions,totalTimesPlayed,createdBy);
+            @RequestBody Game game) {
+        return gameService.updateGame(id, game.getDescription(),  game.getAllowedActions(), game.getTotalTimesPlayed(), game.getCreatedBy());
     }
 
 }
