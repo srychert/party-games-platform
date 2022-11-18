@@ -23,11 +23,8 @@ function SelectGame() {
   }
 
   const callback = function (message) {
-    // called when the client receives a STOMP message from the server
     if (message.body) {
       const parsed = JSON.parse(message.body);
-      // Logika gry
-      // Teraz dołączania
       setPlayers((prev) => [...prev, parsed.sender]);
     } else {
       console.log("got empty message");
@@ -92,7 +89,7 @@ function SelectGame() {
               <div className="new-game-pin__content">{pin}</div>
             </div>
             <div className="new-game_start-button">
-              <Link to={`/main-game/${pin}`}>
+              <Link to={`/main-game/${pin}/${selectedGameId}`}>
                 <button className="new-game__start-button">
                   Rozpocznij grę
                 </button>

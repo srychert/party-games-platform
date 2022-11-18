@@ -21,6 +21,7 @@ function PhoneView(props) {
     if (wsClient) {
       wsClient.publish({
         destination: `/app/chat/${pin}.send`,
+        // zmienić message type na odpowiedni
         body: chatMessage(nick, answer, messageType.CHAT),
         skipContentLengthHeader: true,
       });
@@ -30,8 +31,7 @@ function PhoneView(props) {
     <div className="game-voting">
       <div className="menu">
         <div className="user-guide__slider">
-          {showUserGuide && <UserGuide />}
-          {!showUserGuide && <HeroStats />}
+          {(showUserGuide && <UserGuide />) || <HeroStats />}
         </div>
         <div className="user-guide__slider__button__arrow">
           <button

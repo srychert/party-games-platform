@@ -9,6 +9,8 @@ import Login from "./Login/Login";
 import SelectGame from "./Host/SelectGame/SelectGame";
 
 import "./index.css";
+import MainGame from "./Host/MainGame/MainGame";
+import client from "./SocketFactory/mySocketFactory";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,12 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
     errorElement: <div>Error 404</div>,
+  },
+  {
+    path: "/main-game/:pin/:id",
+    element: <MainGame wsClient={client} />,
+    errorElement: <div>Error 404</div>,
+    allowParams: true,
   },
   {
     path: "/add-game",
