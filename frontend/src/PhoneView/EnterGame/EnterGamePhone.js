@@ -9,7 +9,6 @@ import "./join-game.css";
 function EnterGamePhone() {
   const [pin, setPin] = useState("");
   const [name, setName] = useState("");
-  const [msg, setMsg] = useState("");
   const [connected, setConnected] = useState(client.connected);
 
   useEffect(() => {
@@ -17,7 +16,6 @@ function EnterGamePhone() {
   }, []);
 
   const callback = function (message) {
-    // called when the client receives a STOMP message from the server
     if (message.body) {
       const parsed = JSON.parse(message.body);
       console.log(parsed);
@@ -39,17 +37,6 @@ function EnterGamePhone() {
       setConnected(true);
     };
   };
-
-  const handleMsgSend = () => {
-    if (msg === "") return;
-    // zminić typ na odpowiedź
-    client.publish({
-      destination: `/app/chat/${pin}.send`,
-      body: chatMessage(name, msg, messageType.CHAT),
-      skipContentLengthHeader: true,
-    });
-  };
-  // Tutaj navigate do strony z grą (Chyba, że zrobić to na jednej stronie (Route))
   return (
     <div className="new-game">
       {!connected && (

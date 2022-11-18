@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { CookiesProvider } from "react-cookie";
-import PhoneView from "./PhoneView/GameVoting/PhoneView";
 import EnterGamePhone from "./PhoneView/EnterGame/EnterGamePhone";
 import GameForm from "./Host/AddGame/GameForm";
 import Login from "./Login/Login";
