@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { messageType, chatMessage } from "../../SocketFactory/message";
 import client from "../../SocketFactory/mySocketFactory";
 import PhoneView from "../GameVoting/PhoneView";
+import Loding from "../Loding/Loding";
 
 import "./join-game.css";
 
@@ -10,12 +11,18 @@ function EnterGamePhone() {
   const [pin, setPin] = useState("");
   const [name, setName] = useState("");
   const [connected, setConnected] = useState(client.connected);
+  // narazie nie ma opcji dostać się do gry, bo serwer nie ma takiego typu wiadomości
+  // można tutaj zmianiac stan gry
+  const [gameState, setGameState] = useState("waiting");
 
   useEffect(() => {
     if (client.connected !== undefined) setConnected(client.connected);
   }, []);
 
   const callback = function (message) {
+    if (message.type === messageType.GAME_START) {
+      setGameState("playing");
+    }
     if (message.body) {
       const parsed = JSON.parse(message.body);
       console.log(parsed);
@@ -66,7 +73,10 @@ function EnterGamePhone() {
           </button>
         </form>
       )}
-      {connected && <PhoneView wsClient={client} nick={name} pin={pin} />}
+      {(connected && gameState === "playing" && (
+        <PhoneView wsClient={client} nick={name} pin={pin} />
+      )) ||
+        (connected && gameState === "waiting" && <Loding />)}
     </div>
   );
 }
