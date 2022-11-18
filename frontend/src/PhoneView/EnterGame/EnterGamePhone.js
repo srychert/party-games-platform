@@ -13,7 +13,7 @@ function EnterGamePhone() {
   const [connected, setConnected] = useState(client.connected);
   // narazie nie ma opcji dostać się do gry, bo serwer nie ma takiego typu wiadomości
   // można tutaj zmianiac stan gry
-  const [gameState, setGameState] = useState("waiting");
+  const [gameState, setGameState] = useState("playing");
 
   useEffect(() => {
     if (client.connected !== undefined) setConnected(client.connected);

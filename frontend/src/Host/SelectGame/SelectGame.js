@@ -11,7 +11,10 @@ function SelectGame() {
   const [selectedGame, setSelectedGame] = React.useState("");
   const [selectedGameId, setSelectedGameId] = React.useState("");
   const [pin, setPin] = React.useState("");
-  const [players, setPlayers] = React.useState([12222, 2, 3, 4, 5]);
+  const [players, setPlayers] = React.useState([
+    12222, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+    21, 22,
+  ]);
 
   function handleClick(id) {
     setSelectedGame(true);

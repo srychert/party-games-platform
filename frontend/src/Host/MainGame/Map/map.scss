@@ -1,36 +1,25 @@
 .main-game-screen-map__content{
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     height: 100%;
-    display: grid;
-    position: relative;
-    grid-template-columns: repeat(7, calc(80vw/7));
-    grid-template-rows: repeat(7, calc(100vh/7));
-    grid-auto-flow: row;
+    width: 100%;
     .tile{
-        border: 1px solid black; 
-       div{
-        position: absolute;
-            img{
-                position: relative;
-                border: 1px solid  black;
-            }
-            .hero-img{
-                z-index: 2;
-                object-fit: cover;
-                height: 50px;
-                width: 50px;
-            }
-            .map-img{
-                z-index: 1;
-                object-fit: cover;
-                height: 100px;
-                width: 100px;
-            }
-       }
-    }
-    .player-hero{
+        border: 1px solid #000;
+        width: 50vw;
+        height: 50vh;
         display: flex;
-        text-align: center;
-        align-content: center;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        div.player{
+            width: 10px;
+            height: 10px;
+            margin: 20px;
+            background-color: #000;
+            border-radius: 50%;
+        }
     }
 }

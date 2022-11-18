@@ -98,13 +98,13 @@
 
     }
     .new-game-players__content{
-        height: 70vh;
         width: 90vw;
-        
         display: flex;
         flex-direction: row;
         justify-content: center;
         align-items: center;
+        flex-wrap: wrap;
+        margin: 10px;
         .player{
             padding: 20px;
             border: 1px solid #000;

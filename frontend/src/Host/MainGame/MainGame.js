@@ -21,6 +21,8 @@ function callback(message) {
 function MainGame() {
   let params = useParams();
   const [gamedata, setGamedata] = React.useState({});
+  // jakoś pobrać graczy z serwera i przekazać do mapy
+  const [players, setPlayers] = React.useState([1, 2, 3]);
   useEffect(() => {
     client.activate();
     client.onConnect = (frame) => {
@@ -54,7 +56,7 @@ function MainGame() {
             </div>
           </div>
           <div className="main-game-screen-map">
-            <Map />
+            <Map players={players} />
           </div>
           <div className="main-game-screen-quest">
             <div className="main-game-screen-quest__content">

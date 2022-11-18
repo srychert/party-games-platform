@@ -93,12 +93,13 @@
   color: #fff;
 }
 .new-game .new-game-players__content {
-  height: 70vh;
   width: 90vw;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
+  margin: 10px;
 }
 .new-game .new-game-players__content .player {
   padding: 20px;
