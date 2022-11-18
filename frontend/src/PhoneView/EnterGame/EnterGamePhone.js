@@ -1,11 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { messageType, chatMessage } from "../../SocketFactory/message";
 import client from "../../SocketFactory/mySocketFactory";
+import PhoneView from "../GameVoting/PhoneView";
+
+import "./join-game.css";
 
 function EnterGamePhone() {
-  let navigate = useNavigate();
   const [pin, setPin] = useState("");
   const [name, setName] = useState("");
   const [msg, setMsg] = useState("");
@@ -41,7 +42,7 @@ function EnterGamePhone() {
 
   const handleMsgSend = () => {
     if (msg === "") return;
-
+    // zminić typ na odpowiedź
     client.publish({
       destination: `/app/chat/${pin}.send`,
       body: chatMessage(name, msg, messageType.CHAT),
@@ -64,7 +65,7 @@ function EnterGamePhone() {
             />
           </div>
           <div className="name">
-            <label htmlFor="name">Imię</label>
+            <label htmlFor="name">Nick</label>
             <input
               type="text"
               name="name"
@@ -78,19 +79,7 @@ function EnterGamePhone() {
           </button>
         </form>
       )}
-      {connected && (
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <label htmlFor="msg">Wiadomość</label>
-          <input
-            type="text"
-            name="msg"
-            id="msg"
-            value={msg}
-            onChange={(e) => setMsg(e.target.value)}
-          ></input>
-          <button onClick={handleMsgSend}>Wyślij</button>
-        </div>
-      )}
+      {connected && <PhoneView wsClient={client} nick={name} pin={pin} />}
     </div>
   );
 }

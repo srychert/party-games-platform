@@ -1,11 +1,31 @@
 import React from "react";
 import HeroStats from "./HeroStats/HeroStats";
 import UserGuide from "./UserGuide/UserGuide";
+import { messageType, chatMessage } from "../../SocketFactory/message";
 import "./phoneView.css";
+import { useEffect } from "react";
 
-function PhoneView() {
+function PhoneView(props) {
   const [showUserGuide, setShowUserGuide] = React.useState(false);
-  const handleClick = (answer) => {};
+  const [wsClient, setWsClient] = React.useState(null);
+  const [nick, setNick] = React.useState("");
+  const [pin, setPin] = React.useState("");
+  useEffect(() => {
+    if (props) {
+      setWsClient(props.wsClient);
+      setNick(props.nick);
+      setPin(props.pin);
+    }
+  }, [props]);
+  const handleClick = (answer) => {
+    if (wsClient) {
+      wsClient.publish({
+        destination: `/app/chat/${pin}.send`,
+        body: chatMessage(nick, answer, messageType.CHAT),
+        skipContentLengthHeader: true,
+      });
+    }
+  };
   return (
     <div className="game-voting">
       <div className="menu">
@@ -24,13 +44,12 @@ function PhoneView() {
       </div>
       <main className="phoneView">
         {[1, 2, 3, 4].map((item) => (
-          <div className="game-voting__item" id={item}>
-            <button
-              className="game-voting__item__button"
-              onClick={() => handleClick(item)}
-            >
-              Odpowiedź {item}
-            </button>
+          <div
+            className="game-voting__item"
+            id={item}
+            onClick={() => handleClick(item)}
+          >
+            Odpowiedź {item}
           </div>
         ))}
       </main>

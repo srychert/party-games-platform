@@ -28,6 +28,9 @@ main.phoneView {
   grid-template-rows: 40vh 40vh;
 }
 main.phoneView .game-voting__item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: 1px solid #fff;
   border-radius: 5px;
   margin: 10px;
@@ -35,18 +38,10 @@ main.phoneView .game-voting__item {
   transition: all 0.2s ease-in-out;
   justify-content: center;
 }
-main.phoneView button {
-  border: 1px solid #fff;
-  background-color: #000;
-  color: #fff;
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
-main.phoneView button:hover {
+main.phoneView .game-voting__item:hover {
   background-color: #fff;
   color: #000;
+  cursor: pointer;
 }
 
 .game-voting .hero-menu {

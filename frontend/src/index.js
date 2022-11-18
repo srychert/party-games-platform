@@ -9,6 +9,8 @@ import GameForm from "./Host/AddGame/GameForm";
 import Login from "./Login/Login";
 import SelectGame from "./Host/SelectGame/SelectGame";
 
+import "./index.css";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -18,11 +20,6 @@ const router = createBrowserRouter([
   {
     path: "/join",
     element: <EnterGamePhone />,
-    errorElement: <div>Error 404</div>,
-  },
-  {
-    path: "/phone-view",
-    element: <PhoneView />,
     errorElement: <div>Error 404</div>,
   },
   {
