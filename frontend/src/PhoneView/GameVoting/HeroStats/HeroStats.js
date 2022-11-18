@@ -1,5 +1,7 @@
 import React from "react";
 
+import "./hero-stats.css";
+
 function HeroStats() {
   const [heroName, setHeroName] = React.useState("PlaceHolder");
   const [heroLevel, setHeroLevel] = React.useState("1");
@@ -10,10 +12,10 @@ function HeroStats() {
     <div className="hero-menu">
       <div className="hero-image">
         <img src="" alt="hero" />
+        <div className="hero-level">{heroLevel}</div>
       </div>
       <div className="hero-stats">
         <div className="hero-name">{heroName}</div>
-        <div className="hero-level">Poziom: {heroLevel}</div>
         <div className="hero-health">Życie: {heroHealth}</div>
         <div className="hero-mana">Mana: {heroMana}</div>
       </div>
