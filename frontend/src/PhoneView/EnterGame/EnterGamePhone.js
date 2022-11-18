@@ -13,7 +13,7 @@ function EnterGamePhone() {
 
   useEffect(() => {
     if (client.connected !== undefined) setConnected(client.connected);
-  }, [client.connected]);
+  }, []);
 
   const callback = function (message) {
     // called when the client receives a STOMP message from the server

@@ -1,39 +1,40 @@
-import React, { useEffect, useState } from "react";
-import NavBar from "./Host/NavBar/Navbar";
-import { Link } from "react-router-dom";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./app.css";
 
 function App() {
-  const [gameVersions, setGameVersions] = useState([]);
-
-  useEffect(() => {
-    fetch("http://localhost:8080/api/v1/games")
-      .then((res) => res.json())
-      .then((data) => {
-        setGameVersions(data);
-      });
-  }, []);
+  let navigate = useNavigate();
+  function handleHost() {
+    navigate("/host");
+  }
+  function handleJoin() {
+    navigate("/join");
+  }
 
   return (
     <div className="App">
-      TOTALNE DEMO - WERSJA 0.2
-      {<NavBar />}
-      <div className="app__content">
-        <div className="app__select-game">
-          <h2>Wybierz grę</h2>
-          {gameVersions.map((gameVersion) => (
-            <div key={gameVersion.id}>
-              {gameVersion.description}
-              <Link
-                to={{
-                  pathname: `/enter-game/${gameVersion.id}`,
-                  state: { id: gameVersion.id },
-                }}
-              >
-                <button className="App__new-game-button">Nowa gra</button>
-              </Link>
+      <div className="SelectPlayerRole">
+        <div className="card" onClick={() => handleHost()}>
+          <div className="Host_card">
+            <div className="Host__title">Host</div>
+            <div className="Host_description">
+              <p>
+                Host jest odpowiedzialny za tworzenie gry i zarządzanie jej
+                przebiegiem.
+              </p>
             </div>
-          ))}
+          </div>
+        </div>
+        <div className="card" onClick={() => handleJoin()}>
+          <div className="Player">
+            <div className="Player__title">Gracz</div>
+            <div className="Player_description">
+              <p>
+                Player jest odpowiedzialny za udział w grze i wykonywanie
+                poleceń hosta.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

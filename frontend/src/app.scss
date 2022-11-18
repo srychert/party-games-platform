@@ -6,38 +6,25 @@ body{
     font-family: 'Roboto', sans-serif;
     overflow: hidden;
 }
-.app__content{
-    background: #000;
-    color : #fff;
-    padding: 10px;
-    margin: 10px;
-    border: 1px solid #000;
-    border-radius: 5px;
+.SelectPlayerRole{
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    h1{
-        font-size: 20px;
-        text-align: center;
-        margin-bottom: 10px;
-    }
-    p{
-        font-size: 16px;
-        text-align: center;
-    }
-    .App__new-game-button{
-        background: #000;
-        color: #fff;
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        margin: 10px;
-        cursor: pointer;
-        transition: all 0.2s ease-in-out;
-        &:hover{
-            background-color: #fff;
-            color: #000;
+    .card{
+        margin: 20px;
+        background-color: black;
+        box-shadow: 0 0 10px 10px rgba(0,0,0,0.5);
+        width: 50vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        div{
+            color: white;
+            text-align: center;
         }
     }
-    
+    .card:hover{
+        box-shadow: 0 0 15px 15px rgba(0,0,0,0.8);
+
+    }
 }

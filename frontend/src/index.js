@@ -4,21 +4,20 @@ import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { CookiesProvider } from "react-cookie";
 import PhoneView from "./PhoneView/GameVoting/PhoneView";
-import EnterGame from "./Host/CreateGame/CreateGame";
-import CreateGame from "./Host/CreateGame/CreateGame";
 import EnterGamePhone from "./PhoneView/EnterGame/EnterGamePhone";
 import GameForm from "./Host/AddGame/GameForm";
 import Login from "./Login/Login";
+import SelectGame from "./Host/SelectGame/SelectGame";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <EnterGamePhone />,
+    element: <App />,
     errorElement: <div>Error 404</div>,
   },
   {
-    path: "/logged",
-    element: <App />,
+    path: "/join",
+    element: <EnterGamePhone />,
     errorElement: <div>Error 404</div>,
   },
   {
@@ -27,21 +26,9 @@ const router = createBrowserRouter([
     errorElement: <div>Error 404</div>,
   },
   {
-    path: "/phone-enter",
-    element: <EnterGamePhone />,
+    path: "/host",
+    element: <SelectGame />,
     errorElement: <div>Error 404</div>,
-  },
-  {
-    path: "/enter-game/:id",
-    element: <EnterGame />,
-    errorElement: <div>Error 404</div>,
-    useParams: true,
-  },
-  {
-    path: "/main-game/:id",
-    element: <CreateGame />,
-    errorElement: <div>Error 404</div>,
-    useParams: true,
   },
   {
     path: "/login",
