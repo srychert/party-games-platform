@@ -1,11 +1,10 @@
-@media(min-width: 300px) {
-    .new-game{
-        background-color: #f5f5f5;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    form{
+.login-page{
+    background-color: #f5f5f5;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .login-form{
         width: 400px;
         background-color: #fff;
         padding: 20px;
@@ -14,21 +13,28 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
         div{
             display: flex;
             flex-direction: column;
             margin: 10px;
-        }
-        input{
-            padding: 5px;
-            border: 1px solid #000;
-            border-radius: 5px;
-            &:focus{
-                border: 1px solid #000;
-                outline: none;
-                box-shadow: 0 0 5px rgba(0,0,0,0.5);
+            label{
+                margin: 5px;
             }
+            input{
+                padding: 5px;
+                border: 1px solid #000;
+                border-radius: 5px;
+                &:focus{
+                    border: 1px solid #000;
+                    outline: none;
+                    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+                }
+            }
+        }
+        .switch{
+            display: flex;
+            flex-direction: row;
+
         }
         button{
             margin: 10px;
@@ -43,12 +49,6 @@
                 color: #fff;
             }
         }
-    }
-}
 
-
-@media(max-width: 299px){
-    .new-game{
-        display: none;
     }
 }

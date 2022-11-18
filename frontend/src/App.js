@@ -1,12 +1,25 @@
 import React from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 import "./app.css";
 
 function App() {
   let navigate = useNavigate();
+  const [auth, setAuth] = React.useState(false);
+  const [cookies, setCookie] = useCookies(["user"]);
+  useEffect(() => {
+    if (cookies.user) {
+      setAuth(true);
+    }
+  }, []);
   function handleHost() {
-    navigate("/host");
+    if (auth) {
+      navigate("/host");
+    } else {
+      navigate("/login");
+    }
   }
   function handleJoin() {
     navigate("/join");
