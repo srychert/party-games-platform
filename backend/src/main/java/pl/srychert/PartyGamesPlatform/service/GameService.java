@@ -43,6 +43,7 @@ public class GameService {
                 .findById(id)
                 .orElseThrow(() -> new ApiRequestException("No such Game id in DB"));
 
+        updatedGame.setTitle(game.getTitle());
         updatedGame.setCreatedBy(game.getCreatedBy());
         updatedGame.setDescription(game.getDescription());
         updatedGame.setAllowedActions(game.getAllowedActions());
