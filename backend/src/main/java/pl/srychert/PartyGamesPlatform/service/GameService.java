@@ -27,7 +27,13 @@ public class GameService {
     }
 
     public Game addGame(Game game) {
-       return gameRepository.insert(game);
+        Game newGame = new Game(
+                game.getTitle(),
+                game.getDescription(),
+                game.getAllowedActions(),
+                game.getTotalTimesPlayed(),
+                game.getCreatedBy());
+       return gameRepository.insert(newGame);
     }
 
     public Game deleteGame(String id) {
