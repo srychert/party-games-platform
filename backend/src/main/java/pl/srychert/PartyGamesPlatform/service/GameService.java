@@ -27,9 +27,6 @@ public class GameService {
     }
 
     public Game addGame(Game game) {
-        if(checkForCreatedByDuplicate(game)){
-            throw new ApiRequestException("Duplicate createdBy field");
-        }
        return gameRepository.insert(game);
     }
 
@@ -46,20 +43,11 @@ public class GameService {
                 .findById(id)
                 .orElseThrow(() -> new ApiRequestException("No such Game id in DB"));
 
-        if(checkForCreatedByDuplicate(game)){
-            throw new ApiRequestException("Duplicate createdBy field");
-        }
-
         updatedGame.setCreatedBy(game.getCreatedBy());
         updatedGame.setDescription(game.getDescription());
         updatedGame.setAllowedActions(game.getAllowedActions());
         updatedGame.setTotalTimesPlayed(game.getTotalTimesPlayed());
 
         return gameRepository.save(updatedGame);
-
-    }
-
-    public boolean checkForCreatedByDuplicate(Game game){
-        return gameRepository.findGameByCreatedBy(game.getCreatedBy()).isPresent();
     }
 }

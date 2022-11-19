@@ -28,7 +28,7 @@ public class Game {
     private Long totalTimesPlayed;
     @Email
     @NotBlank
-    @Indexed(unique = true)
+    @Indexed
     private String createdBy;
 
     public Game(String title, String description, List<String> allowedActions, Long totalTimesPlayed, String createdBy) {
