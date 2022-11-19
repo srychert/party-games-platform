@@ -4,25 +4,29 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Arrays;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class MyUserDetails implements UserDetails {
-
-    private String userName;
-    private String password;
-    private boolean active;
-    private List<GrantedAuthority> authorities;
-
+    private final String userName;
+    private final String password;
+    private final boolean active;
+    private final List<GrantedAuthority> authorities;
+    private final LocalDate accountExpiryTime;
+    private final LocalDate credentialsExpiryTime;
     public MyUserDetails(User user){
         this.userName = user.getUserName();
         this.password = user.getPassword();
         this.active = user.isActive();
-        this.authorities = Arrays.stream(user.getRoles().split(","))
+        this.accountExpiryTime = user.getAccountExpiryTime();
+        this.credentialsExpiryTime = user.getCredentialsExpiryTime();
+        this.authorities = user.getRoles().stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
+
     }
 
     @Override
@@ -42,21 +46,23 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
+        LocalDate now = LocalDate.now(ZoneId.of("Europe/Warsaw"));
+        return accountExpiryTime.isAfter(now);
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        LocalDate now = LocalDate.now(ZoneId.of("Europe/Warsaw"));
+        return credentialsExpiryTime.isAfter(now);
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return active;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return active;
     }
 }
