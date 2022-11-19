@@ -2,6 +2,7 @@ package pl.srychert.PartyGamesPlatform.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.srychert.PartyGamesPlatform.exception.ApiRequestException;
 import pl.srychert.PartyGamesPlatform.model.Game;
 import pl.srychert.PartyGamesPlatform.model.GameRepository;
 
@@ -25,18 +26,28 @@ public class GameService {
         return gameRepository.findById(id);
     }
 
-    public void addGame(Game game) {
-        gameRepository.insert(game);
+    public Game addGame(Game game) {
+       return gameRepository.insert(game);
     }
 
-    public void deleteGame(String id) {
-        gameRepository.deleteById(id);
+    public Game deleteGame(String id) {
+        Optional<Game> game = gameRepository.findById(id);
+        if(game.isPresent()) {
+            gameRepository.deleteById(id);
+        }
+        return game.orElseThrow(() -> new ApiRequestException("No such Game id in DB"));
     }
 
-    public Game updateGame(String id, String description) {
-        Game game = gameRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException(String.format("Game with ID %s does not exist", id)));
-        game.setDescription(description);
-        return gameRepository.save(game);
+    public Game updateGame(String id, Game game) {
+        Game updatedGame = gameRepository
+                .findById(id)
+                .orElseThrow(() -> new ApiRequestException("No such Game id in DB"));
+
+        updatedGame.setCreatedBy(game.getCreatedBy());
+        updatedGame.setDescription(game.getDescription());
+        updatedGame.setAllowedActions(game.getAllowedActions());
+        updatedGame.setTotalTimesPlayed(game.getTotalTimesPlayed());
+
+        return gameRepository.save(updatedGame);
     }
 }

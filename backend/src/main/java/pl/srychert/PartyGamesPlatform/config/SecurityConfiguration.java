@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.web.cors.CorsConfigurationSource;
 import pl.srychert.PartyGamesPlatform.service.CustomAuthenticationProvider;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -19,22 +20,24 @@ public class SecurityConfiguration {
     @Autowired
     private CustomAuthenticationProvider authenticationProvider;
 
+    @Autowired
+    private CorsConfigurationSource corsConfigurationSource;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((auth) -> {
-                            try {
-                                auth
-                                        .antMatchers("/api/v1/games/new/**").hasRole("ADMIN")
-                                        .antMatchers("/api/v1/games/**").hasAnyRole("ADMIN", "USER")
-                                        .antMatchers("/").permitAll()
-                                        .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-                            } catch (Exception e) {
-                                throw new RuntimeException(e);
-                            }
+                            auth
+//                                    .antMatchers("/api/v1/games/new/**").hasRole("ADMIN")
+//                                    .antMatchers("/api/v1/games/**").hasAnyRole("ADMIN", "USER")
+                                    .antMatchers("/").permitAll();
                         }
-                )
-                .formLogin(withDefaults());
+                );
+                // by default uses a Bean by the name of corsConfigurationSource
+                http.cors().and();
+                http.csrf().disable();
+//                http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                http.formLogin(withDefaults());
         return http.build();
     }
 
