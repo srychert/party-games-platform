@@ -6,6 +6,7 @@ import pl.srychert.PartyGamesPlatform.model.Game;
 import pl.srychert.PartyGamesPlatform.service.GameService;
 import pl.srychert.PartyGamesPlatform.service.RedisService;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,13 +22,8 @@ public class GameController {
     @PostMapping(path = "/new/{gameId}")
     public Map<String, String> newGame(@PathVariable("gameId") String id){
         Map<String, String> map = new HashMap<>();
-        Optional<Game> game = gameService.getGame(id);
-        if(game.isPresent()){
-            String pin = redisService.getUnusedPin();
-            map.put("pin",pin);
-        }else{
-            map.put("pin", null);
-        }
+        map.put("pin", null);
+        gameService.getGame(id).ifPresent(g -> map.put("pin", redisService.getUnusedPin()));
         return map;
     }
 
@@ -47,7 +43,7 @@ public class GameController {
     }
 
     @PostMapping
-    public Game addGame(@RequestBody Game game){
+    public Game addGame(@Valid @RequestBody Game game){
         return gameService.addGame(game);
     }
 
@@ -57,11 +53,10 @@ public class GameController {
     }
 
     @PutMapping(path = "{gameId}")
-    @ResponseBody
     public Game updateGame(
             @PathVariable("gameId") String id,
-            @RequestBody Game game) {
-        return gameService.updateGame(id, game.getDescription(),  game.getAllowedActions(), game.getTotalTimesPlayed(), game.getCreatedBy());
+            @Valid @RequestBody Game game) {
+        return gameService.updateGame(id, game);
     }
 
 }

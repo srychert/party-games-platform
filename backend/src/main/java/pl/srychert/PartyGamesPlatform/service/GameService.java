@@ -2,6 +2,7 @@ package pl.srychert.PartyGamesPlatform.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.srychert.PartyGamesPlatform.exception.ApiRequestException;
 import pl.srychert.PartyGamesPlatform.model.Game;
 import pl.srychert.PartyGamesPlatform.model.GameRepository;
 
@@ -26,34 +27,39 @@ public class GameService {
     }
 
     public Game addGame(Game game) {
+        if(checkForCreatedByDuplicate(game)){
+            throw new ApiRequestException("Duplicate createdBy field");
+        }
        return gameRepository.insert(game);
     }
-
 
     public Game deleteGame(String id) {
         Optional<Game> game = gameRepository.findById(id);
         if(game.isPresent()) {
             gameRepository.deleteById(id);
         }
-        return game.orElse(null);
+        return game.orElseThrow(() -> new ApiRequestException("No such Game id in DB"));
     }
 
+    public Game updateGame(String id, Game game) {
+        Game updatedGame = gameRepository
+                .findById(id)
+                .orElseThrow(() -> new ApiRequestException("No such Game id in DB"));
 
-    public Game updateGame(String id, String description, List<String> allowedActions, Long totalTimesPlayed, String createdBy) {
-        Game game = gameRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException(String.format("Game with ID %s does not exist", id)));
-        if(description != null){
-            game.setDescription(description);
+        if(checkForCreatedByDuplicate(game)){
+            throw new ApiRequestException("Duplicate createdBy field");
         }
-        if(allowedActions != null){
-            game.setAllowedActions(allowedActions);
-        }
-        if(totalTimesPlayed != null){
-            game.setTotalTimesPlayed(totalTimesPlayed);
-        }
-        if(createdBy != null){
-            game.setCreatedBy(createdBy);
-        }
-        return gameRepository.save(game);
+
+        updatedGame.setCreatedBy(game.getCreatedBy());
+        updatedGame.setDescription(game.getDescription());
+        updatedGame.setAllowedActions(game.getAllowedActions());
+        updatedGame.setTotalTimesPlayed(game.getTotalTimesPlayed());
+
+        return gameRepository.save(updatedGame);
+
+    }
+
+    public boolean checkForCreatedByDuplicate(Game game){
+        return gameRepository.findGameByCreatedBy(game.getCreatedBy()).isPresent();
     }
 }

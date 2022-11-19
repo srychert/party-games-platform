@@ -30,7 +30,7 @@ public class PartyGamesPlatformApplication {
 					true, "ROLE_USER", "user@example.com");
 			String createdBy = user.getEmail();
 			Game game = new Game(
-				"Epic game", List.of("roll-dice", "pick-answer"), 10L, createdBy
+				"Epic game", "", List.of("roll-dice", "pick-answer"), 10L, createdBy
 			);
 
 			user_repository.findByUserName(user.getUserName()).ifPresentOrElse(g -> {
