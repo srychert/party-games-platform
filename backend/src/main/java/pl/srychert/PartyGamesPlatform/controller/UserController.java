@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.srychert.PartyGamesPlatform.model.User;
 import pl.srychert.PartyGamesPlatform.service.UserService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,8 +27,8 @@ public class UserController {
     }
 
     @PostMapping
-    public void addUser(@RequestBody User user){
-        userService.addUser(user);
+    public User addUser(@Valid @RequestBody User user){
+        return userService.addUser(user);
     }
 
     @DeleteMapping(path = "{userId}")
@@ -37,16 +38,16 @@ public class UserController {
 
     @PutMapping(path = "{userId}")
     public User updateUser(
-            @PathVariable("userId") String id, @RequestBody User user){
-        return userService.updateUser(id, user.getUserName(), user.getPassword(),user.getRoles(),user.getEmail());
+            @PathVariable("userId") String id, @Valid @RequestBody User user){
+        return userService.updateUser(id, user);
     }
 
-    @PutMapping(path = "{userId}/active")
-    public User updateActive(@PathVariable("userId") String id, boolean active){
-        return userService.updateActive(id,active);
+    @PatchMapping(path = "{userId}")
+    public User updateActive(@PathVariable("userId") String id, @RequestParam boolean active){
+        return userService.updateActive(id, active);
     }
 
-    @PutMapping(path = "{userId}/expire")
+    @PatchMapping(path = "{userId}/expire")
     public User updateExpire(@PathVariable("userId") String id){
         return userService.updateExpire(id);
     }

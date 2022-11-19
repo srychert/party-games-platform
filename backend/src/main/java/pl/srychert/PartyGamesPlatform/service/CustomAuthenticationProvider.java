@@ -6,6 +6,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.srychert.PartyGamesPlatform.model.MyUserDetails;
@@ -14,7 +15,7 @@ import pl.srychert.PartyGamesPlatform.model.MyUserDetails;
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
-    private MyUserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
     @Autowired
     private PasswordEncoder passwordEncoder;
 

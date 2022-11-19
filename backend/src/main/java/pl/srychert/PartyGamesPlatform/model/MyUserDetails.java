@@ -4,28 +4,26 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.Arrays;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class MyUserDetails implements UserDetails {
-
-    private String userName;
-    private String password;
-    private boolean active;
-    private List<GrantedAuthority> authorities;
-    private LocalDateTime accountExpiryTime;
-    private LocalDateTime credentialsExpiryTime;
+    private final String userName;
+    private final String password;
+    private final boolean active;
+    private final List<GrantedAuthority> authorities;
+    private final LocalDate accountExpiryTime;
+    private final LocalDate credentialsExpiryTime;
     public MyUserDetails(User user){
         this.userName = user.getUserName();
         this.password = user.getPassword();
         this.active = user.isActive();
         this.accountExpiryTime = user.getAccountExpiryTime();
         this.credentialsExpiryTime = user.getCredentialsExpiryTime();
-        this.authorities = Arrays.stream(user.getRoles().split(","))
+        this.authorities = user.getRoles().stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 
@@ -41,40 +39,30 @@ public class MyUserDetails implements UserDetails {
         return password;
     }
 
-    public void setPassword(String password){
-        this.password=password;
-    }
-
     @Override
     public String getUsername() {
         return userName;
     }
 
-    public void setUserName(String userName){
-        this.userName=userName;
-    }
-
     @Override
     public boolean isAccountNonExpired() {
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-//        return timestamp.getTime() <= accountExpiryTime;
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return active;
+        LocalDate now = LocalDate.now(ZoneId.of("Europe/Warsaw"));
+        return accountExpiryTime.isAfter(now);
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-//        return timestamp.getTime() <= credentialsExpiryTime;
-        return true;
+        LocalDate now = LocalDate.now(ZoneId.of("Europe/Warsaw"));
+        return credentialsExpiryTime.isAfter(now);
     }
 
     @Override
     public boolean isEnabled() {
+        return active;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
         return active;
     }
 }
