@@ -6,27 +6,22 @@ import JoinGame from "./JoinGame";
 
 function SelectGame() {
   const [games, setGames] = React.useState([]);
-  const [selectedGame, setSelectedGame] = React.useState("");
-  const [selectedGameId, setSelectedGameId] = React.useState("");
   const [pin, setPin] = React.useState("");
+  const [gameID, setGameID] = React.useState("");
 
-  function handleClick(id) {
-    setSelectedGame(true);
-    setSelectedGameId(id);
-  }
   // Pobiera pin z serwera
-  useEffect(() => {
-    if (selectedGame) {
-      axios
-        .post(`http://localhost:8080/api/v1/games/new/${selectedGameId}`)
-        .then((res) => {
-          setPin(res.data.pin);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [selectedGame, selectedGameId]);
+  function handleClick(id) {
+    axios
+      .post(`http://localhost:8080/api/v1/games/new/${id}`)
+      .then((res) => {
+        setPin(res.data.pin);
+        setGameID(res.data.id);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   // Pobiera wszystkie gry z bazy danych
   useEffect(() => {
     axios
@@ -41,7 +36,7 @@ function SelectGame() {
 
   return (
     <div className="flex flex-col items-center h-screen w-screen">
-      {(!selectedGame && (
+      {(!pin && (
         <div>
           {games.map((game) => {
             return (
@@ -68,7 +63,7 @@ function SelectGame() {
             );
           })}
         </div>
-      )) || <JoinGame pin={pin} selectedId={selectedGameId} />}
+      )) || <JoinGame pin={pin} selectedId={gameID} />}
     </div>
   );
 }

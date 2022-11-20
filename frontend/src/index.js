@@ -37,7 +37,8 @@ const router = createBrowserRouter([
         HanldeSubmit={AuthService}
         field1="Login"
         field2="Password"
-        passType={true}
+        passTypeSwitch={true}
+        passtype="password"
         destination="/host"
         submitName="Zaloguj"
       />
