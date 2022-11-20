@@ -3,8 +3,6 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
-import "./app.css";
-
 function App() {
   let navigate = useNavigate();
   const [auth, setAuth] = React.useState(false);
@@ -24,30 +22,15 @@ function App() {
   function handleJoin() {
     navigate("/join");
   }
-
+  const cardClass =
+    "flex flex-col justify-center items-center h-1/2 w-1/2 bg-gray-200 rounded-lg m-10 shadow-lg shadow-blue-500 hover:shadow-blue-700 hover:bg-gray-300 hover:cursor-pointer";
   return (
-    <div className="SelectPlayerRole">
-      <div className="card" onClick={() => handleHost()}>
-        <div className="Host_card">
-          <div className="Host__title">Host</div>
-          <div className="Host_description">
-            <p>
-              Host jest odpowiedzialny za tworzenie gry i zarządzanie jej
-              przebiegiem.
-            </p>
-          </div>
-        </div>
+    <div className="flex flex-row justify-center items-center h-screen">
+      <div className={cardClass} onClick={() => handleHost()}>
+        <div className="text-8xl font-sans">Host</div>
       </div>
-      <div className="card" onClick={() => handleJoin()}>
-        <div className="Player">
-          <div className="Player__title">Gracz</div>
-          <div className="Player_description">
-            <p>
-              Player jest odpowiedzialny za udział w grze i wykonywanie poleceń
-              hosta.
-            </p>
-          </div>
-        </div>
+      <div className={cardClass} onClick={() => handleJoin()}>
+        <div className="text-8xl ">Gracz</div>
       </div>
     </div>
   );
