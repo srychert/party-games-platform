@@ -1,6 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import { messageType, chatMessage } from "../../SocketFactory/message";
+import { useState } from "react";
 
 import PhoneView from "../GameVoting/PhoneView";
 import Login from "../../Login/Login";

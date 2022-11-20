@@ -1,16 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import HeroStats from "./HeroStats/HeroStats";
 import UserGuide from "./UserGuide/UserGuide";
 import { messageType, chatMessage } from "../../SocketFactory/message";
-
-import { useEffect } from "react";
 import Loding from "../Loding/Loding";
 
 import client from "../../SocketFactory/mySocketFactory";
 
 function PhoneView(props) {
-  const [showUserGuide, setShowUserGuide] = React.useState(false);
-  const [gameState, setGameState] = React.useState("waiting");
+  const [showUserGuide, setShowUserGuide] = useState(false);
+  const [gameState, setGameState] = useState("waiting");
 
   const callback = function (message) {
     if (message.type === messageType.GAME_START) {

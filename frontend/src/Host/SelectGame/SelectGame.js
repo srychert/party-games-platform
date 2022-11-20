@@ -15,7 +15,7 @@ function SelectGame() {
       .post(`http://localhost:8080/api/v1/games/new/${id}`)
       .then((res) => {
         setPin(res.data.pin);
-        setGameID(res.data.id);
+        setGameID(id);
       })
       .catch((err) => {
         console.log(err);
@@ -36,7 +36,7 @@ function SelectGame() {
 
   return (
     <div className="flex flex-col items-center h-screen w-screen">
-      {(!pin && (
+      {(!pin && !gameID && (
         <div>
           {games.map((game) => {
             return (
