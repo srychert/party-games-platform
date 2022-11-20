@@ -1,24 +1,47 @@
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import client from "../../SocketFactory/mySocketFactory";
 
 function JoinGame(props) {
+  const navigate = useNavigate();
+  const [players, setPlayers] = useState([12222, 2, 3, 4, 5, 6, 7]);
+  function handleClick() {
+    navigate(`/main-game/${props.pin}/${props.selectedId}`);
+  }
+  function callback(message) {
+    if (message.body) {
+      const parsed = JSON.parse(message.body);
+      setPlayers((prev) => [...prev, parsed.sender]);
+    } else {
+      console.log("got empty message");
+    }
+  }
+
+  useEffect(() => {
+    client.activate();
+    client.onConnect = (frame) => {
+      client.subscribe(`/topic/public/${props.pin}`, callback);
+    };
+  }, [props.pin]);
+
   return (
-    <div className="new-game">
-      <div className="new-game__start">
-        <div className="new-game__pin">
-          <div className="new-game-pin__content">{props.pin}</div>
-        </div>
-        <div className="new-game_start-button">
-          <Link to={`/main-game/${props.pin}/${props.selectedId}`}>
-            <button className="new-game__start-button">Rozpocznij grę</button>
-          </Link>
-        </div>
-        <div className="new-game__players">
-          <div className="new-game-players__content">
-            {props.players.map((player) => (
-              <div className="player">{player}</div>
-            ))}
+    <div className="flex flex-col items-center h-screen w-screen ">
+      <div className="text-9xl p-10">{props.pin}</div>
+      <button
+        className="border p-6 rounded-lg bg-gray-100 shadow-md shadow-sky-600 hover:bg-gray-200 hover:shadow-sky-700"
+        onClick={() => handleClick()}
+      >
+        Rozpocznij grę
+      </button>
+      <div className="flex flex-row justify-between">
+        {players.map((player, index) => (
+          <div
+            className="p-3 border rounded-lg m-3 bg-gradient-to-r from-blue-600 to-blue-200 shadow-sm"
+            key={index}
+          >
+            {player}
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );

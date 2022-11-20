@@ -1,8 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
-import client from "../../SocketFactory/mySocketFactory";
+
 import JoinGame from "./JoinGame";
 
 function SelectGame() {
@@ -10,30 +9,12 @@ function SelectGame() {
   const [selectedGame, setSelectedGame] = React.useState("");
   const [selectedGameId, setSelectedGameId] = React.useState("");
   const [pin, setPin] = React.useState("");
-  const [players, setPlayers] = React.useState([12222, 2, 3, 4, 5, 6, 7]);
 
   function handleClick(id) {
     setSelectedGame(true);
     setSelectedGameId(id);
   }
-
-  const callback = function (message) {
-    if (message.body) {
-      const parsed = JSON.parse(message.body);
-      setPlayers((prev) => [...prev, parsed.sender]);
-    } else {
-      console.log("got empty message");
-    }
-  };
-  useEffect(() => {
-    if (selectedGame) {
-      client.activate();
-      client.onConnect = (frame) => {
-        client.subscribe(`/topic/public/${pin}`, callback);
-      };
-    }
-  }, [pin, selectedGame]);
-
+  // Pobiera pin z serwera
   useEffect(() => {
     if (selectedGame) {
       axios
@@ -46,7 +27,7 @@ function SelectGame() {
         });
     }
   }, [selectedGame, selectedGameId]);
-
+  // Pobiera wszystkie gry z bazy danych
   useEffect(() => {
     axios
       .get("http://localhost:8080/api/v1/games")
@@ -87,9 +68,7 @@ function SelectGame() {
             );
           })}
         </div>
-      )) || (
-        <JoinGame pin={pin} selectedId={selectedGameId} players={players} />
-      )}
+      )) || <JoinGame pin={pin} selectedId={selectedGameId} />}
     </div>
   );
 }
