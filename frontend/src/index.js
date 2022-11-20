@@ -12,6 +12,8 @@ import "./index.css";
 import MainGame from "./Host/MainGame/MainGame";
 import client from "./SocketFactory/mySocketFactory";
 
+import AuthService from "./AuthService/AuthService";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -30,7 +32,16 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <Login
+        HanldeSubmit={AuthService}
+        field1="Login"
+        field2="Password"
+        passType={true}
+        destination="/host"
+        submitName="Zaloguj"
+      />
+    ),
     errorElement: <div>Error 404</div>,
   },
   {

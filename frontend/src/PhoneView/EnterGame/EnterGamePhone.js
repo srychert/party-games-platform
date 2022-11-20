@@ -4,6 +4,7 @@ import { messageType, chatMessage } from "../../SocketFactory/message";
 import client from "../../SocketFactory/mySocketFactory";
 import PhoneView from "../GameVoting/PhoneView";
 import Loding from "../Loding/Loding";
+import Login from "../../Login/Login";
 
 import "./join-game.css";
 
@@ -47,31 +48,13 @@ function EnterGamePhone() {
   return (
     <div className="new-game">
       {!connected && (
-        <form>
-          <div className="pin">
-            <label htmlFor="pin">PIN</label>
-            <input
-              type="text"
-              name="pin"
-              id="pin"
-              value={pin}
-              onChange={(e) => setPin(e.target.value)}
-            />
-          </div>
-          <div className="name">
-            <label htmlFor="name">Nick</label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-          <button type="submit" onClick={(e) => HanldeSubmit(e)}>
-            Dołącz do gry
-          </button>
-        </form>
+        <Login
+          HanldeSubmit={HanldeSubmit}
+          field1="Nick"
+          field2="Pin"
+          passType={false}
+          submitName="Dołącz do gry"
+        />
       )}
       {(connected && gameState === "playing" && (
         <PhoneView wsClient={client} nick={name} pin={pin} />

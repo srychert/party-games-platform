@@ -3,26 +3,18 @@ import React from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import client from "../../SocketFactory/mySocketFactory";
-
-import "./select-game.css";
+import JoinGame from "./JoinGame";
 
 function SelectGame() {
   const [games, setGames] = React.useState([]);
   const [selectedGame, setSelectedGame] = React.useState("");
   const [selectedGameId, setSelectedGameId] = React.useState("");
   const [pin, setPin] = React.useState("");
-  const [players, setPlayers] = React.useState([
-    12222, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-    21, 22,
-  ]);
+  const [players, setPlayers] = React.useState([12222, 2, 3, 4, 5, 6, 7]);
 
   function handleClick(id) {
     setSelectedGame(true);
     setSelectedGameId(id);
-  }
-
-  function randomNumber() {
-    return Math.floor(Math.random() * 1000);
   }
 
   const callback = function (message) {
@@ -67,51 +59,36 @@ function SelectGame() {
   }, []);
 
   return (
-    <div className="Main_select">
+    <div className="flex flex-col items-center h-screen w-screen">
       {(!selectedGame && (
-        <div className="Select_game">
+        <div>
           {games.map((game) => {
             return (
-              <div className="card" key={game.id}>
-                <div className="games_count">{game.totalTimesPlayed}</div>
+              <div
+                className="flex flex-col border p-6 rounded-lg shadow-md shadow-sky-600 relative"
+                key={game.id}
+              >
+                <div className="absolute top-0 right-1 border rounded-lg shadow-sm shadow-sky-500 p-2">
+                  {game.totalTimesPlayed}
+                </div>
                 <div className="Game">
-                  <div className="Game_title">{game.description}</div>
-                  <div className="Game_createdBy">{game.createdBy}</div>
-                  <div className="button">
-                    <button onClick={() => handleClick(game.id)}>Graj</button>
+                  <div className="border-b-2 border-sky-300 p-3">
+                    {game.description}
                   </div>
+                  <div className="p-1">{game.createdBy}</div>
+                  <button
+                    className="border rounded-lg p-2 shadow-sm shadow-sky-500"
+                    onClick={() => handleClick(game.id)}
+                  >
+                    Graj
+                  </button>
                 </div>
               </div>
             );
           })}
         </div>
       )) || (
-        <div className="new-game">
-          <div className="new-game__start">
-            <div className="new-game__pin">
-              <div className="new-game-pin__content">{pin}</div>
-            </div>
-            <div className="new-game_start-button">
-              <Link to={`/main-game/${pin}/${selectedGameId}`}>
-                <button className="new-game__start-button">
-                  Rozpocznij grę
-                </button>
-              </Link>
-            </div>
-            <div className="new-game__players">
-              <div className="new-game-players__content">
-                {players.map((player) => (
-                  <div
-                    className="player"
-                    style={{ top: randomNumber(), left: randomNumber() }}
-                  >
-                    {player}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+        <JoinGame pin={pin} selectedId={selectedGameId} players={players} />
       )}
     </div>
   );
