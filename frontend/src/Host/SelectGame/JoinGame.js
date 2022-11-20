@@ -1,14 +1,27 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import client from "../../SocketFactory/mySocketFactory";
+import axios from "axios";
 
 function JoinGame(props) {
   const navigate = useNavigate();
+  const [pin, setPin] = useState("");
   const [players, setPlayers] = useState([12222, 2, 3, 4, 5, 6, 7]);
+  useEffect(() => {
+    axios
+      .post(`http://localhost:8080/api/v1/games/new/${props.selectedId}`)
+      .then((res) => {
+        setPin(res.data.pin);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [props.selectedId]);
+
   function handleClick() {
-    console.log(props);
-    navigate(`/main-game/${props.pin}/${props.selectedId}`);
+    navigate(`/main-game/${pin}/${props.selectedId}`);
   }
+
   function callback(message) {
     if (message.body) {
       const parsed = JSON.parse(message.body);
@@ -21,15 +34,13 @@ function JoinGame(props) {
   useEffect(() => {
     client.activate();
     client.onConnect = (frame) => {
-      client.subscribe(`/topic/public/${props.pin}`, callback);
+      client.subscribe(`/topic/public/${pin}`, callback);
     };
-  }, [props.pin]);
+  }, [pin]);
 
   return (
     <div className="flex flex-col items-center h-screen w-screen ">
-      <div className="text-9xl p-5 m-10 border-b-2 border-blue-500">
-        {props.pin}
-      </div>
+      <div className="text-9xl p-5 m-10 border-b-2 border-blue-500">{pin}</div>
       <button
         className="border p-6 rounded-lg bg-gray-100 shadow-md shadow-sky-600 hover:bg-gray-200 hover:shadow-sky-700"
         onClick={() => handleClick()}
