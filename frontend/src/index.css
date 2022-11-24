@@ -2,20 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-.box {
-  @apply: bg-gray-200 flex items-center content-center justify-center shadow-md;
-}
-
-.button {
-  @apply: p-3 m-3 border shadow-md rounded-lg hover: bg-sky-300 hover:
-    text-white;
-}
-
-.form-input {
-  @apply: border-2 border-sky-300 bg-white h-10 px-5 pr-10 rounded-lg text-sm
-    focus: border-sky-400;
-}
-
-.forest-titles {
-  @apply: border-2 border-y-shamrock-700;
+@layer components {
+  .box {
+    @apply flex content-center items-center justify-center bg-gray-200 shadow-md;
+  }
+  .button {
+    @apply m-3 rounded-lg border bg-gray-200 p-3 shadow-md hover:bg-gray-300;
+  }
+  .button:hover {
+    @apply text-white cursor-pointer bg-sky-300;
+  }
+  .form-input {
+    @apply bg-white h-10 rounded-lg border-2 border-sky-300 px-5 pr-10 text-sm;
+  }
+  .form-input:focus {
+    @apply border-sky-400 outline-none;
+  }
+  .tile-forest {
+    @apply bg-green-600;
+  }
 }

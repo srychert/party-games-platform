@@ -22,10 +22,10 @@ function Login(props) {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center h-screen w-screen">
+    <div className="flex h-screen w-screen flex-col items-center justify-center">
       <form
         onSubmit={(event) => handleSubmit(event)}
-        className="shadow-md shadow-sky-300 p-10"
+        className="p-10 shadow-md shadow-sky-300"
       >
         <div className="flex flex-col p-2">
           <label htmlFor={props.field1}>{props.field1}</label>
@@ -52,14 +52,14 @@ function Login(props) {
         <div className="inline">
           {(props.passTypeSwitch && (
             <div className="m-2">
-              <label className="inline-flex relative items-center cursor-pointer">
+              <label className="relative inline-flex cursor-pointer items-center">
                 <input
                   type="checkbox"
-                  className="sr-only peer"
+                  className="peer sr-only"
                   checked={passtype === "text"}
                   onChange={switchPasstype}
                 />
-                <div className="w-10 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600" />
+                <div className="peer h-6 w-10 rounded-full bg-gray-200 after:absolute after:top-1 after:left-1 after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-sky-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-sky-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-sky-800" />
                 <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
                   Show password
                 </span>

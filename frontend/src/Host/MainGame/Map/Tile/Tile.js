@@ -9,7 +9,7 @@ function Tile(props) {
       setPlayers(props.players)
    }, [props.players])
    return (
-      <div className="forest-titles">
+      <div className="tile-forest">
          {players.map((player, index) => {
             return (
                <div style={{ backgroundColor: player.color }} key={index}>
