@@ -1,66 +1,57 @@
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import { messageType, chatMessage } from "../../SocketFactory/message";
+import React, { useEffect } from "react"
+import { useParams } from "react-router-dom"
+import axios from "axios"
+import { messageType, chatMessage } from "../../SocketFactory/message"
 
-import Map from "./Map/Map";
-import client from "../../SocketFactory/mySocketFactory";
+import Map from "./Map/Map"
+import client from "../../SocketFactory/mySocketFactory"
 
-import useGame from "../../hooks/useGame";
+import useGame from "../../hooks/useGame"
 
 // funkcja callback, już w "głównym" komponencie
 // main game function
 // Tutaj będzie najwięcej zabawy :) good luck
 function callback(message) {
-  if (message.body) {
-    const parsed = JSON.parse(message.body);
-    console.log(parsed);
-  } else {
-    console.log("got empty message");
-  }
+   if (message.body) {
+      const parsed = JSON.parse(message.body)
+      console.log(parsed)
+   } else {
+      console.log("got empty message")
+   }
 }
 
 function MainGame() {
-  let params = useParams();
-  const gamedata = useGame(params.id);
-  // jakoś pobrać graczy z serwera i przekazać do mapy
-  const [players, setPlayers] = React.useState([1, 2, 3]);
-  useEffect(() => {
-    client.activate();
-    client.onConnect = (frame) => {
-      client.subscribe(`/topic/public/${params.pin}`, callback);
-      // Po renderze komponentu wysyłamy wiadomość do serwera, że zaczynamy grę
-      client.publish({
-        destination: "/app/chat.sendMessage",
-        body: chatMessage("System", "", messageType.GAME_START),
-      });
-      // Serwer wyślę każdemu graczowi wiadomość że gra się zaczęła (GAME_START) i zmienią sobie stan na "playing"
-    };
-  }, [params.pin]);
+   let params = useParams()
+   const gamedata = useGame(params.id)
+   // jakoś pobrać graczy z serwera i przekazać do mapy
+   const [players, setPlayers] = React.useState([1, 2, 3])
+   useEffect(() => {
+      client.activate()
+      client.onConnect = (frame) => {
+         client.subscribe(`/topic/public/${params.pin}`, callback)
+         // Po renderze komponentu wysyłamy wiadomość do serwera, że zaczynamy grę
+         client.publish({
+            destination: "/app/chat.sendMessage",
+            body: chatMessage("System", "", messageType.GAME_START),
+         })
+      }
+   }, [params.pin])
 
-  return (
-    <div className="main-game-screen">
-      <div className="main-game-screen__content">
-        <main>
-          <div className="main-game-screen-equipment">
-            <div className="main-game-screen-equipment__content">
-              Placeholder
-              <div>{gamedata.description}</div>
-            </div>
-          </div>
-          <div className="main-game-screen-map">
+   return (
+      <div className="grid overflow-hidden grid-cols-3 grid-rows-2 gap-2 h-screen">
+         <div className="box row-start-1 row-end-1">
+            EQ
+            <div>{gamedata.description}</div>
+         </div>
+         <div className="box row-start-2 row-end-2 col-start-1 col-end-1">
+            Placeholder
+            {gamedata.mainQuest}
+         </div>
+         <div className="box row-start-1 row-end-3 col-start-2 col-span-2">
             <Map players={players} />
-          </div>
-          <div className="main-game-screen-quest">
-            <div className="main-game-screen-quest__content">
-              Placeholder
-              {gamedata.mainQuest}
-            </div>
-          </div>
-        </main>
+         </div>
       </div>
-    </div>
-  );
+   )
 }
 
-export default MainGame;
+export default MainGame

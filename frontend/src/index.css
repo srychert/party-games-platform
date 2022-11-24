@@ -3,15 +3,19 @@
 @tailwind utilities;
 
 .box {
-  @apply bg-gray-200
-  flex items-center content-center justify-center
-  shadow-md;
+  @apply: bg-gray-200 flex items-center content-center justify-center shadow-md;
 }
 
 .button {
-  @apply p-3 m-3 border shadow-md rounded-lg hover:bg-sky-300 hover:text-white;
+  @apply: p-3 m-3 border shadow-md rounded-lg hover: bg-sky-300 hover:
+    text-white;
 }
 
 .form-input {
-  @apply border-2 border-sky-300 bg-white h-10 px-5 pr-10 rounded-lg text-sm focus:border-sky-400;
+  @apply: border-2 border-sky-300 bg-white h-10 px-5 pr-10 rounded-lg text-sm
+    focus: border-sky-400;
+}
+
+.forest-titles {
+  @apply: border-2 border-y-shamrock-700;
 }

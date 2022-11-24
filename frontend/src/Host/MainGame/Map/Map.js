@@ -1,17 +1,13 @@
-import React, { useEffect } from "react";
-import Tile from "./Tile/Tile";
+import React from "react"
+import Tile from "./Tile/Tile"
 
 function Map(props) {
-  const [players, setPlayers] = React.useState([{ color: "red" }]);
-  useEffect(() => {
-    setPlayers(props.players);
-  }, [props.players]);
-
-  return (
-    <div>
-      <Tile players={players} />
-    </div>
-  );
+   return (
+      <div className="flex flex-col justify-center items-center ">
+         Poziom 1
+         <Tile players={props.players} />
+      </div>
+   )
 }
 
-export default Map;
+export default Map

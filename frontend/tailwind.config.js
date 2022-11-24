@@ -9,5 +9,5 @@ module.exports = {
       sans: ["Inter", "sans-serif"],
     },
   },
-  plugins: [],
+  plugins: [require("prettier-plugin-tailwindcss")],
 };
