@@ -1,6 +1,6 @@
 export const tilesTypes = {
-  DESERT: "DESERT",
-  FOREST: "FOREST",
-  MOUNTAIN: "MOUNTAIN",
-  CITY: "CITY",
+  DESERT: "tile-desert",
+  FOREST: "tile-forest",
+  MOUNTAIN: "tile-mountain",
+  CITY: "tile-city",
 };
