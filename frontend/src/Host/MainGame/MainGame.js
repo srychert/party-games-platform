@@ -14,7 +14,7 @@ import useGame from "../../hooks/useGame";
 function callback(message) {
   if (message.body) {
     const parsed = JSON.parse(message.body);
-    console.log(parsed);
+    // console.log(parsed);
   } else {
     console.log("got empty message");
   }

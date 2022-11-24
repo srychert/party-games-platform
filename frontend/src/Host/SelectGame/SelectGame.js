@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import JoinGame from "./JoinGame";
 import useGames from "../../hooks/useGames";
 import { useNavigate } from "react-router-dom";
+import client from "../../SocketFactory/mySocketFactory";
 
 function SelectGame() {
   let navigate = useNavigate();
@@ -14,16 +15,19 @@ function SelectGame() {
   const handleShowProfile = () => {
     navigate(`/profile/${userID}`);
   };
+  useEffect(() => {
+    client.deactivate();
+  }, []);
 
   return (
     <div>
       <div
-        className="hover: ursor-pointer absolute right-0 top-0 m-2 flex flex-row items-center justify-center"
+        className="hover: absolute right-0 top-0 m-2 flex cursor-pointer flex-row items-center justify-center"
         onClick={handleShowProfile}
       >
         <span className="m-2">Login</span>
         <img
-          className="flex h-20 w-20 items-center justify-center rounded-full border hover:cursor-pointer"
+          className="flex h-20 w-20 items-center justify-center rounded-full border border-sky-300"
           alt="Ikona prfilu"
           src={
             "https://styles.redditmedia.com/t5_2tc6s/styles/communityIcon_vn92glo5ugy51.png"

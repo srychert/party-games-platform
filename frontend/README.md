@@ -68,3 +68,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+### `docker build --cache-from merski001/party-games-frontend -f dockerfile -t merski001/party-games-frontend .` speed up build
+
+### `docker push merski001/party-games-frontend` push to docker hub

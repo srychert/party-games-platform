@@ -7,7 +7,6 @@ function useGames() {
     axios
       .get(`http://${process.env.REACT_APP_DOMAIN}:8080/api/v1/games`)
       .then((res) => {
-        console.log(res.data);
         setGamesData(res.data);
       })
       .catch((err) => {

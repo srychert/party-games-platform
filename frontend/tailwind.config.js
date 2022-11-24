@@ -80,6 +80,9 @@ module.exports = {
         800: "#EBEBEB",
         900: "#EBEBEB",
       },
+      player: {
+        DEFAULT: "#E4D7D7",
+      },
     },
   },
   plugins: [require("prettier-plugin-tailwindcss")],
