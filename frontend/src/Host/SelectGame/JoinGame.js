@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import client from "../../SocketFactory/mySocketFactory";
+import { messageType, chatMessage } from "../../SocketFactory/message";
 import axios from "axios";
 
 function JoinGame(props) {
@@ -20,6 +21,10 @@ function JoinGame(props) {
 
   function handleClick() {
     navigate(`/main-game/${pin}/${props.selectedId}`);
+    client.publish({
+      destination: `/app/chat/${props.pin}.startGame`,
+      body: chatMessage("host", "", messageType.START_GAME),
+    });
   }
 
   function callback(message) {

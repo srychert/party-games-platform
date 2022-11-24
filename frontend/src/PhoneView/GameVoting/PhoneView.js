@@ -8,8 +8,17 @@ import client from "../../SocketFactory/mySocketFactory";
 
 function PhoneView(props) {
   const [showUserGuide, setShowUserGuide] = useState(false);
-  const [gameState, setGameState] = useState("waiting");
-
+  const [gameState, setGameState] = useState("playing");
+  useEffect(() => {
+    window.addEventListener("beforeunload", alertUser);
+    return () => {
+      window.removeEventListener("beforeunload", alertUser);
+    };
+  }, []);
+  const alertUser = (e) => {
+    e.preventDefault();
+    e.returnValue = "";
+  };
   const callback = function (message) {
     if (message.type === messageType.GAME_START) {
       setGameState("playing");
