@@ -7,7 +7,7 @@ import client from "../../SocketFactory/mySocketFactory";
 
 function PhoneView(props) {
   const [showUserGuide, setShowUserGuide] = useState(false);
-  const [gameState, setGameState] = useState("playing");
+  const [gameState, setGameState] = useState("waiting");
 
   useEffect(() => {
     window.addEventListener("beforeunload", alertUser);
@@ -20,15 +20,8 @@ function PhoneView(props) {
     e.returnValue = "";
   };
   const callback = function (message) {
-    if (message.type === messageType.GAME_START) {
+    if (message.type === messageType.STARTGAME) {
       setGameState("playing");
-    }
-    if (message.body) {
-      const parsed = JSON.parse(message.body);
-      console.log(parsed);
-      console.log(client.connected);
-    } else {
-      console.log("got empty message");
     }
   };
 

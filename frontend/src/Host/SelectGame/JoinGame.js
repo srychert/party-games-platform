@@ -20,11 +20,11 @@ function JoinGame(props) {
   }, [props.selectedId]);
 
   function handleClick() {
-    navigate(`/main-game/${pin}/${props.selectedId}`);
     client.publish({
       destination: `/app/chat/${props.pin}.startGame`,
-      body: chatMessage("host", "", messageType.START_GAME),
+      body: chatMessage("host", "", messageType.STARTGAME),
     });
+    navigate(`/main-game/${pin}/${props.selectedId}`);
   }
 
   function callback(message) {
