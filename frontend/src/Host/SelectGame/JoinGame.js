@@ -2,22 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import client from "../../SocketFactory/mySocketFactory";
 import { messageType, chatMessage } from "../../SocketFactory/message";
-import axios from "axios";
+import usePin from "../../hooks/usePin";
 
 function JoinGame(props) {
   const navigate = useNavigate();
-  const [pin, setPin] = useState("");
+  const pin = usePin(props.selectedId);
   const [players, setPlayers] = useState([]);
-  useEffect(() => {
-    axios
-      .post(`http://localhost:8080/api/v1/games/new/${props.selectedId}`)
-      .then((res) => {
-        setPin(res.data.pin);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [props.selectedId]);
 
   function handleClick() {
     client.publish({

@@ -6,6 +6,8 @@ import { messageType, chatMessage } from "../../SocketFactory/message";
 import Map from "./Map/Map";
 import client from "../../SocketFactory/mySocketFactory";
 
+import useGame from "../../hooks/useGame";
+
 // funkcja callback, już w "głównym" komponencie
 // main game function
 // Tutaj będzie najwięcej zabawy :) good luck
@@ -20,7 +22,7 @@ function callback(message) {
 
 function MainGame() {
   let params = useParams();
-  const [gamedata, setGamedata] = React.useState({});
+  const gamedata = useGame(params.id);
   // jakoś pobrać graczy z serwera i przekazać do mapy
   const [players, setPlayers] = React.useState([1, 2, 3]);
   useEffect(() => {
@@ -35,16 +37,7 @@ function MainGame() {
       // Serwer wyślę każdemu graczowi wiadomość że gra się zaczęła (GAME_START) i zmienią sobie stan na "playing"
     };
   }, [params.pin]);
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8080/api/v1/games/${params.id}`)
-      .then((res) => {
-        setGamedata(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [params.id]);
+
   return (
     <div className="main-game-screen">
       <div className="main-game-screen__content">

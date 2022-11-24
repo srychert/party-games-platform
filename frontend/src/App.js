@@ -23,11 +23,11 @@ function App() {
     navigate("/join");
   }
   const cardClass =
-    "flex flex-col justify-center items-center h-1/2 w-1/2 bg-gray-200 rounded-lg m-10 shadow-lg shadow-blue-500 hover:shadow-blue-700 hover:bg-gray-300 hover:cursor-pointer";
+    "flex flex-col justify-center items-center h-1/2 w-1/2 button";
   return (
     <div className="flex flex-row justify-center items-center h-screen">
       <div className={cardClass} onClick={() => handleHost()}>
-        <div className="text-8xl font-sans">Host</div>
+        <div className="text-8xl ">Host</div>
       </div>
       <div className={cardClass} onClick={() => handleJoin()}>
         <div className="text-8xl ">Gracz</div>

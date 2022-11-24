@@ -1,24 +1,10 @@
-import axios from "axios";
-import React from "react";
-import { useEffect } from "react";
-
+import { useState } from "react";
 import JoinGame from "./JoinGame";
+import useGames from "../../hooks/useGames";
 
 function SelectGame() {
-  const [games, setGames] = React.useState([]);
-  const [gameID, setGameID] = React.useState("");
-
-  // Pobiera wszystkie gry z bazy danych
-  useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/v1/games")
-      .then((res) => {
-        setGames(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  const games = useGames();
+  const [gameID, setGameID] = useState("");
 
   return (
     <div className="flex flex-col items-center h-screen w-screen">

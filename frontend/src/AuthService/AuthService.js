@@ -3,7 +3,7 @@ import axios from "axios";
 function authService(login, password) {
   localStorage.setItem("user", "test", { path: "/" });
   // return axios
-  //   .post("http://localhost:8080/login", {
+  //   .post("http://${process.env.REACT_APP_DOMAIN}:8080/login", {
   //     login: login,
   //     password: password,
   //   })
