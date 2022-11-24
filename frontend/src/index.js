@@ -4,7 +4,6 @@ import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { CookiesProvider } from "react-cookie";
 import EnterGamePhone from "./PhoneView/EnterGame/EnterGamePhone";
-import GameForm from "./Host/AddGame/GameForm";
 import Login from "./Login/Login";
 import SelectGame from "./Host/SelectGame/SelectGame";
 
@@ -50,11 +49,6 @@ const router = createBrowserRouter([
     element: <MainGame wsClient={client} />,
     errorElement: <div>Error 404</div>,
     allowParams: true,
-  },
-  {
-    path: "/add-game",
-    element: <GameForm />,
-    errorElement: <div>Error 404</div>,
   },
 ]);
 

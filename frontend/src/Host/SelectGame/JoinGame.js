@@ -6,7 +6,7 @@ import axios from "axios";
 function JoinGame(props) {
   const navigate = useNavigate();
   const [pin, setPin] = useState("");
-  const [players, setPlayers] = useState([12222, 2, 3, 4, 5, 6, 7]);
+  const [players, setPlayers] = useState([]);
   useEffect(() => {
     axios
       .post(`http://localhost:8080/api/v1/games/new/${props.selectedId}`)

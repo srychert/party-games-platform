@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 function Login(props) {
-  const [passtype, setPasstype] = React.useState("password");
+  const [passtype, setPasstype] = React.useState(props.passtype);
 
   const [field1, setField1] = React.useState("");
   const [field2, setField2] = React.useState("");
@@ -42,7 +42,7 @@ function Login(props) {
           <label htmlFor={props.field2}>{props.field2}</label>
           <input
             className="border-2 border-sky-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:border-sky-400"
-            type={props.passtype}
+            type={passtype}
             name={props.field2}
             id={props.field2}
             autoComplete="off"
@@ -55,9 +55,9 @@ function Login(props) {
               <label className="inline-flex relative items-center cursor-pointer">
                 <input
                   type="checkbox"
-                  value=""
                   className="sr-only peer"
-                  onClick={() => switchPasstype()}
+                  checked={passtype === "text"}
+                  onChange={switchPasstype}
                 />
                 <div className="w-10 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600" />
                 <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">

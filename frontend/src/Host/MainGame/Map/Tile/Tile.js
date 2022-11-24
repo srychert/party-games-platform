@@ -9,14 +9,10 @@ function Tile(props) {
     setPlayers(props.players);
   }, [props.players]);
   return (
-    <div className="tile">
+    <div className="">
       {players.map((player, index) => {
         return (
-          <div
-            className="player"
-            style={{ backgroundColor: player.color }}
-            key={index}
-          >
+          <div style={{ backgroundColor: player.color }} key={index}>
             X
           </div>
         );

@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import "./map.css";
 import Tile from "./Tile/Tile";
 
 function Map(props) {
@@ -9,7 +8,7 @@ function Map(props) {
   }, [props.players]);
 
   return (
-    <div className="main-game-screen-map__content">
+    <div>
       <Tile players={players} />
     </div>
   );

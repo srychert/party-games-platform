@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import "./mainGame.css";
-import Map from "./Map/Map";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { messageType, chatMessage } from "../../SocketFactory/message";
+
+import Map from "./Map/Map";
 import client from "../../SocketFactory/mySocketFactory";
 
 // funkcja callback, już w "głównym" komponencie
