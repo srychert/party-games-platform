@@ -30,7 +30,7 @@ function Login(props) {
         <div className="flex flex-col p-2">
           <label htmlFor={props.field1}>{props.field1}</label>
           <input
-            className="border-2 border-sky-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:border-sky-400"
+            className="form-input"
             type="text"
             name={props.field1}
             id={props.field1}
@@ -41,7 +41,7 @@ function Login(props) {
         <div className="flex flex-col p-2">
           <label htmlFor={props.field2}>{props.field2}</label>
           <input
-            className="border-2 border-sky-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:border-sky-400"
+            className="form-input"
             type={passtype}
             name={props.field2}
             id={props.field2}
@@ -67,10 +67,7 @@ function Login(props) {
             </div>
           )) ||
             null}
-          <button
-            type="submit"
-            className="p-3 m-3 border shadow-md rounded-lg hover:bg-sky-300 hover:text-white"
-          >
+          <button type="submit" className="button">
             {props.submitName}
           </button>
         </div>

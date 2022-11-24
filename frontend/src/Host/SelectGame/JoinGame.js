@@ -46,10 +46,7 @@ function JoinGame(props) {
   return (
     <div className="flex flex-col items-center h-screen w-screen ">
       <div className="text-9xl p-5 m-10 border-b-2 border-blue-500">{pin}</div>
-      <button
-        className="border p-6 rounded-lg bg-gray-100 shadow-md shadow-sky-600 hover:bg-gray-200 hover:shadow-sky-700"
-        onClick={() => handleClick()}
-      >
+      <button className="button" onClick={() => handleClick()}>
         Rozpocznij grę
       </button>
       <div className="flex flex-row justify-between">

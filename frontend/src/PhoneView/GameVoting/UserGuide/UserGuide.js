@@ -1,7 +1,5 @@
 import React from "react";
 
-import "./user-guide.css";
-
 function UserGuide() {
   const [gameItems, setGameItems] = React.useState([
     {
@@ -29,13 +27,13 @@ function UserGuide() {
   // zmienic title na obrazek
   // description na statystyki
   return (
-    <div className="user-guide__content">
+    <div className="overflow-y-scroll h-3/4">
       {gameItems.map((item) => (
-        <div className="user-guide__content__item" key={item.id}>
-          <div className="user-guide-img">
+        <div className="flex flex-row" key={item.id}>
+          <div className="rounded border p-2">
             <img src={item.img} alt={item.title} />
           </div>
-          <div className="user-guide-description">{item.description}</div>
+          <div className="border-b-2 m-2">{item.description}</div>
         </div>
       ))}
     </div>

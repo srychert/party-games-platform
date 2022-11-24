@@ -38,10 +38,7 @@ function SelectGame() {
                     {game.description}
                   </div>
                   <div className="p-1">{game.createdBy}</div>
-                  <button
-                    className="border rounded-lg p-2 shadow-sm shadow-sky-500"
-                    onClick={() => setGameID(game.id)}
-                  >
+                  <button className="button" onClick={() => setGameID(game.id)}>
                     Graj
                   </button>
                 </div>
