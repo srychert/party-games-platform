@@ -28,19 +28,6 @@ module.exports = {
         800: "#0C4B32",
         900: "#041A12",
       },
-      gray: {
-        DEFAULT: "#C4C4C4",
-        50: "#C4C4C4",
-        100: "#C4C4C4",
-        200: "#C4C4C4",
-        300: "#C4C4C4",
-        400: "#C4C4C4",
-        500: "#C4C4C4",
-        600: "#C4C4C4",
-        700: "#C4C4C4",
-        800: "#C4C4C4",
-        900: "#C4C4C4",
-      },
       sky: {
         DEFAULT: "#479FD1",
         50: "#B6DCED",
@@ -80,7 +67,7 @@ module.exports = {
         800: "#67635F",
         900: "#504C49",
       },
-      gallery: {
+      gray: {
         DEFAULT: "#EBEBEB",
         50: "#EBEBEB",
         100: "#EBEBEB",
