@@ -41,7 +41,7 @@ function PhoneView(props) {
         body: chatMessage(props.nick, "", messageType.CONNECT),
       });
     };
-  }, []);
+  }, [props.pin, props.nick]);
 
   const handleClick = (answer) => {
     if (client) {
