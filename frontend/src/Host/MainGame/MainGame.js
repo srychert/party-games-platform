@@ -24,7 +24,7 @@ function MainGame() {
   let params = useParams();
   const gamedata = useGame(params.id);
   // jakoś pobrać graczy z serwera i przekazać do mapy
-  const [players, setPlayers] = React.useState([1, 2, 3]);
+  const [players, setPlayers] = React.useState([1, 2, 3, 4]);
   useEffect(() => {
     client.activate();
     client.onConnect = (frame) => {
@@ -44,7 +44,7 @@ function MainGame() {
         <div>{gamedata.description}</div>
       </div>
       <div className="game-board col-start-1 col-end-1 row-start-2 row-end-2">
-        Placeholder
+        Zadanie
         {gamedata.mainQuest}
       </div>
       <div className="game-board col-span-2 col-start-2 row-start-1 row-end-3">

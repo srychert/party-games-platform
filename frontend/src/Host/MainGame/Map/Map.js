@@ -7,9 +7,17 @@ function Map(props) {
   return (
     <div>
       Poziom 1
-      <div className="flex flex-row items-center justify-center ">
-        <Tile players={props.players} class={tilesTypes.DESERT} />
-        <Tile players={[]} class={tilesTypes.FOREST} />
+      <div className="relative flex flex-row">
+        <Tile class={tilesTypes.DESERT} />
+        <Tile class={tilesTypes.FOREST} />
+        <div className="absolute right-1/2 top-1/2 flex h-1/4 w-1/4 translate-x-[-50%] translate-y-[-50%] flex-row flex-wrap">
+          <div className="player">P</div>
+          <div className="player font-bold">P</div>
+          <div className="player font-bold">P</div>
+          <div className="player font-bold">P</div>
+          <div className="player font-bold">P</div>
+          <div className="player font-bold">P</div>
+        </div>
       </div>
     </div>
   );
