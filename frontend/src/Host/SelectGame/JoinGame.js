@@ -34,15 +34,15 @@ function JoinGame(props) {
   }, [pin]);
 
   return (
-    <div className="flex flex-col items-center h-screen w-screen ">
-      <div className="text-9xl p-5 m-10 border-b-2 border-blue-500">{pin}</div>
+    <div className="flex h-screen w-screen flex-col items-center ">
+      <div className="m-10 border-b-2 border-blue-500 p-5 text-9xl">{pin}</div>
       <button className="button" onClick={() => handleClick()}>
         Rozpocznij grę
       </button>
       <div className="flex flex-row justify-between">
         {players.map((player, index) => (
           <div
-            className="p-3 border rounded-lg m-3 bg-gradient-to-r from-blue-600 to-blue-200 shadow-sm"
+            className="m-3 animate-wiggle rounded-lg border bg-gradient-to-r from-blue-600 to-blue-200 p-3 shadow-sm"
             key={index}
           >
             {player}

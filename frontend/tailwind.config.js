@@ -5,10 +5,29 @@ module.exports = {
   content: ["./src/**/*.html", "./src/**/*.vue"],
   theme: {
     animation: {
-      spin: "spin 1s infinite",
+      spin: "spin 2s infinite",
+      bounce: "bounce 1s infinite",
     },
-
+    keyframes: {
+      bounce: {
+        "0%, 100%": { transform: "translateY(-50%)" },
+        "50%": { transform: "translateY(0)" },
+      },
+      spin: {
+        "0%, 100%": { transform: "rotate(0deg)" },
+        "50%": { transform: "rotate(360deg)" },
+      },
+    },
     extend: {
+      animation: {
+        wiggle: "wiggle 1s ease-in-out infinite",
+      },
+      keyframes: {
+        wiggle: {
+          "0%, 100%": { transform: "rotate(-3deg)" },
+          "50%": { transform: "rotate(3deg)" },
+        },
+      },
       colors: {
         transparent: "transparent",
         current: "currentColor",
