@@ -1,11 +1,12 @@
 package pl.srychert.PartyGamesPlatform.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-@Data
-public class GameState {
+import java.io.Serializable;
 
-    @JsonProperty
+@Data
+public class GameState implements Serializable {
+
     private int turn;
+    private boolean onGoing;
 }

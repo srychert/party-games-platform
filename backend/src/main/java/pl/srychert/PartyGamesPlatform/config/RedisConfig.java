@@ -1,7 +1,5 @@
 package pl.srychert.PartyGamesPlatform.config;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,21 +15,19 @@ import java.util.Map;
 
 @Configuration
 public class RedisConfig {
-
-    private final RedisTemplate<String,String> redisTemplate = RedisConfig.redisTemplate();
-    private final HashOperations<String, Object, Object> hashOperations = redisTemplate.opsForHash();
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final RedisTemplate<String,GameState> redisTemplate = RedisConfig.redisTemplate();
+    private final HashOperations<String, String, GameState> hashOperations = redisTemplate.opsForHash();
     @Bean
     public static LettuceConnectionFactory redisConnectionFactory() {
-        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration("redis", 6379);
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration("localhost", 6379);
 //        redisStandaloneConfiguration.setPassword(RedisPassword.of("yourRedisPasswordIfAny"));
         LettuceConnectionFactory lcf = new LettuceConnectionFactory(redisStandaloneConfiguration);
         lcf.afterPropertiesSet();
         return lcf;
     }
 
-    public static RedisTemplate<String, String> redisTemplate() {
-        RedisTemplate<String, String> redisTemplate = new RedisTemplate<String ,String>();
+    public static RedisTemplate<String, GameState> redisTemplate() {
+        RedisTemplate<String, GameState> redisTemplate = new RedisTemplate<String ,GameState>();
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
@@ -54,19 +50,13 @@ public class RedisConfig {
                     hashOperations.delete("used", usedKeys);
                 }
 
-                Map<String, String> gameStateMap = new HashMap<>();
-                // every unused pin has an empty game state
-                String gameStateJSON = null;
-                try {
-                    gameStateJSON = mapper.writeValueAsString(new GameState());
-                } catch (JsonProcessingException e) {
-                    throw new RuntimeException(e);
-                }
+                Map<String, GameState> gameStateMap = new HashMap<>();
+                GameState gameState = new GameState();
 
                 System.out.println("Populating redis keys");
                 for (int i = 0; i < 1_000_000; i++) {
                     String pin = String.format("%06d", i);
-                    gameStateMap.put(pin, gameStateJSON);
+                    gameStateMap.put(pin, gameState);
                 }
 
                 hashOperations.putAll("unused", gameStateMap);
