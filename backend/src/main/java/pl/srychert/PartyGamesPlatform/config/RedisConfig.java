@@ -19,7 +19,8 @@ public class RedisConfig {
     private final HashOperations<String, String, GameState> hashOperations = redisTemplate.opsForHash();
     @Bean
     public static LettuceConnectionFactory redisConnectionFactory() {
-        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration("localhost", 6379);
+        String host = System.getenv().getOrDefault("REDIS_HOST", "localhost");
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(host, 6379);
 //        redisStandaloneConfiguration.setPassword(RedisPassword.of("yourRedisPasswordIfAny"));
         LettuceConnectionFactory lcf = new LettuceConnectionFactory(redisStandaloneConfiguration);
         lcf.afterPropertiesSet();
