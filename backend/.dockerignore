@@ -1,5 +1,6 @@
-mongodb
-build
-cache
+mongodb/
+build/
+redis/
 .idea
 .gradle
+.env
