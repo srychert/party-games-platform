@@ -29,6 +29,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	testImplementation 'org.springframework.security:spring-security-test'
+	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.12'
 }
 
 tasks.named('test') {

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pl.srychert.PartyGamesPlatform.model.Game;
 import pl.srychert.PartyGamesPlatform.service.GameService;
-import pl.srychert.PartyGamesPlatform.service.RedisService;
+import pl.srychert.PartyGamesPlatform.service.GameStateService;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -17,13 +17,13 @@ import java.util.Optional;
 @AllArgsConstructor
 public class GameController {
     private final GameService gameService;
-    private final RedisService redisService;
+    private final GameStateService gameStateService;
 
     @PostMapping(path = "/new/{gameId}")
     public Map<String, String> newGame(@PathVariable("gameId") String id){
         Map<String, String> map = new HashMap<>();
         map.put("pin", null);
-        gameService.getGame(id).ifPresent(g -> map.put("pin", redisService.getUnusedPin()));
+        gameService.getGame(id).ifPresent(g -> map.put("pin", gameStateService.getUnusedPin()));
         return map;
     }
 
