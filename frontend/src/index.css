@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .box {
+    @apply flex content-center items-center justify-center bg-gray-200 shadow-md;
+  }
+  .button {
+    @apply m-3 rounded-lg border bg-gray-200 p-3 shadow-md hover:bg-gray-300;
+  }
+  .button:hover {
+    @apply cursor-pointer bg-sky-300 text-white;
+  }
+  .form-input {
+    @apply h-10 rounded-lg border-2 border-sky-300 bg-white px-5 pr-10 text-sm;
+  }
+  .form-input:focus {
+    @apply border-sky-400 outline-none;
+  }
+  .tile {
+    @apply m-2 flex h-32 w-32 flex-col content-center items-center justify-center rounded-lg p-40 shadow-md;
+  }
+  .tile-forest {
+    @apply bg-gradient-to-br from-green-400 to-green-600;
+    @apply tile;
+  }
+  .tile-desert {
+    @apply bg-gradient-to-br from-desert-400 to-desert-600;
+    @apply tile;
+  }
+  .tile-city {
+    @apply bg-gradient-to-br from-city-400 to-city-600;
+    @apply tile;
+  }
+  .game-board {
+    @apply flex content-center items-center justify-center rounded-lg bg-gray-200 shadow-md;
+  }
+  .player {
+    @apply animate-bounce m-1 flex h-5 w-5 content-center items-center justify-center rounded-full bg-player p-5 font-bold shadow-md;
+  }
+}

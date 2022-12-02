@@ -1,0 +1,64 @@
+version: "3.8"
+services:
+  redis:
+    image: redis:7.0-alpine
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - $REDIS_DATA_HOST_PATH:/data
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_ROOT_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_ROOT_PASSWORD
+      - MONGO_INITDB_DATABASE=$MONGO_DB
+      - MONGO_DB_USERNAME=$MONGO_ROOT_USERNAME
+      - MONGO_DB_PASSWORD=$MONGO_ROOT_PASSWORD
+    volumes:
+      - $MONGO_DATA_HOST_PATH:/data/db
+      - $MONGO_LOG_HOST_PATH:/var/log/mongodb/
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    depends_on:
+      - mongodb
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=$MONGO_ROOT_USERNAME
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=$MONGO_ROOT_PASSWORD
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+  api:
+    image: srychert/backend-api:v-0.0.4
+    ports:
+      - 8080:8080
+    container_name: $APP_NAME
+    restart: on-failure
+    depends_on:
+      - mongodb
+      - redis
+    environment:
+      - SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE=admin
+      - SPRING_DATA_MONGODB_AUTO_INDEX_CREATION=$MONGO_AUTO_INDEX_CREATION
+      - SPRING_DATA_MONGODB_HOST=mongodb
+      - SPRING_DATA_MONGODB_PORT=27017
+      - SPRING_DATA_MONGODB_USERNAME=$MONGO_ROOT_USERNAME
+      - SPRING_DATA_MONGODB_PASSWORD=$MONGO_ROOT_PASSWORD
+      - SPRING_DATA_MONGODB_DATABASE=$MONGO_DB
+      - REDIS_GENERATE=$REDIS_GENERATE
+  front:
+    image: merski001/party-games-frontend
+    ports:
+      - 3000:3000
+    container_name: $APP_NAME-frontend
+    restart: on-failure
+    depends_on:
+      - api
+networks:
+  default:
+    name: party_games_network
