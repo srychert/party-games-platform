@@ -51,6 +51,7 @@ services:
       - SPRING_DATA_MONGODB_PASSWORD=$MONGO_ROOT_PASSWORD
       - SPRING_DATA_MONGODB_DATABASE=$MONGO_DB
       - REDIS_GENERATE=$REDIS_GENERATE
+      - REDIS_HOST=redis
 networks:
   default:
     name: party_games_network
