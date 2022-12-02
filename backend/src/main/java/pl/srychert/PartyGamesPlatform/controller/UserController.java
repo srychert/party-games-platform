@@ -1,6 +1,8 @@
 package pl.srychert.PartyGamesPlatform.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import pl.srychert.PartyGamesPlatform.model.User;
 import pl.srychert.PartyGamesPlatform.service.UserService;
@@ -22,7 +24,8 @@ public class UserController {
     }
 
     @GetMapping(path = "{userId}")
-    public Optional<User> getUser(@PathVariable("userId") String id){
+    @PreAuthorize("@authComponent.hasPermission(#id)")
+    public Optional<User> getUser(@AuthenticationPrincipal User user, @PathVariable("userId") String id){
         return userService.getUser(id);
     }
 
