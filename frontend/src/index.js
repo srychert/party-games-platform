@@ -13,6 +13,9 @@ import client from "./SocketFactory/mySocketFactory";
 
 import AuthService from "./AuthService/AuthService";
 
+import UserPanel from "./UserPanel/UserPanel";
+import Security from "./UserPanel/Security";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -50,6 +53,17 @@ const router = createBrowserRouter([
     errorElement: <div>Error 404</div>,
     allowParams: true,
   },
+  {
+    path: "/userpanel",
+    element: <UserPanel />,
+    errorElement: <div>Error 404</div>
+  },
+  {
+    path: "/userpanel/security",
+    element: <Security />,
+    errorElement: <div>Error 404</div>
+  },
+
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
