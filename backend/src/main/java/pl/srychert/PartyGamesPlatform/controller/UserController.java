@@ -19,6 +19,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
+    @PreAuthorize("@authComponent.isAdmin()")
     public List<User> getUsers(){
         return userService.getAllUsers();
     }
@@ -30,27 +31,32 @@ public class UserController {
     }
 
     @PostMapping
+    @PreAuthorize("@authComponent.isAdmin()")
     public User addUser(@Valid @RequestBody User user){
         return userService.addUser(user);
     }
 
     @DeleteMapping(path = "{userId}")
+    @PreAuthorize("@authComponent.hasPermission(#id)")
     public User deleteUser(@PathVariable("userId") String id){
         return userService.deleteUser(id);
     }
 
     @PutMapping(path = "{userId}")
+    @PreAuthorize("@authComponent.hasPermission(#id)")
     public User updateUser(
             @PathVariable("userId") String id, @Valid @RequestBody User user){
         return userService.updateUser(id, user);
     }
 
     @PatchMapping(path = "{userId}")
+    @PreAuthorize("@authComponent.isAdmin()")
     public User updateActive(@PathVariable("userId") String id, @RequestParam boolean active){
         return userService.updateActive(id, active);
     }
 
     @PatchMapping(path = "{userId}/expire")
+    @PreAuthorize("@authComponent.isAdmin()")
     public User updateExpire(@PathVariable("userId") String id){
         return userService.updateExpire(id);
     }
