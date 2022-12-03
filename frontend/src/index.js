@@ -15,6 +15,7 @@ import AuthService from "./AuthService/AuthService";
 
 import UserPanel from "./UserPanel/UserPanel";
 import Security from "./UserPanel/Security";
+import AddGame from "./AddGameForm/AddGame";
 
 const router = createBrowserRouter([
   {
@@ -63,6 +64,11 @@ const router = createBrowserRouter([
     element: <Security />,
     errorElement: <div>Error 404</div>
   },
+  {
+    path:"/addgame",
+    element: <AddGame/>,
+    errorElement: <div>Error 404</div>
+  }
 
 ]);
 
