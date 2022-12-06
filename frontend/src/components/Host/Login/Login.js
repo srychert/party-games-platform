@@ -64,17 +64,21 @@ function Login(props) {
               </span>
             </label>
           </div>
-          <button type="submit" className="button">
-            Zaloguj
-          </button>
+          <div>
+            <button type="submit" className="button">
+              Zaloguj
+            </button>
+            <button
+              type="button"
+              className="button"
+              onClick={() => navigate("/signin")}
+            >
+              {" "}
+              Zarejestruj się{" "}
+            </button>
+          </div>
         </div>
       </form>
-      <div>
-        <button className="button" onClick={navigate("/signin")}>
-          {" "}
-          Zarejestruj się{" "}
-        </button>
-      </div>
     </div>
   );
 }
