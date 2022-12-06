@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
-import useAuth from "./useAuth";
+import { useAuth } from "./useAuth";
 
 function useGame(id) {
   const [gamedata, setGamedata] = useState({});

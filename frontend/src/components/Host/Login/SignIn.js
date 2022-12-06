@@ -1,50 +1,59 @@
 import React from "react";
-import { useAuth } from "../../../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
 
-function Login(props) {
-  const [passtype, setPasstype] = React.useState(props.passtype);
-
+function SignIn() {
   const [username, setusername] = React.useState("");
   const [password, setpassword] = React.useState("");
-  const { login } = useAuth();
+  const [email, setemail] = React.useState("");
 
-  const navigate = useNavigate();
-  function switchPasstype() {
+  const [passtype, setPasstype] = React.useState("password");
+  const switchPasstype = () => {
     if (passtype === "password") {
       setPasstype("text");
     } else {
       setPasstype("password");
     }
-  }
-  const handleLogin = (event) => {
-    event.preventDefault();
-    login({ username, password });
   };
+  const handleSignin = (event) => {
+    event.preventDefault();
+    console.log("Sign in");
+  };
+
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center">
       <form
-        onSubmit={(event) => handleLogin(event)}
+        onSubmit={(event) => handleSignin(event)}
         className="p-10 shadow-md shadow-sky-300"
       >
         <div className="flex flex-col p-2">
-          <label htmlFor={props.username}>Login</label>
+          <label htmlFor="username">E-mail</label>
           <input
             className="form-input"
             type="text"
-            name={props.username}
-            id={props.username}
+            name="username"
+            id="username"
+            autoComplete="off"
+            onChange={(e) => setusername(e.target.value)}
+          />
+        </div>
+
+        <div className="flex flex-col p-2">
+          <label htmlFor="username">Login</label>
+          <input
+            className="form-input"
+            type="text"
+            name="username"
+            id="username"
             autoComplete="off"
             onChange={(e) => setusername(e.target.value)}
           />
         </div>
         <div className="flex flex-col p-2">
-          <label htmlFor={props.password}>Password</label>
+          <label htmlFor="password">Password</label>
           <input
             className="form-input"
             type={passtype}
-            name={props.password}
-            id={props.password}
+            name="password"
+            id="password"
             autoComplete="off"
             onChange={(e) => setpassword(e.target.value)}
           />
@@ -65,18 +74,12 @@ function Login(props) {
             </label>
           </div>
           <button type="submit" className="button">
-            Zaloguj
+            Zarejestruj się
           </button>
         </div>
       </form>
-      <div>
-        <button className="button" onClick={navigate("/signin")}>
-          {" "}
-          Zarejestruj się{" "}
-        </button>
-      </div>
     </div>
   );
 }
 
-export default Login;
+export default SignIn;

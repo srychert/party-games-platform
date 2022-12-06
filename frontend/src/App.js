@@ -8,6 +8,7 @@ import Login from "./components/Host/Login/Login";
 import { ProtectRoutes } from "./components/Common/ProtectRoutes";
 import ChoosenGame from "./components/Host/ChoosenGame/ChoosenGame";
 import PhoneView from "./components/PhoneView/GameVoting/PhoneView";
+import SignIn from "./components/Host/Login/SignIn";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Login field1="username" field2="password" passtype="password" />
         }
       />
+      <Route path="signin" element={<SignIn />} />
       <Route path="/join" exact element={<Join />} />
       <Route path="/join/:pin" element={<PhoneView />} />
       <Route element={<ProtectRoutes />}>

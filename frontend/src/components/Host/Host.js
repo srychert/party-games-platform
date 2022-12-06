@@ -21,20 +21,21 @@ function Host() {
 
   return (
     <div>
-      <div className="hover: absolute right-0 top-0 m-2 flex cursor-pointer flex-row items-center justify-center">
-        <div onClick={handleShowProfile} className="flex flex-row">
-          <span className="m-2">Login</span>
+      <div className="hover: absolute right-0 top-0 m-2 flex flex-row items-center justify-center">
+        <button className="button" onClick={handleLogout}>
+          Logout
+        </button>
+        <div className="flex flex-row">
+          <span className="m-2">{auth.cookies.user}</span>
           <img
-            className="flex h-20 w-20 items-center justify-center rounded-full border border-sky-300"
+            className="flex h-20 w-20 cursor-pointer items-center justify-center rounded-full border border-sky-300"
             alt="Ikona prfilu"
+            onClick={handleShowProfile}
             src={
               "https://styles.redditmedia.com/t5_2tc6s/styles/communityIcon_vn92glo5ugy51.png"
             }
           ></img>
         </div>
-        <button className="button" onClick={handleLogout}>
-          Logout
-        </button>
       </div>
       <div className="flex h-screen w-screen flex-col items-center">
         <div>

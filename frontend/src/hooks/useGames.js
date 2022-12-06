@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import useAuth from "./useAuth";
+import { useAuth } from "./useAuth";
 
 function useGames() {
   const [gamesData, setGamesData] = useState([]);
