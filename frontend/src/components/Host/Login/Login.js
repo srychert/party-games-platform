@@ -4,8 +4,8 @@ import { useAuth } from "../../../hooks/useAuth";
 function Login(props) {
   const [passtype, setPasstype] = React.useState(props.passtype);
 
-  const [field1, setField1] = React.useState("");
-  const [field2, setField2] = React.useState("");
+  const [username, setusername] = React.useState("");
+  const [password, setpassword] = React.useState("");
   const { login } = useAuth();
   function switchPasstype() {
     if (passtype === "password") {
@@ -14,11 +14,10 @@ function Login(props) {
       setPasstype("password");
     }
   }
-  function handleLogin(event) {
+  const handleLogin = (event) => {
     event.preventDefault();
-    login({ field1, field2 });
-  }
-
+    login({ username, password });
+  };
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center">
       <form
@@ -26,25 +25,25 @@ function Login(props) {
         className="p-10 shadow-md shadow-sky-300"
       >
         <div className="flex flex-col p-2">
-          <label htmlFor={props.field1}>Login</label>
+          <label htmlFor={props.username}>Login</label>
           <input
             className="form-input"
             type="text"
-            name={props.field1}
-            id={props.field1}
+            name={props.username}
+            id={props.username}
             autoComplete="off"
-            onChange={(e) => setField1(e.target.value)}
+            onChange={(e) => setusername(e.target.value)}
           />
         </div>
         <div className="flex flex-col p-2">
-          <label htmlFor={props.field2}>Password</label>
+          <label htmlFor={props.password}>Password</label>
           <input
             className="form-input"
             type={passtype}
-            name={props.field2}
-            id={props.field2}
+            name={props.password}
+            id={props.password}
             autoComplete="off"
-            onChange={(e) => setField2(e.target.value)}
+            onChange={(e) => setpassword(e.target.value)}
           />
         </div>
         <div className="inline">

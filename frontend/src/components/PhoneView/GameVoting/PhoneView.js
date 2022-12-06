@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import HeroStats from "./HeroStats/HeroStats";
-import UserGuide from "./UserGuide/UserGuide";
 import client from "../../../services/SocketFactory/mySocketFactory";
 import {
   messageType,
@@ -10,9 +8,8 @@ import Loding from "../Loding/Loding";
 import { useAuth } from "../../../hooks/useAuth";
 
 function PhoneView(props) {
-  const [showUserGuide, setShowUserGuide] = useState(false);
   const [gameState, setGameState] = useState("playing");
-  const cookies = useAuth();
+  const { cookies } = useAuth();
   const nick = cookies.nick;
 
   // alert user kiedy wyjdzie z gry
@@ -33,7 +30,6 @@ function PhoneView(props) {
       setGameState("playing");
     }
   };
-
   // wsClient init i jego logika
   useEffect(() => {
     client.activate();
@@ -64,15 +60,7 @@ function PhoneView(props) {
         <Loding />
       ) : (
         <div className="h-screen">
-          <div className="h-1/5">
-            {showUserGuide ? <UserGuide /> : <HeroStats />}
-            <button
-              className="button h-1/4"
-              onClick={() => setShowUserGuide(!showUserGuide)}
-            >
-              Pokaż
-            </button>
-          </div>
+          <div className="h-1/5">{nick}</div>
           <div className="grid h-4/5 grid-cols-2 grid-rows-2 gap-2 overflow-hidden">
             <button
               className={`box row-start-1 row-end-1`}
