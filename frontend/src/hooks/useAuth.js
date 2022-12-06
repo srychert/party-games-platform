@@ -9,11 +9,12 @@ export const UserProvider = ({ children }) => {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies();
 
-  const login = async (login, password) => {
+  const login = async (username, password) => {
     const res = await api.post("/token", {
-      login: login,
+      username: username,
       password: password,
     });
+
     setCookie("token", res.data.token);
     setCookie("user", res.data.user);
     navigate("/host");
@@ -25,11 +26,15 @@ export const UserProvider = ({ children }) => {
     navigate("/login");
   };
 
+  const setNick = (nick) => {
+    setCookie("nick", nick);
+  };
   const value = useMemo(
     () => ({
       cookies,
       login,
       logout,
+      setNick,
     }),
     [cookies]
   );

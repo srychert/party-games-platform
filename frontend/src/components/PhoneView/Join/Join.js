@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
+import { useAuth } from "../../../hooks/useAuth";
 
 function Join() {
   const [pin, setPin] = useState("");
-  const [nick, setNick] = useState("");
+  const [nick, changeNick] = useState("");
   const navigate = useNavigate();
-  const [cookies, setCookie] = useCookies();
+  const cookies = useAuth();
 
   function handleJoin(event) {
     event.preventDefault();
-    setCookie("nick", nick);
+    cookies.setNick(nick);
     navigate("/join/" + pin);
   }
   return (
@@ -38,7 +38,7 @@ function Join() {
             name="nick"
             id="nick"
             autoComplete="off"
-            onChange={(e) => setNick(e.target.value)}
+            onChange={(e) => changeNick(e.target.value)}
           />
         </div>
         <div className="inline">

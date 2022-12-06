@@ -15,12 +15,16 @@ function App() {
       <Route path="/" element={<Common />} />
       <Route
         path="/login"
-        element={<Login field1="login" field2="password" passtype="password" />}
+        element={
+          <Login field1="username" field2="password" passtype="password" />
+        }
       />
       <Route path="/join" exact element={<Join />} />
       <Route path="/join/:pin" element={<PhoneView />} />
       <Route element={<ProtectRoutes />}>
         <Route path="/host" element={<Host />} />
+      </Route>
+      <Route element={<ProtectRoutes />}>
         <Route path="/host/:gameID" element={<ChoosenGame />} />
       </Route>
     </Routes>

@@ -7,13 +7,13 @@ import {
   chatMessage,
 } from "../../../services/SocketFactory/message";
 import Loding from "../Loding/Loding";
-
-import { useCookies } from "react-cookie";
+import { useAuth } from "../../../hooks/useAuth";
 
 function PhoneView(props) {
   const [showUserGuide, setShowUserGuide] = useState(false);
   const [gameState, setGameState] = useState("playing");
-  const [nick, setNick] = useCookies(["nick"]);
+  const cookies = useAuth();
+  const nick = cookies.nick;
 
   // alert user kiedy wyjdzie z gry
   useEffect(() => {

@@ -14,7 +14,8 @@ function Login(props) {
       setPasstype("password");
     }
   }
-  function handleLogin() {
+  function handleLogin(event) {
+    event.preventDefault();
     login({ field1, field2 });
   }
 
