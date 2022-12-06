@@ -37,6 +37,9 @@
     @apply flex content-center items-center justify-center rounded-lg bg-gray-200 shadow-md;
   }
   .player {
-    @apply animate-bounce m-1 flex h-5 w-5 content-center items-center justify-center rounded-full bg-player p-5 font-bold shadow-md;
+    @apply m-1 flex h-5 w-5 animate-bounce content-center items-center justify-center rounded-full bg-player p-5 font-bold shadow-md;
+  }
+  .card {
+    @apply button flex h-1/2 w-1/2 flex-col items-center justify-center;
   }
 }

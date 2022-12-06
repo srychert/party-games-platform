@@ -1,23 +1,32 @@
 import React, { useEffect, useState } from "react";
 import HeroStats from "./HeroStats/HeroStats";
 import UserGuide from "./UserGuide/UserGuide";
-import { messageType, chatMessage } from "../../SocketFactory/message";
+import client from "../../../services/SocketFactory/mySocketFactory";
+import {
+  messageType,
+  chatMessage,
+} from "../../../services/SocketFactory/message";
 import Loding from "../Loding/Loding";
-import client from "../../SocketFactory/mySocketFactory";
+
+import { useCookies } from "react-cookie";
 
 function PhoneView(props) {
   const [showUserGuide, setShowUserGuide] = useState(false);
-  const [gameState, setGameState] = useState("waiting");
+  const [gameState, setGameState] = useState("playing");
+  const [nick, setNick] = useCookies(["nick"]);
 
+  // alert user kiedy wyjdzie z gry
   useEffect(() => {
     window.addEventListener("beforeunload", alertUser);
     return () => {
       window.removeEventListener("beforeunload", alertUser);
     };
   }, []);
+
   const alertUser = (e) => {
     e.preventDefault();
-    e.returnValue = "";
+    e.returnValue =
+      "Uważaj! Jeśli opuścisz grę, nie będziesz mógł do niej wrócić.";
   };
   const callback = function (message) {
     if (message.type === messageType.STARTGAME) {
@@ -32,10 +41,10 @@ function PhoneView(props) {
       client.subscribe(`/topic/public/${props.pin}`, callback);
       client.publish({
         destination: `/app/chat/${props.pin}.newUser`,
-        body: chatMessage(props.nick, "", messageType.CONNECT),
+        body: chatMessage(nick, "", messageType.CONNECT),
       });
     };
-  }, [props.pin, props.nick]);
+  }, [props.pin, nick]);
 
   // Odpowiedź na pytanie
   const handleClick = (answer) => {
@@ -43,7 +52,7 @@ function PhoneView(props) {
       client.publish({
         destination: `/app/chat/${props.pin}.send`,
         // zmienić message type na odpowiedni
-        body: chatMessage(props.nick, answer, messageType.CHAT),
+        body: chatMessage(nick, answer, messageType.CHAT),
         skipContentLengthHeader: true,
       });
     }
@@ -64,7 +73,7 @@ function PhoneView(props) {
               Pokaż
             </button>
           </div>
-          <div className="grid overflow-hidden grid-cols-2 grid-rows-2 gap-2 h-4/5">
+          <div className="grid h-4/5 grid-cols-2 grid-rows-2 gap-2 overflow-hidden">
             <button
               className={`box row-start-1 row-end-1`}
               id="1"
@@ -73,14 +82,14 @@ function PhoneView(props) {
               Odpowiedź 1
             </button>
             <button
-              className={`box col-start-2 col-span-2`}
+              className={`box col-span-2 col-start-2`}
               id="2"
               onClick={() => handleClick(2)}
             >
               Odpowiedź 2
             </button>
             <button
-              className={`box col-start-2 col-span-2`}
+              className={`box col-span-2 col-start-2`}
               id="3"
               onClick={() => handleClick(3)}
             >

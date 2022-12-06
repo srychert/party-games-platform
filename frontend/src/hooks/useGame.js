@@ -1,11 +1,11 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
+import api from "../services/api";
 
 function useGame(id) {
   const [gamedata, setGamedata] = useState({});
   useEffect(() => {
-    axios
-      .get(`http://${process.env.REACT_APP_DOMAIN}:8080/api/v1/games/${id}`)
+    api
+      .get(`/games/${id}`)
       .then((res) => {
         setGamedata(res.data);
       })

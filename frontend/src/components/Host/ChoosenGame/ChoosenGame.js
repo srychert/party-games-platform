@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import client from "../../SocketFactory/mySocketFactory";
-import { messageType, chatMessage } from "../../SocketFactory/message";
-import usePin from "../../hooks/usePin";
+import client from "../../../services/SocketFactory/mySocketFactory";
+import {
+  messageType,
+  chatMessage,
+} from "../../../services/SocketFactory/message";
+import usePin from "../../../hooks/usePin";
 
-function JoinGame(props) {
+function ChoosenGame(props) {
   const navigate = useNavigate();
   const pin = usePin(props.selectedId);
   const [players, setPlayers] = useState([]);
@@ -14,7 +17,7 @@ function JoinGame(props) {
       destination: `/app/chat/${props.pin}.startGame`,
       body: chatMessage("host", "", messageType.STARTGAME),
     });
-    navigate(`/main-game/${pin}/${props.selectedId}`);
+    navigate(`/host/${pin}/${props.selectedId}`);
   }
 
   function callback(message) {
@@ -53,4 +56,4 @@ function JoinGame(props) {
   );
 }
 
-export default JoinGame;
+export default ChoosenGame;

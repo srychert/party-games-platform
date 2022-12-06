@@ -1,38 +1,29 @@
 import React from "react";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
+import { Route, Routes } from "react-router-dom";
+
+import Common from "./components/Common/Common";
+import Host from "./components/Host/Host";
+import Join from "./components/PhoneView/Join/Join";
+import Login from "./components/Host/Login/Login";
+import { ProtectRoutes } from "./components/Common/ProtectRoutes";
+import ChoosenGame from "./components/Host/ChoosenGame/ChoosenGame";
+import PhoneView from "./components/PhoneView/GameVoting/PhoneView";
 
 function App() {
-  let navigate = useNavigate();
-  const [auth, setAuth] = React.useState(false);
-  const [cookies, setCookie] = useCookies(["user"]);
-  useEffect(() => {
-    if (cookies.user) {
-      setAuth(true);
-    }
-  }, []);
-  function handleHost() {
-    if (auth) {
-      navigate("/host");
-    } else {
-      navigate("/login");
-    }
-  }
-  function handleJoin() {
-    navigate("/join");
-  }
-  const cardClass =
-    "flex flex-col justify-center items-center h-1/2 w-1/2 button";
   return (
-    <div className="flex flex-row justify-center items-center h-screen">
-      <div className={cardClass} onClick={() => handleHost()}>
-        <div className="text-8xl ">Host</div>
-      </div>
-      <div className={cardClass} onClick={() => handleJoin()}>
-        <div className="text-8xl ">Gracz</div>
-      </div>
-    </div>
+    <Routes>
+      <Route path="/" element={<Common />} />
+      <Route
+        path="/login"
+        element={<Login field1="login" field2="password" passtype="password" />}
+      />
+      <Route path="/join" exact element={<Join />} />
+      <Route path="/join/:pin" element={<PhoneView />} />
+      <Route element={<ProtectRoutes />}>
+        <Route path="/host" element={<Host />} />
+        <Route path="/host/:gameID" element={<ChoosenGame />} />
+      </Route>
+    </Routes>
   );
 }
 
