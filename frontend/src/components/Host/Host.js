@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 
 function Host() {
+  const auth = useAuth();
   let navigate = useNavigate();
   const games = useGames();
-  const auth = useAuth();
   // To do zmiany po ogarnięciu logowania
   // -------------------------------------
   const handleShowProfile = () => {

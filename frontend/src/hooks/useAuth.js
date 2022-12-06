@@ -23,7 +23,6 @@ export const UserProvider = ({ children }) => {
     console.log(res.data);
     setCookie("token", res.data);
     setCookie("user", username);
-    console.log(cookies);
     navigate("/host");
   };
 
@@ -36,12 +35,17 @@ export const UserProvider = ({ children }) => {
   const setNick = (nick) => {
     setCookie("nick", nick);
   };
+
+  const removeNick = () => {
+    removeCookie("nick");
+  };
   const value = useMemo(
     () => ({
       cookies,
       login,
       logout,
       setNick,
+      removeNick,
     }),
     [cookies]
   );

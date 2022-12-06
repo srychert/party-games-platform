@@ -17,7 +17,7 @@ function ChoosenGame(props) {
       destination: `/app/chat/${props.pin}.startGame`,
       body: chatMessage("host", "", messageType.STARTGAME),
     });
-    navigate(`/host/${pin}/${props.selectedId}`);
+    navigate(`/host/${props.selectedId}/${pin}`);
   }
 
   function callback(message) {

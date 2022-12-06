@@ -9,14 +9,15 @@ import { useAuth } from "../../../hooks/useAuth";
 
 function PhoneView(props) {
   const [gameState, setGameState] = useState("playing");
-  const { cookies } = useAuth();
-  const nick = cookies.nick;
+  const auth = useAuth();
+  const nick = auth.cookies.nick;
 
   // alert user kiedy wyjdzie z gry
   useEffect(() => {
     window.addEventListener("beforeunload", alertUser);
     return () => {
       window.removeEventListener("beforeunload", alertUser);
+      auth.removeNick();
     };
   }, []);
 

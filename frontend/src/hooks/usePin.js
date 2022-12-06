@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../services/api";
 import { useEffect, useState } from "react";
 import { useAuth } from "./useAuth";
 
@@ -6,9 +6,9 @@ function usePin(id) {
   const [pin, setPin] = useState("");
   const { cookies } = useAuth();
   useEffect(() => {
-    axios
+    api
       .post(
-        `http://${process.env.REACT_APP_DOMAIN}:8080/api/v1/games/new/${id}`,
+        `/games/new/${id}`,
         {},
         {
           headers: {
@@ -17,6 +17,7 @@ function usePin(id) {
         }
       )
       .then((res) => {
+        console.log(res);
         setPin(res.data.pin);
       })
       .catch((err) => {
