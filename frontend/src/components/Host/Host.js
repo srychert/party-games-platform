@@ -17,6 +17,7 @@ function Host() {
   };
   const handleLogout = () => {
     auth.logout();
+    console.log(auth.cookies);
   };
 
   return (

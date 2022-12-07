@@ -1,7 +1,7 @@
+import axios from "axios";
 import { useContext, createContext, useMemo } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import api from "../services/api";
 
 const UserContext = createContext();
 
@@ -9,6 +9,13 @@ export const UserProvider = ({ children }) => {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies();
 
+  const api = axios.create({
+    baseURL: "http://localhost:8080/api/v1",
+    headers: {
+      Authorization: `Bearer ${cookies.token}`,
+    },
+  });
+  
   const login = ({ username, password }) => {
     api.post("/token", {}, {
       auth: {
@@ -37,6 +44,8 @@ export const UserProvider = ({ children }) => {
   const removeNick = () => {
     removeCookie("nick");
   };
+
+
   const value = useMemo(
     () => ({
       cookies,
@@ -44,6 +53,7 @@ export const UserProvider = ({ children }) => {
       logout,
       setNick,
       removeNick,
+      api,
     }),
     [cookies]
   );
