@@ -6,10 +6,11 @@ function useGames() {
   const [gamesData, setGamesData] = useState([]);
   const { cookies } = useAuth();
   useEffect(() => {
+    console.log(cookies.token)
     api
-      .get(`/games`, {
+      .get(`/games`, {}, {
         headers: {
-          Authorization: `Bearer ${cookies.token}`,
+          'Authorization': 'Bearer' + cookies.token,
         },
       })
       .then((res) => {

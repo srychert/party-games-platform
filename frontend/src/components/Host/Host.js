@@ -20,8 +20,8 @@ function Host() {
   };
 
   return (
-    <div>
-      <div className="hover: absolute right-0 top-0 m-2 flex flex-row items-center justify-center">
+    <div className="h-screen w-screen p-10">
+      <div className="absolute right-10 m-2 flex flex-row items-center justify-center">
         <button className="button" onClick={handleLogout}>
           Logout
         </button>
@@ -37,7 +37,7 @@ function Host() {
           ></img>
         </div>
       </div>
-      <div className="flex h-screen w-screen flex-col items-center">
+      <div className="flex flex-col items-center">
         <div>
           {games.map((game) => {
             return (

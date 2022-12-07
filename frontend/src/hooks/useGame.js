@@ -5,6 +5,7 @@ import { useAuth } from "./useAuth";
 function useGame(id) {
   const [gamedata, setGamedata] = useState({});
   const { cookies } = useAuth();
+  
   useEffect(() => {
     api
       .get(

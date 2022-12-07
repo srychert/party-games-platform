@@ -6,11 +6,11 @@ function Join() {
   const [pin, setPin] = useState("");
   const [nick, changeNick] = useState("");
   const navigate = useNavigate();
-  const cookies = useAuth();
+  const auth = useAuth();
 
   function handleJoin(event) {
     event.preventDefault();
-    cookies.setNick(nick);
+    auth.setNick(nick);
     navigate("/join/" + pin);
   }
   return (
