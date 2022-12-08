@@ -19,6 +19,9 @@ function PhoneView() {
     if (message.body) {
       const parsed = JSON.parse(message.body);
       console.log(parsed);
+      if (parsed.content.includes(',')) {
+        const wynik = parsed.content.split(',');
+      }
       setAnswers(parsed.content.split(';'));
     } else {
       console.log('Empty message');
@@ -33,15 +36,17 @@ function PhoneView() {
 
   // Odpowiedź na pytanie
   const handleClick = (answer) => {
+    // Answer
     if (client) {
       client.publish({
         destination: `/app/chat/${pin}.send`,
-        body: chatMessage(nick, answer, messageType.CHAT),
+        body: chatMessage(nick, makeContent(nick, answer), messageType.CHAT),
       });
     }
   };
-  // Odpowiedz 1-4 może jakiś tekst
-  // Font size nicku wiekszy i moze tutaj wykres wyników?
+  function makeContent(nick, answer) {
+    return nick + ',' + answer;
+  }
 
   return (
     <div>

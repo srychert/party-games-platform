@@ -11,6 +11,7 @@ function MainGame() {
   // const gamedata = useGame(params.id);
   const [round, setRound] = useState(0);
   const [answers, setAnswers] = useState([]);
+  const [wyniki, setWyniki] = useState([{}, {}, {}, {}]);
   const gamedata = {
     questions: [
       {
@@ -36,8 +37,38 @@ function MainGame() {
       },
     ],
   };
+  function calculatePoints() {
+    const correctAnswer = gamedata.questions[round].answers.filter(
+      (answer) => answer.correct
+    );
+    const index = gamedata.questions[round].answers.indexOf(correctAnswer[0]);
+    /* 
+      {
+        answer: 'Dobrze',
+        correct: true,
+      }
+      index => index dobrej odpowiedzi
+      answers => tablica z odpowiedziami i nickami nick,odpowiedz
+      points => tablica z punktami nick,punkty
+    */
+
+    const points = answers.map((answer) => {
+      if (answer.split(',')[1] === index) {
+        setWyniki((prev) => {
+          const newWyniki = [...prev];
+          newWyniki[answer.split(',')[0]].points += 1;
+          return newWyniki;
+        });
+      } else {
+        return 0;
+      }
+    });
+  }
 
   function handleNextRund() {
+    // Policz punkty
+    // Wyślij wyniki do ziomków
+
     setRound((prev) => prev + 1);
     setAnswers([]);
   }
@@ -50,7 +81,7 @@ function MainGame() {
     if (message.body) {
       const parsed = JSON.parse(message.body);
       if (parsed.type === messageType.CHAT) {
-        setAnswers((prev) => [...prev, parsed]);
+        setAnswers((prev) => [...prev, parsed.content.split(',')]);
       }
     } else {
       console.log('got empty message');
@@ -107,5 +138,10 @@ export default MainGame;
       ],
     }
   ]
+}
+
+wyniki: {
+  nick: String : wynik: Number,
+  nick: String : wynik: Number,
 }
 */
