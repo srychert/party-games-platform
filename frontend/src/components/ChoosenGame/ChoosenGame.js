@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import client from '../../../services/SocketFactory/mySocketFactory';
-import { messageType, chatMessage } from '../../../services/SocketFactory/message';
-import usePin from '../../../hooks/usePin';
-import Back from '../../Common/Back/Back';
+import client from '../../services/SocketFactory/mySocketFactory';
+import { messageType, chatMessage } from '../../services/SocketFactory/message';
+import usePin from '../../hooks/usePin';
+import Back from '../Back/Back';
 
 function ChoosenGame() {
   const navigate = useNavigate();

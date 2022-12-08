@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useAuth } from '../../../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import Back from '../Back/Back';
 
 function Login(props) {
   const [passtype, setPasstype] = useState(props.passtype);
@@ -23,10 +24,8 @@ function Login(props) {
   };
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center">
-      <form
-        onSubmit={(event) => handleLogin(event)}
-        className="p-10 shadow-md shadow-sky-300"
-      >
+      <Back to={'/'} />
+      <form onSubmit={(event) => handleLogin(event)} className="form">
         <div className="flex flex-col p-2">
           <label htmlFor={props.username}>Login</label>
           <input

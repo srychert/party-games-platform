@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../hooks/useAuth';
-import client from '../../../services/SocketFactory/mySocketFactory';
-import { messageType, chatMessage } from '../../../services/SocketFactory/message';
-import Loading from '../../Loading/Loading';
+import { useAuth } from '../../hooks/useAuth';
+import client from '../../services/SocketFactory/mySocketFactory';
+import { messageType, chatMessage } from '../../services/SocketFactory/message';
+import Loading from '../Loading/Loading';
+import Back from '../Back/Back';
 
 function Join() {
   const [pin, setPin] = useState('');
@@ -15,7 +16,6 @@ function Join() {
   const callback = (message) => {
     if (message.body) {
       const parsed = JSON.parse(message.body);
-      console.log(parsed);
       if (parsed.type === messageType.START_GAME) {
         navigate(`/join/${pin}`);
       } else {
@@ -40,13 +40,11 @@ function Join() {
   }
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center">
+      <Back to={'/'} />
       {loading ? (
         <Loading />
       ) : (
-        <form
-          onSubmit={(event) => handleJoin(event)}
-          className="p-10 shadow-md shadow-sky-300"
-        >
+        <form onSubmit={(event) => handleJoin(event)} className="form">
           <div className="flex flex-col p-2">
             <label htmlFor="pin">Pin</label>
             <input
@@ -69,11 +67,9 @@ function Join() {
               onChange={(e) => changeNick(e.target.value)}
             />
           </div>
-          <div className="inline">
-            <button type="submit" className="button">
-              Dołącz
-            </button>
-          </div>
+          <button type="submit" className="button">
+            Dołącz
+          </button>
         </form>
       )}
     </div>

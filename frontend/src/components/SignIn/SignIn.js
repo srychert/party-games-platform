@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAuth } from '../../../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 
 function SignIn() {
   const [username, setusername] = useState('');
@@ -22,10 +22,7 @@ function SignIn() {
 
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center">
-      <form
-        onSubmit={(event) => handleSignin(event)}
-        className="p-10 shadow-md shadow-sky-300"
-      >
+      <form onSubmit={(event) => handleSignin(event)} className="form">
         <div className="flex flex-col p-2">
           <label htmlFor="username">E-mail</label>
           <input
@@ -37,7 +34,6 @@ function SignIn() {
             onChange={(e) => setemail(e.target.value)}
           />
         </div>
-
         <div className="flex flex-col p-2">
           <label htmlFor="username">Login</label>
           <input
@@ -59,9 +55,7 @@ function SignIn() {
             autoComplete="off"
             onChange={(e) => setpassword(e.target.value)}
           />
-        </div>
-        <div className="inline">
-          <div className="m-2">
+          <div className="mt-5">
             <label className="relative inline-flex cursor-pointer items-center">
               <input
                 type="checkbox"
@@ -75,6 +69,8 @@ function SignIn() {
               </span>
             </label>
           </div>
+        </div>
+        <div className="inline">
           <button type="submit" className="button">
             Zarejestruj się
           </button>

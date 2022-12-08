@@ -1,8 +1,7 @@
-import { useAuth } from '../../../../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 
 function PointsChart(props) {
   const { cookies } = useAuth();
-  console.log(cookies);
   return (
     <div className="m-2 flex w-screen flex-row items-end justify-center border-b-2 border-sky-400 shadow-md">
       {props.players.map((player, index) => {

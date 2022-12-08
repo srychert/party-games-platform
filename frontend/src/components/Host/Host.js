@@ -2,7 +2,7 @@ import useGames from '../../hooks/useGames';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useState } from 'react';
-import Back from '../Common/Back';
+import Back from '../Back/Back';
 
 function Host() {
   const auth = useAuth();
@@ -37,7 +37,7 @@ function Host() {
         </button>
         <div className="m-5 flex flex-col items-center justify-center">
           <img
-            className="h-20 w-20 cursor-pointer rounded-full border border-sky-300"
+            className="image"
             alt="Ikona prfilu"
             onClick={handleShowProfile}
             src="https://styles.redditmedia.com/t5_2tc6s/styles/communityIcon_vn92glo5ugy51.png"
@@ -50,14 +50,12 @@ function Host() {
           {games.map((game) => {
             return (
               <div
-                className="relative flex flex-col rounded-lg border p-6 shadow-md shadow-sky-600"
+                className="game-card"
                 key={game.id}
                 onMouseOver={handleMouseOver}
                 onMouseOut={handleMouseOut}
               >
-                <div className="absolute top-1 right-1 rounded-lg border p-2 shadow-sm shadow-sky-500">
-                  {game.totalTimesPlayed}
-                </div>
+                <div className="game-noPlayed">{game.totalTimesPlayed}</div>
                 <div>
                   <div className="border-b-2 border-sky-300 p-3">{game.title}</div>
                   {showDetails ? (
@@ -66,7 +64,10 @@ function Host() {
                       <div className="p-1">{game.description}</div>
                     </div>
                   ) : null}
-                  <button className="button" onClick={() => handleChooseGame(game.id)}>
+                  <button
+                    className="button m-5"
+                    onClick={() => handleChooseGame(game.id)}
+                  >
                     Graj
                   </button>
                 </div>
