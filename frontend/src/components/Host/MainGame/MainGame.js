@@ -29,8 +29,8 @@ function MainGame() {
       client.subscribe(`/topic/public/${params.pin}`, callback);
       // Po renderze komponentu wysyłamy wiadomość do serwera, że zaczynamy grę
       client.publish({
-        destination: "/app/chat.sendMessage",
-        body: chatMessage("System", "", messageType.STARTGAME),
+        destination: "/app/chat.startGame",
+        body: chatMessage("System", "", messageType.START_GAME),
       });
     };
   }, [params.pin]);

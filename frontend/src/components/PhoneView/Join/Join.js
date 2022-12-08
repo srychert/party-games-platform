@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
 import client from "../../../services/SocketFactory/mySocketFactory";
-import { messageType,chatMessage } from "../../../services/SocketFactory/message";
+import { messageType, chatMessage } from "../../../services/SocketFactory/message";
 import Loading from "../Loding/Loding";
 
 
@@ -15,24 +15,15 @@ function Join() {
   const auth = useAuth();
 
   const callback = (message) => {
-    if (message.body) {
-      console.log(message);
-      if (message.type === messageType.STARTGAME) {
-        navigate("/join/" + pin);
-      }
-      
-    } else {
-      console.log("got empty message");
+    if(message.type === messageType.START_GAME){
+      navigate(`/join/${pin}`);
     }
+    console.log(message);
   };
 
   useEffect(() => {
     client.activate();
-    client.onConnect = (frame) => {
-      client.subscribe(`/topic/public/${pin}`, callback);
-    }
-
-  }, [pin])
+  }, [])
 
   function handleJoin(event) {
     event.preventDefault();
@@ -41,6 +32,7 @@ function Join() {
       destination: `/app/chat/${pin}.newUser`,
       body: chatMessage(nick, "", messageType.CONNECT),
     });
+    client.subscribe(`/topic/public/${pin}`, callback);
     setLoading(true);
   }
   return (

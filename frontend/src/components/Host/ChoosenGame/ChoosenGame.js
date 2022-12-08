@@ -18,7 +18,7 @@ function ChoosenGame() {
     if(client.connected === true){
       client.publish({
         destination: `/app/chat/${pin}.startGame`,
-        body: chatMessage("host", "", messageType.STARTGAME),
+        body: chatMessage("host", "", messageType.START_GAME),
       });
       navigate(`/host/${id}/${pin}`);
     }else{

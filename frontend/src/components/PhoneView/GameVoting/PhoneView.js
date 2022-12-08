@@ -42,7 +42,7 @@ function PhoneView() {
   };
   // wsClient init i jego logika
   const callback = function (message) {
-    if (message.type === messageType.STARTGAME) {
+    if (message.type === messageType.START_GAME) {
       setGameState("playing");
     }
     if (message.type === messageType.ANSWERS){
