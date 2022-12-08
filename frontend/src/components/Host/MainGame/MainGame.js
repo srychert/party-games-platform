@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { messageType, chatMessage } from "../../../services/SocketFactory/message";
+import Question from "./Question/Question";
 import client from "../../../services/SocketFactory/mySocketFactory";
-
-import Map from "./Map/Map";
 import useGame from "../../../hooks/useGame";
 
 // funkcja callback, już w "głównym" komponencie
@@ -21,34 +20,18 @@ function callback(message) {
 function MainGame() {
   let params = useParams();
   const gamedata = useGame(params.id);
-  // jakoś pobrać graczy z serwera i przekazać do mapy
-  const [players, setPlayers] = React.useState([1, 2, 3, 4]);
+  console.log(gamedata);
   useEffect(() => {
     client.activate();
     client.onConnect = (frame) => {
       client.subscribe(`/topic/public/${params.pin}`, callback);
-      // Po renderze komponentu wysyłamy wiadomość do serwera, że zaczynamy grę
-      client.publish({
-        destination: "/app/chat.startGame",
-        body: chatMessage("System", "", messageType.START_GAME),
-      });
     };
   }, [params.pin]);
 
   return (
-    <div className="grid h-screen grid-cols-3 grid-rows-2 gap-2 overflow-hidden">
-      <div className="game-board row-start-1 row-end-1">
-        EQ
-        <div>{gamedata.description}</div>
+      <div className="game-board">
+        <Question question={"Jak sie masz?"} />
       </div>
-      <div className="game-board col-start-1 col-end-1 row-start-2 row-end-2">
-        Zadanie
-        {gamedata.mainQuest}
-      </div>
-      <div className="game-board col-span-2 col-start-2 row-start-1 row-end-3">
-        <Map players={players} />
-      </div>
-    </div>
   );
 }
 

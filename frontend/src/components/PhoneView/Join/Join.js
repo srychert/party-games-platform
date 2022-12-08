@@ -15,10 +15,15 @@ function Join() {
   const auth = useAuth();
 
   const callback = (message) => {
-    if(message.type === messageType.START_GAME){
-      navigate(`/join/${pin}`);
+    if(message.body){
+      const parsed = JSON.parse(message.body);
+      console.log(parsed);
+      if(parsed.type === messageType.START_GAME){
+        navigate(`/join/${pin}`);
+      }else{
+        console.log("got empty message");
+      }
     }
-    console.log(message);
   };
 
   useEffect(() => {

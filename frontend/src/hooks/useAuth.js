@@ -14,6 +14,7 @@ export const UserProvider = ({ children }) => {
     headers: {
       Authorization: `Bearer ${cookies.token}`,
     },
+    
   });
   
   const login = ({ username, password }) => {
