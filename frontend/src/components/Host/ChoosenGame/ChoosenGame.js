@@ -7,7 +7,6 @@ import usePin from '../../../hooks/usePin';
 function ChoosenGame() {
   const navigate = useNavigate();
   const { id } = useParams();
-  console.log(id);
   const pin = usePin(id);
   const [players, setPlayers] = useState([]);
 
@@ -34,7 +33,7 @@ function ChoosenGame() {
 
   useEffect(() => {
     client.activate();
-    client.onConnect = (frame) => {
+    client.onConnect = () => {
       client.subscribe(`/topic/public/${pin}`, callback);
     };
   }, [pin]);
@@ -49,8 +48,7 @@ function ChoosenGame() {
         {players.map((player, index) => (
           <div
             className="m-3 animate-wiggle rounded-lg border bg-gradient-to-r from-blue-600 to-blue-200 p-3 shadow-sm"
-            key={index}
-          >
+            key={index}>
             {player}
           </div>
         ))}

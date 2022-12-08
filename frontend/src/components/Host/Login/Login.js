@@ -62,10 +62,10 @@ function Login(props) {
             </label>
           </div>
           <div>
-            <button type="submit" className="button">
+            <button type="submit" className="button m-3">
               Zaloguj
             </button>
-            <button type="button" className="button" onClick={() => navigate('/signin')}>
+            <button type="button" className="button m-3" onClick={() => navigate('/signin')}>
               {' '}
               Zarejestruj się{' '}
             </button>

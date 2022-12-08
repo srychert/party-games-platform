@@ -35,7 +35,7 @@ function Host() {
         </button>
         <div className="m-5 flex flex-col items-center justify-center">
           <img
-            className="flex h-20 w-20 cursor-pointer items-center justify-center rounded-full border border-sky-300"
+            className="h-20 w-20 cursor-pointer rounded-full border border-sky-300"
             alt="Ikona prfilu"
             onClick={handleShowProfile}
             src={'https://styles.redditmedia.com/t5_2tc6s/styles/communityIcon_vn92glo5ugy51.png'}
@@ -53,7 +53,7 @@ function Host() {
                 onMouseOver={handleMouseOver}
                 onMouseOut={handleMouseOut}
               >
-                <div className="absolute top-0 right-1 rounded-lg border p-2 shadow-sm shadow-sky-500">
+                <div className="absolute top-1 right-1 rounded-lg border p-2 shadow-sm shadow-sky-500">
                   {game.totalTimesPlayed}
                 </div>
                 <div className="Game">

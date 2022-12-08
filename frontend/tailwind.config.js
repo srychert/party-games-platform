@@ -2,22 +2,8 @@
 module.exports = {
   mode: 'jit',
   purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
-  content: ['./src/**/*.html', './src/**/*.js'],
+  content: ['./src/**/*.html', './src/**/*.vue', './src/**/*.jsx'],
   theme: {
-    animation: {
-      spin: 'spin 2s infinite',
-      bounce: 'bounce 1s infinite'
-    },
-    keyframes: {
-      bounce: {
-        '0%, 100%': { transform: 'translateY(-50%)' },
-        '50%': { transform: 'translateY(0)' }
-      },
-      spin: {
-        '0%, 100%': { transform: 'rotate(0deg)' },
-        '50%': { transform: 'rotate(360deg)' }
-      }
-    },
     extend: {
       animation: {
         wiggle: 'wiggle 1s ease-in-out infinite'

@@ -10,7 +10,6 @@ function usePin(id) {
     api
       .post(`/games/new/${id}`)
       .then((res) => {
-        console.log(res);
         setPin(res.data.pin);
       })
       .catch((err) => {
