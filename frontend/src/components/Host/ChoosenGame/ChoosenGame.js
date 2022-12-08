@@ -1,11 +1,8 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import client from "../../../services/SocketFactory/mySocketFactory";
-import {
-  messageType,
-  chatMessage,
-} from "../../../services/SocketFactory/message";
-import usePin from "../../../hooks/usePin";
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import client from '../../../services/SocketFactory/mySocketFactory';
+import { messageType, chatMessage } from '../../../services/SocketFactory/message';
+import usePin from '../../../hooks/usePin';
 
 function ChoosenGame() {
   const navigate = useNavigate();
@@ -15,14 +12,14 @@ function ChoosenGame() {
   const [players, setPlayers] = useState([]);
 
   function handleClick() {
-    if(client.connected === true){
+    if (client.connected === true) {
       client.publish({
         destination: `/app/chat/${pin}.startGame`,
-        body: chatMessage("host", "", messageType.START_GAME),
+        body: chatMessage('host', '', messageType.START_GAME)
       });
       navigate(`/host/${id}/${pin}`);
-    }else{
-      console.log("not connected");
+    } else {
+      console.log('not connected');
     }
   }
 
@@ -31,7 +28,7 @@ function ChoosenGame() {
       const parsed = JSON.parse(message.body);
       setPlayers((prev) => [...prev, parsed.sender]);
     } else {
-      console.log("got empty message");
+      console.log('got empty message');
     }
   }
 

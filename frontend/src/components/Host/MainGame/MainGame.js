@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { messageType, chatMessage } from "../../../services/SocketFactory/message";
-import Question from "./Question/Question";
-import client from "../../../services/SocketFactory/mySocketFactory";
-import useGame from "../../../hooks/useGame";
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { messageType, chatMessage } from '../../../services/SocketFactory/message';
+import Question from './Question/Question';
+import client from '../../../services/SocketFactory/mySocketFactory';
+import useGame from '../../../hooks/useGame';
 
 // funkcja callback, już w "głównym" komponencie
 // main game function
@@ -13,7 +13,7 @@ function callback(message) {
     const parsed = JSON.parse(message.body);
     // console.log(parsed);
   } else {
-    console.log("got empty message");
+    console.log('got empty message');
   }
 }
 
@@ -29,9 +29,9 @@ function MainGame() {
   }, [params.pin]);
 
   return (
-      <div className="game-board">
-        <Question question={"Jak sie masz?"} />
-      </div>
+    <div className="game-board">
+      <Question question={'Jak sie masz?'} />
+    </div>
   );
 }
 

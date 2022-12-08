@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { useAuth } from "./useAuth";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useAuth } from './useAuth';
+import { useNavigate } from 'react-router-dom';
 
 function useGames() {
   const [gamesData, setGamesData] = useState([]);
@@ -14,7 +14,7 @@ function useGames() {
       })
       .catch((err) => {
         if (err.response.status === 401 || err.response.status === 403) {
-          navigate("/login");
+          navigate('/login');
         }
       });
   }, []);

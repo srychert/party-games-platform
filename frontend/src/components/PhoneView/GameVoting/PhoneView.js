@@ -1,27 +1,28 @@
-import React, { useEffect, useState } from "react";
-import client from "../../../services/SocketFactory/mySocketFactory";
-import {
-  messageType,
-  chatMessage,
-} from "../../../services/SocketFactory/message";
-import Loding from "../Loding/Loding";
-import { useAuth } from "../../../hooks/useAuth";
-import PointsChart from "./PointsChart/PointsChart";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import client from '../../../services/SocketFactory/mySocketFactory';
+import { messageType, chatMessage } from '../../../services/SocketFactory/message';
+import Loding from '../Loding/Loding';
+import { useAuth } from '../../../hooks/useAuth';
+import PointsChart from './PointsChart/PointsChart';
+import { useParams } from 'react-router-dom';
 
 function PhoneView() {
-  const [gameState, setGameState] = useState("playing");
+  const [gameState, setGameState] = useState('playing');
   const [answers, setAnswers] = useState(['', '', '', '']);
-  const [wyniki, setWyniki] = useState([{
-    nick: 'test',
-    points: 0
-  }, {
-    nick: '123',
-    points: 5
-  },{
-    nick: 'test2',
-    points: 7
-  }]);
+  const [wyniki, setWyniki] = useState([
+    {
+      nick: 'test',
+      points: 0
+    },
+    {
+      nick: '123',
+      points: 5
+    },
+    {
+      nick: 'test2',
+      points: 7
+    }
+  ]);
   const auth = useAuth();
   const nick = auth.cookies.nick;
   const { pin } = useParams();
@@ -29,23 +30,22 @@ function PhoneView() {
 
   // alert user kiedy wyjdzie z gry
   useEffect(() => {
-    window.addEventListener("beforeunload", alertUser);
+    window.addEventListener('beforeunload', alertUser);
     return () => {
-      window.removeEventListener("beforeunload", alertUser);
+      window.removeEventListener('beforeunload', alertUser);
     };
   }, []);
 
   const alertUser = (e) => {
     e.preventDefault();
-    e.returnValue =
-      "Uważaj! Jeśli opuścisz grę, nie będziesz mógł do niej wrócić.";
+    e.returnValue = 'Uważaj! Jeśli opuścisz grę, nie będziesz mógł do niej wrócić.';
   };
   // wsClient init i jego logika
   const callback = function (message) {
     if (message.type === messageType.START_GAME) {
-      setGameState("playing");
+      setGameState('playing');
     }
-    if (message.type === messageType.ANSWERS){
+    if (message.type === messageType.ANSWERS) {
       // dostaje możliwe odpowiedzi do pytania (Runda)
       setAnswers(message.body);
     }
@@ -57,7 +57,7 @@ function PhoneView() {
       client.subscribe(`/topic/public/${pin}`, callback);
       client.publish({
         destination: `/app/chat/${pin}.newUser`,
-        body: chatMessage(nick, "", messageType.CONNECT),
+        body: chatMessage(nick, '', messageType.CONNECT)
       });
     };
   }, [pin, nick]);
@@ -69,21 +69,21 @@ function PhoneView() {
         destination: `/app/chat/${pin}.send`,
         // zmienić message type na odpowiedni
         body: chatMessage(nick, answer, messageType.CHAT),
-        skipContentLengthHeader: true,
+        skipContentLengthHeader: true
       });
     }
   };
-  // Odpowiedz 1-4 może jakiś tekst 
-  // Font size nicku wiekszy i moze tutaj wykres wyników? 
+  // Odpowiedz 1-4 może jakiś tekst
+  // Font size nicku wiekszy i moze tutaj wykres wyników?
 
   return (
     <div>
-      {gameState === "waiting" ? (
+      {gameState === 'waiting' ? (
         <Loding />
       ) : (
         <div className="h-screen">
-          <div className="h-1/5 flex justify-center items-end">
-            <PointsChart players={wyniki}/>
+          <div className="flex h-1/5 items-end justify-center">
+            <PointsChart players={wyniki} />
           </div>
           <div className="grid h-4/5 grid-cols-2 grid-rows-2 gap-2 overflow-hidden">
             <button

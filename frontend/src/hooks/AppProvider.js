@@ -1,4 +1,4 @@
-import { UserProvider } from "./useAuth";
+import { UserProvider } from './useAuth';
 
 const AppProvider = ({ children }) => (
   <>

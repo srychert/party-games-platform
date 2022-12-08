@@ -1,11 +1,13 @@
-import useGames from "../../hooks/useGames";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
+import useGames from '../../hooks/useGames';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
+import { useState } from 'react';
 
 function Host() {
   const auth = useAuth();
   let navigate = useNavigate();
   const games = useGames();
+  const [showDetails, setShowDetails] = useState(false);
   // To do zmiany po ogarnięciu logowania
   // -------------------------------------
   const handleShowProfile = () => {
@@ -17,7 +19,12 @@ function Host() {
   };
   const handleLogout = () => {
     auth.logout();
-    console.log(auth.cookies);
+  };
+  const handleMouseOver = () => {
+    setShowDetails(true);
+  };
+  const handleMouseOut = () => {
+    setShowDetails(false);
   };
 
   return (
@@ -26,16 +33,14 @@ function Host() {
         <button className="button" onClick={handleLogout}>
           Logout
         </button>
-        <div className="flex flex-row">
-          <span className="m-2">{auth.cookies.user}</span>
+        <div className="m-5 flex flex-col items-center justify-center">
           <img
             className="flex h-20 w-20 cursor-pointer items-center justify-center rounded-full border border-sky-300"
             alt="Ikona prfilu"
             onClick={handleShowProfile}
-            src={
-              "https://styles.redditmedia.com/t5_2tc6s/styles/communityIcon_vn92glo5ugy51.png"
-            }
+            src={'https://styles.redditmedia.com/t5_2tc6s/styles/communityIcon_vn92glo5ugy51.png'}
           ></img>
+          <span className="m-2">{auth.cookies.user}</span>
         </div>
       </div>
       <div className="flex flex-col items-center">
@@ -45,19 +50,21 @@ function Host() {
               <div
                 className="relative flex flex-col rounded-lg border p-6 shadow-md shadow-sky-600"
                 key={game.id}
+                onMouseOver={handleMouseOver}
+                onMouseOut={handleMouseOut}
               >
                 <div className="absolute top-0 right-1 rounded-lg border p-2 shadow-sm shadow-sky-500">
                   {game.totalTimesPlayed}
                 </div>
                 <div className="Game">
-                  <div className="border-b-2 border-sky-300 p-3">
-                    {game.description}
-                  </div>
-                  <div className="p-1">{game.createdBy}</div>
-                  <button
-                    className="button"
-                    onClick={() => handleChooseGame(game.id)}
-                  >
+                  <div className="border-b-2 border-sky-300 p-3">{game.title}</div>
+                  {showDetails ? (
+                    <div>
+                      <div className="p-1">{game.createdBy}</div>
+                      <div className="p-1">{game.description}</div>
+                    </div>
+                  ) : null}
+                  <button className="button" onClick={() => handleChooseGame(game.id)}>
                     Graj
                   </button>
                 </div>
