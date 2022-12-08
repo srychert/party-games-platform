@@ -2,6 +2,7 @@ import useGames from '../../hooks/useGames';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useState } from 'react';
+import Back from '../Common/Back';
 
 function Host() {
   const auth = useAuth();
@@ -29,6 +30,7 @@ function Host() {
 
   return (
     <div className="h-screen w-screen p-10">
+      <Back to="/" />
       <div className="absolute right-10 m-2 flex flex-row items-center justify-center">
         <button className="button" onClick={handleLogout}>
           Logout
@@ -38,7 +40,7 @@ function Host() {
             className="h-20 w-20 cursor-pointer rounded-full border border-sky-300"
             alt="Ikona prfilu"
             onClick={handleShowProfile}
-            src={'https://styles.redditmedia.com/t5_2tc6s/styles/communityIcon_vn92glo5ugy51.png'}
+            src="https://styles.redditmedia.com/t5_2tc6s/styles/communityIcon_vn92glo5ugy51.png"
           ></img>
           <span className="m-2">{auth.cookies.user}</span>
         </div>
@@ -56,7 +58,7 @@ function Host() {
                 <div className="absolute top-1 right-1 rounded-lg border p-2 shadow-sm shadow-sky-500">
                   {game.totalTimesPlayed}
                 </div>
-                <div className="Game">
+                <div>
                   <div className="border-b-2 border-sky-300 p-3">{game.title}</div>
                   {showDetails ? (
                     <div>

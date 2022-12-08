@@ -1,33 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import client from '../../../services/SocketFactory/mySocketFactory';
 import { messageType, chatMessage } from '../../../services/SocketFactory/message';
-import Loding from '../Loding/Loding';
 import { useAuth } from '../../../hooks/useAuth';
-import PointsChart from './PointsChart/PointsChart';
 import { useParams } from 'react-router-dom';
+import Loding from './Loding';
+import PointsChart from './PointsChart';
 
 function PhoneView() {
   const [gameState, setGameState] = useState('playing');
   const [answers, setAnswers] = useState(['', '', '', '']);
-  const [wyniki, setWyniki] = useState([
-    {
-      nick: 'test',
-      points: 0
-    },
-    {
-      nick: '123',
-      points: 5
-    },
-    {
-      nick: 'test2',
-      points: 7
-    }
-  ]);
+  const [wyniki, setWyniki] = useState();
   const auth = useAuth();
   const nick = auth.cookies.nick;
   const { pin } = useParams();
   console.log(pin);
-
+  // eslint krzyczy
+  useEffect(() => {
+    setWyniki([
+      {
+        nick: 'test',
+        points: 0,
+      },
+      {
+        nick: '123',
+        points: 5,
+      },
+      {
+        nick: 'test2',
+        points: 7,
+      },
+    ]);
+  }, []);
   // alert user kiedy wyjdzie z gry
   useEffect(() => {
     window.addEventListener('beforeunload', alertUser);
@@ -53,11 +56,11 @@ function PhoneView() {
   useEffect(() => {
     client.deactivate();
     client.activate();
-    client.onConnect = (frame) => {
+    client.onConnect = () => {
       client.subscribe(`/topic/public/${pin}`, callback);
       client.publish({
         destination: `/app/chat/${pin}.newUser`,
-        body: chatMessage(nick, '', messageType.CONNECT)
+        body: chatMessage(nick, '', messageType.CONNECT),
       });
     };
   }, [pin, nick]);
@@ -69,7 +72,7 @@ function PhoneView() {
         destination: `/app/chat/${pin}.send`,
         // zmienić message type na odpowiedni
         body: chatMessage(nick, answer, messageType.CHAT),
-        skipContentLengthHeader: true
+        skipContentLengthHeader: true,
       });
     }
   };

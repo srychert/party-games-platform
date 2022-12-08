@@ -1,15 +1,14 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-
+import { Routes, Route } from 'react-router-dom';
 import Common from './components/Common/Common';
+import Login from './components/Login/Login';
+import SignIn from './components/SignIn/SignIn';
+import Join from './components/Join/Join';
+import PhoneView from './components/PhoneView/PhoneView';
 import Host from './components/Host/Host';
-import Join from './components/PhoneView/Join/Join';
-import Login from './components/Host/Login/Login';
-import { ProtectRoutes } from './components/Common/ProtectRoutes';
-import ChoosenGame from './components/Host/ChoosenGame/ChoosenGame';
-import PhoneView from './components/PhoneView/GameVoting/PhoneView';
-import SignIn from './components/Host/Login/SignIn';
-import MainGame from './components/Host/MainGame/MainGame';
+import ChoosenGame from './components/ChoosenGame/ChoosenGame';
+import MainGame from './components/MainGame/MainGame';
+import ProtectRoutes from './components/ProtectRoutes/ProtectRoutes';
 
 function App() {
   return (

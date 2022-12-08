@@ -13,7 +13,7 @@ const client = new Client({
   logRawCommunication: true,
   reconnectDelay: 5000,
   heartbeatIncoming: 4000,
-  heartbeatOutgoing: 4000
+  heartbeatOutgoing: 4000,
 });
 
 // client.onConnect = function (frame) {

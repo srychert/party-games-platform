@@ -1,12 +1,12 @@
-import React from 'react';
+import { useState } from 'react';
 import { useAuth } from '../../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
 function Login(props) {
-  const [passtype, setPasstype] = React.useState(props.passtype);
+  const [passtype, setPasstype] = useState(props.passtype);
 
-  const [username, setusername] = React.useState('');
-  const [password, setpassword] = React.useState('');
+  const [username, setusername] = useState('');
+  const [password, setpassword] = useState('');
   const { login } = useAuth();
 
   const navigate = useNavigate();
@@ -23,7 +23,10 @@ function Login(props) {
   };
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center">
-      <form onSubmit={(event) => handleLogin(event)} className="p-10 shadow-md shadow-sky-300">
+      <form
+        onSubmit={(event) => handleLogin(event)}
+        className="p-10 shadow-md shadow-sky-300"
+      >
         <div className="flex flex-col p-2">
           <label htmlFor={props.username}>Login</label>
           <input
@@ -65,7 +68,11 @@ function Login(props) {
             <button type="submit" className="button m-3">
               Zaloguj
             </button>
-            <button type="button" className="button m-3" onClick={() => navigate('/signin')}>
+            <button
+              type="button"
+              className="button m-3"
+              onClick={() => navigate('/signin')}
+            >
               {' '}
               Zarejestruj się{' '}
             </button>

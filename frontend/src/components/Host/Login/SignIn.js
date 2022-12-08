@@ -1,11 +1,13 @@
-import React from 'react';
+import { useState } from 'react';
+import { useAuth } from '../../../hooks/useAuth';
 
 function SignIn() {
-  const [username, setusername] = React.useState('');
-  const [password, setpassword] = React.useState('');
-  const [email, setemail] = React.useState('');
+  const [username, setusername] = useState('');
+  const [password, setpassword] = useState('');
+  const [email, setemail] = useState('');
+  const { signin } = useAuth();
 
-  const [passtype, setPasstype] = React.useState('password');
+  const [passtype, setPasstype] = useState('password');
   const switchPasstype = () => {
     if (passtype === 'password') {
       setPasstype('text');
@@ -15,12 +17,15 @@ function SignIn() {
   };
   const handleSignin = (event) => {
     event.preventDefault();
-    console.log('Sign in');
+    signin({ username, password, email });
   };
 
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center">
-      <form onSubmit={(event) => handleSignin(event)} className="p-10 shadow-md shadow-sky-300">
+      <form
+        onSubmit={(event) => handleSignin(event)}
+        className="p-10 shadow-md shadow-sky-300"
+      >
         <div className="flex flex-col p-2">
           <label htmlFor="username">E-mail</label>
           <input
@@ -29,7 +34,7 @@ function SignIn() {
             name="username"
             id="username"
             autoComplete="off"
-            onChange={(e) => setusername(e.target.value)}
+            onChange={(e) => setemail(e.target.value)}
           />
         </div>
 

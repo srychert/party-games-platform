@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import client from '../../../services/SocketFactory/mySocketFactory';
 import { messageType, chatMessage } from '../../../services/SocketFactory/message';
 import usePin from '../../../hooks/usePin';
+import Back from '../../Common/Back/Back';
 
 function ChoosenGame() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ function ChoosenGame() {
     if (client.connected === true) {
       client.publish({
         destination: `/app/chat/${pin}.startGame`,
-        body: chatMessage('host', '', messageType.START_GAME)
+        body: chatMessage('host', '', messageType.START_GAME),
       });
       navigate(`/host/${id}/${pin}`);
     } else {
@@ -40,6 +41,7 @@ function ChoosenGame() {
 
   return (
     <div className="flex h-screen w-screen flex-col items-center ">
+      <Back to={`/host/`} />
       <div className="m-10 border-b-2 border-blue-500 p-5 text-9xl">{pin}</div>
       <button className="button" onClick={() => handleClick()}>
         Rozpocznij grę
@@ -48,7 +50,8 @@ function ChoosenGame() {
         {players.map((player, index) => (
           <div
             className="m-3 animate-wiggle rounded-lg border bg-gradient-to-r from-blue-600 to-blue-200 p-3 shadow-sm"
-            key={index}>
+            key={index}
+          >
             {player}
           </div>
         ))}

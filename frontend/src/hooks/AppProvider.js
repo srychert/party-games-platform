@@ -1,4 +1,5 @@
-import { UserProvider } from './useAuth';
+import React from 'react';
+import { UserProvider } from './UserContext';
 
 const AppProvider = ({ children }) => (
   <>

@@ -1,18 +1,18 @@
+/* eslint-disable */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   mode: 'jit',
-  purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
-  content: ['./src/**/*.html', './src/**/*.vue', './src/**/*.jsx'],
+  content: ['./src/**/*.html', './src/**/*.vue', './src/**/*.jsx', './src/**/*.js'],
   theme: {
     extend: {
       animation: {
-        wiggle: 'wiggle 1s ease-in-out infinite'
+        wiggle: 'wiggle 1s ease-in-out infinite',
       },
       keyframes: {
         wiggle: {
           '0%, 100%': { transform: 'rotate(-3deg)' },
-          '50%': { transform: 'rotate(3deg)' }
-        }
+          '50%': { transform: 'rotate(3deg)' },
+        },
       },
       colors: {
         transparent: 'transparent',
@@ -36,7 +36,7 @@ module.exports = {
           600: '#24E527',
           700: '#16BB19',
           800: '#108912',
-          900: '#0A570B'
+          900: '#0A570B',
         },
         lavender: {
           DEFAULT: '#B58AE0',
@@ -49,7 +49,7 @@ module.exports = {
           600: '#995ED4',
           700: '#7D34C5',
           800: '#612999',
-          900: '#451D6D'
+          900: '#451D6D',
         },
         sky: {
           DEFAULT: '#8DBEDD',
@@ -62,7 +62,7 @@ module.exports = {
           600: '#66A6D1',
           700: '#3F8EC6',
           800: '#3071A1',
-          900: '#24547A'
+          900: '#24547A',
         },
         desert: {
           DEFAULT: '#C7BE8A',
@@ -75,7 +75,7 @@ module.exports = {
           600: '#B8AC6B',
           700: '#A59850',
           800: '#867C41',
-          900: '#675F32'
+          900: '#675F32',
         },
         city: {
           DEFAULT: '#ACA8A5',
@@ -88,7 +88,7 @@ module.exports = {
           600: '#96918D',
           700: '#7F7A76',
           800: '#67635F',
-          900: '#504C49'
+          900: '#504C49',
         },
         gray: {
           DEFAULT: '#919191',
@@ -101,7 +101,7 @@ module.exports = {
           600: '#757575',
           700: '#595959',
           800: '#3D3D3D',
-          900: '#212121'
+          900: '#212121',
         },
         'royal-blue': {
           DEFAULT: '#5663EB',
@@ -114,7 +114,7 @@ module.exports = {
           600: '#2434E5',
           700: '#1624BB',
           800: '#101A89',
-          900: '#0A1157'
+          900: '#0A1157',
         },
         'sahara-sand': {
           DEFAULT: '#F0E77F',
@@ -127,7 +127,7 @@ module.exports = {
           600: '#EADD4D',
           700: '#E4D31B',
           800: '#B2A515',
-          900: '#80760F'
+          900: '#80760F',
         },
         froly: {
           DEFAULT: '#EF7B7B',
@@ -140,13 +140,13 @@ module.exports = {
           600: '#EA4848',
           700: '#E01A1A',
           800: '#AD1414',
-          900: '#7B0E0E'
+          900: '#7B0E0E',
         },
         player: {
-          DEFAULT: '#E4D7D7'
-        }
-      }
-    }
+          DEFAULT: '#E4D7D7',
+        },
+      },
+    },
   },
-  plugins: [require('prettier-plugin-tailwindcss')]
+  plugins: [require('prettier-plugin-tailwindcss')],
 };

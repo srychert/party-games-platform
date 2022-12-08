@@ -12,8 +12,8 @@ export const UserProvider = ({ children }) => {
   const api = axios.create({
     baseURL: 'http://localhost:8080/api/v1',
     headers: {
-      Authorization: `Bearer ${cookies.token}`
-    }
+      Authorization: `Bearer ${cookies.token}`,
+    },
   });
 
   const login = ({ username, password }) => {
@@ -24,8 +24,8 @@ export const UserProvider = ({ children }) => {
         {
           auth: {
             username,
-            password
-          }
+            password,
+          },
         }
       )
       .then((res) => {
@@ -59,7 +59,7 @@ export const UserProvider = ({ children }) => {
       logout,
       setNick,
       removeNick,
-      api
+      api,
     }),
     [cookies]
   );

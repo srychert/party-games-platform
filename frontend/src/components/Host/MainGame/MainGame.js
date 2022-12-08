@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { messageType, chatMessage } from '../../../services/SocketFactory/message';
-import Question from './Question/Question';
 import client from '../../../services/SocketFactory/mySocketFactory';
 import useGame from '../../../hooks/useGame';
+import Question from '../Question/Question';
 
 // funkcja callback, już w "głównym" komponencie
 // main game function
@@ -11,7 +10,7 @@ import useGame from '../../../hooks/useGame';
 function callback(message) {
   if (message.body) {
     const parsed = JSON.parse(message.body);
-    // console.log(parsed);
+    console.log(parsed);
   } else {
     console.log('got empty message');
   }
@@ -23,7 +22,7 @@ function MainGame() {
   console.log(gamedata);
   useEffect(() => {
     client.activate();
-    client.onConnect = (frame) => {
+    client.onConnect = () => {
       client.subscribe(`/topic/public/${params.pin}`, callback);
     };
   }, [params.pin]);

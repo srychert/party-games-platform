@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../hooks/useAuth';
 import client from '../../../services/SocketFactory/mySocketFactory';
 import { messageType, chatMessage } from '../../../services/SocketFactory/message';
-import Loading from '../Loding/Loding';
+import Loading from '../../Loading/Loading';
 
 function Join() {
   const [pin, setPin] = useState('');
@@ -33,7 +33,7 @@ function Join() {
     auth.setNick(nick);
     client.publish({
       destination: `/app/chat/${pin}.newUser`,
-      body: chatMessage(nick, '', messageType.CONNECT)
+      body: chatMessage(nick, '', messageType.CONNECT),
     });
     client.subscribe(`/topic/public/${pin}`, callback);
     setLoading(true);
@@ -43,7 +43,10 @@ function Join() {
       {loading ? (
         <Loading />
       ) : (
-        <form onSubmit={(event) => handleJoin(event)} className="p-10 shadow-md shadow-sky-300">
+        <form
+          onSubmit={(event) => handleJoin(event)}
+          className="p-10 shadow-md shadow-sky-300"
+        >
           <div className="flex flex-col p-2">
             <label htmlFor="pin">Pin</label>
             <input
