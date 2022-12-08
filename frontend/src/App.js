@@ -9,6 +9,7 @@ import { ProtectRoutes } from "./components/Common/ProtectRoutes";
 import ChoosenGame from "./components/Host/ChoosenGame/ChoosenGame";
 import PhoneView from "./components/PhoneView/GameVoting/PhoneView";
 import SignIn from "./components/Host/Login/SignIn";
+import MainGame from "./components/Host/MainGame/MainGame";
 
 function App() {
   return (
@@ -27,7 +28,10 @@ function App() {
         <Route path="/host" element={<Host />} />
       </Route>
       <Route element={<ProtectRoutes />}>
-        <Route path="/host/:gameID" element={<ChoosenGame />} />
+        <Route path="/host/:id" element={<ChoosenGame />} />
+      </Route>
+      <Route element={<ProtectRoutes />}>
+        <Route path="/host/:id/:pin" element={<MainGame />} />
       </Route>
     </Routes>
   );

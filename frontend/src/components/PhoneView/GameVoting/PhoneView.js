@@ -7,8 +7,9 @@ import {
 import Loding from "../Loding/Loding";
 import { useAuth } from "../../../hooks/useAuth";
 import PointsChart from "./PointsChart/PointsChart";
+import { useParams } from "react-router-dom";
 
-function PhoneView(props) {
+function PhoneView() {
   const [gameState, setGameState] = useState("playing");
   const [answers, setAnswers] = useState(['', '', '', '']);
   const [wyniki, setWyniki] = useState([{
@@ -23,6 +24,8 @@ function PhoneView(props) {
   }]);
   const auth = useAuth();
   const nick = auth.cookies.nick;
+  const { pin } = useParams();
+  console.log(pin);
 
   // alert user kiedy wyjdzie z gry
   useEffect(() => {
@@ -48,21 +51,22 @@ function PhoneView(props) {
     }
   };
   useEffect(() => {
+    client.deactivate();
     client.activate();
     client.onConnect = (frame) => {
-      client.subscribe(`/topic/public/${props.pin}`, callback);
+      client.subscribe(`/topic/public/${pin}`, callback);
       client.publish({
-        destination: `/app/chat/${props.pin}.newUser`,
+        destination: `/app/chat/${pin}.newUser`,
         body: chatMessage(nick, "", messageType.CONNECT),
       });
     };
-  }, [props.pin, nick]);
+  }, [pin, nick]);
 
   // Odpowiedź na pytanie
   const handleClick = (answer) => {
     if (client) {
       client.publish({
-        destination: `/app/chat/${props.pin}.send`,
+        destination: `/app/chat/${pin}.send`,
         // zmienić message type na odpowiedni
         body: chatMessage(nick, answer, messageType.CHAT),
         skipContentLengthHeader: true,

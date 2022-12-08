@@ -2,7 +2,7 @@ import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 
 function mySocketFactory() {
-  return new SockJS(`http://${process.env.REACT_APP_DOMAIN}:8080/chat-example`);
+  return new SockJS(`http://localhost:8080/chat-example`);
 }
 
 const client = new Client({

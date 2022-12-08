@@ -1,12 +1,10 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import { messageType, chatMessage } from "../../SocketFactory/message";
+import { messageType, chatMessage } from "../../../services/SocketFactory/message";
+import client from "../../../services/SocketFactory/mySocketFactory";
 
 import Map from "./Map/Map";
-import client from "../../SocketFactory/mySocketFactory";
-
-import useGame from "../../hooks/useGame";
+import useGame from "../../../hooks/useGame";
 
 // funkcja callback, już w "głównym" komponencie
 // main game function
@@ -32,7 +30,7 @@ function MainGame() {
       // Po renderze komponentu wysyłamy wiadomość do serwera, że zaczynamy grę
       client.publish({
         destination: "/app/chat.sendMessage",
-        body: chatMessage("System", "", messageType.GAME_START),
+        body: chatMessage("System", "", messageType.STARTGAME),
       });
     };
   }, [params.pin]);

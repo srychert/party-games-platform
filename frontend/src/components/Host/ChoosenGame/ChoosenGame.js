@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import client from "../../../services/SocketFactory/mySocketFactory";
 import {
   messageType,
@@ -7,17 +7,23 @@ import {
 } from "../../../services/SocketFactory/message";
 import usePin from "../../../hooks/usePin";
 
-function ChoosenGame(props) {
+function ChoosenGame() {
   const navigate = useNavigate();
-  const pin = usePin(props.selectedId);
+  const { id } = useParams();
+  console.log(id);
+  const pin = usePin(id);
   const [players, setPlayers] = useState([]);
 
   function handleClick() {
-    client.publish({
-      destination: `/app/chat/${props.pin}.startGame`,
-      body: chatMessage("host", "", messageType.STARTGAME),
-    });
-    navigate(`/host/${props.selectedId}/${pin}`);
+    if(client.connected === true){
+      client.publish({
+        destination: `/app/chat/${pin}.startGame`,
+        body: chatMessage("host", "", messageType.STARTGAME),
+      });
+      navigate(`/host/${id}/${pin}`);
+    }else{
+      console.log("not connected");
+    }
   }
 
   function callback(message) {

@@ -1,21 +1,53 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
+import client from "../../../services/SocketFactory/mySocketFactory";
+import { messageType,chatMessage } from "../../../services/SocketFactory/message";
+import Loading from "../Loding/Loding";
+
+
 
 function Join() {
   const [pin, setPin] = useState("");
   const [nick, changeNick] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const auth = useAuth();
+
+  const callback = (message) => {
+    if (message.body) {
+      console.log(message);
+      if (message.type === messageType.STARTGAME) {
+        navigate("/join/" + pin);
+      }
+      
+    } else {
+      console.log("got empty message");
+    }
+  };
+
+  useEffect(() => {
+    client.activate();
+    client.onConnect = (frame) => {
+      client.subscribe(`/topic/public/${pin}`, callback);
+    }
+
+  }, [pin])
 
   function handleJoin(event) {
     event.preventDefault();
     auth.setNick(nick);
-    navigate("/join/" + pin);
+    client.publish({
+      destination: `/app/chat/${pin}.newUser`,
+      body: chatMessage(nick, "", messageType.CONNECT),
+    });
+    setLoading(true);
   }
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center">
-      <form
+      {loading ? (
+        <Loading/>) :(
+          <form
         onSubmit={(event) => handleJoin(event)}
         className="p-10 shadow-md shadow-sky-300"
       >
@@ -43,10 +75,11 @@ function Join() {
         </div>
         <div className="inline">
           <button type="submit" className="button">
-            Zaloguj
+            Dołącz
           </button>
         </div>
       </form>
+        )}
     </div>
   );
 }
