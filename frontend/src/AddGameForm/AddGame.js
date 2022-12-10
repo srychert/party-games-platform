@@ -16,26 +16,13 @@ function AddGame(){
 
     const [questions,setQuestions]=useState([])
 
-
-    const handleSubmit = ()=>{
-        const game={"name": iStateData.name,
-            "description": iStateData.description,
-            "type": iStateData.type,
-            "questions":questions,
-            "debufs": iStateData.debufs,
-            "createdBy":"N/A"}
-        console.log(game)
-        // useNewGame(game)
-        naviagte("/addgame")
-    }
-
+    
 
     return(
-        <div>
-            {initialState?
-                <InitialState setInitialState={setInitialState} setIStateData={setIStateData}/>:
-                <AddQuestions questions={questions} setQuestions={setQuestions}/>}
-            <button onClick={handleSubmit}>Submit Game</button>
+        <div className="min-h-screen flex justify-center align-middle items-center">
+                {initialState?
+                    <InitialState setInitialState={setInitialState} setIStateData={setIStateData}/>:
+                    <AddQuestions iStateData={iStateData} setIStateData={setIStateData}  questions={questions} setQuestions={setQuestions}/>}
         </div>
     )
 }

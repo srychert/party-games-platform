@@ -17,21 +17,24 @@ function InitialState({setInitialState, setIStateData}){
         setInitialState(false)
     }
 
+    const buttonClass =
+        "flex flex-col justify-center items-center h-10 w-60 button";
+
     return(
-        <div>
+        <div className={"flex justify-center align-middle items-center min-h-screen"}>
             <form onSubmit={handleInitialState}>
                 <div>
                     <label>Game Name:</label>
-                    <input type={"text"} placeholder={"Name"} onChange={(e)=>setName(e.target.value)} />
+                    <input type={"text"} placeholder={"Name"} onChange={(e)=>setName(e.target.value)} required={true} />
                 </div>
                 <div>
                     <label>Game Description:</label>
-                    <input type={"text"} placeholder={"Description"} onChange={(e)=>setDescription(e.target.value)} />
+                    <input type={"text"} placeholder={"Description"} onChange={(e)=>setDescription(e.target.value)} required={true} />
                 </div>
                 <div>
                     <label>Game Type:</label>
-                    <select onChange={(e)=>setType(e.target.value)}>
-                        <option>select</option>
+                    <select onChange={(e)=>setType(e.target.value)} required={true}>
+                        <option value={""}>select</option>
                         <option value={"singular"}>Singular</option>
                         <option value={"colective"}>Colective</option>
                     </select>
@@ -40,7 +43,7 @@ function InitialState({setInitialState, setIStateData}){
                     <label>Debufs?</label>
                     <input onChange={()=>setDebufs(!debufs)} type={"checkbox"}/>
                 </div>
-                <input value={"Submit"} type={"submit"}/>
+                <input className={buttonClass} value={"Make questions"} type={"submit"}/>
             </form>
         </div>
     )

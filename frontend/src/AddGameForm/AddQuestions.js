@@ -1,11 +1,13 @@
-import {useState} from "react";
+import React, {useState} from "react";
+import AddABCDQuestion from "./AddABCDQuestion";
+import InputQuestion from "./InputQuestion";
+import TFQuestion from "./TFQuestion";
 
-
-function AddQuestions({questions,setQuestions}){
+function AddQuestions({iStateData,setIStateData,questions,setQuestions}){
     const [type,setType]=useState("")
     const [qusetion,setQuestion]=useState("")
     const [answers,setAnswers]=useState([])
-    const [correct,setCorrect]=useState("")
+    const [correct,setCorrect]=useState("t")
 
     const [a,setA]=useState("")
     const [b,setB]=useState("")
@@ -13,60 +15,79 @@ function AddQuestions({questions,setQuestions}){
     const [d,setD]=useState("")
 
 
+    const abcdProps = {setCorrect, setA, setB, setC, setD}
+
+    const inputProps = {setCorrect}
+
+    const tfProps={correct, setCorrect}
+
+
+
+
     const handleNext = (event) =>{
         event.preventDefault()
-        setAnswers([a,b,c,d])
-        const newQuestion={"type":type,"question":qusetion,"answers":answers,"correct":correct}
+        const newQuestion={"type":type,"question":qusetion,"answers":[a,b,c,d],"correct":correct}
         setQuestions([...questions,newQuestion])
         setType("")
         setQuestion("")
         setAnswers([])
-        setCorrect("")
+        setCorrect("t")
         setA("")
         setB("")
         setC("")
         setD("")
     }
 
+    const handleSubmit = ()=>{
+        setIStateData(iStateData)
+        const game={"name": iStateData.name,
+            "description": iStateData.description,
+            "type": iStateData.type,
+            "questions":questions,
+            "debufs": iStateData.debufs,
+            "createdBy":"N/A"}
+        // useNewGame(game)
+        // naviagte("/gdziekolwiek")
+        window.alert(JSON.stringify(game))
+        window.location.reload("false")
+        console.log(game)
+    }
+
+    const buttonClass =
+        "flex flex-col justify-center items-center h-10 w-60 button";
+
     return(
-        <div>
-            <form>
-                <div>
-                    <label>Set question type:</label>
-                    <select value={""} onChange={(e)=>setType(e.target.value)}>
-                        <option value={""}>select</option>
-                        <option value={"abcd"}>ABCD</option>
-                        <option value={"true/false"}>true/false</option>
-                        <option value={"input"}>input</option>
-                    </select>
-                </div>
-                <div>
-                    <label>Set question:</label>
-                    <input value={qusetion} type={"text"} placeholder={"question"} onChange={(e)=>setQuestion(e.target.value)}/>
-                </div>
-                <div>
-                    {type==="abcd"?
-                        <div>
-                            <input type={"text"} placeholder={"option A"} onChange={(e)=>setA(e.target.value)}/>
-                            <input type={"text"} placeholder={"option B"} onChange={(e)=>setB(e.target.value)}/>
-                            <input type={"text"} placeholder={"option C"} onChange={(e)=>setC(e.target.value)}/>
-                            <input type={"text"} placeholder={"option D"} onChange={(e)=>setD(e.target.value)}/>
-                            <select onChange={(e)=>setCorrect(e.target.value)}>
-                                <option>select correct</option>
-                                <option value={"1"}>A</option>
-                                <option value={"2"}>B</option>
-                                <option value={"3"}>C</option>
-                                <option value={"4"}>D</option>
+        <div className={"flex flex-col"}>
+            <div className={"min-h-screen flex justify-center align-middle items-center"}>
+                <form onSubmit={handleNext}>
+                    <div className="flex flex-column gap-20 items-center justify-center">
+                        <div className="flex content-start flex-col p-3">
+                            <label>Set question type:</label>
+                            <select value={""} onChange={(e)=>setType(e.target.value)}>
+                                <option value={""}>select</option>
+                                <option value={"abcd"}>ABCD</option>
+                                <option value={"true/false"}>true/false</option>
+                                <option value={"input"}>input</option>
                             </select>
-                            <button onClick={handleNext}>Next question</button>
                         </div>
-                        :type==="input"?
-                            <div>input</div>
-                            :type==="true/false"?
-                                <div>true/false</div>
-                                :null}
-                </div>
-            </form>
+                        <div className="flex flex-col p-3">
+                            <label>Set question:</label>
+                            <input value={qusetion} type={"text"} placeholder={"question"} onChange={(e)=>setQuestion(e.target.value)} required={true}/>
+                        </div>
+                    </div>
+                    <div >
+                        {type==="abcd"?
+                            <AddABCDQuestion  {...abcdProps}/>
+                            :type==="input"?
+                                <InputQuestion {...inputProps}/>
+                                :type==="true/false"?
+                                    <TFQuestion {...tfProps}/>
+                                    :null}
+                    </div>
+                    <div className={"flex items-center justify-center "}>{questions.length>0?<button className={buttonClass} onClick={handleSubmit}>Submit Game</button>:null}</div>
+                </form>
+
+        </div>
         </div>
     )
 }
