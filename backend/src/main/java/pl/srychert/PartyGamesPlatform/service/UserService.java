@@ -69,9 +69,21 @@ public class UserService {
         }
 
         updatedUser.setPassword(passwordEncoder.encode(user.getPassword()));
-        updatedUser.setRoles(user.getRoles());
 
         return userRepository.save(updatedUser);
+    }
+
+    public User updateRoles(String id, List<String> roles){
+        // check necessary because user could send empty body through controller
+        if(roles == null){
+            throw new ApiRequestException("roles can't be null");
+        }
+        User user = userRepository
+                .findById(id)
+                .orElseThrow(() -> new ApiRequestException("No such User id in DB"));
+
+        user.setRoles(roles);
+        return userRepository.save(user);
     }
 
     public User updateActive(String id, boolean active){

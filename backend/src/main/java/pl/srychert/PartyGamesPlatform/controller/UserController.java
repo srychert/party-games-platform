@@ -8,6 +8,7 @@ import pl.srychert.PartyGamesPlatform.model.User;
 import pl.srychert.PartyGamesPlatform.service.UserService;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,6 +54,13 @@ public class UserController {
     @PreAuthorize("@authComponent.isAdmin()")
     public User updateActive(@PathVariable("userId") String id, @RequestParam boolean active){
         return userService.updateActive(id, active);
+    }
+
+    @PatchMapping(path = "{userId}/roles")
+    @PreAuthorize("@authComponent.isAdmin()")
+    public User updateRoles(@PathVariable("userId") String id, @RequestBody HashMap<String, List<String>> roles){
+        return userService.updateRoles(id, roles.get("roles"));
+
     }
 
     @PatchMapping(path = "{userId}/expire")
