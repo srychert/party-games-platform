@@ -36,7 +36,7 @@ public class UserService {
                 user.getUserName(),
                 passwordEncoder.encode(user.getPassword()),
                 user.isActive(),
-                user.getRoles(),
+                List.of("USER"),
                 user.getEmail());
 
         return userRepository.insert(newUser);
