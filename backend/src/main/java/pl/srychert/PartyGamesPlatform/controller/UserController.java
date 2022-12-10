@@ -27,8 +27,14 @@ public class UserController {
 
     @GetMapping(path = "{userId}")
     @PreAuthorize("@authComponent.hasPermission(#id)")
-    public Optional<User> getUser(@AuthenticationPrincipal User user, @PathVariable("userId") String id){
+    public Optional<User> getUser(@PathVariable("userId") String id){
         return userService.getUser(id);
+    }
+
+    @GetMapping(path = "/user-name/{userName}")
+    @PreAuthorize("@authComponent.hasPermissionByName(#userName)")
+    public Optional<User> getUserByName(@PathVariable("userName") String userName){
+        return userService.getUserByName(userName);
     }
 
     @PostMapping

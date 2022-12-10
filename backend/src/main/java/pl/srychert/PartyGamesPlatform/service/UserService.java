@@ -30,6 +30,10 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public Optional<User> getUserByName(String userName) {
+        return userRepository.findByUserName(userName);
+    }
+
     public User addUser(User user){
         checkForDuplicates(user);
         User newUser = new User(

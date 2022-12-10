@@ -19,18 +19,29 @@ public class AuthComponent {
     UserRepository userRepository;
 
     public boolean hasPermission(String id) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String name = authentication.getName();
-
         if(isAdmin()){
             return true;
         }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String name = authentication.getName();
 
         // Grant permission if user is the owner
         Optional<User> user = userRepository.findByUserName(name);
         String userId = user.map(User::getId).orElse(null);
 
         return id.equals(userId);
+    }
+
+    public boolean hasPermissionByName(String userName) {
+        if(isAdmin()){
+            return true;
+        }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String name = authentication.getName();
+
+        return userName.equals(name);
     }
 
     public boolean isAdmin() {
