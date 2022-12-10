@@ -2,6 +2,7 @@ version: "3.8"
 services:
   redis:
     image: redis:7.0-alpine
+    container_name: redis
     restart: always
     ports:
       - 6379:6379
@@ -34,10 +35,10 @@ services:
       - ME_CONFIG_MONGODB_ADMINPASSWORD=$MONGO_ROOT_PASSWORD
       - ME_CONFIG_MONGODB_SERVER=mongodb
   api:
-    image: srychert/backend-api:v-0.0.4
+    image: srychert/backend-api:v-0.0.5
     ports:
       - 8080:8080
-    container_name: $APP_NAME
+    container_name: $BACKEND_NAME
     restart: on-failure
     depends_on:
       - mongodb
@@ -51,11 +52,12 @@ services:
       - SPRING_DATA_MONGODB_PASSWORD=$MONGO_ROOT_PASSWORD
       - SPRING_DATA_MONGODB_DATABASE=$MONGO_DB
       - REDIS_GENERATE=$REDIS_GENERATE
+      - REDIS_HOST=redis
   front:
     image: merski001/party-games-frontend
     ports:
       - 3000:3000
-    container_name: $APP_NAME-frontend
+    container_name: $FRONTEND_NAME
     restart: on-failure
     depends_on:
       - api

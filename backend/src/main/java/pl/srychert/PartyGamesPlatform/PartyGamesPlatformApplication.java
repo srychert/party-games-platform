@@ -27,10 +27,10 @@ public class PartyGamesPlatformApplication {
 		return args -> {
 			User user = new User("user",
 					"{bcrypt}$2a$10$4v6Q8zDpz35rUfOe3uzuVushJXYz/xHr2CHgnF2D2fS62Qg/14XPq",
-					true, "ROLE_USER", "user@example.com");
+					true, List.of("ROLE_USER"), "user@example.com");
 			String createdBy = user.getEmail();
 			Game game = new Game(
-				"Epic game", List.of("roll-dice", "pick-answer"), 10L, createdBy
+				"Epic game", "", List.of("roll-dice", "pick-answer"), 10L, createdBy
 			);
 
 			user_repository.findByUserName(user.getUserName()).ifPresentOrElse(g -> {

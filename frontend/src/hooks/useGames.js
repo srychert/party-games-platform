@@ -1,16 +1,21 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
+import { useAuth } from './useAuth';
+import { useNavigate } from 'react-router-dom';
 
 function useGames() {
   const [gamesData, setGamesData] = useState([]);
+  const { api } = useAuth();
+  const navigate = useNavigate();
   useEffect(() => {
-    axios
-      .get(`http://${process.env.REACT_APP_DOMAIN}:8080/api/v1/games`)
+    api
+      .get('/games')
       .then((res) => {
         setGamesData(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response.status === 401 || err.response.status === 403) {
+          navigate('/login');
+        }
       });
   }, []);
   return gamesData;

@@ -45,8 +45,21 @@ const onError = (error) => {
 }
 
 const sendMessage = (event) => {
+    event.preventDefault();
     const messageInput = document.querySelector('#message')
     const messageContent = messageInput.value.trim()
+
+    if (messageContent === "start" && stompClient){
+        const chatMessage = {
+            sender: username,
+            content: messageInput.value,
+            type: 'START_GAME',
+            time: moment().calendar()
+        }
+        stompClient.send(`/app/chat/${pin}.startGame`, {}, JSON.stringify(chatMessage))
+        messageInput.value = ''
+        return
+    }
 
     if (messageContent && stompClient) {
         const chatMessage = {
@@ -58,7 +71,6 @@ const sendMessage = (event) => {
         stompClient.send(`/app/chat/${pin}.send`, {}, JSON.stringify(chatMessage))
         messageInput.value = ''
     }
-    event.preventDefault();
 }
 
 

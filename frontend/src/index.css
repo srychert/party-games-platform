@@ -4,19 +4,22 @@
 
 @layer components {
   .box {
-    @apply flex content-center items-center justify-center bg-gray-200 shadow-md;
+    @apply flex content-center items-center justify-center rounded-lg bg-gray-200 shadow-md;
   }
   .button {
-    @apply m-3 rounded-lg border bg-gray-200 p-3 shadow-md hover:bg-gray-300;
+    @apply rounded-lg border bg-gray-500 p-5 shadow-md cursor-pointer;
   }
   .button:hover {
-    @apply cursor-pointer bg-sky-300 text-white;
+    @apply cursor-pointer bg-sky-600 text-white;
   }
   .form-input {
     @apply h-10 rounded-lg border-2 border-sky-300 bg-white px-5 pr-10 text-sm;
   }
   .form-input:focus {
     @apply border-sky-400 outline-none;
+  }
+  .form{
+    @apply flex flex-col content-center items-center justify-center p-10 shadow-lg shadow-sky-700;
   }
   .tile {
     @apply m-2 flex h-32 w-32 flex-col content-center items-center justify-center rounded-lg p-40 shadow-md;
@@ -34,9 +37,27 @@
     @apply tile;
   }
   .game-board {
-    @apply flex content-center items-center justify-center rounded-lg bg-gray-200 shadow-md;
+    @apply flex h-screen w-screen content-center items-center justify-center rounded-lg  bg-gray-200 p-5 shadow-md;
   }
   .player {
-    @apply animate-bounce m-1 flex h-5 w-5 content-center items-center justify-center rounded-full bg-player p-5 font-bold shadow-md;
+    @apply m-1 flex h-5 w-5 animate-bounce content-center items-center justify-center rounded-full bg-player p-5 font-bold shadow-md;
+  }
+  .card {
+    @apply button flex h-1/2 w-1/2 flex-col items-center justify-center;
+  }
+  .gradient {
+    @apply bg-gradient-to-b from-sky-100 via-sky-700 to-sky-100;
+  }
+  .game-card{
+    @apply relative flex flex-col rounded-lg border p-6 shadow-md shadow-sky-600;
+  }
+  .game-noPlayed{
+    @apply absolute top-1 right-1 rounded-lg border p-2 shadow-sm shadow-sky-500 bg-gray-200
+  }
+  .image{
+    @apply h-20 w-20 cursor-pointer rounded-full border border-sky-300 shadow-md;
+  }
+  .image:hover{
+    @apply border-sky-400;
   }
 }
