@@ -1,7 +1,9 @@
 package pl.srychert.PartyGamesPlatform.model;
 
 public enum MessageType {
-    CHAT,
+    ANSWERS,
+    RESULT,
+    MESSAGE,
     CONNECT,
     DISCONNECT,
     START_GAME

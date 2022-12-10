@@ -15,20 +15,20 @@ public class ChatController {
     @Autowired
     GameStateService gameStateService;
 
-    @MessageMapping("/chat/{gamePin}.send")
+    @MessageMapping("/{gamePin}")
     @SendTo("/topic/public/{gamePin}")
     public ChatMessage sendMessage(@Payload final ChatMessage chatMessage){
         return chatMessage;
     }
 
-    @MessageMapping("/chat/{gamePin}.newUser")
+    @MessageMapping("/{gamePin}.newUser")
     @SendTo("/topic/public/{gamePin}")
     public ChatMessage newUser(@Payload final ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor){
         headerAccessor.getSessionAttributes().put("username" ,chatMessage.getSender());
         return chatMessage;
     }
 
-    @MessageMapping("/chat/{gamePin}.startGame")
+    @MessageMapping("/{gamePin}.startGame")
     @SendTo("/topic/public/{gamePin}")
     public ChatMessage startGame(@DestinationVariable String gamePin, @Payload final ChatMessage chatMessage) {
         gameStateService.startGame(gamePin);
