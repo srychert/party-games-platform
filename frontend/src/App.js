@@ -33,7 +33,10 @@ function App() {
       <Route element={<ProtectRoutes />}>
         <Route path="/host/:id/:pin" element={<MainGame />} />
       </Route>
-      <Route element={<ProtectRoutes />}>
+      <Route path="/userpanel" element={<UserPanel />} />
+      <Route path="/userpanel/security" element={<Security />} />
+      <Route path="/addgame" element={<AddGame />} />
+      {/* <Route element={<ProtectRoutes />}>
         <Route path="/userpanel" element={<UserPanel />} />
       </Route>
       <Route element={<ProtectRoutes />}>
@@ -41,7 +44,7 @@ function App() {
       </Route>
       <Route element={<ProtectRoutes />}>
         <Route path="/addgame" element={<AddGame />} />
-      </Route>
+      </Route> */}
     </Routes>
   );
 }

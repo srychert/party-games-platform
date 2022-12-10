@@ -1,52 +1,61 @@
-import {useState} from "react";
+import { useState } from 'react';
 
+function InitialState({ setInitialState, setIStateData }) {
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [type, setType] = useState('');
+  const [debufs, setDebufs] = useState(false);
 
-function InitialState({setInitialState, setIStateData}){
-    const [name,setName]=useState("")
-    const [description,setDescription]=useState("")
-    const [type,setType]=useState("")
-    const [debufs,setDebufs]=useState(false)
+  function handleInitialState(event) {
+    event.preventDefault();
+    setIStateData({
+      name: name,
+      description: description,
+      type: type,
+      debufs: debufs,
+    });
+    setInitialState(false);
+  }
 
-    function handleInitialState(event){
-        event.preventDefault()
-        setIStateData({
-            "name":name,
-            "description":description,
-            "type":type,
-            "debufs":debufs})
-        setInitialState(false)
-    }
+  const buttonClass = 'flex flex-col justify-center items-center h-10 w-60 button';
 
-    const buttonClass =
-        "flex flex-col justify-center items-center h-10 w-60 button";
-
-    return(
-        <div className={"flex justify-center align-middle items-center min-h-screen"}>
-            <form onSubmit={handleInitialState}>
-                <div>
-                    <label>Game Name:</label>
-                    <input type={"text"} placeholder={"Name"} onChange={(e)=>setName(e.target.value)} required={true} />
-                </div>
-                <div>
-                    <label>Game Description:</label>
-                    <input type={"text"} placeholder={"Description"} onChange={(e)=>setDescription(e.target.value)} required={true} />
-                </div>
-                <div>
-                    <label>Game Type:</label>
-                    <select onChange={(e)=>setType(e.target.value)} required={true}>
-                        <option value={""}>select</option>
-                        <option value={"singular"}>Singular</option>
-                        <option value={"colective"}>Colective</option>
-                    </select>
-                </div>
-                <div>
-                    <label>Debufs?</label>
-                    <input onChange={()=>setDebufs(!debufs)} type={"checkbox"}/>
-                </div>
-                <input className={buttonClass} value={"Make questions"} type={"submit"}/>
-            </form>
+  return (
+    <div className={'flex min-h-screen items-center justify-center align-middle'}>
+      <form onSubmit={handleInitialState}>
+        <div>
+          <label>Game Name:</label>
+          <input
+            type={'text'}
+            placeholder={'Name'}
+            onChange={(e) => setName(e.target.value)}
+            required={true}
+          />
         </div>
-    )
+        <div>
+          <label>Game Description:</label>
+          <input
+            type={'text'}
+            placeholder={'Description'}
+            onChange={(e) => setDescription(e.target.value)}
+            required={true}
+          />
+        </div>
+        <div>
+          <label>Game Type:</label>
+          <select onChange={(e) => setType(e.target.value)} required={true}>
+            <option value={''}>select</option>
+            <option value={'singular'}>Singular</option>
+            <option value={'colective'}>Colective</option>
+          </select>
+        </div>
+        <div>
+          <label>Debufs?</label>
+          <input onChange={() => setDebufs(!debufs)} type={'checkbox'} />
+        </div>
+        <input className={buttonClass} value={'Make questions'} type={'submit'} />
+      </form>
+    </div>
+  );
 }
 
 export default InitialState;

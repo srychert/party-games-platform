@@ -7,7 +7,7 @@
     @apply flex content-center items-center justify-center rounded-lg bg-gray-200 shadow-md;
   }
   .button {
-    @apply rounded-lg border bg-gray-500 p-5 shadow-md cursor-pointer;
+    @apply cursor-pointer rounded-lg border bg-gray-500 p-5 shadow-md;
   }
   .button:hover {
     @apply cursor-pointer bg-sky-600 text-white;
@@ -18,7 +18,7 @@
   .form-input:focus {
     @apply border-sky-400 outline-none;
   }
-  .form{
+  .form {
     @apply flex flex-col content-center items-center justify-center p-10 shadow-lg shadow-sky-700;
   }
   .tile {
@@ -48,16 +48,16 @@
   .gradient {
     @apply bg-gradient-to-b from-sky-100 via-sky-700 to-sky-100;
   }
-  .game-card{
+  .game-card {
     @apply relative flex flex-col rounded-lg border p-6 shadow-md shadow-sky-600;
   }
-  .game-noPlayed{
-    @apply absolute top-1 right-1 rounded-lg border p-2 shadow-sm shadow-sky-500 bg-gray-200
+  .game-noPlayed {
+    @apply absolute top-1 right-1 rounded-lg border bg-gray-200 p-2 shadow-sm shadow-sky-500;
   }
-  .image{
+  .image {
     @apply h-20 w-20 cursor-pointer rounded-full border border-sky-300 shadow-md;
   }
-  .image:hover{
+  .image:hover {
     @apply border-sky-400;
   }
 }
