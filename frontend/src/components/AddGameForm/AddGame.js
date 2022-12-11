@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InitialState from './InitialState';
 import AddQuestions from './AddQuestions';
-import useNewGame from '../hooks/useNewGame';
+import useNewGame from '../../hooks/useNewGame';
 
 function AddGame() {
   const naviagte = useNavigate();

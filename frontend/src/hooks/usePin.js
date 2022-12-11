@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from './useAuth';
-import { useNavigate } from 'react-router-dom';
+import handleError from './handleError';
 
 function usePin(id) {
   const [pin, setPin] = useState('');
   const { api } = useAuth();
-  const navigate = useNavigate();
   useEffect(() => {
     api
       .post(`/games/new/${id}`)
@@ -13,9 +12,7 @@ function usePin(id) {
         setPin(res.data.pin);
       })
       .catch((err) => {
-        if (err.response.status === 401 || err.response.status === 403) {
-          navigate('/login');
-        }
+        handleError(err);
       });
   }, [id]);
   return pin;

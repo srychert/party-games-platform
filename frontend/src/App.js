@@ -9,13 +9,14 @@ import Host from './components/Host/Host';
 import ChoosenGame from './components/ChoosenGame/ChoosenGame';
 import MainGame from './components/MainGame/MainGame';
 import ProtectRoutes from './components/ProtectRoutes/ProtectRoutes';
-import UserPanel from './UserPanel/UserPanel';
-import Security from './UserPanel/Security';
-import AddGame from './AddGameForm/AddGame';
+import UserPanel from './components/UserPanel/UserPanel';
+import Security from './components/UserPanel/Security';
+import AddGame from './components/AddGameForm/AddGame';
 
 function App() {
   return (
     <Routes>
+      <Route path="*" element={<div>404</div>} />
       <Route path="/" element={<Common />} />
       <Route
         path="/login"
@@ -33,18 +34,21 @@ function App() {
       <Route element={<ProtectRoutes />}>
         <Route path="/host/:id/:pin" element={<MainGame />} />
       </Route>
-      <Route path="/userpanel" element={<UserPanel />} />
-      <Route path="/userpanel/security" element={<Security />} />
-      <Route path="/addgame" element={<AddGame />} />
-      {/* <Route element={<ProtectRoutes />}>
-        <Route path="/userpanel" element={<UserPanel />} />
+      <Route element={<ProtectRoutes />}>
+        <Route path="/profile/:id" element={<UserPanel />} />
       </Route>
       <Route element={<ProtectRoutes />}>
-        <Route path="/userpanel/security" element={<Security />} />
+        <Route path="/profile/:id/security" element={<Security />} />
+      </Route>
+      <Route element={<ProtectRoutes />}>
+        <Route path="/profile/:id/yours" element={<AddGame />} />
+      </Route>
+      <Route element={<ProtectRoutes />}>
+        <Route path="/profile/:id/history" element={<AddGame />} />
       </Route>
       <Route element={<ProtectRoutes />}>
         <Route path="/addgame" element={<AddGame />} />
-      </Route> */}
+      </Route>
     </Routes>
   );
 }

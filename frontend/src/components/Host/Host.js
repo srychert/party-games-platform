@@ -12,7 +12,8 @@ function Host() {
   // To do zmiany po ogarnięciu logowania
   // -------------------------------------
   const handleShowProfile = () => {
-    navigate(`/profile/${auth.cookies.user}`);
+    // profile id (tylko skąd id :) )
+    navigate(`/profile/63912295c8bf2f3525affad0`);
   };
   // -------------------------------------
   const handleChooseGame = (gameID) => {

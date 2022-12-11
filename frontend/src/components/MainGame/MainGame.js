@@ -37,33 +37,6 @@ function MainGame() {
       },
     ],
   };
-  function calculatePoints() {
-    const correctAnswer = gamedata.questions[round].answers.filter(
-      (answer) => answer.correct
-    );
-    const index = gamedata.questions[round].answers.indexOf(correctAnswer[0]);
-    /* 
-      {
-        answer: 'Dobrze',
-        correct: true,
-      }
-      index => index dobrej odpowiedzi
-      answers => tablica z odpowiedziami i nickami nick,odpowiedz
-      points => tablica z punktami nick,punkty
-    */
-
-    const points = answers.map((answer) => {
-      if (answer.split(',')[1] === index) {
-        setWyniki((prev) => {
-          const newWyniki = [...prev];
-          newWyniki[answer.split(',')[0]].points += 1;
-          return newWyniki;
-        });
-      } else {
-        return 0;
-      }
-    });
-  }
 
   function handleNextRund() {
     // Policz punkty
@@ -78,34 +51,15 @@ function MainGame() {
   }
 
   function callback(message) {
-    if (message.body) {
-      const parsed = JSON.parse(message.body);
-      if (parsed.type === messageType.CHAT) {
-        setAnswers((prev) => [...prev, parsed.content.split(',')]);
-      }
-    } else {
-      console.log('got empty message');
+    if (message.type === messageType.ANSWER) {
+      setAnswers((prev) => [...prev, message]);
     }
   }
-  useEffect(() => {
-    client.activate();
-    client.onConnect = () => {
-      client.subscribe(`/topic/public/${params.pin}`, callback);
-      client.publish({
-        destination: `/app/chat/${params.pin}.send`,
-        body: chatMessage(
-          'host',
-          makeContent(gamedata.questions[round].answers),
-          messageType.CHAT
-        ),
-      });
-    };
-  }, [params.pin, round]);
 
   return (
     <div className="game-board">
       <Question question={gamedata.questions[round]} />
-      <button className="button" onClick={handleNextRund}>
+      <button className="button absolute top-5 right-5" onClick={handleNextRund}>
         Next
       </button>
     </div>

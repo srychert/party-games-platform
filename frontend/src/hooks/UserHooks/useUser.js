@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useAuth } from '../useAuth';
+import handleError from '../handleError';
 
 function useUser(id) {
   const [userData, setUserData] = useState({});
+  const { api } = useAuth();
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:8080/api/v1/users/${id}`)
+    api
+      .get(`users/${id}`)
       .then((res) => {
         setUserData(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        handleError(err);
       });
   }, [id]);
 

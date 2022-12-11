@@ -39,7 +39,7 @@ function PhoneView() {
     // Answer
     if (client) {
       client.publish({
-        destination: `/app/chat/${pin}.send`,
+        destination: `/app/${pin}.send`,
         body: chatMessage(nick, makeContent(nick, answer), messageType.CHAT),
       });
     }

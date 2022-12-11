@@ -32,7 +32,7 @@ function Join() {
     event.preventDefault();
     auth.setNick(nick);
     client.publish({
-      destination: `/app/chat/${pin}.newUser`,
+      destination: `/app/${pin}.newUser`,
       body: chatMessage(nick, '', messageType.CONNECT),
     });
     client.subscribe(`/topic/public/${pin}`, callback);

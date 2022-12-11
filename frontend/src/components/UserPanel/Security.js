@@ -1,8 +1,8 @@
 import UPanelNav from './UPanelNav';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import useUser from '../hooks/UserHooks/useUser';
-import useEditUser from '../hooks/UserHooks/useEditUser';
+import useUser from '../../hooks/UserHooks/useUser';
+import useEditUser from '../../hooks/UserHooks/useEditUser';
 
 export default function Security() {
   //nwm czy tak będzie dobrze czy nie lepiej jakoś z jwt z cookies pobierać

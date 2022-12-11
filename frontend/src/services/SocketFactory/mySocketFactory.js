@@ -2,7 +2,8 @@ import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
 
 function mySocketFactory() {
-  return new SockJS(`http://localhost:8080/chat-example`);
+  // chat-example -> game
+  return new SockJS(`http://localhost:8080/game`);
 }
 
 const client = new Client({

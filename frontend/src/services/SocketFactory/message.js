@@ -9,7 +9,9 @@ export const chatMessage = (sender, content, type) => {
 };
 
 export const messageType = {
-  CHAT: 'CHAT',
+  ANSWERS: 'ANSWERS',
+  RESULT: 'RESULT',
+  MESSAGE: 'MESSAGE',
   CONNECT: 'CONNECT',
   DISCONNECT: 'DISCONNECT',
   START_GAME: 'START_GAME',

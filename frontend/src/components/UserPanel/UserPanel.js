@@ -1,38 +1,28 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import useUser from '../hooks/UserHooks/useUser';
+import useUser from '../../hooks/UserHooks/useUser';
 import UPanelNav from './UPanelNav';
 
 function UserPanel() {
-  //nwm czy tak będzie dobrze czy nie lepiej jakoś z jwt z cookies pobierać
-  // let params = useParams();
-  // const userData = useUser(params.id);
-
-  //temp data
-  const [userData, setUserData] = useState({
-    userName: 'tempUname',
-    roles: ['ROLE_USER'],
-    email: 'temp@email.com',
-    creationDate: 'N/A',
-  });
-  //temp data
+  const { id } = useParams();
+  const userData = useUser(id);
 
   return (
     <div className="flex flex-col gap-20">
-      <UPanelNav />
+      <UPanelNav id={id} />
       <div className="flex flex-row items-center justify-center space-x-16">
         <div className="mb-4">
           <img
             src="https://1fid.com/wp-content/uploads/2022/06/no-profile-picture-6-1024x1024.jpg"
             alt="profilePic"
-            className="h-80 w-80 rounded-full"
+            className="h-80 w-80 rounded-full border-2 border-sky-600"
           />
         </div>
         <div>
           <div>Username: {userData.userName}</div>
           <div>Roles: {userData.roles}</div>
           <div>Email: {userData.email}</div>
-          <div>Acount creation date: {userData.creationDate}</div>
+          <div>Acount active: {userData.active ? 'Tak' : 'Nie'}</div>
         </div>
       </div>
     </div>
