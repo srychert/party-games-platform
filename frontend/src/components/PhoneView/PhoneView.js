@@ -19,9 +19,6 @@ function PhoneView() {
     if (message.body) {
       const parsed = JSON.parse(message.body);
       console.log(parsed);
-      if (parsed.content.includes(',')) {
-        const wynik = parsed.content.split(',');
-      }
       setAnswers(parsed.content.split(';'));
     } else {
       console.log('Empty message');
@@ -36,17 +33,14 @@ function PhoneView() {
 
   // Odpowiedź na pytanie
   const handleClick = (answer) => {
-    // Answer
+    // Answer 1-4
     if (client) {
       client.publish({
         destination: `/app/${pin}.send`,
-        body: chatMessage(nick, makeContent(nick, answer), messageType.CHAT),
+        body: chatMessage(nick, answer, messageType.MESSAGE),
       });
     }
   };
-  function makeContent(nick, answer) {
-    return nick + ',' + answer;
-  }
 
   return (
     <div>

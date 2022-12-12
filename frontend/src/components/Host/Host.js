@@ -60,7 +60,7 @@ function Host() {
                 <div>
                   <div className="border-b-2 border-sky-300 p-3">{game.title}</div>
                   {showDetails ? (
-                    <div>
+                    <div className="transition-all">
                       <div className="p-1">{game.createdBy}</div>
                       <div className="p-1">{game.description}</div>
                     </div>

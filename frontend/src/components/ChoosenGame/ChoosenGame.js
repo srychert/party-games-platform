@@ -17,7 +17,9 @@ function ChoosenGame() {
         destination: `/app/${pin}.startGame`,
         body: chatMessage('host', '', messageType.START_GAME),
       });
-      navigate(`/host/${id}/${pin}`);
+      client.deactivate().then(() => {
+        navigate(`/host/${id}/${pin}`);
+      });
     } else {
       console.log('not connected');
     }
@@ -49,7 +51,7 @@ function ChoosenGame() {
       <div className="flex flex-row justify-between">
         {players.map((player, index) => (
           <div
-            className="m-3 animate-wiggle rounded-lg border bg-gradient-to-r from-blue-600 to-blue-200 p-3 shadow-sm"
+            className="animate-wiggle m-3 rounded-lg border bg-gradient-to-r from-blue-600 to-blue-200 p-3 shadow-sm"
             key={index}
           >
             {player}
