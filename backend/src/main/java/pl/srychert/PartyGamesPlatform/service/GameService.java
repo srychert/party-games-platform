@@ -30,7 +30,7 @@ public class GameService {
         Game newGame = new Game(
                 game.getTitle(),
                 game.getDescription(),
-                game.getAllowedActions(),
+                game.getQuestions(),
                 game.getTotalTimesPlayed(),
                 game.getCreatedBy());
        return gameRepository.insert(newGame);
@@ -52,7 +52,7 @@ public class GameService {
         updatedGame.setTitle(game.getTitle());
         updatedGame.setCreatedBy(game.getCreatedBy());
         updatedGame.setDescription(game.getDescription());
-        updatedGame.setAllowedActions(game.getAllowedActions());
+        updatedGame.setQuestions(game.getQuestions());
         updatedGame.setTotalTimesPlayed(game.getTotalTimesPlayed());
 
         return gameRepository.save(updatedGame);
