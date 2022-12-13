@@ -14,14 +14,6 @@ function useNewGame(game) {
       .catch((err) => {
         handleError(err);
       });
-    // axios
-    //   .post(`http://localhost:8080/api/v1/games`, game)
-    //   .then((res) => {
-    //     setGamedata(res.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
   }, [game]);
   return gamedata;
 }

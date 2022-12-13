@@ -21,50 +21,25 @@ function MainGame() {
   const [wyniki, setWyniki] = useState([]);
   const [change, setChange] = useState(false);
   const gamedata = {
+    name: 'Test',
+    description: 'testowy opis',
+    type: 'singular',
     questions: [
       {
-        question: 'Jak sie masz?',
-        answers: [
-          {
-            answer: 'Dobrze',
-            correct: true,
-          },
-          {
-            answer: 'Średnio',
-            correct: false,
-          },
-          {
-            answer: 'Źle',
-            correct: false,
-          },
-          {
-            answer: 'Żałosnie',
-            correct: false,
-          },
-        ],
+        type: 'abcd',
+        question: 'Jak się bawicie?',
+        answers: ['Wybornie', 'Bywało lepiej', 'Strasznie', 'Ujdzie'],
+        correct: '1',
       },
       {
-        question: 'Jak sie masz22?',
-        answers: [
-          {
-            answer: 'Dobrze1',
-            correct: true,
-          },
-          {
-            answer: 'Średnio1',
-            correct: false,
-          },
-          {
-            answer: 'Źle1',
-            correct: false,
-          },
-          {
-            answer: 'Żałosnie1',
-            correct: false,
-          },
-        ],
+        type: 'abcd',
+        question: 'Dobra test1',
+        answers: ['zla', 'zla', 'dobr', 'zla'],
+        correct: '3',
       },
     ],
+    debufs: false,
+    createdBy: 'N/A',
   };
   useEffect(() => {
     client.activate();

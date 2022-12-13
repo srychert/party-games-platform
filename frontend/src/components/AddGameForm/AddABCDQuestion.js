@@ -7,30 +7,38 @@ function AddABCDQuestion({ setCorrect, setA, setB, setC, setD }) {
         <div className={'grid grid-cols-2 gap-2'}>
           <input
             type={'text'}
+            className="form-input text-center capitalize"
             placeholder={'option A'}
             onChange={(e) => setA(e.target.value)}
             required={true}
           />
           <input
             type={'text'}
+            className="form-input text-center capitalize"
             placeholder={'option B'}
             onChange={(e) => setB(e.target.value)}
             required={true}
           />
           <input
             type={'text'}
+            className="form-input text-center capitalize"
             placeholder={'option C'}
             onChange={(e) => setC(e.target.value)}
             required={true}
           />
           <input
             type={'text'}
+            className="form-input text-center capitalize"
             placeholder={'option D'}
             onChange={(e) => setD(e.target.value)}
             required={true}
           />
         </div>
-        <select onChange={(e) => setCorrect(e.target.value)} required={true}>
+        <select
+          onChange={(e) => setCorrect(e.target.value)}
+          required={true}
+          className="form-input m-5 p-2"
+        >
           <option value="">select correct</option>
           <option value={'1'}>A</option>
           <option value={'2'}>B</option>

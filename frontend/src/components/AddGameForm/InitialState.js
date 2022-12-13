@@ -21,9 +21,9 @@ function InitialState({ setInitialState, setIStateData }) {
 
   return (
     <div className={'flex min-h-screen items-center justify-center align-middle'}>
-      <form onSubmit={handleInitialState}>
-        <div>
-          <label>Game Name:</label>
+      <form onSubmit={handleInitialState} className="form">
+        <div className="flex flex-col p-2">
+          <label>Game Name</label>
           <input
             type={'text'}
             placeholder={'Name'}
@@ -31,8 +31,8 @@ function InitialState({ setInitialState, setIStateData }) {
             required={true}
           />
         </div>
-        <div>
-          <label>Game Description:</label>
+        <div className="flex flex-col p-2">
+          <label>Game Description</label>
           <input
             type={'text'}
             placeholder={'Description'}
@@ -40,8 +40,8 @@ function InitialState({ setInitialState, setIStateData }) {
             required={true}
           />
         </div>
-        <div>
-          <label>Game Type:</label>
+        <div className="flex flex-col p-2">
+          <label>Game Type</label>
           <select onChange={(e) => setType(e.target.value)} required={true}>
             <option value={''}>select</option>
             <option value={'singular'}>Singular</option>
