@@ -5,6 +5,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import pl.srychert.PartyGamesPlatform.model.Game;
+import pl.srychert.PartyGamesPlatform.model.GameRepository;
 import pl.srychert.PartyGamesPlatform.model.User;
 import pl.srychert.PartyGamesPlatform.model.UserRepository;
 
@@ -17,6 +19,9 @@ import java.util.stream.Collectors;
 public class AuthComponent {
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    GameRepository gameRepository;
 
     public boolean hasPermission(String id) {
         if(isAdmin()){
@@ -51,5 +56,15 @@ public class AuthComponent {
                 .collect(Collectors.toList());
 
         return authorities.contains("SCOPE_ADMIN");
+    }
+
+    public boolean isGameOwner(String gameId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String name = authentication.getName();
+
+        Optional<Game> game = gameRepository.findById(gameId);
+        String createdBy = game.map(Game::getCreatedBy).orElse(null);
+
+        return name.equals(createdBy);
     }
 }
