@@ -10,7 +10,6 @@ function AddGame() {
   const [iStateData, setIStateData] = useState({
     name: '',
     description: '',
-    type: '',
     debufs: false,
   });
 
