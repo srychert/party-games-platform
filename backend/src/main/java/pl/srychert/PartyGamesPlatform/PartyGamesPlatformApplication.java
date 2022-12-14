@@ -41,6 +41,14 @@ public class PartyGamesPlatformApplication {
 			if(game_repository.findGamesByCreatedBy(createdBy).isEmpty()){
 				game_repository.insert(game);
 			}
+
+			User admin = new User("admin",
+					"{bcrypt}$2a$10$4v6Q8zDpz35rUfOe3uzuVushJXYz/xHr2CHgnF2D2fS62Qg/14XPq",
+					true, List.of("USER", "ADMIN"), "admin@example.com");
+
+			user_repository.findByUserName(admin.getUserName()).ifPresentOrElse(g -> {
+				System.out.println(g.toString());
+			}, ()-> {user_repository.insert(admin);});
 		};
 	}
 

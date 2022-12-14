@@ -31,7 +31,6 @@ public class GameService {
                 game.getTitle(),
                 game.getDescription(),
                 game.getQuestions(),
-                game.getTotalTimesPlayed(),
                 game.getCreatedBy());
        return gameRepository.insert(newGame);
     }
@@ -56,5 +55,15 @@ public class GameService {
         updatedGame.setTotalTimesPlayed(game.getTotalTimesPlayed());
 
         return gameRepository.save(updatedGame);
+    }
+
+    public Game incrementTotalTimesPlayed(String id) {
+        Game updatedGame = gameRepository
+                .findById(id)
+                .orElseThrow(() -> new ApiRequestException("No such Game id in DB"));
+
+        updatedGame.setTotalTimesPlayed(updatedGame.getTotalTimesPlayed() + 1);
+
+       return  gameRepository.save(updatedGame);
     }
 }

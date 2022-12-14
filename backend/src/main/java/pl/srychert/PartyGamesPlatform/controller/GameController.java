@@ -24,7 +24,7 @@ public class GameController {
     public Map<String, String> newGame(@PathVariable("gameId") String id){
         Map<String, String> map = new HashMap<>();
         map.put("pin", null);
-        gameService.getGame(id).ifPresent(g -> map.put("pin", gameStateService.getUnusedPin()));
+        gameService.getGame(id).ifPresent(g -> map.put("pin", gameStateService.getUnusedPin(id)));
         return map;
     }
 

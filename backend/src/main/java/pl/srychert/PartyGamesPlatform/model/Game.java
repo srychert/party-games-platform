@@ -27,7 +27,6 @@ public class Game {
     private String description;
     @NotNull
     private List<@Valid Question> questions;
-    @NotNull
     private Long totalTimesPlayed;
     @NotBlank
     private String createdBy;
@@ -38,6 +37,18 @@ public class Game {
         this.questions = questions;
         this.totalTimesPlayed = totalTimesPlayed;
         this.createdBy = createdBy;
+    }
+
+    public Game(String title, String description, List<Question> questions, String createdBy) {
+        this.title = title;
+        this.description = description;
+        this.questions = questions;
+        this.totalTimesPlayed = 0L;
+        this.createdBy = createdBy;
+    }
+
+    public Game() {
+
     }
 
 }

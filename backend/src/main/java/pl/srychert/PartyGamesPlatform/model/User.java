@@ -29,7 +29,6 @@ public class User {
     @NotBlank
     private String password;
     private boolean active;
-    @NotNull
     private List<String> roles;
     @NotBlank
     @Email
@@ -46,5 +45,19 @@ public class User {
         this.email = email;
         this.accountExpiryTime = LocalDate.now(ZoneId.of("Europe/Warsaw")).plusYears(1);
         this.credentialsExpiryTime = LocalDate.now(ZoneId.of("Europe/Warsaw")).plusYears(1);
+    }
+
+    public User(String userName, String password, boolean active, String email) {
+        this.userName = userName;
+        this.password = password;
+        this.active = active;
+        this.roles = List.of("USER");
+        this.email = email;
+        this.accountExpiryTime = LocalDate.now(ZoneId.of("Europe/Warsaw")).plusYears(1);
+        this.credentialsExpiryTime = LocalDate.now(ZoneId.of("Europe/Warsaw")).plusYears(1);
+    }
+
+    public User(){
+
     }
 }

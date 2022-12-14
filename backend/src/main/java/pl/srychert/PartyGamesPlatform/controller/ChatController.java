@@ -8,12 +8,16 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import pl.srychert.PartyGamesPlatform.model.ChatMessage;
+import pl.srychert.PartyGamesPlatform.service.GameService;
 import pl.srychert.PartyGamesPlatform.service.GameStateService;
 
 @Controller
 public class ChatController {
     @Autowired
     GameStateService gameStateService;
+
+    @Autowired
+    GameService gameService;
 
     @MessageMapping("/{gamePin}")
     @SendTo("/topic/public/{gamePin}")
@@ -32,8 +36,9 @@ public class ChatController {
     @SendTo("/topic/public/{gamePin}")
     public ChatMessage startGame(@DestinationVariable String gamePin, @Payload final ChatMessage chatMessage) {
         gameStateService.startGame(gamePin);
-        // TODO
-        // forbid connecting to topic
+        String gameId = gameStateService.getGameId(gamePin);
+        gameService.incrementTotalTimesPlayed(gameId);
+        // TODO forbid connecting to topic
         return chatMessage;
     }
 }
