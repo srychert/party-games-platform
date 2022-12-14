@@ -6,9 +6,11 @@ import { Cookies } from 'react-cookie';
 
 function useNewGame() {
   const [gamedata, setGamedata] = useState({});
+  // ale to juz dziala, wystarczylo dobrze zainicjalizowac api :)))))))))
+  const { api } = useAuth();
   function newGame(game) {
     // wywala blad ze hookow nie mozna uzywac inside hooks
-    const { api } = useAuth();
+    // ta widze
     api
       .post(`/games`, game)
       .then((res) => {
