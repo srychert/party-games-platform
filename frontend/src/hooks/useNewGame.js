@@ -10,7 +10,6 @@ function useNewGame() {
     const cookies = new Cookies();
     // wywala blad ze hookow nie mozna uzywac inside hooks
     // const { api } = useAuth();
-    console.log(312);
     const config = {
       headers: { Authorization: `Bearer ${cookies.get('token')}` },
     };
