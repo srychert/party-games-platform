@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import client from '../../services/SocketFactory/mySocketFactory';
 import useGame from '../../hooks/useGame';
 import { chatMessage, messageType } from '../../services/SocketFactory/message';
@@ -8,94 +8,113 @@ import Question from '../Question/Question';
 
 import answerRecived from './answer';
 
-function MainGame() {
-  let { id, pin } = useParams();
-  const gamedata = useGame(id);
+function MainGame({ route, navigation }) {
+  const { id, pin } = useParams();
+  const location = useLocation();
+  const gameData = useGame(id);
   const [round, setRound] = useState(0);
-  const [answers, setAnswers] = useState([]);
-  const [wyniki, setWyniki] = useState([]);
+  const [players, setPlayers] = useState(
+    location?.state?.players
+      ? location.state.players.map((p) => ({ nick: p, points: 0, currentRound: 0 }))
+      : []
+  );
+
   useEffect(() => {
     client.activate();
     client.onConnect = () => {
-      client.subscribe(`/topic/public/${pin}`, callback);
-      client.publish({
-        destination: `/app/${pin}.send`,
-        body: chatMessage(
-          'host',
-          makeContent(gamedata.questions[round].answers),
-          messageType.ANSWERS
-        ),
-      });
+      client.subscribe(`/topic/public/${pin}`, gameLogic);
+
+      // this is really bad
+      if (gameData?.questions) {
+        /* prettier-ignore */
+        const test = async () => await new Promise(r => setTimeout(() => {r()}, 10))
+        test();
+
+        client.publish({
+          destination: `/app/${pin}`,
+          body: chatMessage(
+            'host',
+            JSON.stringify(gameData.questions[round].answers),
+            messageType.ANSWERS
+          ),
+        });
+      }
     };
-  }, []);
+  }, [gameData]);
 
-  useEffect(() => {
-    // Wysyła wyniki
-    if (client && round) {
-      client.publish({
-        destination: `/app/${pin}.send`,
-        body: chatMessage('host', wynikiToContent(wyniki), messageType.RESULT),
-      });
-      client.publish({
-        destination: `/app/${pin}.send`,
-        body: chatMessage(
-          'host',
-          makeContent(gamedata.questions[round].answers),
-          messageType.ANSWERS
-        ),
-      });
-    }
-  }, [wyniki, round]);
+  function handleNextRound() {
+    setRound(round + 1);
+    // show results on screen here
 
-  function handleNextRund() {
-    // Zlicza punkty
-    countPoints();
-
-    // Wysyła next round question
-
-    setRound((prev) => prev + 1);
-    setAnswers([]);
-  }
-  function makeContent(answers) {
-    return '' + answers.map((answer) => answer.answer).join(';');
-  }
-  function wynikiToContent(wyniki) {
-    return '' + wyniki.map((wynik) => wynik.nick + ',' + wynik.points).join(';');
-  }
-  function countPoints() {
-    const goodAnswer = gamedata.questions[round].answers.filter(
-      (answer) => answer.correct
-    )[0];
-    const goodAnswerIndex = gamedata.questions[round].answers.indexOf(goodAnswer);
-    const points = answers.map((answer) => {
-      if (answer.answer === goodAnswerIndex) {
-        return { nick: answer.nick, points: 1 };
-      } else {
-        return { nick: answer.nick, points: 0 };
-      }
+    client.publish({
+      destination: `/app/${pin}`,
+      body: chatMessage(
+        'host',
+        JSON.stringify(gameData.questions[round].answers),
+        messageType.ANSWERS
+      ),
     });
-    const newWyniki = [...wyniki];
-    points.forEach((point) => {
-      const index = newWyniki.findIndex((wynik) => wynik.nick === point.nick);
-      if (index !== -1) {
-        newWyniki[index].points += point.points;
-      } else {
-        newWyniki.push(point);
-      }
-    });
-    setWyniki(newWyniki);
   }
+
   // Game Logic
-  function callback(message) {
-    if (message.type === messageType.ANSWERS) {
-      setAnswers((prev) => [...prev, answerRecived(message.sender, message.content)]);
+  const gameLogic = (message) => {
+    if (!message?.body) {
+      return;
     }
-  }
+
+    const msg = JSON.parse(message?.body);
+    // why is this always 0...
+    console.log(round);
+
+    // handling players responses to questions
+    if (msg.type === messageType.MESSAGE) {
+      const { content, sender } = msg;
+      // this returns reference to object, should make this into copy of player
+      const player = players.find((p) => p.nick === sender && p.currentRound === round);
+
+      if (!player) {
+        return;
+      }
+
+      const questions = gameData?.questions;
+
+      // comparing strings here
+      const correct = questions[round].correct == content;
+      if (correct) {
+        player.points += 1;
+      }
+
+      player.currentRound += 1;
+
+      const newPlayers = players.map((p) => {
+        if (p.nick === sender) {
+          return player;
+        }
+        return p;
+      });
+
+      setPlayers(newPlayers);
+    }
+  };
 
   return (
     <div className="game-board">
-      <Question question={gamedata.questions[round]} />
-      <button className="button absolute top-5 right-5" onClick={handleNextRund}>
+      {/* testing players points */}
+      <div>
+        {players.map((p, index) => (
+          <div key={'player-' + index}>
+            {p.nick} {p.points}
+          </div>
+        ))}
+      </div>
+
+      {gameData?.questions &&
+        gameData.questions.map((question, index) => {
+          return (
+            index === round && <Question question={question} key={'question-' + index} />
+          );
+        })}
+      <button className="button absolute top-5 right-5" onClick={handleNextRound}>
         Next
       </button>
     </div>

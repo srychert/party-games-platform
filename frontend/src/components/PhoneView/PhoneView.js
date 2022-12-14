@@ -13,21 +13,20 @@ function PhoneView() {
   const auth = useAuth();
   const nick = auth.cookies.nick;
   const { pin } = useParams();
+
   // wsClient init i jego logika
   const callback = function (message) {
-    console.log(message);
+    console.log(message.body);
     if (message.body) {
       const parsed = JSON.parse(message.body);
       if (parsed.type === messageType.ANSWERS) {
-        setAnswers(parsed.content.split(';'));
-      }
-      if (parsed.type === messageType.RESULT) {
-        setWyniki(parsed.content);
+        setAnswers(JSON.parse(parsed.content));
       }
     } else {
       console.log('Empty message');
     }
   };
+
   useEffect(() => {
     client.activate();
     client.onConnect = () => {
@@ -40,7 +39,7 @@ function PhoneView() {
     // Answer 1-4
     if (client) {
       client.publish({
-        destination: `/app/${pin}.send`,
+        destination: `/app/${pin}`,
         body: chatMessage(nick, answer, messageType.MESSAGE),
       });
     }
@@ -52,28 +51,30 @@ function PhoneView() {
         <div className="flex h-1/5 items-end justify-center">
           <PointsChart players={wyniki} />
         </div>
-        <div className="grid h-4/5 grid-cols-2 grid-rows-2 gap-2 overflow-hidden">
-          <button className={`box bg-blue-700`} id="1" onClick={() => handleClick(0)}>
-            {answers[0]}
-          </button>
-          <button
-            className={`box bg-pastel-green-700`}
-            id="2"
-            onClick={() => handleClick(1)}
-          >
-            {answers[1]}
-          </button>
-          <button
-            className={`box bg-sahara-sand-700`}
-            id="3"
-            onClick={() => handleClick(2)}
-          >
-            {answers[2]}
-          </button>
-          <button className={`box bg-froly-700`} id="4" onClick={() => handleClick(3)}>
-            {answers[3]}
-          </button>
-        </div>
+        {answers && (
+          <div className="grid h-4/5 grid-cols-2 grid-rows-2 gap-2 overflow-hidden">
+            <button className={`box bg-blue-700`} id="1" onClick={() => handleClick(0)}>
+              {answers[0]}
+            </button>
+            <button
+              className={`box bg-pastel-green-700`}
+              id="2"
+              onClick={() => handleClick(1)}
+            >
+              {answers[1]}
+            </button>
+            <button
+              className={`box bg-sahara-sand-700`}
+              id="3"
+              onClick={() => handleClick(2)}
+            >
+              {answers[2]}
+            </button>
+            <button className={`box bg-froly-700`} id="4" onClick={() => handleClick(3)}>
+              {answers[3]}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -12,13 +12,14 @@ function ChoosenGame() {
   const [players, setPlayers] = useState([]);
 
   function handleClick() {
+    console.log(players);
     if (client.connected === true) {
       client.publish({
         destination: `/app/${pin}.startGame`,
         body: chatMessage('host', '', messageType.START_GAME),
       });
       client.deactivate().then(() => {
-        navigate(`/host/${id}/${pin}`);
+        navigate(`/host/${id}/${pin}`, { state: { players: players } });
       });
     } else {
       console.log('not connected');
@@ -28,6 +29,7 @@ function ChoosenGame() {
   function callback(message) {
     if (message.body) {
       const parsed = JSON.parse(message.body);
+      // TODO check if player with that sender is not already connected and send info back somehow
       setPlayers((prev) => [...prev, parsed.sender]);
     } else {
       console.log('got empty message');
