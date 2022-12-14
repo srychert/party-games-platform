@@ -6,12 +6,12 @@ import useGame from '../../hooks/useGame';
 import { chatMessage, messageType } from '../../services/SocketFactory/message';
 import Question from '../Question/Question';
 
-import answerRecived from './answer';
-
 function MainGame({ route, navigation }) {
   const { id, pin } = useParams();
   const location = useLocation();
   const gameData = useGame(id);
+
+  const [start, setStart] = useState(false);
   const [round, setRound] = useState(0);
   const [players, setPlayers] = useState(
     location?.state?.players
@@ -19,73 +19,74 @@ function MainGame({ route, navigation }) {
       : []
   );
 
-  useEffect(() => {
-    client.activate();
-    client.onConnect = () => {
-      client.subscribe(`/topic/public/${pin}`, gameLogic);
-
-      // this is really bad
-      if (gameData?.questions) {
-        /* prettier-ignore */
-        const test = async () => await new Promise(r => setTimeout(() => {r()}, 10))
-        test();
-
-        client.publish({
-          destination: `/app/${pin}`,
-          body: chatMessage(
-            'host',
-            JSON.stringify(gameData.questions[round].answers),
-            messageType.ANSWERS
-          ),
-        });
-      }
-    };
-  }, [gameData]);
-
+  // init socket connection and subscribe to topic and after refresh
   useEffect(() => {
     if (client.connected) {
       client.subscribe(`/topic/public/${pin}`, gameLogic);
+    } else {
+      client.activate();
+      client.onConnect = () => {
+        client.subscribe(`/topic/public/${pin}`, gameLogic);
+      };
     }
-  }, [round]);
+  }, [gameData, players, round]);
 
-  function handleNextRound() {
-    setRound(round + 1);
-    // show results on screen here
-
-    client.publish({
-      destination: `/app/${pin}`,
-      body: chatMessage(
-        'host',
-        JSON.stringify(gameData.questions[round].answers),
-        messageType.ANSWERS
-      ),
-    });
+  // button Start handler for host
+  function handleStart() {
+    setStart(true);
   }
 
-  // Game Logic
+  // button Next handler for host
+  function handleNextRound() {
+    setRound(round + 1);
+  }
+
+  useEffect(() => {
+    if (client.connected) {
+      client.publish({
+        destination: `/app/${pin}`,
+        body: chatMessage(
+          'host',
+          JSON.stringify(gameData.questions[round].answers),
+          messageType.ANSWERS
+        ),
+      });
+    }
+  }, [round, start]);
+
+  // Game Logic must be in useEffect because it's async........ !!!!!!!!!!!!!!
   const gameLogic = (message) => {
+    // message has type, sender, content
     if (!message?.body) {
       return;
     }
-
     const msg = JSON.parse(message?.body);
-    // why is this always 0...
-    console.log(round);
 
     // handling players responses to questions
     if (msg.type === messageType.MESSAGE) {
       const { content, sender } = msg;
       // this returns reference to object, should make this into copy of player
-      const player = players.find((p) => p.nick === sender && p.currentRound === round);
+      // round depends removed !!!
+      const player = players.find((p) => p.nick === sender);
 
       if (!player) {
+        console.log('player not found');
+        const x = players.find((p) => p.nick === sender);
+        console.log(x);
+
         return;
       }
 
       const questions = gameData?.questions;
 
+      if (!questions) {
+        console.log('no questions');
+        return;
+      }
       // comparing strings here
-      const correct = questions[round].correct == content;
+      // here is where the bug is
+      // OMG INDEX IS COUNTING FROM 0
+      const correct = questions[round].correct - 1 == content;
       if (correct) {
         player.points += 1;
       }
@@ -113,8 +114,16 @@ function MainGame({ route, navigation }) {
           </div>
         ))}
       </div>
-
+      {!start && (
+        <div className="">
+          <h1>Round {round + 1}</h1>
+          <button onClick={handleStart} className="button">
+            Start
+          </button>
+        </div>
+      )}
       {gameData?.questions &&
+        start &&
         gameData.questions.map((question, index) => {
           return (
             index === round && <Question question={question} key={'question-' + index} />
@@ -128,35 +137,3 @@ function MainGame({ route, navigation }) {
 }
 
 export default MainGame;
-
-/* gamedata :{
-  questions: [
-    {
-      question: String,
-      answers: [
-        {
-          answer: String,
-          correct: Boolean,
-        },
-        {
-          answer: String,
-          correct: Boolean,
-        },
-        {
-          answer: String,
-          correct: Boolean,
-        },
-        {
-          answer: String,
-          correct: Boolean,
-        }
-      ],
-    }
-  ]
-}
-
-wyniki: {
-  nick: String : wynik: Number,
-  nick: String : wynik: Number,
-}
-*/
