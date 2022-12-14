@@ -19,7 +19,6 @@ function MainGame() {
     { nick: 't4', answer: 1 },
   ]);
   const [wyniki, setWyniki] = useState([]);
-  const [change, setChange] = useState(false);
   const gamedata = {
     name: 'Test',
     description: 'testowy opis',
@@ -111,7 +110,6 @@ function MainGame() {
       }
     });
     setWyniki(newWyniki);
-    setChange(true);
   }
   // Game Logic
   function callback(message) {

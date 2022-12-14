@@ -18,8 +18,12 @@ function PhoneView() {
     console.log(message);
     if (message.body) {
       const parsed = JSON.parse(message.body);
-      console.log(parsed);
-      setAnswers(parsed.content.split(';'));
+      if (parsed.type === messageType.ANSWERS) {
+        setAnswers(parsed.content.split(';'));
+      }
+      if (parsed.type === messageType.RESULT) {
+        setWyniki(parsed.content);
+      }
     } else {
       console.log('Empty message');
     }
@@ -49,32 +53,24 @@ function PhoneView() {
           <PointsChart players={wyniki} />
         </div>
         <div className="grid h-4/5 grid-cols-2 grid-rows-2 gap-2 overflow-hidden">
-          <button
-            className={`box row-start-1 row-end-1 bg-blue-700`}
-            id="1"
-            onClick={() => handleClick(0)}
-          >
+          <button className={`box bg-blue-700`} id="1" onClick={() => handleClick(0)}>
             {answers[0]}
           </button>
           <button
-            className={`box col-span-2 col-start-2 bg-pastel-green-700`}
+            className={`box bg-pastel-green-700`}
             id="2"
             onClick={() => handleClick(1)}
           >
             {answers[1]}
           </button>
           <button
-            className={`box col-span-2 col-start-2 bg-sahara-sand-700`}
+            className={`box bg-sahara-sand-700`}
             id="3"
             onClick={() => handleClick(2)}
           >
             {answers[2]}
           </button>
-          <button
-            className={`box row-start-2 row-end-2 bg-froly-700`}
-            id="4"
-            onClick={() => handleClick(3)}
-          >
+          <button className={`box bg-froly-700`} id="4" onClick={() => handleClick(3)}>
             {answers[3]}
           </button>
         </div>
