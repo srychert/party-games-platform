@@ -5,6 +5,7 @@ import handleError from '../handleError';
 function useUser(id) {
   const [userData, setUserData] = useState({});
   const { api } = useAuth();
+  const [hError] = handleError();
 
   useEffect(() => {
     api
@@ -13,7 +14,7 @@ function useUser(id) {
         setUserData(res.data);
       })
       .catch((err) => {
-        handleError(err);
+        hError(err);
       });
   }, [id]);
 
