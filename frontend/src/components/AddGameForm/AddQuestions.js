@@ -4,13 +4,15 @@ import InputQuestion from './InputQuestion';
 import TFQuestion from './TFQuestion';
 import useNewGame from '../../hooks/useNewGame';
 import { useNavigate } from 'react-router-dom';
+import { Cookies } from 'react-cookie';
 
 function AddQuestions({ iStateData, setIStateData, questions, setQuestions }) {
+  const cookies = new Cookies();
   const [type, setType] = useState('');
   const [qusetion, setQuestion] = useState('');
   const [answers, setAnswers] = useState([]);
   const [correct, setCorrect] = useState('t');
-
+  const [gamedata, addNewGame] = useNewGame();
   const naviagte = useNavigate();
 
   const [a, setA] = useState('');
@@ -47,15 +49,15 @@ function AddQuestions({ iStateData, setIStateData, questions, setQuestions }) {
     event.preventDefault();
     setIStateData(iStateData);
     const game = {
-      name: iStateData.name,
+      title: iStateData.title,
       description: iStateData.description,
-      type: iStateData.type,
       questions: questions,
       debufs: iStateData.debufs,
-      // to trzeba pobrac chyba z cookies
-      createdBy: 'N/A',
+      createdBy: cookies.get('user'),
+      totalTimesPlayed: 0,
     };
-    useNewGame(game);
+    window.alert(JSON.stringify(game));
+    addNewGame(game);
     naviagte('/host');
   };
 
@@ -65,7 +67,7 @@ function AddQuestions({ iStateData, setIStateData, questions, setQuestions }) {
     <div className={'flex flex-col'}>
       <div className={'flex min-h-screen items-center justify-center align-middle'}>
         <form onSubmit={handleNext} className="form">
-          <div className="flex flex-col items-center justify-center gap-20">
+          <div className="flex flex-col items-center justify-center gap-5">
             <div className="flex flex-col content-start p-3">
               <label>Set question type:</label>
               <select
@@ -74,9 +76,9 @@ function AddQuestions({ iStateData, setIStateData, questions, setQuestions }) {
                 className="form-input"
               >
                 <option value={''}>select</option>
-                <option value={'abcd'}>ABCD</option>
-                <option value={'true/false'}>true/false</option>
-                <option value={'input'}>input</option>
+                <option value={'ABCD'}>ABCD</option>
+                <option value={'TF'}>true/false</option>
+                <option value={'INPUT'}>input</option>
               </select>
             </div>
             <div className="flex flex-col p-3">
@@ -92,11 +94,11 @@ function AddQuestions({ iStateData, setIStateData, questions, setQuestions }) {
             </div>
           </div>
           <div>
-            {type === 'abcd' ? (
+            {type === 'ABCD' ? (
               <AddABCDQuestion {...abcdProps} />
-            ) : type === 'input' ? (
+            ) : type === 'INPUT' ? (
               <InputQuestion {...inputProps} />
-            ) : type === 'true/false' ? (
+            ) : type === 'TF' ? (
               <TFQuestion {...tfProps} />
             ) : null}
           </div>

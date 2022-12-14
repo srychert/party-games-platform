@@ -3,15 +3,13 @@ import { useState } from 'react';
 function InitialState({ setInitialState, setIStateData }) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [type, setType] = useState('');
   const [debufs, setDebufs] = useState(false);
 
   function handleInitialState(event) {
     event.preventDefault();
     setIStateData({
-      name: name,
+      title: name,
       description: description,
-      type: type,
       debufs: debufs,
     });
     setInitialState(false);
@@ -39,14 +37,6 @@ function InitialState({ setInitialState, setIStateData }) {
             onChange={(e) => setDescription(e.target.value)}
             required={true}
           />
-        </div>
-        <div className="flex flex-col p-2">
-          <label>Game Type</label>
-          <select onChange={(e) => setType(e.target.value)} required={true}>
-            <option value={''}>select</option>
-            <option value={'singular'}>Singular</option>
-            <option value={'colective'}>Colective</option>
-          </select>
         </div>
         <div>
           <label>Debufs?</label>
