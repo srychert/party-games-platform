@@ -9,37 +9,11 @@ import Question from '../Question/Question';
 import answerRecived from './answer';
 
 function MainGame() {
-  let { pin } = useParams();
-  // const gamedata = useGame(params.id);
+  let { id, pin } = useParams();
+  const gamedata = useGame(id);
   const [round, setRound] = useState(0);
-  const [answers, setAnswers] = useState([
-    { nick: 't1', answer: 1 },
-    { nick: 't2', answer: 2 },
-    { nick: 't3', answer: 0 },
-    { nick: 't4', answer: 1 },
-  ]);
+  const [answers, setAnswers] = useState([]);
   const [wyniki, setWyniki] = useState([]);
-  const gamedata = {
-    name: 'Test',
-    description: 'testowy opis',
-    type: 'singular',
-    questions: [
-      {
-        type: 'abcd',
-        question: 'Jak się bawicie?',
-        answers: ['Wybornie', 'Bywało lepiej', 'Strasznie', 'Ujdzie'],
-        correct: '1',
-      },
-      {
-        type: 'abcd',
-        question: 'Dobra test1',
-        answers: ['zla', 'zla', 'dobr', 'zla'],
-        correct: '3',
-      },
-    ],
-    debufs: false,
-    createdBy: 'N/A',
-  };
   useEffect(() => {
     client.activate();
     client.onConnect = () => {

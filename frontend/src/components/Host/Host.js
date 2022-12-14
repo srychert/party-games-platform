@@ -9,6 +9,7 @@ function Host() {
   let navigate = useNavigate();
   const games = useGames();
   const [showDetails, setShowDetails] = useState(false);
+  const [id, setId] = useState(null);
   // To do zmiany po ogarnięciu logowania
   // -------------------------------------
   const handleShowProfile = () => {
@@ -22,15 +23,16 @@ function Host() {
   const handleLogout = () => {
     auth.logout();
   };
-  const handleMouseOver = () => {
+  const handleMouseOver = (index) => {
+    setId(index);
     setShowDetails(true);
   };
   const handleMouseOut = () => {
     setShowDetails(false);
+    setId(null);
   };
-
   return (
-    <div className="h-screen w-screen p-10">
+    <div className="h-screen w-screen overflow-x-hidden p-10">
       <Back to="/" />
       <div className="absolute right-10 m-2 flex flex-row items-center justify-center">
         <button className="button" onClick={handleLogout}>
@@ -48,18 +50,18 @@ function Host() {
       </div>
       <div className="flex flex-col items-center">
         <div>
-          {games.map((game) => {
+          {games.map((game, index) => {
             return (
               <div
-                className="game-card"
+                className="game-card m-5"
                 key={game.id}
-                onMouseOver={handleMouseOver}
-                onMouseOut={handleMouseOut}
+                onMouseOver={() => handleMouseOver(index)}
+                onMouseOut={() => handleMouseOut()}
               >
                 <div className="game-noPlayed">{game.totalTimesPlayed}</div>
                 <div>
                   <div className="border-b-2 border-sky-300 p-3">{game.title}</div>
-                  {showDetails ? (
+                  {showDetails && id === index ? (
                     <div className="transition-all">
                       <div className="p-1">{game.createdBy}</div>
                       <div className="p-1">{game.description}</div>

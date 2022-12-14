@@ -14,7 +14,7 @@ function useGame(id) {
       .catch((err) => {
         handleError(err);
       });
-  }, [id]);
+  }, []);
   return gamedata;
 }
 
