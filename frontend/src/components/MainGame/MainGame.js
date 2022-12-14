@@ -14,6 +14,7 @@ function MainGame() {
   const [round, setRound] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [wyniki, setWyniki] = useState([]);
+  console.log(gamedata);
   useEffect(() => {
     client.activate();
     client.onConnect = () => {
@@ -52,7 +53,6 @@ function MainGame() {
     countPoints();
 
     // Wysyła next round question
-
     setRound((prev) => prev + 1);
     setAnswers([]);
   }
