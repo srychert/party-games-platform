@@ -42,6 +42,12 @@ function MainGame({ route, navigation }) {
     };
   }, [gameData]);
 
+  useEffect(() => {
+    if (client.connected) {
+      client.subscribe(`/topic/public/${pin}`, gameLogic);
+    }
+  }, [round]);
+
   function handleNextRound() {
     setRound(round + 1);
     // show results on screen here
