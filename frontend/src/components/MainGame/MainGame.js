@@ -81,7 +81,7 @@ function MainGame({ route, navigation }) {
 
       if (!player) {
         console.log('player not found');
-        const x = players.find((p) => p.nick === sender);
+        const x = players.find((p) => p.nick === sender && p.currentRound === round);
         console.log(x);
 
         return;
@@ -96,6 +96,7 @@ function MainGame({ route, navigation }) {
       // comparing strings here
       // here is where the bug is
       // OMG INDEX IS COUNTING FROM 0
+      // points are added badly idk why
       const correct = questions[round].correct - 1 == content;
       if (correct) {
         player.points += 1;
@@ -116,14 +117,6 @@ function MainGame({ route, navigation }) {
 
   return (
     <div className="game-board">
-      {/* testing players points */}
-      {/* {      <div>
-        {players.map((p, index) => (
-          <div key={'player-' + index}>
-            {p.nick} {p.points}
-          </div>
-        ))}
-      </div>} */}
       {!start && (
         <div className="">
           <h1>Round {round + 1}</h1>
