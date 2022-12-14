@@ -33,12 +33,14 @@ function Join() {
   function handleJoin(event) {
     event.preventDefault();
     auth.setNick(nick);
-    client.publish({
-      destination: `/app/${pin}.newUser`,
-      body: chatMessage(nick, '', messageType.CONNECT),
-    });
-    client.subscribe(`/topic/public/${pin}`, callback);
-    setLoading(true);
+    if (client.connected) {
+      client.subscribe(`/topic/public/${pin}`, callback);
+      client.publish({
+        destination: `/app/${pin}.newUser`,
+        body: chatMessage(nick, '', messageType.CONNECT),
+      });
+      setLoading(true);
+    }
   }
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center">
