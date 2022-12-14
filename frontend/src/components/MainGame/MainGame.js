@@ -40,6 +40,16 @@ function MainGame({ route, navigation }) {
   function handleNextRound() {
     setRound(round + 1);
   }
+  useEffect(() => {
+    // sending results to players
+    if (client.connected) {
+      client.publish({
+        destination: `/app/${pin}`,
+        body: chatMessage('host', JSON.stringify(players), messageType.RESULT),
+      });
+    }
+    // only when round changes
+  }, [round]);
 
   useEffect(() => {
     if (client.connected) {
@@ -107,13 +117,13 @@ function MainGame({ route, navigation }) {
   return (
     <div className="game-board">
       {/* testing players points */}
-      <div>
+      {/* {      <div>
         {players.map((p, index) => (
           <div key={'player-' + index}>
             {p.nick} {p.points}
           </div>
         ))}
-      </div>
+      </div>} */}
       {!start && (
         <div className="">
           <h1>Round {round + 1}</h1>

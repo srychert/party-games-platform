@@ -22,6 +22,9 @@ function PhoneView() {
       if (parsed.type === messageType.ANSWERS) {
         setAnswers(JSON.parse(parsed.content));
       }
+      if (parsed.type === messageType.RESULT) {
+        setWyniki(JSON.parse(parsed.content));
+      }
     } else {
       console.log('Empty message');
     }
@@ -33,6 +36,10 @@ function PhoneView() {
       client.subscribe(`/topic/public/${pin}`, callback);
     };
   }, [pin]);
+
+  useEffect(() => {
+    console.log(wyniki);
+  }, [wyniki]);
 
   // Odpowiedź na pytanie
   const handleClick = (answer) => {
