@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import client from '../../services/SocketFactory/mySocketFactory';
 import useGame from '../../hooks/useGame';
 import { chatMessage, messageType } from '../../services/SocketFactory/message';
@@ -10,6 +10,8 @@ function MainGame({ route, navigation }) {
   const { id, pin } = useParams();
   const location = useLocation();
   const gameData = useGame(id);
+
+  const navigate = useNavigate();
 
   const [start, setStart] = useState(false);
   const [round, setRound] = useState(0);
@@ -36,6 +38,16 @@ function MainGame({ route, navigation }) {
     setStart(true);
   }
 
+  function handleLeave() {
+    if (client.connected) {
+      client.publish({
+        destination: `/app/${pin}`,
+        body: chatMessage('host', 'end', messageType.START_GAME),
+      });
+    }
+    navigate(`/host/${id}/${pin}/end`);
+  }
+
   // button Next handler for host
   function handleNextRound() {
     setRound(round + 1);
@@ -55,7 +67,7 @@ function MainGame({ route, navigation }) {
           body: chatMessage('host', 'end', messageType.START_GAME),
         });
         console.log('end of game');
-        navigation.navigate(`/end/${id}/${pin}`, { state: { players: players } });
+        navigate(`/host/${id}/${pin}/end`, { state: { players } });
       }
     }
   }, [round]);
@@ -143,6 +155,9 @@ function MainGame({ route, navigation }) {
         })}
       <button className="button absolute top-5 right-5" onClick={handleNextRound}>
         Next
+      </button>
+      <button className="button absolute top-5 left-5" onClick={handleLeave}>
+        Leave
       </button>
     </div>
   );

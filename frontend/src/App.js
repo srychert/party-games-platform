@@ -36,7 +36,7 @@ function App() {
         <Route path="/host/:id/:pin" element={<MainGame />} />
       </Route>
       <Route element={<ProtectRoutes />}>
-        <Route path="host/end/:id/:pin" element={<SaveGame />} />
+        <Route path="host/:id/:pin/end" element={<SaveGame />} />
       </Route>
       <Route element={<ProtectRoutes />}>
         <Route path="/profile/:id" element={<UserPanel />} />
