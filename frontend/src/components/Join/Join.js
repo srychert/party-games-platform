@@ -17,9 +17,8 @@ function Join() {
     if (message.body) {
       const parsed = JSON.parse(message.body);
       if (parsed.type === messageType.START_GAME) {
-        client.deactivate().then(() => {
-          navigate(`/join/${pin}`);
-        });
+        parsed.content === 'start' ? navigate(`/join/${pin}`) : setLoading(false);
+        parsed.content === 'end' ? navigate(`/join`) : setLoading(false);
       } else {
         console.log('got empty message');
       }

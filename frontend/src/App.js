@@ -12,6 +12,7 @@ import ProtectRoutes from './components/ProtectRoutes/ProtectRoutes';
 import UserPanel from './components/UserPanel/UserPanel';
 import Security from './components/UserPanel/Security';
 import AddGame from './components/AddGameForm/AddGame';
+import SaveGame from './components/SaveGame/SaveGame';
 
 function App() {
   return (
@@ -33,6 +34,9 @@ function App() {
       </Route>
       <Route element={<ProtectRoutes />}>
         <Route path="/host/:id/:pin" element={<MainGame />} />
+      </Route>
+      <Route element={<ProtectRoutes />}>
+        <Route path="host/end/:id/:pin" element={<SaveGame />} />
       </Route>
       <Route element={<ProtectRoutes />}>
         <Route path="/profile/:id" element={<UserPanel />} />

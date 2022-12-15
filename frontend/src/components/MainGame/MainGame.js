@@ -40,6 +40,7 @@ function MainGame({ route, navigation }) {
   function handleNextRound() {
     setRound(round + 1);
   }
+  // only when round changes
   useEffect(() => {
     // sending results to players
     if (client.connected) {
@@ -47,8 +48,16 @@ function MainGame({ route, navigation }) {
         destination: `/app/${pin}`,
         body: chatMessage('host', JSON.stringify(players), messageType.RESULT),
       });
+      // end of game
+      if (round === gameData.questions.length) {
+        client.publish({
+          destination: `/app/${pin}`,
+          body: chatMessage('host', 'end', messageType.START_GAME),
+        });
+        console.log('end of game');
+        navigation.navigate(`/end/${id}/${pin}`, { state: { players: players } });
+      }
     }
-    // only when round changes
   }, [round]);
 
   useEffect(() => {

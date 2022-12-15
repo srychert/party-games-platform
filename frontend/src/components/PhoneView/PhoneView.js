@@ -31,15 +31,15 @@ function PhoneView() {
   };
 
   useEffect(() => {
-    client.activate();
-    client.onConnect = () => {
+    if (client.connected) {
       client.subscribe(`/topic/public/${pin}`, callback);
-    };
-  }, [pin]);
-
-  useEffect(() => {
-    console.log(wyniki);
-  }, [wyniki]);
+    } else {
+      client.activate();
+      client.onConnect = () => {
+        client.subscribe(`/topic/public/${pin}`, callback);
+      };
+    }
+  }, [pin, nick, answers, wyniki]);
 
   // Odpowiedź na pytanie
   const handleClick = (answer) => {

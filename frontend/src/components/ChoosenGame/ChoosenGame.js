@@ -16,7 +16,7 @@ function ChoosenGame() {
     if (client.connected === true) {
       client.publish({
         destination: `/app/${pin}.startGame`,
-        body: chatMessage('host', '', messageType.START_GAME),
+        body: chatMessage('host', 'start', messageType.START_GAME),
       });
       client.deactivate().then(() => {
         navigate(`/host/${id}/${pin}`, { state: { players: players } });
@@ -37,10 +37,14 @@ function ChoosenGame() {
   }
 
   useEffect(() => {
-    client.activate();
-    client.onConnect = () => {
+    if (client.connected) {
       client.subscribe(`/topic/public/${pin}`, callback);
-    };
+    } else {
+      client.activate();
+      client.onConnect = () => {
+        client.subscribe(`/topic/public/${pin}`, callback);
+      };
+    }
   }, [pin]);
 
   return (
