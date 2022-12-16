@@ -33,25 +33,6 @@ function MainGame({ route, navigation }) {
     }
   }, [gameData, players, round]);
 
-  // button Start handler for host
-  function handleStart() {
-    setStart(true);
-  }
-
-  function handleLeave() {
-    if (client.connected) {
-      client.publish({
-        destination: `/app/${pin}`,
-        body: chatMessage('host', 'end', messageType.START_GAME),
-      });
-    }
-    navigate(`/host/${id}/${pin}/end`);
-  }
-
-  // button Next handler for host
-  function handleNextRound() {
-    setRound(round + 1);
-  }
   // only when round changes
   useEffect(() => {
     // sending results to players
@@ -73,17 +54,37 @@ function MainGame({ route, navigation }) {
   }, [round]);
 
   useEffect(() => {
+    // send possible answers to players
     if (client.connected) {
-      client.publish({
-        destination: `/app/${pin}`,
-        body: chatMessage(
-          'host',
-          JSON.stringify(gameData.questions[round].answers),
-          messageType.ANSWERS
-        ),
-      });
+      // Type of game - ABCD
+      if (gameData.questions[round].type === 'ABCD') {
+        console.log('ABCD');
+        client.publish({
+          destination: `/app/${pin}`,
+          body: chatMessage(
+            'host',
+            JSON.stringify({ type: 'ABCD', answers: gameData.questions[round].answers }),
+            messageType.ANSWERS
+          ),
+        });
+      }
+      // Type of game - true/false
+      // TODO: change to true/false in backend  and answers
+      if (gameData.questions[round].type === 'true/false') {
+        client.publish({
+          destination: `/app/${pin}`,
+          body: chatMessage(
+            'host',
+            JSON.stringify({
+              type: 'true/false',
+              answers: gameData.questions[round].answers,
+            }),
+            messageType.ANSWERS
+          ),
+        });
+      }
     }
-  }, [round, start]);
+  }, [round, start, gameData, client]);
 
   // Game Logic must be in useEffect because it's async........ !!!!!!!!!!!!!!
   const gameLogic = (message) => {
@@ -135,6 +136,26 @@ function MainGame({ route, navigation }) {
       setPlayers(newPlayers);
     }
   };
+
+  // button Start handler for host
+  function handleStart() {
+    setStart(true);
+  }
+
+  function handleLeave() {
+    if (client.connected) {
+      client.publish({
+        destination: `/app/${pin}`,
+        body: chatMessage('host', 'end', messageType.START_GAME),
+      });
+    }
+    navigate(`/host/${id}/${pin}/end`);
+  }
+
+  // button Next handler for host
+  function handleNextRound() {
+    setRound(round + 1);
+  }
 
   return (
     <div className="game-board">
