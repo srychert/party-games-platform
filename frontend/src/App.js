@@ -17,7 +17,7 @@ import SaveGame from './components/SaveGame/SaveGame';
 function App() {
   return (
     <Routes>
-      <Route path="*" element={<div>404</div>} />
+      {/* <Route path="*" element={<div>404</div>} /> */}
       <Route path="/" element={<Common />} />
       <Route
         path="/login"
@@ -28,29 +28,13 @@ function App() {
       <Route path="/join/:pin" element={<PhoneView />} />
       <Route element={<ProtectRoutes />}>
         <Route path="/host" element={<Host />} />
-      </Route>
-      <Route element={<ProtectRoutes />}>
         <Route path="/host/:id" element={<ChoosenGame />} />
-      </Route>
-      <Route element={<ProtectRoutes />}>
         <Route path="/host/:id/:pin" element={<MainGame />} />
-      </Route>
-      <Route element={<ProtectRoutes />}>
         <Route path="host/:id/:pin/end" element={<SaveGame />} />
-      </Route>
-      <Route element={<ProtectRoutes />}>
         <Route path="/profile" element={<UserPanel />} />
-      </Route>
-      <Route element={<ProtectRoutes />}>
         <Route path="/profile/security" element={<Security />} />
-      </Route>
-      <Route element={<ProtectRoutes />}>
         <Route path="/profile/yours" element={<AddGame />} />
-      </Route>
-      <Route element={<ProtectRoutes />}>
         <Route path="/profile/history" element={<AddGame />} />
-      </Route>
-      <Route element={<ProtectRoutes />}>
         <Route path="/addgame" element={<AddGame />} />
       </Route>
     </Routes>
