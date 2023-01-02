@@ -70,13 +70,13 @@ function MainGame({ route, navigation }) {
       }
       // Type of game - true/false
       // TODO: change to true/false in backend  and answers
-      if (gameData.questions[round].type === 'true/false') {
+      if (gameData.questions[round].type === 'TF') {
         client.publish({
           destination: `/app/${pin}`,
           body: chatMessage(
             'host',
             JSON.stringify({
-              type: 'true/false',
+              type: 'TF',
               answers: gameData.questions[round].answers,
             }),
             messageType.ANSWERS

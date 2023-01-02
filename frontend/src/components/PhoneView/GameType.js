@@ -1,6 +1,7 @@
 import client from '../../services/SocketFactory/mySocketFactory';
 import { chatMessage, messageType } from '../../services/SocketFactory/message';
 import ABCD from './ABCD';
+import TF from './TF';
 
 function GameType({ type, answers, nick, pin }) {
   // Odpowiedź na pytanie
@@ -16,7 +17,7 @@ function GameType({ type, answers, nick, pin }) {
   return (
     <div>
       {type === 'ABCD' ? <ABCD answers={answers} handleClick={handleClick} /> : null}
-      {type === 'true/false' ? <div></div> : null}
+      {type === 'TF' ? <TF answers={answers} handleClick={handleClick} /> : null}
     </div>
   );
 }
