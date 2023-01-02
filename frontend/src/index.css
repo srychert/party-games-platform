@@ -60,4 +60,7 @@
   .image:hover {
     @apply border-sky-400;
   }
+  .btn-form {
+    @apply flex flex-col justify-center items-center h-10 w-60 button;
+  }
 }
