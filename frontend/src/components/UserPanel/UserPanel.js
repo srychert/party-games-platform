@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
 import useUser from '../../hooks/UserHooks/useUser';
 import UPanelNav from './UPanelNav';
 
 function UserPanel() {
-  const { id } = useParams();
-  const userData = useUser(id);
+  const userData = useUser();
 
   return (
     <div className="flex flex-col gap-20">
-      <UPanelNav id={id} />
+      <UPanelNav />
       <div className="flex flex-row items-center justify-center space-x-16">
         <div className="mb-4">
           <img

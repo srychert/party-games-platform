@@ -13,8 +13,7 @@ function Host() {
   // To do zmiany po ogarnięciu logowania
   // -------------------------------------
   const handleShowProfile = () => {
-    // profile id (tylko skąd id :) )
-    navigate(`/profile/63912295c8bf2f3525affad0`);
+    navigate(`/profile`);
   };
   // -------------------------------------
   const handleChooseGame = (gameID) => {

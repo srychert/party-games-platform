@@ -39,16 +39,16 @@ function App() {
         <Route path="host/:id/:pin/end" element={<SaveGame />} />
       </Route>
       <Route element={<ProtectRoutes />}>
-        <Route path="/profile/:id" element={<UserPanel />} />
+        <Route path="/profile" element={<UserPanel />} />
       </Route>
       <Route element={<ProtectRoutes />}>
-        <Route path="/profile/:id/security" element={<Security />} />
+        <Route path="/profile/security" element={<Security />} />
       </Route>
       <Route element={<ProtectRoutes />}>
-        <Route path="/profile/:id/yours" element={<AddGame />} />
+        <Route path="/profile/yours" element={<AddGame />} />
       </Route>
       <Route element={<ProtectRoutes />}>
-        <Route path="/profile/:id/history" element={<AddGame />} />
+        <Route path="/profile/history" element={<AddGame />} />
       </Route>
       <Route element={<ProtectRoutes />}>
         <Route path="/addgame" element={<AddGame />} />

@@ -31,6 +31,9 @@ export const UserProvider = ({ children }) => {
       .then((res) => {
         setCookie('token', res.data);
         setCookie('user', username);
+        api.get(`users/user-name/${username}`).then((res) => {
+          setCookie('userId', res?.data.id);
+        });
         navigate('/host');
       })
       .catch((err) => {

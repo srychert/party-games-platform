@@ -1,5 +1,5 @@
 import UPanelNav from './UPanelNav';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useUser from '../../hooks/UserHooks/useUser';
 import useEditUser from '../../hooks/UserHooks/useEditUser';
@@ -7,7 +7,7 @@ import useEditUser from '../../hooks/UserHooks/useEditUser';
 export default function Security() {
   //nwm czy tak będzie dobrze czy nie lepiej jakoś z jwt z cookies pobierać
   // let params = useParams();
-  // const userData = useUser(params.id);
+  const initialUserData = useUser();
 
   const [changeUname, setChangeUname] = useState(false);
   const [changePasswd, setChangePasswd] = useState(false);
@@ -16,14 +16,10 @@ export default function Security() {
   const [pwd, setPwd] = useState('');
   const [oldPwd, setOldPwd] = useState('');
   const [passwordShown, setPasswordShown] = useState(false);
-  //temp data
-  const [userData, setUserData] = useState({
-    userName: 'tempUname',
-    password: '123',
-    accountExpiryTime: 'N/A',
-    'credentialsExpiryTime ': 'N/A',
-  });
-  //temp data
+  const [userData, setUserData] = useState(initialUserData);
+  useEffect(() => {
+    setUserData(initialUserData);
+  }, [initialUserData]);
 
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
@@ -48,7 +44,7 @@ export default function Security() {
       setName('');
       setName2('');
       setChangeUname(false);
-      alert('zmieniono');
+      // alert('zmieniono');
     } else {
       alert('names not the same');
       setName('');
@@ -67,7 +63,7 @@ export default function Security() {
       setPwd('');
       setOldPwd('');
       setChangePasswd(false);
-      alert('zmieniono');
+      // alert('zmieniono');
     } else {
       alert('passwords not the same');
       setPwd('');
