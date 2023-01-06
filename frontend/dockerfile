@@ -8,7 +8,11 @@ WORKDIR /app
 
 COPY . .
 
+ENV NODE_ENV=production
+
 RUN npm run build
+
+# Stage 2 
 
 FROM nginx:alpine
 
