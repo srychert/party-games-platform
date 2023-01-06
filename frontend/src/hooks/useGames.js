@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from './useAuth';
-import handleError from './handleError';
 
 function useGames() {
   const [gamesData, setGamesData] = useState([]);
@@ -12,7 +11,7 @@ function useGames() {
         setGamesData(res.data);
       })
       .catch((err) => {
-        handleError(err);
+        console.log(err);
       });
   }, []);
   return gamesData;

@@ -8,12 +8,10 @@ function SaveGame(props) {
   const [start, setStart] = useState(false);
   const [round, setRound] = useState(0);
   const [players, setPlayers] = useState(location?.state?.players);
-  const saveGame = () => {
-    const res = useSave(id, pin, round, players, id);
-  };
+
   return (
     <div className="flex items-center justify-center">
-      <button onClick={() => saveGame()} className="button">
+      <button onClick={() => useSave(id, pin, round, players, id)} className="button">
         Save
       </button>
     </div>

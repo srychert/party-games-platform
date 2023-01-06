@@ -1,22 +1,23 @@
-FROM node:19-alpine 
+FROM node:latest as build
+
+COPY package.json package-lock.json ./
+
+RUN npm install 
 
 WORKDIR /app
 
-COPY ./package.json ./
-COPY ./package-lock.json ./
-
-# Install dependencies (npm ci makes sure the exact versions in the lockfile gets installed)
-RUN npm ci
-RUN npm install -g serve
-
 COPY . .
+
 RUN npm run build
 
-# Set the env to "production"
-ENV NODE_ENV production
+FROM nginx:alpine
 
-# Expose the port on which the app will be running (3000 is the default that serve uses)
-EXPOSE 3000
+COPY --from=build /app/nginx/nginx.conf /etc/nginx/nginx.conf
 
-# Start the app
-CMD [ "npx", "serve", "build" ]
+RUN rm -r /usr/share/nginx/html/*
+
+COPY --from=build /app/dist/frontend /usr/share/nginx/html
+
+EXPOSE 80
+
+ENTRYPOINT [ "nginx", "-g", "deamon off;" ]

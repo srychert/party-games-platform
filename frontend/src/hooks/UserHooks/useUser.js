@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../useAuth';
-import handleError from '../handleError';
 
 function useUser() {
   const [userData, setUserData] = useState({});
   const { api, cookies } = useAuth();
-  const [hError] = handleError();
 
   useEffect(() => {
     api
@@ -14,7 +12,7 @@ function useUser() {
         setUserData(res.data);
       })
       .catch((err) => {
-        hError(err);
+        console.log(err);
       });
   }, []);
 
