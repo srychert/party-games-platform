@@ -14,6 +14,7 @@ import Security from './components/UserPanel/Security';
 import AddGame from './components/AddGameForm/AddGame';
 import SaveGame from './components/SaveGame/SaveGame';
 import Yours from './components/UserPanel/Yours';
+import History from './components/UserPanel/History';
 
 function App() {
   return (
@@ -35,7 +36,7 @@ function App() {
         <Route path="/profile" element={<UserPanel />} />
         <Route path="/profile/security" element={<Security />} />
         <Route path="/profile/yours" element={<Yours />} />
-        <Route path="/profile/history" element={<AddGame />} />
+        <Route path="/profile/history" element={<History />} />
         <Route path="/addgame" element={<AddGame />} />
       </Route>
     </Routes>

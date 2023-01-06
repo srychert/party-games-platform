@@ -1,19 +1,19 @@
 import UPanelNav from './UPanelNav';
 import { useState } from 'react';
 
-export default function Yours() {
+export default function History() {
   const [games, setGames] = useState([
     {
       id: 1,
       title: 'Epic game',
       description: 'desc here',
-      totalTimesPlayed: 10,
+      Score: 10,
     },
     {
       id: 2,
       title: 'test',
       description: 'test',
-      totalTimesPlayed: 5,
+      Score: 5,
     },
   ]);
 
@@ -25,7 +25,7 @@ export default function Yours() {
           <tr>
             <th className="px-6 py-3">Title</th>
             <th className="px-6 py-3">Description</th>
-            <th className="px-6 py-3">Total times played</th>
+            <th className="px-6 py-3">Score</th>
           </tr>
         </thead>
         <tbody>
@@ -39,7 +39,7 @@ export default function Yours() {
                   {game.title}
                 </th>
                 <th className="px-6 py-4">{game.description}</th>
-                <th className="px-6 py-4">{game.totalTimesPlayed}</th>
+                <th className="px-6 py-4">{game.Score}</th>
               </tr>
             );
           })}
