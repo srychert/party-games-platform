@@ -35,7 +35,7 @@ services:
       - ME_CONFIG_MONGODB_ADMINPASSWORD=$MONGO_ROOT_PASSWORD
       - ME_CONFIG_MONGODB_SERVER=mongodb
   api:
-    image: srychert/backend-api:v-0.1.3
+    image: srychert/backend-api:v-0.1.4
     ports:
       - 8080:8080
     container_name: $BACKEND_NAME
