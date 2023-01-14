@@ -30,13 +30,16 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public Optional<User> getUserByName(String userName) {
+        return userRepository.findByUserName(userName);
+    }
+
     public User addUser(User user){
         checkForDuplicates(user);
         User newUser = new User(
                 user.getUserName(),
                 passwordEncoder.encode(user.getPassword()),
                 user.isActive(),
-                user.getRoles(),
                 user.getEmail());
 
         return userRepository.insert(newUser);
@@ -69,9 +72,21 @@ public class UserService {
         }
 
         updatedUser.setPassword(passwordEncoder.encode(user.getPassword()));
-        updatedUser.setRoles(user.getRoles());
 
         return userRepository.save(updatedUser);
+    }
+
+    public User updateRoles(String id, List<String> roles){
+        // check necessary because user could send empty body through controller
+        if(roles == null){
+            throw new ApiRequestException("roles can't be null");
+        }
+        User user = userRepository
+                .findById(id)
+                .orElseThrow(() -> new ApiRequestException("No such User id in DB"));
+
+        user.setRoles(roles);
+        return userRepository.save(user);
     }
 
     public User updateActive(String id, boolean active){

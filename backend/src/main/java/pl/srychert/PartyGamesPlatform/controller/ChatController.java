@@ -8,6 +8,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import pl.srychert.PartyGamesPlatform.model.ChatMessage;
+import pl.srychert.PartyGamesPlatform.service.GameService;
 import pl.srychert.PartyGamesPlatform.service.GameStateService;
 
 @Controller
@@ -15,25 +16,29 @@ public class ChatController {
     @Autowired
     GameStateService gameStateService;
 
-    @MessageMapping("/chat/{gamePin}.send")
+    @Autowired
+    GameService gameService;
+
+    @MessageMapping("/{gamePin}")
     @SendTo("/topic/public/{gamePin}")
     public ChatMessage sendMessage(@Payload final ChatMessage chatMessage){
         return chatMessage;
     }
 
-    @MessageMapping("/chat/{gamePin}.newUser")
+    @MessageMapping("/{gamePin}.newUser")
     @SendTo("/topic/public/{gamePin}")
     public ChatMessage newUser(@Payload final ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor){
         headerAccessor.getSessionAttributes().put("username" ,chatMessage.getSender());
         return chatMessage;
     }
 
-    @MessageMapping("/chat/{gamePin}.startGame")
+    @MessageMapping("/{gamePin}.startGame")
     @SendTo("/topic/public/{gamePin}")
     public ChatMessage startGame(@DestinationVariable String gamePin, @Payload final ChatMessage chatMessage) {
         gameStateService.startGame(gamePin);
-        // TODO
-        // forbid connecting to topic
+        String gameId = gameStateService.getGameId(gamePin);
+        gameService.incrementTotalTimesPlayed(gameId);
+        // TODO forbid connecting to topic
         return chatMessage;
     }
 }

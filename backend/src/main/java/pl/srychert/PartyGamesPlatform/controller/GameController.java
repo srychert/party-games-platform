@@ -1,6 +1,7 @@
 package pl.srychert.PartyGamesPlatform.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.srychert.PartyGamesPlatform.model.Game;
 import pl.srychert.PartyGamesPlatform.service.GameService;
@@ -23,7 +24,7 @@ public class GameController {
     public Map<String, String> newGame(@PathVariable("gameId") String id){
         Map<String, String> map = new HashMap<>();
         map.put("pin", null);
-        gameService.getGame(id).ifPresent(g -> map.put("pin", gameStateService.getUnusedPin()));
+        gameService.getGame(id).ifPresent(g -> map.put("pin", gameStateService.getUnusedPin(id)));
         return map;
     }
 
@@ -48,11 +49,13 @@ public class GameController {
     }
 
     @DeleteMapping(path = "{gameId}")
+    @PreAuthorize("@authComponent.isAdmin() || @authComponent.isGameOwner(#id)")
     public Game deleteGame(@PathVariable("gameId") String id){
         return gameService.deleteGame(id);
     }
 
     @PutMapping(path = "{gameId}")
+    @PreAuthorize("@authComponent.isAdmin() || @authComponent.isGameOwner(#id)")
     public Game updateGame(
             @PathVariable("gameId") String id,
             @Valid @RequestBody Game game) {
