@@ -3,7 +3,7 @@ import { useState } from 'react';
 function InitialState({ setInitialState, dispatch }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [debufs, setDebufs] = useState(false);
+  // const [debufs, setDebufs] = useState(false);
 
   function handleInitialState(event) {
     event.preventDefault();
@@ -13,7 +13,7 @@ function InitialState({ setInitialState, dispatch }) {
       payload: {
         title,
         description,
-        debufs,
+        debufs: false,
       },
     });
   }
@@ -40,10 +40,10 @@ function InitialState({ setInitialState, dispatch }) {
         />
       </div>
 
-      <div className="p-2">
+      {/* <div className="p-2">
         <label>Debufs?</label>
         <input onChange={() => setDebufs(!debufs)} type={'checkbox'} />
-      </div>
+      </div> */}
 
       <input className="btn-form" value={'Add Questions'} type={'submit'} />
     </form>

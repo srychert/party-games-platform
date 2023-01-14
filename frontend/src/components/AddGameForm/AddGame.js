@@ -3,6 +3,7 @@ import InitialState from './InitialState';
 import AddQuestions from './AddQuestions';
 import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import UPanelNav from '../UserPanel/UPanelNav';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -56,37 +57,40 @@ function AddGame() {
   };
 
   return (
-    <div className="form">
-      <div>
-        {gameData.questions.map((question, index) => (
-          <div key={`question-${index}`} className="flex gap-2 font-bold">
-            <span>{question.question}</span>
-            <button
-              className="border-2 border-black px-1"
-              onClick={() =>
-                dispatch({
-                  type: 'remove_question',
-                  payload: index,
-                })
-              }
-            >
-              Remove
-            </button>
-          </div>
-        ))}
-      </div>
-      {initialState ? (
-        <InitialState setInitialState={setInitialState} dispatch={dispatch} />
-      ) : (
-        <AddQuestions dispatch={dispatch} />
-      )}
+    <>
+      <UPanelNav />
+      <div className="form mx-auto w-fit">
+        <div>
+          {gameData.questions.map((question, index) => (
+            <div key={`question-${index}`} className="flex gap-2 font-bold">
+              <span>{question.question}</span>
+              <button
+                className="border-2 border-black px-1"
+                onClick={() =>
+                  dispatch({
+                    type: 'remove_question',
+                    payload: index,
+                  })
+                }
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+        </div>
+        {initialState ? (
+          <InitialState setInitialState={setInitialState} dispatch={dispatch} />
+        ) : (
+          <AddQuestions dispatch={dispatch} />
+        )}
 
-      {gameData.questions.length > 0 ? (
-        <button className="btn-form" onClick={submitGame}>
-          Submit Game
-        </button>
-      ) : null}
-    </div>
+        {gameData.questions.length > 0 ? (
+          <button className="btn-form" onClick={submitGame}>
+            Submit Game
+          </button>
+        ) : null}
+      </div>
+    </>
   );
 }
 

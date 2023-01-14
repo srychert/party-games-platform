@@ -8,6 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface GameRepository extends MongoRepository<Game, String> {
-    Optional<Game> findGameByCreatedBy(String createdBy);
     List<Game> findGamesByCreatedBy(String createdBy);
 }

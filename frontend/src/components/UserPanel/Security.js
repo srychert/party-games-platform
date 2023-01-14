@@ -1,81 +1,57 @@
 import UPanelNav from './UPanelNav';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState } from 'react';
 import useUser from '../../hooks/UserHooks/useUser';
-import useEditUser from '../../hooks/UserHooks/useEditUser';
+import { useAuth } from '../../hooks/useAuth';
 
 export default function Security() {
-  //nwm czy tak będzie dobrze czy nie lepiej jakoś z jwt z cookies pobierać
-  // let params = useParams();
-  const initialUserData = useUser();
+  const { api, logout } = useAuth();
+  const userData = useUser();
 
-  const [changeUname, setChangeUname] = useState(false);
-  const [changePasswd, setChangePasswd] = useState(false);
-  const [name, setName] = useState('');
-  const [name2, setName2] = useState('');
-  const [pwd, setPwd] = useState('');
-  const [oldPwd, setOldPwd] = useState('');
-  const [passwordShown, setPasswordShown] = useState(false);
-  const [userData, setUserData] = useState(initialUserData);
-  useEffect(() => {
-    setUserData(initialUserData);
-  }, [initialUserData]);
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+  const [erros, setErros] = useState([]);
 
-  const togglePassword = () => {
-    setPasswordShown(!passwordShown);
+  const [updateElement, setUpdateElement] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
-  const toggleChange = (name) => {
-    if (name === 'un') {
-      setChangeUname(!changeUname);
-      setChangePasswd(false);
-    } else if (name === 'p') {
-      setChangePasswd(!changePasswd);
-      setChangeUname(false);
+  const update = (e) => {
+    const valueToUpdate = e.target.dataset.value;
+
+    api
+      .patch(`users/${userData.id}/${valueToUpdate}`, {
+        [valueToUpdate]: valueToUpdate === 'userName' ? userName : password,
+      })
+      .then((r) => {
+        console.log(r);
+        logout();
+      })
+      .catch((err) => {
+        const message = err.response.data.message;
+        const detailedMessages = err.response.data.detailedMessages ?? [];
+        setErros([message, ...detailedMessages]);
+      });
+  };
+
+  const renderErrors = () => {
+    if (erros.length !== 0) {
+      return (
+        <ul>
+          {erros.map((error, index) => (
+            <li className="text-[red]" key={index}>
+              {error}
+            </li>
+          ))}
+        </ul>
+      );
     }
   };
-
-  const handleSubmitName = (event) => {
-    event.preventDefault();
-    if (name === name2) {
-      //normalnie bedzie z tego
-      // useEditUser(params.id,true,name)
-      setUserData({ ...userData, userName: name });
-      setName('');
-      setName2('');
-      setChangeUname(false);
-      // alert('zmieniono');
-    } else {
-      alert('names not the same');
-      setName('');
-      setName2('');
-      setChangeUname(false);
-    }
-  };
-
-  const handleSubmitPwd = (event) => {
-    event.preventDefault();
-
-    if (oldPwd === userData.password) {
-      //normalnie bedzie z tego
-      // useEditUser(params.id,false,pwd)
-      setUserData({ ...userData, password: pwd });
-      setPwd('');
-      setOldPwd('');
-      setChangePasswd(false);
-      // alert('zmieniono');
-    } else {
-      alert('passwords not the same');
-      setPwd('');
-      setOldPwd('');
-      setChangePasswd(false);
-    }
-  };
-
-  const buttonClass = 'flex flex-col justify-center items-center h-10 w-60 button';
 
   return (
-    <div className="flex flex-col gap-20">
+    <div className="flex flex-col gap-10">
       <UPanelNav />
       <div className="mx-auto">
         <div className="text-left">Username: {userData.userName}</div>
@@ -84,74 +60,78 @@ export default function Security() {
           Credentials expiry time: {userData.accountExpiryTime}
         </div>
       </div>
-      <div className="flex flex-row items-center justify-center">
-        <button className={buttonClass} onClick={() => toggleChange('un')}>
+      <div className="flex flex-row items-center justify-center gap-2">
+        <button
+          className="btn-form"
+          onClick={() => {
+            setUpdateElement('userName');
+            setErros([]);
+          }}
+        >
           Change username
         </button>
-        <button className={buttonClass} onClick={() => toggleChange('p')}>
+        <button
+          className="btn-form"
+          onClick={() => {
+            setUpdateElement('password');
+            setErros([]);
+          }}
+        >
           Change password
         </button>
-        <button className={buttonClass}>Extend expiry time</button>
       </div>
-      <div>
-        {changeUname || changePasswd ? (
-          changeUname ? (
-            <div className="flex items-center justify-center">
-              <form onSubmit={handleSubmitName}>
-                <div className="flex flex-col p-3">
-                  <label>New username: </label>
-                  <input
-                    className="form-input"
-                    type="text"
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="new username"
-                  />
-                </div>
-                <div className="flex flex-col p-3">
-                  <label>Confirm new username: </label>
-                  <input
-                    className="form-input"
-                    type="text"
-                    onChange={(e) => setName2(e.target.value)}
-                    placeholder="confirm new username"
-                  />
-                </div>
-                <input className="button" value="Change" type={'submit'} />
-              </form>
-            </div>
-          ) : (
-            <div className="flex items-center justify-center">
-              <form onSubmit={handleSubmitPwd}>
-                <div className="flex flex-col p-3">
-                  <label>Old password: </label>
-                  <input
-                    className="form-input"
-                    type={passwordShown ? 'text' : 'password'}
-                    onChange={(e) => setOldPwd(e.target.value)}
-                    placeholder="old password"
-                  />
-                </div>
-                <div className="flex flex-col p-3">
-                  <label>New password: </label>
-                  <input
-                    className="form-input"
-                    type={passwordShown ? 'text' : 'password'}
-                    onChange={(e) => setPwd(e.target.value)}
-                    placeholder="new password"
-                  />
-                </div>
-                <div className="flex flex-row gap-1 p-3">
-                  <label>Show password</label>
-                  <input type="checkbox" onChange={togglePassword} />
-                </div>
-                <input className="button" value="Change" type={'submit'} />
-              </form>
-            </div>
-          )
-        ) : (
-          <div />
-        )}
-      </div>
+
+      {updateElement === 'userName' && (
+        <div className="grid place-content-center">
+          <label htmlFor="user-name">New userName:</label>
+          <input
+            id="user-name"
+            className="form-input"
+            type="text"
+            placeholder={userData?.userName}
+            onChange={(e) => {
+              setUserName(e.target.value);
+              setErros([]);
+            }}
+          />
+          {renderErrors()}
+          <input
+            type="button"
+            className="btn-form mt-1"
+            value="Change"
+            data-value="userName"
+            onClick={update}
+          />
+        </div>
+      )}
+
+      {updateElement === 'password' && (
+        <div className="grid place-content-center">
+          <label htmlFor="password">New password:</label>
+          <input
+            id="password"
+            className="form-input"
+            type={showPassword ? 'text' : 'password'}
+            placeholder="******"
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setErros([]);
+            }}
+          />
+          <input
+            type="button"
+            className="btn-form mt-1"
+            value="Change"
+            data-value="password"
+            onClick={update}
+          />
+          {renderErrors()}
+          <div className="mt-1 flex flex-row gap-1">
+            <label>Show password</label>
+            <input type="checkbox" onChange={toggleShowPassword} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

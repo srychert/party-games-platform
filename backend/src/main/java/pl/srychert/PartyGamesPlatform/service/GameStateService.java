@@ -12,7 +12,7 @@ import java.util.Map;
 public class GameStateService {
     private final GameStateRepository gameStateRepository;
 
-    public String getUnusedPin(){
+    public String getUnusedPin(String gameId){
         Map.Entry<String, GameState> randomEntry = gameStateRepository.getRandomUnusedEntry();
 
         if(randomEntry == null){
@@ -20,9 +20,12 @@ public class GameStateService {
         }
 
         String pin = randomEntry.getKey();
+        GameState gameState = randomEntry.getValue();
+        gameState.setGameId(gameId);
 
         gameStateRepository.setPinAsUsed(pin);
-        System.out.println(gameStateRepository.getAllUsed());
+        gameStateRepository.update(pin, gameState);
+//        System.out.println(gameStateRepository.getAllUsed());
         return pin;
     }
 
@@ -31,5 +34,9 @@ public class GameStateService {
             gameState.setOnGoing(true);
             gameStateRepository.update(pin, gameState);
         });
+    }
+
+    public String getGameId(String pin) {
+        return gameStateRepository.getGameId(pin);
     }
 }
