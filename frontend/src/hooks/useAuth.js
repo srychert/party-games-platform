@@ -29,10 +29,10 @@ export const UserProvider = ({ children }) => {
         }
       )
       .then((res) => {
-        setCookie('token', res.data);
-        setCookie('user', username);
+        setCookie('token', res.data, { path: '/' });
+        setCookie('user', username, { path: '/' });
         api.get(`users/user-name/${username}`).then((res) => {
-          setCookie('userId', res?.data.id);
+          setCookie('userId', res?.data.id, { path: '/' });
         });
         navigate('/host');
       })
@@ -48,7 +48,7 @@ export const UserProvider = ({ children }) => {
   };
 
   const setNick = (nick) => {
-    setCookie('nick', nick);
+    setCookie('nick', nick, { path: '/' });
   };
 
   const removeNick = () => {

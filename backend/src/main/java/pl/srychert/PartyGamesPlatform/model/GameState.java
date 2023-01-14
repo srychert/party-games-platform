@@ -9,4 +9,9 @@ public class GameState implements Serializable {
 
     private int turn;
     private boolean onGoing;
+    private String gameId;
+
+    public GameState () {
+
+    }
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import pl.srychert.PartyGamesPlatform.config.RedisConfig;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -32,5 +33,9 @@ public class GameStateRepository {
 
     public void update(String pin, GameState gameState){
         hashOperations.put("used", pin, gameState);
+    }
+
+    public String getGameId(String pin) {
+        return Objects.requireNonNull(hashOperations.get("used", pin)).getGameId();
     }
 }
