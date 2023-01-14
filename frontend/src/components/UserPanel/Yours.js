@@ -1,21 +1,8 @@
 import UPanelNav from './UPanelNav';
-import { useState } from 'react';
+import useGames from '../../hooks/useGames';
 
 export default function Yours() {
-  const [games, setGames] = useState([
-    {
-      id: 1,
-      title: 'Epic game',
-      description: 'desc here',
-      totalTimesPlayed: 10,
-    },
-    {
-      id: 2,
-      title: 'test',
-      description: 'test',
-      totalTimesPlayed: 5,
-    },
-  ]);
+  const games = useGames();
 
   return (
     <div>
