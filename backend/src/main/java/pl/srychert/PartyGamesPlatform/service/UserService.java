@@ -76,6 +76,35 @@ public class UserService {
         return userRepository.save(updatedUser);
     }
 
+    public User updateUserName(String id, String userName){
+        if(userName == null || userName.equals("")){
+            throw new ApiRequestException("UserName can't be empty");
+        }
+
+        User updatedUser = userRepository
+                .findById(id)
+                .orElseThrow(() -> new ApiRequestException("No such User id in DB"));
+
+        checkForDuplicateUserName(userName);
+        updatedUser.setUserName(userName);
+
+        return userRepository.save(updatedUser);
+    }
+
+    public User updatePassword(String id, String password){
+        if(password == null || password.equals("")){
+            throw new ApiRequestException("Password can't be empty");
+        }
+
+        User updatedUser = userRepository
+                .findById(id)
+                .orElseThrow(() -> new ApiRequestException("No such User id in DB"));
+
+        updatedUser.setPassword(passwordEncoder.encode(password));
+
+        return userRepository.save(updatedUser);
+    }
+
     public User updateRoles(String id, List<String> roles){
         // check necessary because user could send empty body through controller
         if(roles == null){

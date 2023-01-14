@@ -8,6 +8,7 @@ import pl.srychert.PartyGamesPlatform.model.User;
 import pl.srychert.PartyGamesPlatform.service.UserService;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -54,6 +55,20 @@ public class UserController {
     public User updateUser(
             @PathVariable("userId") String id, @Valid @RequestBody User user){
         return userService.updateUser(id, user);
+    }
+
+    @PatchMapping(path = "{userId}/userName")
+    @PreAuthorize("@authComponent.hasPermission(#id)")
+    public User updateUserName(
+            @PathVariable("userId") String id, @RequestBody HashMap<String, String> user){
+        return userService.updateUserName(id, user.get("userName"));
+    }
+
+    @PatchMapping(path = "{userId}/password")
+    @PreAuthorize("@authComponent.hasPermission(#id)")
+    public User updatePassword(
+            @PathVariable("userId") String id, @RequestBody HashMap<String, String> user){
+        return userService.updatePassword(id, user.get("password"));
     }
 
     @PatchMapping(path = "{userId}")
