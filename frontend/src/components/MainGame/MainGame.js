@@ -6,7 +6,7 @@ import useGame from '../../hooks/useGame';
 import { chatMessage, messageType } from '../../services/SocketFactory/message';
 import Question from '../Question/Question';
 
-function MainGame({ route, navigation }) {
+function MainGame() {
   const { id, pin } = useParams();
   const location = useLocation();
   const gameData = useGame(id);
@@ -33,7 +33,7 @@ function MainGame({ route, navigation }) {
     }
   }, [gameData, players, round]);
 
-  // only when round changes
+  // only when round changes check if game is over
   useEffect(() => {
     // sending results to players
     if (client.connected) {
@@ -43,19 +43,21 @@ function MainGame({ route, navigation }) {
       });
       // end of game
       if (round === gameData.questions.length) {
+        console.log('end of game');
         client.publish({
           destination: `/app/${pin}`,
           body: chatMessage('host', 'end', messageType.START_GAME),
         });
         console.log('end of game');
-        navigate(`/host/${id}/${pin}/end`, { state: { players } });
+        navigate(`/host/finalresults/${pin}`, { state: { players } });
       }
     }
-  }, [round]);
+  }, [round, players]);
 
+  // game start and round change
   useEffect(() => {
     // send possible answers to players
-    if (client.connected) {
+    if (client.connected && round !== gameData.questions.length) {
       // Type of game - ABCD
       if (gameData.questions[round].type === 'ABCD') {
         console.log('ABCD');
@@ -70,13 +72,13 @@ function MainGame({ route, navigation }) {
       }
       // Type of game - true/false
       // TODO: change to true/false in backend  and answers
-      if (gameData.questions[round].type === 'true/false') {
+      if (gameData.questions[round].type === 'TF') {
         client.publish({
           destination: `/app/${pin}`,
           body: chatMessage(
             'host',
             JSON.stringify({
-              type: 'true/false',
+              type: 'TF',
               answers: gameData.questions[round].answers,
             }),
             messageType.ANSWERS
@@ -84,9 +86,8 @@ function MainGame({ route, navigation }) {
         });
       }
     }
-  }, [round, start, gameData, client]);
+  }, [round, start, client]);
 
-  // Game Logic must be in useEffect because it's async........ !!!!!!!!!!!!!!
   const gameLogic = (message) => {
     // message has type, sender, content
     if (!message?.body) {
@@ -97,15 +98,15 @@ function MainGame({ route, navigation }) {
     // handling players responses to questions
     if (msg.type === messageType.MESSAGE) {
       const { content, sender } = msg;
-      // this returns reference to object, should make this into copy of player
-      // round depends removed !!!
-      const player = players.find((p) => p.nick === sender);
+
+      // find player in players array and update his state
+      const player = players.find((p) => p.nick === sender && p.currentRound === round);
 
       if (!player) {
         console.log('player not found');
+        console.log('probably rounds are not in sync');
         const x = players.find((p) => p.nick === sender && p.currentRound === round);
         console.log(x);
-
         return;
       }
 
@@ -115,12 +116,10 @@ function MainGame({ route, navigation }) {
         console.log('no questions');
         return;
       }
-      // comparing strings here
-      // here is where the bug is
-      // OMG INDEX IS COUNTING FROM 0
-      // points are added badly idk why
-      const correct = questions[round].correct - 1 == content;
+      // correct answer is string not number
+      const correct = questions[round].correct == content;
       if (correct) {
+        console.log('correct');
         player.points += 1;
       }
 
@@ -149,7 +148,7 @@ function MainGame({ route, navigation }) {
         body: chatMessage('host', 'end', messageType.START_GAME),
       });
     }
-    navigate(`/host/${id}/${pin}/end`);
+    navigate(`/host`);
   }
 
   // button Next handler for host

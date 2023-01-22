@@ -7,10 +7,12 @@ import { useAuth } from '../../hooks/useAuth';
 import { useParams } from 'react-router-dom';
 import PointsChart from '../PointsChart/PointsChart';
 import GameType from './GameType';
+import Loading from '../Loading/Loading';
 
 function PhoneView() {
   const [answers, setAnswers] = useState({ type: '', answers: [] });
   const [wyniki, setWyniki] = useState([{}, {}, {}, {}]);
+  const [clicked, setClicked] = useState(false);
   const auth = useAuth();
   const nick = auth.cookies.nick;
   const { pin } = useParams();
@@ -27,11 +29,11 @@ function PhoneView() {
   }, [pin, nick, answers, wyniki]);
 
   const callback = function (message) {
-    console.log(message.body);
     if (message.body) {
       const parsed = JSON.parse(message.body);
       if (parsed.type === messageType.ANSWERS) {
         setAnswers(JSON.parse(parsed.content));
+        setClicked(false);
       }
       if (parsed.type === messageType.RESULT) {
         setWyniki(JSON.parse(parsed.content));
@@ -41,16 +43,28 @@ function PhoneView() {
     }
   };
 
-  return (
-    <div>
-      <div className="h-screen">
-        <div className="flex h-1/5 items-end justify-center">
-          <PointsChart players={wyniki} />
-        </div>
-        <GameType type={answers.type} answers={answers.answers} nick={nick} pin={pin} />
+  if (clicked) {
+    return (
+      <div>
+        <Loading />
       </div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div>
+        <div className="flex h-screen flex-col">
+          <PointsChart players={wyniki} />
+          <GameType
+            type={answers.type}
+            answers={answers.answers}
+            nick={nick}
+            pin={pin}
+            setClickedUP={setClicked}
+          />
+        </div>
+      </div>
+    );
+  }
 }
 
 export default PhoneView;

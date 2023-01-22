@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../useAuth';
-import handleError from '../handleError';
 
-function useUser(id) {
+function useUser() {
   const [userData, setUserData] = useState({});
-  const { api } = useAuth();
-  const [hError] = handleError();
+  const { api, cookies } = useAuth();
 
   useEffect(() => {
     api
-      .get(`users/${id}`)
+      .get(`users/user-name/${cookies.user}`)
       .then((res) => {
         setUserData(res.data);
       })
       .catch((err) => {
-        hError(err);
+        console.log(err);
       });
-  }, [id]);
+  }, []);
 
   return userData;
 }

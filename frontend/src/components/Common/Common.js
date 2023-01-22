@@ -9,7 +9,7 @@ function Common() {
     navigate('/join');
   }
   return (
-    <div className="gradient flex h-screen flex-row items-center justify-center p-10">
+    <div className="flex h-screen flex-row items-center justify-center p-10">
       <div className="card m-5" onClick={() => handleHost()}>
         <div className="text-5xl sm:text-8xl ">Host</div>
       </div>

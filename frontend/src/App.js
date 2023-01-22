@@ -8,16 +8,17 @@ import PhoneView from './components/PhoneView/PhoneView';
 import Host from './components/Host/Host';
 import ChoosenGame from './components/ChoosenGame/ChoosenGame';
 import MainGame from './components/MainGame/MainGame';
+import FinalResults from './components/FinalResults/FinalResults';
 import ProtectRoutes from './components/ProtectRoutes/ProtectRoutes';
 import UserPanel from './components/UserPanel/UserPanel';
 import Security from './components/UserPanel/Security';
 import AddGame from './components/AddGameForm/AddGame';
-import SaveGame from './components/SaveGame/SaveGame';
+import Yours from './components/UserPanel/Yours';
 
 function App() {
   return (
     <Routes>
-      <Route path="*" element={<div>404</div>} />
+      {/* <Route path="*" element={<div>404</div>} /> */}
       <Route path="/" element={<Common />} />
       <Route
         path="/login"
@@ -28,29 +29,12 @@ function App() {
       <Route path="/join/:pin" element={<PhoneView />} />
       <Route element={<ProtectRoutes />}>
         <Route path="/host" element={<Host />} />
-      </Route>
-      <Route element={<ProtectRoutes />}>
         <Route path="/host/:id" element={<ChoosenGame />} />
-      </Route>
-      <Route element={<ProtectRoutes />}>
         <Route path="/host/:id/:pin" element={<MainGame />} />
-      </Route>
-      <Route element={<ProtectRoutes />}>
-        <Route path="host/:id/:pin/end" element={<SaveGame />} />
-      </Route>
-      <Route element={<ProtectRoutes />}>
-        <Route path="/profile/:id" element={<UserPanel />} />
-      </Route>
-      <Route element={<ProtectRoutes />}>
-        <Route path="/profile/:id/security" element={<Security />} />
-      </Route>
-      <Route element={<ProtectRoutes />}>
-        <Route path="/profile/:id/yours" element={<AddGame />} />
-      </Route>
-      <Route element={<ProtectRoutes />}>
-        <Route path="/profile/:id/history" element={<AddGame />} />
-      </Route>
-      <Route element={<ProtectRoutes />}>
+        <Route path="/host/finalresults/:pin" element={<FinalResults />} />
+        <Route path="/profile" element={<UserPanel />} />
+        <Route path="/profile/security" element={<Security />} />
+        <Route path="/profile/yours" element={<Yours />} />
         <Route path="/addgame" element={<AddGame />} />
       </Route>
     </Routes>

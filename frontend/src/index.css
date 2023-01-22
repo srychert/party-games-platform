@@ -29,11 +29,11 @@
     @apply tile;
   }
   .tile-desert {
-    @apply bg-gradient-to-br from-desert-400 to-desert-600;
+    @apply from-desert-400 to-desert-600 bg-gradient-to-br;
     @apply tile;
   }
   .tile-city {
-    @apply bg-gradient-to-br from-city-400 to-city-600;
+    @apply from-city-400 to-city-600 bg-gradient-to-br;
     @apply tile;
   }
   .game-board {
@@ -49,7 +49,7 @@
     @apply bg-gradient-to-b from-sky-100 via-sky-700 to-sky-100;
   }
   .game-card {
-    @apply relative flex flex-col rounded-lg border p-6 shadow-md shadow-sky-600;
+    @apply relative flex flex-col rounded-lg border p-6 pt-8 shadow-md shadow-sky-600;
   }
   .game-noPlayed {
     @apply absolute top-1 right-1 rounded-lg border bg-gray-200 p-2 shadow-sm shadow-sky-500;
@@ -59,5 +59,8 @@
   }
   .image:hover {
     @apply border-sky-400;
+  }
+  .btn-form {
+    @apply button flex h-10 w-60 flex-col items-center justify-center;
   }
 }
