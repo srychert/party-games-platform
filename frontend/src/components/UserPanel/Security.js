@@ -53,13 +53,21 @@ export default function Security() {
   return (
     <div className="flex flex-col gap-10">
       <UPanelNav />
-      <div className="mx-auto">
-        <div className="text-left">Username: {userData.userName}</div>
-        <div className="text-left">Account expiry time: {userData.accountExpiryTime}</div>
-        <div className="text-left">
-          Credentials expiry time: {userData.accountExpiryTime}
+
+      <div className="mx-auto flex gap-4 whitespace-nowrap text-xl font-bold">
+        <div className="flex flex-col">
+          <span>Username:</span>
+          <span>Account expiry time:</span>
+          <span>Credentials expiry time:</span>
+        </div>
+
+        <div className="flex flex-col">
+          <span>{userData.userName}</span>
+          <span>{userData.accountExpiryTime}</span>
+          <span>{userData.accountExpiryTime}</span>
         </div>
       </div>
+
       <div className="flex flex-row items-center justify-center gap-2">
         <button
           className="btn-form"
