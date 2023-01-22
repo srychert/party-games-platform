@@ -29,11 +29,11 @@
     @apply tile;
   }
   .tile-desert {
-    @apply bg-gradient-to-br from-desert-400 to-desert-600;
+    @apply from-desert-400 to-desert-600 bg-gradient-to-br;
     @apply tile;
   }
   .tile-city {
-    @apply bg-gradient-to-br from-city-400 to-city-600;
+    @apply from-city-400 to-city-600 bg-gradient-to-br;
     @apply tile;
   }
   .game-board {
@@ -61,6 +61,6 @@
     @apply border-sky-400;
   }
   .btn-form {
-    @apply flex flex-col justify-center items-center h-10 w-60 button;
+    @apply button flex h-10 w-60 flex-col items-center justify-center;
   }
 }

@@ -21,15 +21,6 @@ function MainGame() {
       : []
   );
 
-  const sendPlayers = () => {
-    if (client.connected) {
-      client.publish({
-        destination: `/app/${pin}`,
-        body: chatMessage('host', JSON.stringify(players), messageType.RESULT),
-      });
-    }
-  };
-
   // init socket connection and subscribe to topic and after refresh
   useEffect(() => {
     if (client.connected) {
@@ -52,12 +43,13 @@ function MainGame() {
       });
       // end of game
       if (round === gameData.questions.length) {
+        console.log('end of game');
         client.publish({
           destination: `/app/${pin}`,
           body: chatMessage('host', 'end', messageType.START_GAME),
         });
         console.log('end of game');
-        navigate(`/host/`);
+        navigate(`/host/finalresults/${pin}`, { state: { players } });
       }
     }
   }, [round, players]);
@@ -108,10 +100,11 @@ function MainGame() {
       const { content, sender } = msg;
 
       // find player in players array and update his state
-      const player = players.find((p) => p.nick === sender);
+      const player = players.find((p) => p.nick === sender && p.currentRound === round);
 
       if (!player) {
         console.log('player not found');
+        console.log('probably rounds are not in sync');
         const x = players.find((p) => p.nick === sender && p.currentRound === round);
         console.log(x);
         return;
@@ -123,12 +116,10 @@ function MainGame() {
         console.log('no questions');
         return;
       }
-      // comparing strings here
-      // the bug is here
-      // OMG INDEX IS COUNTING FROM 0
-      // points are added badly idk why
-      const correct = questions[round].correct === content;
+      // correct answer is string not number
+      const correct = questions[round].correct == content;
       if (correct) {
+        console.log('correct');
         player.points += 1;
       }
 

@@ -28,6 +28,33 @@ function PointsChart(props) {
       },
     ],
   });
+
+  useEffect(() => {
+    setChartData({
+      labels: props.players.map((player) => player.nick),
+      datasets: [
+        {
+          label: 'Wyniki',
+          data: props.players.map((player) => player.points),
+          backgroundColor: props.players.map((player) => {
+            if (player.nick === cookies.nick) {
+              return 'rgba(255, 99, 132, 0.2)';
+            } else {
+              return 'rgba(54, 162, 235, 0.2)';
+            }
+          }),
+          borderColor: props.players.map((player) => {
+            if (player.nick === cookies.nick) {
+              return 'rgba(255, 99, 132, 1)';
+            } else {
+              return 'rgba(54, 162, 235, 1)';
+            }
+          }),
+          borderWidth: 1,
+        },
+      ],
+    });
+  }, [props.players]);
   // tutaj bedzie chart.js z wykresami
   return (
     <div className="h-1/5 border-b-2 pb-2">

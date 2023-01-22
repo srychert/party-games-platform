@@ -8,6 +8,7 @@ import PhoneView from './components/PhoneView/PhoneView';
 import Host from './components/Host/Host';
 import ChoosenGame from './components/ChoosenGame/ChoosenGame';
 import MainGame from './components/MainGame/MainGame';
+import FinalResults from './components/FinalResults/FinalResults';
 import ProtectRoutes from './components/ProtectRoutes/ProtectRoutes';
 import UserPanel from './components/UserPanel/UserPanel';
 import Security from './components/UserPanel/Security';
@@ -30,6 +31,7 @@ function App() {
         <Route path="/host" element={<Host />} />
         <Route path="/host/:id" element={<ChoosenGame />} />
         <Route path="/host/:id/:pin" element={<MainGame />} />
+        <Route path="/host/finalresults/:pin" element={<FinalResults />} />
         <Route path="/profile" element={<UserPanel />} />
         <Route path="/profile/security" element={<Security />} />
         <Route path="/profile/yours" element={<Yours />} />
