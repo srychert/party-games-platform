@@ -57,7 +57,7 @@ function MainGame() {
   // game start and round change
   useEffect(() => {
     // send possible answers to players
-    if (client.connected) {
+    if (client.connected && round !== gameData.questions.length) {
       // Type of game - ABCD
       if (gameData.questions[round].type === 'ABCD') {
         console.log('ABCD');
