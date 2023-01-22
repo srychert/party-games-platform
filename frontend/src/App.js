@@ -12,7 +12,6 @@ import ProtectRoutes from './components/ProtectRoutes/ProtectRoutes';
 import UserPanel from './components/UserPanel/UserPanel';
 import Security from './components/UserPanel/Security';
 import AddGame from './components/AddGameForm/AddGame';
-import SaveGame from './components/SaveGame/SaveGame';
 import Yours from './components/UserPanel/Yours';
 
 function App() {

@@ -6,7 +6,7 @@ import useGame from '../../hooks/useGame';
 import { chatMessage, messageType } from '../../services/SocketFactory/message';
 import Question from '../Question/Question';
 
-function MainGame({ route, navigation }) {
+function MainGame() {
   const { id, pin } = useParams();
   const location = useLocation();
   const gameData = useGame(id);
@@ -106,6 +106,8 @@ function MainGame({ route, navigation }) {
     // handling players responses to questions
     if (msg.type === messageType.MESSAGE) {
       const { content, sender } = msg;
+
+      // find player in players array and update his state
       const player = players.find((p) => p.nick === sender);
 
       if (!player) {
@@ -125,7 +127,7 @@ function MainGame({ route, navigation }) {
       // the bug is here
       // OMG INDEX IS COUNTING FROM 0
       // points are added badly idk why
-      const correct = questions[round].correct - 1 == content;
+      const correct = questions[round].correct === content;
       if (correct) {
         player.points += 1;
       }
