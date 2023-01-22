@@ -21,6 +21,15 @@ function MainGame({ route, navigation }) {
       : []
   );
 
+  const sendPlayers = () => {
+    if (client.connected) {
+      client.publish({
+        destination: `/app/${pin}`,
+        body: chatMessage('host', JSON.stringify(players), messageType.RESULT),
+      });
+    }
+  };
+
   // init socket connection and subscribe to topic and after refresh
   useEffect(() => {
     if (client.connected) {
@@ -33,7 +42,7 @@ function MainGame({ route, navigation }) {
     }
   }, [gameData, players, round]);
 
-  // only when round changes
+  // only when round changes check if game is over
   useEffect(() => {
     // sending results to players
     if (client.connected) {
@@ -48,11 +57,12 @@ function MainGame({ route, navigation }) {
           body: chatMessage('host', 'end', messageType.START_GAME),
         });
         console.log('end of game');
-        navigate(`/host/${id}/${pin}/end`, { state: { players } });
+        navigate(`/host/`);
       }
     }
-  }, [round]);
+  }, [round, players]);
 
+  // game start and round change
   useEffect(() => {
     // send possible answers to players
     if (client.connected) {
@@ -84,9 +94,8 @@ function MainGame({ route, navigation }) {
         });
       }
     }
-  }, [round, start, gameData, client]);
+  }, [round, start, client]);
 
-  // Game Logic must be in useEffect because it's async........ !!!!!!!!!!!!!!
   const gameLogic = (message) => {
     // message has type, sender, content
     if (!message?.body) {
@@ -97,15 +106,12 @@ function MainGame({ route, navigation }) {
     // handling players responses to questions
     if (msg.type === messageType.MESSAGE) {
       const { content, sender } = msg;
-      // this returns reference to object, should make this into copy of player
-      // round depends removed !!!
       const player = players.find((p) => p.nick === sender);
 
       if (!player) {
         console.log('player not found');
         const x = players.find((p) => p.nick === sender && p.currentRound === round);
         console.log(x);
-
         return;
       }
 
@@ -116,7 +122,7 @@ function MainGame({ route, navigation }) {
         return;
       }
       // comparing strings here
-      // here is where the bug is
+      // the bug is here
       // OMG INDEX IS COUNTING FROM 0
       // points are added badly idk why
       const correct = questions[round].correct - 1 == content;
@@ -149,7 +155,7 @@ function MainGame({ route, navigation }) {
         body: chatMessage('host', 'end', messageType.START_GAME),
       });
     }
-    navigate(`/host/${id}/${pin}/end`);
+    navigate(`/host`);
   }
 
   // button Next handler for host

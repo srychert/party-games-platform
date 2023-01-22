@@ -31,7 +31,6 @@ function App() {
         <Route path="/host" element={<Host />} />
         <Route path="/host/:id" element={<ChoosenGame />} />
         <Route path="/host/:id/:pin" element={<MainGame />} />
-        <Route path="host/:id/:pin/end" element={<SaveGame />} />
         <Route path="/profile" element={<UserPanel />} />
         <Route path="/profile/security" element={<Security />} />
         <Route path="/profile/yours" element={<Yours />} />

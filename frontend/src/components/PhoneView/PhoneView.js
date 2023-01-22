@@ -43,10 +43,8 @@ function PhoneView() {
 
   return (
     <div>
-      <div className="h-screen">
-        <div className="flex h-1/5 items-end justify-center">
-          <PointsChart players={wyniki} />
-        </div>
+      <div className="flex h-screen flex-col">
+        <PointsChart players={wyniki} />
         <GameType type={answers.type} answers={answers.answers} nick={nick} pin={pin} />
       </div>
     </div>
