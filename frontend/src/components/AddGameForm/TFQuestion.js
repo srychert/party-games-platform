@@ -35,19 +35,19 @@ function TFQuestion({ dispatch, setType }) {
 
       <div className={'flex flex-row'}>
         <div className="flex flex-row gap-3 p-3">
-          <label>True</label>
+          <label htmlFor="box-true">True</label>
           <input
+            id="box-true"
             type={'radio'}
-            // value={correct}
             checked={correct === 0}
             onChange={() => setCorrect(0)}
           />
         </div>
         <div className="flex flex-row gap-3 p-3">
-          <label>False</label>
+          <label htmlFor="box-false">False</label>
           <input
+            id="box-false"
             type={'radio'}
-            // value={correct}
             checked={correct === 1}
             onChange={() => setCorrect(1)}
           />

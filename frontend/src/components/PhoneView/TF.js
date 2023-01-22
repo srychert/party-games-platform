@@ -1,6 +1,6 @@
 function TF({ answers, handleClick }) {
   return (
-    <div>
+    <div className="m-1 grid w-full grid-cols-2 gap-2">
       <button className="box bg-blue-700" id="1" onClick={() => handleClick(1)}>
         {answers[0]}
       </button>

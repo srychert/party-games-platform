@@ -3,7 +3,6 @@ import { useState } from 'react';
 function InitialState({ setInitialState, dispatch }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  // const [debufs, setDebufs] = useState(false);
 
   function handleInitialState(event) {
     event.preventDefault();
@@ -27,23 +26,20 @@ function InitialState({ setInitialState, dispatch }) {
           placeholder={'Title'}
           onChange={(e) => setTitle(e.target.value)}
           required={true}
+          className="form-input"
         />
       </div>
 
       <div className="flex flex-col p-2">
         <label>Game Description</label>
-        <input
+        <textarea
           type={'text'}
           placeholder={'Description'}
           onChange={(e) => setDescription(e.target.value)}
           required={true}
+          className="form-input h-24"
         />
       </div>
-
-      {/* <div className="p-2">
-        <label>Debufs?</label>
-        <input onChange={() => setDebufs(!debufs)} type={'checkbox'} />
-      </div> */}
 
       <input className="btn-form" value={'Add Questions'} type={'submit'} />
     </form>

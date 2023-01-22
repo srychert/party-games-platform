@@ -19,15 +19,15 @@ function UserPanel() {
           </div>
 
           <div>
-            <span>{userData.userName}</span>
+            <div>{userData.userName}</div>
             <div>
               {userData.roles &&
                 userData.roles.map((role) => {
                   return <span key={role}>{role}</span>;
                 })}
             </div>
-            <span>{userData.email}</span>
-            <span>{userData.active ? 'Yes' : 'No'}</span>
+            <div>{userData.email}</div>
+            <div>{userData.active ? 'Yes' : 'No'}</div>
           </div>
         </div>
       </div>
