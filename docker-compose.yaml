@@ -54,9 +54,11 @@ services:
       - REDIS_GENERATE=$REDIS_GENERATE
       - REDIS_HOST=redis
   front:
-    image: merski001/party-games-frontend
+    build:
+      context: ./frontend
+    # image: merski001/party-games-frontend
     ports:
-      - 3000:3000
+      - 3000:80
     container_name: $FRONTEND_NAME
     restart: on-failure
     depends_on:
