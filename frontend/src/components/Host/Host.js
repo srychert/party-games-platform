@@ -1,7 +1,8 @@
 import useGames from '../../hooks/useGames';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { useState } from 'react';
+import { CgProfile } from 'react-icons/cg';
+import { IconContext } from 'react-icons';
 
 function Host() {
   const auth = useAuth();
@@ -35,7 +36,9 @@ function Host() {
               className="flex cursor-pointer flex-col items-center justify-center"
               onClick={handleShowProfile}
             >
-              <span className="material-symbols-outlined text-6xl">account_circle</span>
+              <IconContext.Provider value={{ size: '4em' }}>
+                <CgProfile />
+              </IconContext.Provider>
               <span>{auth.cookies.user}</span>
             </div>
           </div>

@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import useUser from '../../hooks/UserHooks/useUser';
 import UPanelNav from './UPanelNav';
+import { CgProfile } from 'react-icons/cg';
+import { IconContext } from 'react-icons';
 
 function UserPanel() {
   const userData = useUser();
@@ -9,7 +11,9 @@ function UserPanel() {
     <div className="flex flex-col gap-20">
       <UPanelNav />
       <div className="flex flex-wrap items-center justify-center gap-4">
-        <span className="material-symbols-outlined text-9xl">account_circle</span>
+        <IconContext.Provider value={{ size: '9em' }}>
+          <CgProfile />
+        </IconContext.Provider>
         <div className="flex gap-4 whitespace-nowrap text-xl font-bold">
           <div className="flex flex-col">
             <span>Username:</span>
