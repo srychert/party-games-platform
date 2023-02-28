@@ -1,13 +1,11 @@
-/* eslint-disable */
-
 import { useEffect, useState } from 'react';
 import client from '../../services/SocketFactory/mySocketFactory';
-import { messageType, chatMessage } from '../../services/SocketFactory/message';
+import { messageType } from '../../services/SocketFactory/message';
 import { useAuth } from '../../hooks/useAuth';
 import { useParams } from 'react-router-dom';
-import PointsChart from '../PointsChart/PointsChart';
-import GameType from './GameType';
-import Loading from '../Loading/Loading';
+import PointsChart from '../../components/PointsChart/PointsChart';
+import GameType from '../../components/PhoneView/GameType';
+import Loading from '../Loading';
 
 function PhoneView() {
   const [answers, setAnswers] = useState({ type: '', answers: [] });

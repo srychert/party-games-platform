@@ -4,7 +4,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { CgProfile } from 'react-icons/cg';
 import { IconContext } from 'react-icons';
 
-function Host() {
+function QuizList() {
   const auth = useAuth();
   let navigate = useNavigate();
   const games = useGames();
@@ -75,4 +75,4 @@ function Host() {
   );
 }
 
-export default Host;
+export default QuizList;

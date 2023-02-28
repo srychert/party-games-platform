@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-function Common() {
+function ModePicker() {
   const navigate = useNavigate();
   function handleHost() {
     navigate('/host');
@@ -20,4 +20,4 @@ function Common() {
   );
 }
 
-export default Common;
+export default ModePicker;

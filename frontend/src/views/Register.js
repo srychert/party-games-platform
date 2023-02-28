@@ -1,55 +1,63 @@
 import { useState } from 'react';
-import { useAuth } from '../../hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
-import Back from '../Back/Back';
+import { useAuth } from '../hooks/useAuth';
 
-function Login(props) {
-  const [passtype, setPasstype] = useState(props.passtype);
+function Register() {
+  const [UserName, setUserName] = useState('');
+  const [Password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  //   TODO
+  const { register } = useAuth();
 
-  const [username, setusername] = useState('');
-  const [password, setpassword] = useState('');
-  const { login } = useAuth();
-
-  const navigate = useNavigate();
-  function switchPasstype() {
+  const [passtype, setPasstype] = useState('password');
+  const switchPasstype = () => {
     if (passtype === 'password') {
       setPasstype('text');
     } else {
       setPasstype('password');
     }
-  }
-  const handleLogin = (event) => {
-    event.preventDefault();
-    login({ username, password });
   };
+  const handleSignin = (event) => {
+    event.preventDefault();
+    console.error('Register not implemented');
+    // register({ UserName, Password, email });
+  };
+
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center">
-      <Back to={'/'} />
-      <form onSubmit={(event) => handleLogin(event)} className="form">
+      <form onSubmit={(event) => handleSignin(event)} className="form">
         <div className="flex flex-col p-2">
-          <label htmlFor={props.username}>Login</label>
+          <label htmlFor="email">E-mail</label>
+          <input
+            className="form-input"
+            type="email"
+            name="username"
+            id="email"
+            autoComplete="off"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="flex flex-col p-2">
+          <label htmlFor="username">Login</label>
           <input
             className="form-input"
             type="text"
-            name={props.username}
-            id={props.username}
+            name="username"
+            id="username"
             autoComplete="off"
-            onChange={(e) => setusername(e.target.value)}
+            onChange={(e) => setUserName(e.target.value)}
           />
         </div>
         <div className="flex flex-col p-2">
-          <label htmlFor={props.password}>Password</label>
+          <label htmlFor="password">Password</label>
           <input
             className="form-input"
             type={passtype}
-            name={props.password}
-            id={props.password}
+            name="password"
+            id="password"
             autoComplete="off"
-            onChange={(e) => setpassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
-        </div>
-        <div className="inline">
-          <div className="m-2">
+          <div className="mt-5">
             <label className="relative inline-flex cursor-pointer items-center">
               <input
                 type="checkbox"
@@ -63,23 +71,15 @@ function Login(props) {
               </span>
             </label>
           </div>
-          <div>
-            <button type="submit" className="button m-3">
-              Zaloguj
-            </button>
-            <button
-              type="button"
-              className="button m-3"
-              onClick={() => navigate('/signin')}
-            >
-              {' '}
-              Zarejestruj się{' '}
-            </button>
-          </div>
+        </div>
+        <div className="inline">
+          <button type="submit" className="button">
+            Zarejestruj się
+          </button>
         </div>
       </form>
     </div>
   );
 }
 
-export default Login;
+export default Register;

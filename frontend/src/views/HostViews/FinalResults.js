@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { useLocation } from 'react-router-dom';
-import Back from '../Back/Back';
+import Back from '../../components/Back/Back';
 
 function FinalResults() {
   const location = useLocation();

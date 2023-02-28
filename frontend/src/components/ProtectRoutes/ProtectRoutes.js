@@ -1,7 +1,7 @@
 import { useAuth } from '../../hooks/useAuth';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Loading from '../Loading/Loading';
+import Loading from '../../views/Loading';
 
 const ProtectRoutes = () => {
   const { api } = useAuth();

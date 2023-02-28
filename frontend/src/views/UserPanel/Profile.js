@@ -1,15 +1,15 @@
 import React from 'react';
 import useUser from '../../hooks/UserHooks/useUser';
-import UPanelNav from './UPanelNav';
+import Nav from '../../components/UserPanel/Nav';
 import { CgProfile } from 'react-icons/cg';
 import { IconContext } from 'react-icons';
 
-function UserPanel() {
+function Profile() {
   const userData = useUser();
 
   return (
     <div className="flex flex-col gap-20">
-      <UPanelNav />
+      <Nav />
       <div className="flex flex-wrap items-center justify-center gap-4">
         <IconContext.Provider value={{ size: '9em' }}>
           <CgProfile />
@@ -39,4 +39,4 @@ function UserPanel() {
   );
 }
 
-export default UserPanel;
+export default Profile;

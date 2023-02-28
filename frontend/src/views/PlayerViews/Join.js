@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import client from '../../services/SocketFactory/mySocketFactory';
 import { messageType, chatMessage } from '../../services/SocketFactory/message';
-import Loading from '../Loading/Loading';
-import Back from '../Back/Back';
+import Loading from '../Loading';
+import Back from '../../components/Back/Back';
 
 function Join() {
   const [pin, setPin] = useState('');

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import React from 'react';
 
-export default function UPanelNav() {
+export default function Nav() {
   const buttonClass = 'button flex-1 text-center whitespace-nowrap';
 
   return (

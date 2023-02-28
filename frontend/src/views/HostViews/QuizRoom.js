@@ -3,9 +3,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import client from '../../services/SocketFactory/mySocketFactory';
 import { messageType, chatMessage } from '../../services/SocketFactory/message';
 import usePin from '../../hooks/usePin';
-import Back from '../Back/Back';
+import Back from '../../components/Back/Back';
 
-function ChoosenGame() {
+function QuizRoom() {
   const navigate = useNavigate();
   const { id } = useParams();
   const pin = usePin(id);
@@ -68,4 +68,4 @@ function ChoosenGame() {
   );
 }
 
-export default ChoosenGame;
+export default QuizRoom;

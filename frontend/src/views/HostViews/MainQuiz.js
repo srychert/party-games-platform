@@ -1,12 +1,11 @@
-/* eslint-disable */
 import { useEffect, useState } from 'react';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import client from '../../services/SocketFactory/mySocketFactory';
 import useGame from '../../hooks/useGame';
 import { chatMessage, messageType } from '../../services/SocketFactory/message';
-import Question from '../Question/Question';
+import Question from '../../components/Question/Question';
 
-function MainGame() {
+function MainQuiz() {
   const { id, pin } = useParams();
   const location = useLocation();
   const gameData = useGame(id);
@@ -183,4 +182,4 @@ function MainGame() {
   );
 }
 
-export default MainGame;
+export default MainQuiz;

@@ -1,61 +1,55 @@
 import { useState } from 'react';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
+import Back from '../components/Back/Back';
 
-function SignIn() {
+function Login(props) {
+  const [passtype, setPasstype] = useState(props.passtype);
+
   const [username, setusername] = useState('');
   const [password, setpassword] = useState('');
-  const [email, setemail] = useState('');
-  const { signin } = useAuth();
+  const { login } = useAuth();
 
-  const [passtype, setPasstype] = useState('password');
-  const switchPasstype = () => {
+  const navigate = useNavigate();
+  function switchPasstype() {
     if (passtype === 'password') {
       setPasstype('text');
     } else {
       setPasstype('password');
     }
-  };
-  const handleSignin = (event) => {
+  }
+  const handleLogin = (event) => {
     event.preventDefault();
-    signin({ username, password, email });
+    login({ username, password });
   };
-
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center">
-      <form onSubmit={(event) => handleSignin(event)} className="form">
+      <Back to={'/'} />
+      <form onSubmit={(event) => handleLogin(event)} className="form">
         <div className="flex flex-col p-2">
-          <label htmlFor="username">E-mail</label>
+          <label htmlFor={props.username}>Login</label>
           <input
             className="form-input"
             type="text"
-            name="username"
-            id="username"
-            autoComplete="off"
-            onChange={(e) => setemail(e.target.value)}
-          />
-        </div>
-        <div className="flex flex-col p-2">
-          <label htmlFor="username">Login</label>
-          <input
-            className="form-input"
-            type="text"
-            name="username"
-            id="username"
+            name={props.username}
+            id={props.username}
             autoComplete="off"
             onChange={(e) => setusername(e.target.value)}
           />
         </div>
         <div className="flex flex-col p-2">
-          <label htmlFor="password">Password</label>
+          <label htmlFor={props.password}>Password</label>
           <input
             className="form-input"
             type={passtype}
-            name="password"
-            id="password"
+            name={props.password}
+            id={props.password}
             autoComplete="off"
             onChange={(e) => setpassword(e.target.value)}
           />
-          <div className="mt-5">
+        </div>
+        <div className="inline">
+          <div className="m-2">
             <label className="relative inline-flex cursor-pointer items-center">
               <input
                 type="checkbox"
@@ -69,15 +63,23 @@ function SignIn() {
               </span>
             </label>
           </div>
-        </div>
-        <div className="inline">
-          <button type="submit" className="button">
-            Zarejestruj się
-          </button>
+          <div>
+            <button type="submit" className="button m-3">
+              Zaloguj
+            </button>
+            <button
+              type="button"
+              className="button m-3"
+              onClick={() => navigate('/register')}
+            >
+              {' '}
+              Zarejestruj się{' '}
+            </button>
+          </div>
         </div>
       </form>
     </div>
   );
 }
 
-export default SignIn;
+export default Login;

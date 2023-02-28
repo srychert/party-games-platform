@@ -1,4 +1,4 @@
-import UPanelNav from './UPanelNav';
+import Nav from '../../components/UserPanel/Nav';
 import useGames from '../../hooks/useGames';
 
 export default function Yours() {
@@ -6,7 +6,7 @@ export default function Yours() {
 
   return (
     <div>
-      <UPanelNav />
+      <Nav />
       <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
         <thead>
           <tr>

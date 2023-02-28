@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import client from '../../services/SocketFactory/mySocketFactory';
 import { chatMessage, messageType } from '../../services/SocketFactory/message';
-import Loading from '../Loading/Loading';
+import Loading from '../../views/Loading';
 import ABCD from './ABCD';
 import TF from './TF';
 

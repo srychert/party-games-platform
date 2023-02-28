@@ -1,4 +1,4 @@
-import UPanelNav from './UPanelNav';
+import Nav from '../../components/UserPanel/Nav';
 import { useState } from 'react';
 import useUser from '../../hooks/UserHooks/useUser';
 import { useAuth } from '../../hooks/useAuth';
@@ -52,7 +52,7 @@ export default function Security() {
 
   return (
     <div className="flex flex-col gap-10">
-      <UPanelNav />
+      <Nav />
 
       <div className="mx-auto flex gap-4 whitespace-nowrap text-xl font-bold">
         <div className="flex flex-col">

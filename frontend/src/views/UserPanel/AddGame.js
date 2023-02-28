@@ -1,9 +1,9 @@
 import React, { useReducer, useState } from 'react';
-import InitialState from './InitialState';
-import AddQuestions from './AddQuestions';
+import InitialState from '../../components/AddGameForm/InitialState';
+import AddQuestions from '../../components/AddGameForm/AddQuestions';
 import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import UPanelNav from '../UserPanel/UPanelNav';
+import Nav from '../../components/UserPanel/Nav';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -58,7 +58,7 @@ function AddGame() {
 
   return (
     <>
-      <UPanelNav />
+      <Nav />
       <div className="form mx-auto w-fit">
         <div>
           {gameData.questions.map((question, index) => (
