@@ -9,38 +9,6 @@ export const UserProvider = ({ children }) => {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies();
 
-  const api = axios.create({
-    baseURL: 'http://localhost:8080/api/v1',
-    headers: {
-      Authorization: `Bearer ${cookies.token}`,
-    },
-  });
-
-  const login = ({ username, password }) => {
-    api
-      .post(
-        '/token',
-        {},
-        {
-          auth: {
-            username,
-            password,
-          },
-        }
-      )
-      .then((res) => {
-        setCookie('token', res.data, { path: '/' });
-        setCookie('user', username, { path: '/' });
-        api.get(`users/user-name/${username}`).then((res) => {
-          setCookie('userId', res?.data.id, { path: '/' });
-        });
-        navigate('/host');
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   const logout = () => {
     removeCookie('token');
     removeCookie('user');
@@ -57,12 +25,9 @@ export const UserProvider = ({ children }) => {
 
   const value = useMemo(
     () => ({
-      cookies,
-      login,
       logout,
       setNick,
       removeNick,
-      api,
     }),
     [cookies]
   );

@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import Back from '../components/Back/Back';
+import { useLogin } from '../hooks/useLogin';
 
 function Login(props) {
   const [passtype, setPasstype] = useState(props.passtype);
 
   const [username, setusername] = useState('');
   const [password, setpassword] = useState('');
-  const { login } = useAuth();
+  const { mutate, isLoading, isError, isSuccess, error } = useLogin(username, password);
 
   const navigate = useNavigate();
+
   function switchPasstype() {
     if (passtype === 'password') {
       setPasstype('text');
@@ -18,10 +20,16 @@ function Login(props) {
       setPasstype('password');
     }
   }
+
   const handleLogin = (event) => {
     event.preventDefault();
-    login({ username, password });
+    mutate({ username, password });
   };
+
+  if (isSuccess) {
+    return <Navigate to="/" />;
+  }
+
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center">
       <Back to={'/'} />

@@ -4,7 +4,7 @@ import ModePicker from './views/ModePicker';
 import Login from './views/Login';
 import Register from './views/Register';
 import Join from './views/PlayerViews/Join';
-import PhoneView from './views/PlayerViews/Quiz';
+import Quiz from './views/PlayerViews/Quiz';
 import QuizList from './views/HostViews/QuizList';
 import QuizRoom from './views/HostViews/QuizRoom';
 import MainQuiz from './views/HostViews/MainQuiz';
@@ -25,7 +25,7 @@ function App() {
       />
       <Route path="/register" element={<Register />} />
       <Route path="/join" exact element={<Join />} />
-      <Route path="/join/:pin" element={<PhoneView />} />
+      <Route path="/join/:pin" element={<Quiz />} />
       <Route element={<ProtectRoutes />}>
         <Route path="/host" element={<QuizList />} />
         <Route path="/host/:id" element={<QuizRoom />} />

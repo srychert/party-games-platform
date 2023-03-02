@@ -1,9 +1,12 @@
 import React from 'react';
 import { UserProvider } from '../hooks/useAuth';
+import { ApiProvider } from './ApiProvider';
 
 const AppProvider = ({ children }) => (
   <>
-    <UserProvider>{children}</UserProvider>
+    <ApiProvider>
+      <UserProvider>{children}</UserProvider>
+    </ApiProvider>
   </>
 );
 

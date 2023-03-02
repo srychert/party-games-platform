@@ -7,7 +7,8 @@ import { IconContext } from 'react-icons';
 function QuizList() {
   const auth = useAuth();
   let navigate = useNavigate();
-  const games = useGames();
+  // const games = useGames();
+  const games = [];
   // To do zmiany po ogarnięciu logowania
   // -------------------------------------
   const handleShowProfile = () => {

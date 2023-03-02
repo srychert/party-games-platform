@@ -7,7 +7,7 @@ import PointsChart from '../../components/PointsChart/PointsChart';
 import GameType from '../../components/PhoneView/GameType';
 import Loading from '../Loading';
 
-function PhoneView() {
+function Quiz() {
   const [answers, setAnswers] = useState({ type: '', answers: [] });
   const [wyniki, setWyniki] = useState([{}, {}, {}, {}]);
   const [clicked, setClicked] = useState(false);
@@ -65,4 +65,4 @@ function PhoneView() {
   }
 }
 
-export default PhoneView;
+export default Quiz;
