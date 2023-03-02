@@ -8,8 +8,8 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+import pl.srychert.PartyGamesPlatform.enums.MessageType;
 import pl.srychert.PartyGamesPlatform.model.ChatMessage;
-import pl.srychert.PartyGamesPlatform.model.MessageType;
 
 @Slf4j
 @Component
@@ -18,12 +18,12 @@ public class WebSocketEventListener {
     private SimpMessageSendingOperations sendingOperations;
 
     @EventListener
-    public void handleWebSocketConnectListener(final SessionConnectedEvent event){
+    public void handleWebSocketConnectListener(final SessionConnectedEvent event) {
         log.info("New connection!");
     }
 
     @EventListener
-    public void handleWebSocketDisconnectListener(final SessionDisconnectEvent event){
+    public void handleWebSocketDisconnectListener(final SessionDisconnectEvent event) {
         final StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
 
         final String username = (String) headerAccessor.getSessionAttributes().get("username");

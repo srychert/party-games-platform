@@ -6,9 +6,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import pl.srychert.PartyGamesPlatform.model.Game;
-import pl.srychert.PartyGamesPlatform.model.GameRepository;
 import pl.srychert.PartyGamesPlatform.model.User;
-import pl.srychert.PartyGamesPlatform.model.UserRepository;
+import pl.srychert.PartyGamesPlatform.repository.GameRepository;
+import pl.srychert.PartyGamesPlatform.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +24,7 @@ public class AuthComponent {
     GameRepository gameRepository;
 
     public boolean hasPermission(String id) {
-        if(isAdmin()){
+        if (isAdmin()) {
             return true;
         }
 
@@ -39,7 +39,7 @@ public class AuthComponent {
     }
 
     public boolean hasPermissionByName(String userName) {
-        if(isAdmin()){
+        if (isAdmin()) {
             return true;
         }
 

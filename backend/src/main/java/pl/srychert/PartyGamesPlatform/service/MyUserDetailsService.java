@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pl.srychert.PartyGamesPlatform.model.MyUserDetails;
 import pl.srychert.PartyGamesPlatform.model.User;
-import pl.srychert.PartyGamesPlatform.model.UserRepository;
+import pl.srychert.PartyGamesPlatform.repository.UserRepository;
 
 import java.util.Optional;
 
@@ -24,9 +24,6 @@ public class MyUserDetailsService implements UserDetailsService {
 
         return user.map(MyUserDetails::new).get();
     }
-
-
-
 
 
 }

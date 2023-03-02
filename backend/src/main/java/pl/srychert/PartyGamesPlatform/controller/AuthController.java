@@ -23,6 +23,7 @@ public class AuthController {
 
     @GetMapping
     public Boolean checkIfValid(Authentication authentication){
+        if(authentication == null) return false;
         return authentication.isAuthenticated();
     }
 

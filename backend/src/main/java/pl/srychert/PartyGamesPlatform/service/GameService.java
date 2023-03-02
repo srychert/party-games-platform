@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.srychert.PartyGamesPlatform.exception.ApiRequestException;
 import pl.srychert.PartyGamesPlatform.model.Game;
-import pl.srychert.PartyGamesPlatform.model.GameRepository;
+import pl.srychert.PartyGamesPlatform.repository.GameRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,12 +32,12 @@ public class GameService {
                 game.getDescription(),
                 game.getQuestions(),
                 game.getCreatedBy());
-       return gameRepository.insert(newGame);
+        return gameRepository.insert(newGame);
     }
 
     public Game deleteGame(String id) {
         Optional<Game> game = gameRepository.findById(id);
-        if(game.isPresent()) {
+        if (game.isPresent()) {
             gameRepository.deleteById(id);
         }
         return game.orElseThrow(() -> new ApiRequestException("No such Game id in DB"));
@@ -64,6 +64,6 @@ public class GameService {
 
         updatedGame.setTotalTimesPlayed(updatedGame.getTotalTimesPlayed() + 1);
 
-       return  gameRepository.save(updatedGame);
+        return gameRepository.save(updatedGame);
     }
 }

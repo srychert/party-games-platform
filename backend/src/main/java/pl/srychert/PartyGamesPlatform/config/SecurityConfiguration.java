@@ -1,6 +1,5 @@
 package pl.srychert.PartyGamesPlatform.config;
 
-import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
@@ -10,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
@@ -30,7 +29,7 @@ import java.util.UUID;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(
+@EnableMethodSecurity(
         securedEnabled = true,
         jsr250Enabled = true,
         prePostEnabled = true
@@ -46,18 +45,18 @@ public class SecurityConfiguration {
                 .csrf().disable()
                 .authorizeHttpRequests((auth) -> {
                             auth
-                                    .antMatchers("/",
+                                    .requestMatchers("/",
                                             "/favicon.ico",
-                                            "/**/*.png",
-                                            "/**/*.gif",
-                                            "/**/*.svg",
-                                            "/**/*.jpg",
-                                            "/**/*.html",
-                                            "/**/*.css",
-                                            "/**/*.js").permitAll()
-                                    .antMatchers("/api/v1/users/**").hasAnyAuthority("SCOPE_ADMIN", "SCOPE_USER")
-                                    .antMatchers("/api/v1/games/**").hasAnyAuthority("SCOPE_ADMIN", "SCOPE_USER")
-                                    .antMatchers("/api/v1/token/**").permitAll();
+                                            "/*/*.png",
+                                            "/*/*.gif",
+                                            "/*/*.svg",
+                                            "/*/*.jpg",
+                                            "/*/*.html",
+                                            "/*/*.css",
+                                            "/*/*.js").permitAll()
+                                    .requestMatchers("/api/v1/users/**").hasAnyAuthority("SCOPE_ADMIN", "SCOPE_USER")
+                                    .requestMatchers("/api/v1/games/**").hasAnyAuthority("SCOPE_ADMIN", "SCOPE_USER")
+                                    .requestMatchers("/api/v1/token/**").permitAll();
 //                                    .anyRequest().authenticated();
                         }
                 )
@@ -74,8 +73,7 @@ public class SecurityConfiguration {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
             keyPairGenerator.initialize(2048);
             keyPair = keyPairGenerator.generateKeyPair();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new IllegalStateException(ex);
         }
         return keyPair;

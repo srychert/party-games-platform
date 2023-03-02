@@ -1,4 +1,4 @@
-package pl.srychert.PartyGamesPlatform.model;
+package pl.srychert.PartyGamesPlatform.enums;
 
 public enum MessageType {
     ANSWERS,

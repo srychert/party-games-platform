@@ -1,8 +1,12 @@
 package pl.srychert.PartyGamesPlatform.model;
 
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import pl.srychert.PartyGamesPlatform.enums.QuestionType;
 
-import javax.validation.constraints.*;
 import java.util.List;
 
 @Data
@@ -27,7 +31,7 @@ public class Question {
     // TODO write custom validator
     @AssertTrue
     private boolean isCorrect() {
-        if (answers == null){
+        if (answers == null) {
             return false;
         }
         return correct <= answers.size() - 1;
