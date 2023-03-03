@@ -56,7 +56,7 @@ public class SecurityConfiguration {
                                             "/*/*.js").permitAll()
                                     .requestMatchers("/api/v1/users/**").hasAnyAuthority("SCOPE_ADMIN", "SCOPE_USER")
                                     .requestMatchers("/api/v1/games/**").hasAnyAuthority("SCOPE_ADMIN", "SCOPE_USER")
-                                    .requestMatchers("/api/v1/token/**").permitAll();
+                                    .requestMatchers("/api/v1/token/**", "/quiz/**").permitAll();
 //                                    .anyRequest().authenticated();
                         }
                 )

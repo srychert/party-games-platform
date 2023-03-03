@@ -21,14 +21,14 @@ public class ChatController {
 
     @MessageMapping("/{gamePin}")
     @SendTo("/topic/public/{gamePin}")
-    public ChatMessage sendMessage(@Payload final ChatMessage chatMessage){
+    public ChatMessage sendMessage(@Payload final ChatMessage chatMessage) {
         return chatMessage;
     }
 
     @MessageMapping("/{gamePin}.newUser")
     @SendTo("/topic/public/{gamePin}")
-    public ChatMessage newUser(@Payload final ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor){
-        headerAccessor.getSessionAttributes().put("username" ,chatMessage.getSender());
+    public ChatMessage newUser(@Payload final ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
+        headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
         return chatMessage;
     }
 
