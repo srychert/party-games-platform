@@ -22,7 +22,7 @@ export default function Security() {
 
   const update = useUpdateUser();
 
-  const handelUpdate = (e) => {
+  const handleUpdate = (e) => {
     const valueToUpdate = e.target.dataset.value;
 
     update.mutate({
@@ -113,7 +113,7 @@ export default function Security() {
             className="btn-form mt-1"
             value="Change"
             data-value="userName"
-            onClick={handelUpdate}
+            onClick={handleUpdate}
           />
         </div>
       )}
@@ -136,7 +136,7 @@ export default function Security() {
             className="btn-form mt-1"
             value="Change"
             data-value="password"
-            onClick={handelUpdate}
+            onClick={handleUpdate}
           />
           {renderErrors()}
           <div className="mt-1 flex flex-row gap-1">

@@ -2,19 +2,19 @@ import { useEffect, useState } from 'react';
 import { useAuth } from './useAuth';
 
 function usePin(id) {
-  const [pin, setPin] = useState('');
-  const { api } = useAuth();
-  useEffect(() => {
-    api
-      .post(`/games/new/${id}`)
-      .then((res) => {
-        setPin(res.data.pin);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [id]);
-  return pin;
+  // const [pin, setPin] = useState('');
+  // const { api } = useAuth();
+  // useEffect(() => {
+  //   api
+  //     .post(`/games/new/${id}`)
+  //     .then((res) => {
+  //       setPin(res.data.pin);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, [id]);
+  return 123456;
 }
 
 export default usePin;
