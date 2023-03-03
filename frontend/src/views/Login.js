@@ -27,7 +27,7 @@ function Login(props) {
   };
 
   if (isSuccess) {
-    return <Navigate to="/" />;
+    return <Navigate to="/host" />;
   }
 
   return (

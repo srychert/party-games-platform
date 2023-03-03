@@ -1,26 +1,37 @@
-import useGames from '../../hooks/useGames';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { CgProfile } from 'react-icons/cg';
 import { IconContext } from 'react-icons';
+import { useCookies } from 'react-cookie';
+import { useGames } from '../../hooks/useGames';
+import Loading from '../Loading';
 
 function QuizList() {
+  const [cookies, setCookie] = useCookies();
   const auth = useAuth();
   let navigate = useNavigate();
-  // const games = useGames();
-  const games = [];
-  // To do zmiany po ogarnięciu logowania
-  // -------------------------------------
+  const { isLoading, isError, data: games, error } = useGames();
+
   const handleShowProfile = () => {
     navigate(`/profile`);
   };
-  // -------------------------------------
+
   const handleChooseGame = (gameID) => {
     navigate(`/host/${gameID}`);
   };
+
   const handleLogout = () => {
     auth.logout();
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>;
+  }
+
   return (
     <div className="h-screen w-screen overflow-x-hidden p-10">
       <div className="flex flex-col">
@@ -40,7 +51,7 @@ function QuizList() {
               <IconContext.Provider value={{ size: '4em' }}>
                 <CgProfile />
               </IconContext.Provider>
-              <span>{auth.cookies.user}</span>
+              <span>{cookies.user}</span>
             </div>
           </div>
         </div>

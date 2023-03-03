@@ -1,20 +1,15 @@
-import { useEffect, useState } from 'react';
-import { useAuth } from './useAuth';
+import { useQuery } from '@tanstack/react-query';
+import { useApi } from '../context/ApiProvider';
 
-function useGames() {
-  const [gamesData, setGamesData] = useState([]);
-  const { api } = useAuth();
-  useEffect(() => {
-    api
-      .get('/games')
-      .then((res) => {
-        setGamesData(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-  return gamesData;
-}
+export const useGames = (config) => {
+  const { api } = useApi();
 
-export default useGames;
+  return useQuery({
+    queryKey: ['games'],
+    queryFn: async () => {
+      const games = await api.get(`/games`);
+      return games.data;
+    },
+    ...config,
+  });
+};

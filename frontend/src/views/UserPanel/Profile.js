@@ -3,9 +3,18 @@ import useUser from '../../hooks/UserHooks/useUser';
 import Nav from '../../components/UserPanel/Nav';
 import { CgProfile } from 'react-icons/cg';
 import { IconContext } from 'react-icons';
+import Loading from '../Loading';
 
 function Profile() {
-  const userData = useUser();
+  const { isLoading, isError, data: user, error } = useUser();
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>;
+  }
 
   return (
     <div className="flex flex-col gap-20">
@@ -23,15 +32,15 @@ function Profile() {
           </div>
 
           <div>
-            <div>{userData.userName}</div>
+            <div>{user.userName}</div>
             <div>
-              {userData.roles &&
-                userData.roles.map((role) => {
+              {user.roles &&
+                user.roles.map((role) => {
                   return <span key={role}>{role}</span>;
                 })}
             </div>
-            <div>{userData.email}</div>
-            <div>{userData.active ? 'Yes' : 'No'}</div>
+            <div>{user.email}</div>
+            <div>{user.active ? 'Yes' : 'No'}</div>
           </div>
         </div>
       </div>

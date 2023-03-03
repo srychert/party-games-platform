@@ -1,9 +1,12 @@
 import React, { useReducer, useState } from 'react';
 import InitialState from '../../components/AddGameForm/InitialState';
 import AddQuestions from '../../components/AddGameForm/AddQuestions';
-import { useAuth } from '../../hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import Nav from '../../components/UserPanel/Nav';
+import { useApi } from '../../context/ApiProvider';
+import { useCookies } from 'react-cookie';
+import { useAddGame } from '../../hooks/useAddGame';
+import Loading from '../Loading';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -32,9 +35,12 @@ function reducer(state, action) {
 }
 
 function AddGame() {
-  const { api, cookies } = useAuth();
+  const { api } = useApi();
+  const [cookies, setCookie, removeCookie] = useCookies();
   const navigate = useNavigate();
   const [initialState, setInitialState] = useState(true);
+
+  const { mutate, isLoading, isError, isSuccess, error } = useAddGame();
 
   const [gameData, dispatch] = useReducer(reducer, {
     title: '',
@@ -45,16 +51,16 @@ function AddGame() {
   });
 
   const submitGame = () => {
-    console.log('nowa gra', gameData);
-    api
-      .post(`/games`, gameData)
-      .then((_res) => {
-        navigate('/profile');
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    mutate({ game: gameData });
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (isSuccess) {
+    return <Navigate to="/host" />;
+  }
 
   return (
     <>

@@ -1,8 +1,17 @@
 import Nav from '../../components/UserPanel/Nav';
-import useGames from '../../hooks/useGames';
+import { useGames } from '../../hooks/useGames';
+import Loading from '../Loading';
 
 export default function Yours() {
-  const games = useGames();
+  const { isLoading, isError, data: games, error } = useGames();
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>;
+  }
 
   return (
     <div>

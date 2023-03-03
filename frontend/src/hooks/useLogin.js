@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useApi } from '../context/ApiProvider';
 import { useCookies } from 'react-cookie';
-import { useNavigate } from 'react-router-dom';
 
 export const useLogin = () => {
   const { api } = useApi();
@@ -10,7 +9,6 @@ export const useLogin = () => {
 
   return useMutation({
     mutationFn: async ({ username, password }) => {
-      console.log(username, password);
       const token = await api.post(
         '/token',
         {},
@@ -21,6 +19,7 @@ export const useLogin = () => {
           },
         }
       );
+      setCookie('user', username, { path: '/' });
       return token;
     },
     onError: (error, variables, context) => {

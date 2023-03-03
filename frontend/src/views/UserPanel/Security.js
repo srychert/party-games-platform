@@ -2,10 +2,12 @@ import Nav from '../../components/UserPanel/Nav';
 import { useState } from 'react';
 import useUser from '../../hooks/UserHooks/useUser';
 import { useAuth } from '../../hooks/useAuth';
+import Loading from '../Loading';
+import { useUpdateUser } from '../../hooks/UserHooks/useUpdateUser';
 
 export default function Security() {
   const { api, logout } = useAuth();
-  const userData = useUser();
+  const { isLoading, isError, data: user, error } = useUser();
 
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -18,29 +20,24 @@ export default function Security() {
     setShowPassword(!showPassword);
   };
 
-  const update = (e) => {
+  const update = useUpdateUser();
+
+  const handelUpdate = (e) => {
     const valueToUpdate = e.target.dataset.value;
 
-    api
-      .patch(`users/${userData.id}/${valueToUpdate}`, {
-        [valueToUpdate]: valueToUpdate === 'userName' ? userName : password,
-      })
-      .then((r) => {
-        console.log(r);
-        logout();
-      })
-      .catch((err) => {
-        const message = err.response.data.message;
-        const detailedMessages = err.response.data.detailedMessages ?? [];
-        setErros([message, ...detailedMessages]);
-      });
+    update.mutate({
+      id: user.id,
+      valueToUpdate,
+      value: valueToUpdate === 'userName' ? userName : password,
+    });
   };
 
   const renderErrors = () => {
-    if (erros.length !== 0) {
+    if (update.isError) {
+      const messages = update.error?.response?.data;
       return (
         <ul>
-          {erros.map((error, index) => (
+          {[messages.message, messages.detailedMessages].map((error, index) => (
             <li className="text-[red]" key={index}>
               {error}
             </li>
@@ -49,6 +46,14 @@ export default function Security() {
       );
     }
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>;
+  }
 
   return (
     <div className="flex flex-col gap-10">
@@ -62,9 +67,9 @@ export default function Security() {
         </div>
 
         <div className="flex flex-col">
-          <span>{userData.userName}</span>
-          <span>{userData.accountExpiryTime}</span>
-          <span>{userData.accountExpiryTime}</span>
+          <span>{user.userName}</span>
+          <span>{user.accountExpiryTime}</span>
+          <span>{user.accountExpiryTime}</span>
         </div>
       </div>
 
@@ -96,7 +101,7 @@ export default function Security() {
             id="user-name"
             className="form-input"
             type="text"
-            placeholder={userData?.userName}
+            placeholder={user?.userName}
             onChange={(e) => {
               setUserName(e.target.value);
               setErros([]);
@@ -108,7 +113,7 @@ export default function Security() {
             className="btn-form mt-1"
             value="Change"
             data-value="userName"
-            onClick={update}
+            onClick={handelUpdate}
           />
         </div>
       )}
@@ -131,7 +136,7 @@ export default function Security() {
             className="btn-form mt-1"
             value="Change"
             data-value="password"
-            onClick={update}
+            onClick={handelUpdate}
           />
           {renderErrors()}
           <div className="mt-1 flex flex-row gap-1">

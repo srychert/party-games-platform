@@ -1,14 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
+import { useCookies } from 'react-cookie';
 import { useApi } from '../../context/ApiProvider';
 
 function useUser(username, config) {
   const { api } = useApi();
+  const [cookies, setCookie, removeCookie] = useCookies();
+
+  let key = username ?? cookies.user;
 
   return useQuery({
-    queryKey: ['user', username],
+    queryKey: ['user', key],
     queryFn: async () => {
-      const data = await api.get(`users/user-name/${username}`);
-      return data;
+      const user = await api.get(`users/user-name/${key}`);
+      console.log(user);
+      return user.data;
     },
     ...config,
   });

@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import client from '../../services/SocketFactory/mySocketFactory';
-import useGame from '../../hooks/useGame';
+import { useGame } from '../../hooks/useGame';
 import { chatMessage, messageType } from '../../services/SocketFactory/message';
 import Question from '../../components/Question/Question';
+import Loading from '../Loading';
 
 function MainQuiz() {
   const { id, pin } = useParams();
   const location = useLocation();
-  const gameData = useGame(id);
 
   const navigate = useNavigate();
 
@@ -19,6 +19,16 @@ function MainQuiz() {
       ? location.state.players.map((p) => ({ nick: p, points: 0, currentRound: 0 }))
       : []
   );
+
+  const { isLoading, isError, data: gameData, error } = useGame(id);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>;
+  }
 
   // init socket connection and subscribe to topic and after refresh
   useEffect(() => {
