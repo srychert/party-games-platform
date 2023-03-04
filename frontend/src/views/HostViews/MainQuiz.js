@@ -170,6 +170,7 @@ function MainQuiz() {
 
   const handleNextRound = () => {
     setRound(round + 1);
+    client.current.sendMessage(`/app/${pin}`, 'Host', 'Next');
   };
 
   const handleMessageReceived = (msg) => {
@@ -201,16 +202,16 @@ function MainQuiz() {
           <button className="button absolute top-5 right-5" onClick={handleNextRound}>
             Next
           </button>
-          <button
-            className="button absolute top-5 left-5"
-            onClick={() => {
-              console.log('leave');
-            }}
-          >
-            Leave
-          </button>
         </div>
       )}
+      <button
+        className="button absolute top-5 left-5"
+        onClick={() => {
+          console.log('leave');
+        }}
+      >
+        Leave
+      </button>
     </>
   );
 }
