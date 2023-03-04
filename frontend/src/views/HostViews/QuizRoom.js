@@ -24,6 +24,17 @@ function QuizRoom() {
       setPlayers([...players, { nick: msg.sender, id: msg.content }]);
     }
   };
+  // Game start button handler
+  const handleClick = () => {
+    client.current.sendMessage(`/app/quizroom/${pin}/host`, {
+      type: TYPES.START,
+      sender: 'HOST',
+      content: '',
+    });
+    navigate(`/host/${id}/quiz`, {
+      state: { players: players },
+    });
+  };
 
   return (
     <>
@@ -37,9 +48,9 @@ function QuizRoom() {
       <div className="flex h-screen w-screen flex-col items-center ">
         <Back to={`/host/`} />
         <div className="m-10 border-b-2 border-blue-500 p-5 text-9xl">{pin}</div>
-        {/* <button className="button" onClick={() => handleClick()}>
+        <button className="button" onClick={() => handleClick()}>
           Rozpocznij grę
-        </button> */}
+        </button>
         <div className="flex flex-row justify-between">
           {players.map((player, index) => (
             <div
