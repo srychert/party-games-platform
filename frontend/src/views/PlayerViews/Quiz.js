@@ -1,8 +1,9 @@
-import { useRef, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import GameType from '../../components/PhoneView/GameType';
 import Loading from '../Loading';
 import { ParseSocketMessage } from '../../services/Quiz/ParseSocketMessage';
+import { TYPES } from '../../services/SocketMessage';
 
 function Quiz(props) {
   const { client, setTopics, setHandleMessage } = props;
@@ -11,16 +12,26 @@ function Quiz(props) {
   const [loading, setLoading] = useState(true);
   const { pin } = useParams();
 
-  const onMessageReceived = function (message) {
-    console.log(message);
-    const { gameType, answers } = ParseSocketMessage(message, 'PLAYER');
-    setAnswers(answers);
-    setGameType(gameType);
+  const onMessageReceived = function (msg) {
+    console.log(msg);
+    switch (msg.type) {
+      case TYPES.STARTED:
+        setLoading(false);
+        break;
+
+      default:
+        break;
+    }
+    // const { gameType, answers } = ParseSocketMessage(message, 'PLAYER');
+    // console.log(gameType, answers);
+    // setAnswers(answers);
+    // setGameType(gameType);
   };
 
-  const handleMessageSend = (message) => {
-    console.log(message);
-    client.current.sendMessage(`/app/public/${pin}`, message);
+  const handleMessageSend = (msg) => {
+    console.log(msg);
+
+    // client.current.sendMessage(`/topic/quizroom/${pin}`, message);
   };
 
   useEffect(() => {

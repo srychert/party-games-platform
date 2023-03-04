@@ -13,6 +13,7 @@ import Security from './views/UserPanel/Security';
 import AddGame from './views/UserPanel/AddGame';
 import Yours from './views/UserPanel/Yours';
 import PlayerLayout from './components/PlayerLayout';
+import HostLayout from './components/HostLayout';
 
 function App() {
   return (
@@ -30,9 +31,7 @@ function App() {
       {/* Host routes */}
       <Route element={<ProtectRoutes />}>
         <Route path="/host" element={<QuizList />} />
-        <Route path="/host/:id" element={<QuizRoom />} />
-        <Route path="/host/:id/:pin" element={<MainQuiz />} />
-        <Route path="/host/finalresults/:pin" element={<FinalResults />} />
+        <Route path="/host/*" element={<HostLayout />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/security" element={<Security />} />
         <Route path="/profile/yours" element={<Yours />} />

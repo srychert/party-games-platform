@@ -9,11 +9,12 @@ function Question({ question }) {
 
   return (
     <div>
-      {count === 0 ? (
+      {/* {count === 0 ? (
         <span className="text-8xl">{question.question}</span>
       ) : (
         <span className="text-8xl">{count}</span>
-      )}
+      )} */}
+      <span className="text-8xl">{question.question}</span>
     </div>
   );
 }
