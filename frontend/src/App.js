@@ -3,8 +3,6 @@ import { Routes, Route } from 'react-router-dom';
 import ModePicker from './views/ModePicker';
 import Login from './views/Login';
 import Register from './views/Register';
-import Join from './views/PlayerViews/Join';
-import Quiz from './views/PlayerViews/Quiz';
 import QuizList from './views/HostViews/QuizList';
 import QuizRoom from './views/HostViews/QuizRoom';
 import MainQuiz from './views/HostViews/MainQuiz';
@@ -14,6 +12,7 @@ import Profile from './views/UserPanel/Profile';
 import Security from './views/UserPanel/Security';
 import AddGame from './views/UserPanel/AddGame';
 import Yours from './views/UserPanel/Yours';
+import PlayerLayout from './components/PlayerLayout';
 
 function App() {
   return (
@@ -26,8 +25,7 @@ function App() {
       <Route path="/register" element={<Register />} />
 
       {/* Phone routes */}
-      <Route path="/join" exact element={<Join />} />
-      <Route path="/join/:pin" element={<Quiz />} />
+      <Route path="/player/*" element={<PlayerLayout />} />
 
       {/* Host routes */}
       <Route element={<ProtectRoutes />}>

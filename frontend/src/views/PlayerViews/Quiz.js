@@ -1,17 +1,15 @@
-import { useRef, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import GameType from '../../components/PhoneView/GameType';
 import Loading from '../Loading';
-import { SockJsClientDefaults } from '../../services/SockJsClientDefaults';
 import { ParseSocketMessage } from '../../services/Quiz/ParseSocketMessage';
 
-function Quiz() {
+function Quiz(props) {
+  const { client, setTopics, setHandleMessage } = props;
   const [answers, setAnswers] = useState(['a', 'b', 'c', 'd']);
   const [gameType, setGameType] = useState('ABCD');
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { pin } = useParams();
-
-  const client = useRef(null);
 
   const onMessageReceived = function (message) {
     console.log(message);
@@ -24,16 +22,13 @@ function Quiz() {
     console.log(message);
     client.current.sendMessage(`/app/public/${pin}`, message);
   };
+
+  useEffect(() => {
+    setTopics([`/topic/quizroom/${pin}`, `/user/topic/reply`]);
+    setHandleMessage({ fn: onMessageReceived });
+  }, [pin]);
   return (
     <>
-      <SockJsClientDefaults
-        topics={[`/topic/public/${pin}`]}
-        onConnect={() => console.log('Connected!')}
-        onDisconnect={() => console.log('Disconnected!')}
-        onMessage={onMessageReceived}
-        ref={client}
-      />
-
       {loading && <Loading />}
 
       {!loading && (

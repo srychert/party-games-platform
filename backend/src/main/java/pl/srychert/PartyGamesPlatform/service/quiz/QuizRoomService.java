@@ -9,24 +9,23 @@ import pl.srychert.PartyGamesPlatform.model.TextMessageDTO;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class QuizRoomService {
-    public TextMessageDTO handleMessage(TextMessageDTO textMessageDTO, String pin) {
+    public TextMessageDTO handleMessage(String name, TextMessageDTO textMessageDTO, String pin) {
         switch (textMessageDTO.getType()) {
             case JOIN:
-                return handleJoin(textMessageDTO, pin);
+                return handleJoin(name, textMessageDTO, pin);
             default:
                 return null;
         }
     }
 
-    private TextMessageDTO handleJoin(TextMessageDTO textMessageDTO, String pin) {
+    private TextMessageDTO handleJoin(String name, TextMessageDTO textMessageDTO, String pin) {
         List<QuizPlayer> players = OngoingQuizMockDB.quizes.getOrDefault(pin, new ArrayList<>());
 
         QuizPlayer player = QuizPlayer.builder()
-                .id(UUID.randomUUID().toString())
+                .id(name)
                 .nick(textMessageDTO.getSender())
                 .build();
 
@@ -46,6 +45,6 @@ public class QuizRoomService {
         return TextMessageDTO.builder()
                 .type(MessageType.JOINED)
                 .content(player.getId())
-                .sender("server").build();
+                .sender(player.getNick()).build();
     }
 }

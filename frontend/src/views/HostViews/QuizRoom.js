@@ -20,7 +20,7 @@ function QuizRoom() {
   const onMessageReceived = (msg) => {
     console.log(msg);
 
-    if (msg.type === TYPES.JOIN) {
+    if (msg.type === TYPES.JOINED) {
       setPlayers([...players, { nick: msg.sender, id: msg.content }]);
     }
   };

@@ -10,5 +10,10 @@ export const createMessage = (type, sender, content) => {
 
 export const TYPES = {
   JOIN: 'JOIN',
+  JOINED: 'JOINED',
+  DUPLICATE_NICK: 'DUPLICATE_NICK',
   CREATE_ROOM: 'CREATE_ROOM',
+  START_GAME: 'START_GAME',
+  ANSWERS: 'ANSWERS',
+  RESULTS: 'RESULTS',
 };
