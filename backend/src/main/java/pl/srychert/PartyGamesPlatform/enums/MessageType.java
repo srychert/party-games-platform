@@ -9,5 +9,7 @@ public enum MessageType {
     START_GAME,
 
     JOIN,
-    CREATE_ROOM
+    JOINED,
+    CREATE_ROOM,
+    DUPLICATE_NICK,
 }
