@@ -1,24 +1,31 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
-import client from '../../services/SocketFactory/mySocketFactory';
-import { messageType, chatMessage } from '../../services/SocketFactory/message';
 import Loading from '../Loading';
 import Back from '../../components/Back/Back';
 import { SockJsClientDefaults } from '../../services/SockJsClientDefaults';
 import { createMessage, TYPES } from '../../services/SocketMessage';
+import { v4 as uuid } from 'uuid';
+import { useCookies } from 'react-cookie';
 
 function Join() {
   const [loading, setLoading] = useState(false);
   const [pin, setPin] = useState('');
   const [nick, changeNick] = useState('');
+  const [cookies, setCookie, removeCookie] = useCookies();
   const navigate = useNavigate();
 
   const client = useRef(null);
 
   const handleJoin = (event) => {
     event.preventDefault();
-    client.current.sendMessage(`/app/quizroom/${pin}`, createMessage(TYPES.JOIN, nick));
+    const player_id = uuid();
+    client.current.sendMessage(
+      `/app/quizroom/${pin}`,
+      createMessage(TYPES.JOIN, nick, player_id)
+    );
+    setCookie('nick', nick);
+    setCookie('player_id', player_id);
+    navigate(`/join/${pin}`);
   };
 
   const handleMessage = (msg) => {

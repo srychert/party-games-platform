@@ -1,68 +1,59 @@
-import { useEffect, useState } from 'react';
-import client from '../../services/SocketFactory/mySocketFactory';
+import { useRef, useState } from 'react';
 import { messageType } from '../../services/SocketFactory/message';
-import { useAuth } from '../../hooks/useAuth';
 import { useParams } from 'react-router-dom';
 import PointsChart from '../../components/PointsChart/PointsChart';
 import GameType from '../../components/PhoneView/GameType';
 import Loading from '../Loading';
+import { SockJsClientDefaults } from '../../services/SockJsClientDefaults';
+import { useCookies } from 'react-cookie';
 
 function Quiz() {
-  const [answers, setAnswers] = useState({ type: '', answers: [] });
+  const [answers, setAnswers] = useState([]);
+  const [gameType, setGameType] = useState('ABCD');
   const [wyniki, setWyniki] = useState([{}, {}, {}, {}]);
-  const [clicked, setClicked] = useState(false);
-  const auth = useAuth();
-  const nick = auth.cookies.nick;
+  const [loading, setLoading] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies();
   const { pin } = useParams();
 
-  useEffect(() => {
-    if (client.connected) {
-      client.subscribe(`/topic/public/${pin}`, callback);
-    } else {
-      client.activate();
-      client.onConnect = () => {
-        client.subscribe(`/topic/public/${pin}`, callback);
-      };
-    }
-  }, [pin, nick, answers, wyniki]);
+  const client = useRef(null);
 
-  const callback = function (message) {
-    if (message.body) {
-      const parsed = JSON.parse(message.body);
-      if (parsed.type === messageType.ANSWERS) {
-        setAnswers(JSON.parse(parsed.content));
-        setClicked(false);
-      }
-      if (parsed.type === messageType.RESULT) {
-        setWyniki(JSON.parse(parsed.content));
-      }
-    } else {
-      console.log('Empty message');
+  const onMessageReceived = function (message) {
+    console.log(message);
+    if (message.type === messageType.START_GAME) {
+      setLoading(false);
+    }
+    if (message.type === messageType.ANSWERS) {
+      const msgParsed = JSON.parse(message.content);
+      setAnswers(msgParsed.answers);
+      setGameType(msgParsed.type);
+    }
+    if (message.type === messageType.RESULTS) {
+      // Pewnie trzeba message.content przekształcić na odpowiednią strukturę
+      setWyniki(message.content);
     }
   };
 
-  if (clicked) {
-    return (
-      <div>
-        <Loading />
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <div className="flex h-screen flex-col">
-          <PointsChart players={wyniki} />
-          <GameType
-            type={answers.type}
-            answers={answers.answers}
-            nick={nick}
-            pin={pin}
-            setClickedUP={setClicked}
-          />
-        </div>
-      </div>
-    );
-  }
+  const handleMessageSend = (message) => {
+    client.current.sendMessage(`/app/public/${pin}`, message);
+  };
+
+  return (
+    <>
+      <SockJsClientDefaults
+        topics={[`/topic/public/${pin}`]}
+        onConnect={() => console.log('Connected!')}
+        onDisconnect={() => console.log('Disconnected!')}
+        onMessage={onMessageReceived}
+        ref={client}
+      />
+
+      {loading && <Loading />}
+
+      {!loading && (
+        <div>{GameType(gameType, answers, cookies.nick, pin, handleMessageSend)}</div>
+      )}
+    </>
+  );
 }
 
 export default Quiz;

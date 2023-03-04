@@ -24,8 +24,12 @@ function App() {
         element={<Login field1="username" field2="password" passtype="password" />}
       />
       <Route path="/register" element={<Register />} />
+
+      {/* Phone routes */}
       <Route path="/join" exact element={<Join />} />
       <Route path="/join/:pin" element={<Quiz />} />
+
+      {/* Host routes */}
       <Route element={<ProtectRoutes />}>
         <Route path="/host" element={<QuizList />} />
         <Route path="/host/:id" element={<QuizRoom />} />

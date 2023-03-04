@@ -1,7 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import client from '../../services/SocketFactory/mySocketFactory';
-import { messageType, chatMessage } from '../../services/SocketFactory/message';
 import usePin from '../../hooks/usePin';
 import Back from '../../components/Back/Back';
 import { SockJsClientDefaults } from '../../services/SockJsClientDefaults';
@@ -23,7 +21,7 @@ function QuizRoom() {
     console.log(msg);
 
     if (msg.type === TYPES.JOIN) {
-      setPlayers([...players, msg.sender]);
+      setPlayers([...players, { nick: msg.sender, id: msg.content }]);
     }
   };
 
@@ -48,7 +46,7 @@ function QuizRoom() {
               className="animate-wiggle m-3 rounded-lg border bg-gradient-to-r from-blue-600 to-blue-200 p-3 shadow-sm"
               key={index}
             >
-              {player}
+              {player.nick}
             </div>
           ))}
         </div>
