@@ -1,5 +1,6 @@
 package pl.srychert.PartyGamesPlatform.service.quiz;
 
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import pl.srychert.PartyGamesPlatform.OngoingQuizMockDB;
 import pl.srychert.PartyGamesPlatform.enums.MessageType;
@@ -7,18 +8,16 @@ import pl.srychert.PartyGamesPlatform.model.QuizPlayer;
 import pl.srychert.PartyGamesPlatform.model.TextMessageDTO;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class QuizRoomService {
     public TextMessageDTO handleMessage(String name, TextMessageDTO textMessageDTO, String pin) {
-        switch (textMessageDTO.getType()) {
-            case JOIN:
-                return handleJoin(name, textMessageDTO, pin);
-            default:
-                return null;
-        }
+        return switch (textMessageDTO.getType()) {
+            case JOIN -> handleJoin(name, textMessageDTO, pin);
+            case START_GAME -> handleStartGame(pin);
+            default -> null;
+        };
     }
 
     private TextMessageDTO handleJoin(String name, TextMessageDTO textMessageDTO, String pin) {
@@ -27,6 +26,7 @@ public class QuizRoomService {
         QuizPlayer player = QuizPlayer.builder()
                 .id(name)
                 .nick(textMessageDTO.getSender())
+                .points(0)
                 .build();
 
         if (players.stream().anyMatch(p -> p.getNick().equals(player.getNick()))) {
@@ -36,15 +36,23 @@ public class QuizRoomService {
         }
 
         players.add(player);
-
         OngoingQuizMockDB.quizes.put(pin, players);
-
-        System.out.println(players.size());
-        System.out.println(Arrays.toString(OngoingQuizMockDB.quizes.get(pin).toArray()));
 
         return TextMessageDTO.builder()
                 .type(MessageType.JOINED)
                 .content(player.getId())
                 .sender(player.getNick()).build();
+    }
+
+    private TextMessageDTO handleStartGame(String pin) {
+        List<QuizPlayer> players = OngoingQuizMockDB.quizes.getOrDefault(pin, new ArrayList<>());
+
+        JSONObject playersJson = new JSONObject().put("players", players);
+
+        return TextMessageDTO.builder()
+                .type(MessageType.STARTED)
+                .json(playersJson.toString())
+                .content("")
+                .sender("SERVER").build();
     }
 }

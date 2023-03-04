@@ -35,7 +35,13 @@ public class QuizMessageController {
     }
 
     @MessageMapping("/quizroom/{pin}/host")
-    public TextMessageDTO quizRoomHost(@DestinationVariable Integer pin, @Payload final TextMessageDTO textMessageDTO) {
-        return textMessageDTO;
+    public TextMessageDTO quizRoomHost(Principal principal,
+                                       @DestinationVariable String pin,
+                                       @Payload final TextMessageDTO textMessageDTO) {
+        
+        TextMessageDTO answer = quizRoomService.handleMessage(principal.getName(), textMessageDTO, pin);
+
+        template.convertAndSend(String.format("/topic/quizroom/%s", pin), answer);
+        return answer;
     }
 }

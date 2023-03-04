@@ -7,7 +7,7 @@ public enum MessageType {
     CONNECT,
     DISCONNECT,
     START_GAME,
-
+    STARTED,
     JOIN,
     JOINED,
     CREATE_ROOM,
