@@ -1,7 +1,16 @@
-export const ParseSocketMessage = (message) => {
-  const msgParsed = JSON.parse(message.content);
-  const { question, points } = msgParsed;
-  return { question, points };
+export const ParseSocketMessage = (message, user) => {
+  if (user === 'HOST') {
+    if (message.type === 'INGAME') {
+      const { question, points } = message.content;
+      return { question, points };
+    }
+  }
+  if (user === 'PLAYER') {
+    if (message.type === 'INGAME') {
+      const { type, answers } = message.content;
+      return { type, answers };
+    }
+  }
 };
 
 /*
