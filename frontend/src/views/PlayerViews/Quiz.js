@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import GameType from '../../components/PhoneView/GameType';
 import Loading from '../Loading';
-import { ParseSocketMessage } from '../../services/Quiz/ParseSocketMessage';
 import { TYPES } from '../../services/SocketMessage';
 
 function Quiz(props) {
@@ -18,14 +17,26 @@ function Quiz(props) {
       case TYPES.STARTED:
         setLoading(false);
         break;
+      case TYPES.ANSWERS:
+        /* 
+          message.json: {
+          type: 'ABCD',
+          answers: ['a', 'b', 'c', 'd'],
+        }
+        */
+        setAnswers(JSON.parse(msg.json).answers);
+        setGameType(JSON.parse(msg.json).type);
+        break;
+
+      case TYPES.END_GAME:
+        // game over
+        console.log('game over');
+        //nagivate to end game page
+        break;
 
       default:
         break;
     }
-    // const { gameType, answers } = ParseSocketMessage(message, 'PLAYER');
-    // console.log(gameType, answers);
-    // setAnswers(answers);
-    // setGameType(gameType);
   };
 
   const handleMessageSend = (msg) => {

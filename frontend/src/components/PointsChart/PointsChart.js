@@ -1,28 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../hooks/useAuth';
-import Chart from 'chart.js/auto';
 import { Bar } from 'react-chartjs-2';
-function PointsChart(props) {
-  const { cookies } = useAuth();
+function PointsChart({ players }) {
   const [chartData, setChartData] = useState({
-    labels: props.players.map((player) => player.nick),
+    labels: players.map((player) => player.nick),
     datasets: [
       {
         label: 'Wyniki',
-        data: props.players.map((player) => player.points),
-        backgroundColor: props.players.map((player) => {
-          if (player.nick === cookies.nick) {
-            return 'rgba(255, 99, 132, 0.2)';
-          } else {
-            return 'rgba(54, 162, 235, 0.2)';
-          }
+        data: players.map((player) => player.points),
+        backgroundColor: players.map(() => {
+          return 'rgba(255, 99, 132, 0.2)';
         }),
-        borderColor: props.players.map((player) => {
-          if (player.nick === cookies.nick) {
-            return 'rgba(255, 99, 132, 1)';
-          } else {
-            return 'rgba(54, 162, 235, 1)';
-          }
+        borderColor: players.map(() => {
+          return 'rgba(255, 99, 132, 1)';
         }),
         borderWidth: 1,
       },
@@ -31,30 +20,22 @@ function PointsChart(props) {
 
   useEffect(() => {
     setChartData({
-      labels: props.players.map((player) => player.nick),
+      labels: players.map((player) => player.nick),
       datasets: [
         {
           label: 'Wyniki',
-          data: props.players.map((player) => player.points),
-          backgroundColor: props.players.map((player) => {
-            if (player.nick === cookies.nick) {
-              return 'rgba(255, 99, 132, 0.2)';
-            } else {
-              return 'rgba(54, 162, 235, 0.2)';
-            }
+          data: players.map((player) => player.points),
+          backgroundColor: players.map(() => {
+            return 'rgba(255, 99, 132, 0.2)';
           }),
-          borderColor: props.players.map((player) => {
-            if (player.nick === cookies.nick) {
-              return 'rgba(255, 99, 132, 1)';
-            } else {
-              return 'rgba(54, 162, 235, 1)';
-            }
+          borderColor: players.map(() => {
+            return 'rgba(255, 99, 132, 1)';
           }),
           borderWidth: 1,
         },
       ],
     });
-  }, [props.players]);
+  }, [players]);
   // tutaj bedzie chart.js z wykresami
   return (
     <div className="h-1/5 border-b-2 pb-2">
