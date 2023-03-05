@@ -10,7 +10,7 @@ const ProtectRoutes = () => {
   }
 
   if (isError) {
-    if (error.response.status === 401) {
+    if (error?.response?.status === 401) {
       return <Navigate to="/login" />;
     }
 

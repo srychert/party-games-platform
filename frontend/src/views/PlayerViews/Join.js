@@ -29,6 +29,9 @@ function Join(props) {
       case TYPES.DUPLICATE_NICK:
         setError('Duplicate nick');
         break;
+      case TYPES.NO_ROOM:
+        setError('No room with this pin');
+        break;
       default:
         break;
     }

@@ -7,12 +7,16 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+import pl.srychert.PartyGamesPlatform.service.quiz.QuizStateService;
 
 @Slf4j
 @Component
 public class WebSocketEventListener {
     @Autowired
-    private SimpMessageSendingOperations sendingOperations;
+    SimpMessageSendingOperations sendingOperations;
+
+    @Autowired
+    QuizStateService quizStateService;
 
     @EventListener
     public void handleWebSocketConnectListener(final SessionConnectedEvent event) {
@@ -21,6 +25,10 @@ public class WebSocketEventListener {
 
     @EventListener
     public void handleWebSocketDisconnectListener(final SessionDisconnectEvent event) {
+        if (event.getUser() != null) {
+            String hostId = event.getUser().getName();
+            quizStateService.freePin(hostId);
+        }
         log.info("Disconnect!");
 //        final StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
 //

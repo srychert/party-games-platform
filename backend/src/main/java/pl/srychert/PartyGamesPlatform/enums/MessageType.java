@@ -11,5 +11,7 @@ public enum MessageType {
     JOIN,
     JOINED,
     CREATE_ROOM,
+    CREATED,
     DUPLICATE_NICK,
+    NO_PIN, NO_ROOM,
 }

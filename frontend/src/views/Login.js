@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import { useAuth } from '../hooks/useAuth';
 import { Navigate, useNavigate } from 'react-router-dom';
 import Back from '../components/Back/Back';
 import { useLogin } from '../hooks/useLogin';
+import Loading from './Loading';
 
 function Login(props) {
   const [passtype, setPasstype] = useState(props.passtype);
 
   const [username, setusername] = useState('');
   const [password, setpassword] = useState('');
-  const { mutate, isLoading, isError, isSuccess, error } = useLogin(username, password);
+  const { mutate, isLoading, isError, isSuccess, error } = useLogin();
 
   const navigate = useNavigate();
 
@@ -25,6 +25,14 @@ function Login(props) {
     event.preventDefault();
     mutate({ username, password });
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (isError) {
+    return <span>{error.message}</span>;
+  }
 
   if (isSuccess) {
     return <Navigate to="/host" />;
