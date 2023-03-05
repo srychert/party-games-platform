@@ -9,12 +9,19 @@ export const createMessage = (type, sender, content) => {
 };
 
 export const TYPES = {
+  // host
+  START_GAME: 'START_GAME',
+  NEXT_ROUND: 'NEXT_ROUND',
+  // maybe not needed
+  CREATE_ROOM: 'CREATE_ROOM',
+
+  // player
   JOIN: 'JOIN',
   JOINED: 'JOINED',
   DUPLICATE_NICK: 'DUPLICATE_NICK',
-  CREATE_ROOM: 'CREATE_ROOM',
-  START_GAME: 'START_GAME',
-  STARTED: 'STARTED',
   ANSWERS: 'ANSWERS',
-  RESULTS: 'RESULTS',
+
+  // common
+  STARTED: 'STARTED',
+  END_GAME: 'END_GAME',
 };
