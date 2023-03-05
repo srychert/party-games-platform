@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Question from '../../components/Question/Question';
 import PointsChart from '../../components/PointsChart/PointsChart';
 import { TYPES, createMessage } from '../../services/SocketMessage';
@@ -12,6 +12,8 @@ function MainQuiz(props) {
   const [pointsScreen, setPointsScreen] = useState(false);
   const [players, setPlayers] = useState([]);
 
+  const navigate = useNavigate();
+
   const handleNextRound = () => {
     setRound(round + 1);
     client.current.sendMessage(
@@ -21,6 +23,16 @@ function MainQuiz(props) {
     setPointsScreen(true);
   };
 
+  const handleLeave = () => {
+    console.log('leave');
+    // client.current.sendMessage(
+    //   `/app/quizroom/${pin}/host`,
+    //   createMessage('Host', TYPES.END_GAME)
+    // );
+    navigate(`/host`);
+  };
+
+  // change screen to points and back to question
   useEffect(() => {
     async function changeScreen() {
       console.log('pointsScreen');
@@ -79,12 +91,7 @@ function MainQuiz(props) {
 
   return (
     <>
-      <button
-        className="button absolute top-5 left-5"
-        onClick={() => {
-          console.log('leave');
-        }}
-      >
+      <button className="button absolute top-5 left-5" onClick={handleLeave}>
         Leave
       </button>
 
@@ -92,11 +99,10 @@ function MainQuiz(props) {
         <h1>Round {round + 1}</h1>
         {pointsScreen && <PointsChart players={players} />}
         {!pointsScreen && <Question question={question} key={'question'} />}
-
-        <button className="button absolute top-5 right-5" onClick={handleNextRound}>
-          Next
-        </button>
       </div>
+      <button className="button absolute top-5 right-5" onClick={handleNextRound}>
+        Next
+      </button>
     </>
   );
 }

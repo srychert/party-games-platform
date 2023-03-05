@@ -25,9 +25,6 @@ function QuizRoom(props) {
       `/app/quizroom/${pin}/host`,
       createMessage(TYPES.START_GAME, 'HOST')
     );
-    // navigate(`/host/${id}/quiz-room/${pin}`, {
-    //   state: { players: players },
-    // });
     navigate(`/host/${id}/quiz-room/${pin}`);
   };
 
