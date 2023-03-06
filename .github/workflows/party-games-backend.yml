@@ -28,4 +28,4 @@ jobs:
           context: .
           file: ./backend/actions.Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/party-gamses-backend:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/party-games-backend:latest
