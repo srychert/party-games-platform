@@ -14,7 +14,7 @@ function Question({ question }) {
       ) : (
         <span className="text-8xl">{count}</span>
       )} */}
-      <span className="text-8xl">{question.question}</span>
+      <span className="text-8xl">{question}</span>
     </div>
   );
 }

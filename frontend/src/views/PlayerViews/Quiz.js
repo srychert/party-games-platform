@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import GameType from '../../components/PhoneView/GameType';
 import Loading from '../Loading';
-import { TYPES } from '../../services/SocketMessage';
+import { createMessage, TYPES } from '../../services/SocketMessage';
+import { useCookies } from 'react-cookie';
 
 function Quiz(props) {
   const { client, setTopics, setHandleMessage } = props;
@@ -10,27 +11,37 @@ function Quiz(props) {
   const [gameType, setGameType] = useState('ABCD');
   const [loading, setLoading] = useState(true);
   const { pin } = useParams();
+  const [cookies, setCookie, removeCookie] = useCookies();
 
   const onMessageReceived = function (msg) {
     console.log(msg);
     switch (msg.type) {
+      // for now players get all data for first and next rounds
       case TYPES.STARTED:
         setLoading(false);
+        setGameType(JSON.parse(msg.json).question.type);
+        setAnswers(JSON.parse(msg.json).question.answers);
         break;
-      case TYPES.ANSWERS:
-        /* 
-          message.json: {
-          type: 'ABCD',
-          answers: ['a', 'b', 'c', 'd'],
-        }
-        */
-        setAnswers(JSON.parse(msg.json).answers);
-        setGameType(JSON.parse(msg.json).type);
+      // case TYPES.ANSWERS:
+      //   /*
+      //     message.json: {
+      //     type: 'ABCD',
+      //     answers: ['a', 'b', 'c', 'd'],
+      //   }
+      //   */
+      //   setGameType(JSON.parse(msg.json).type);
+      //   setAnswers(JSON.parse(msg.json).answers);
+      //   setLoading(false);
+      //   break;
+      case TYPES.NEXT_ROUND:
+        setGameType(JSON.parse(msg.json).question.type);
+        setAnswers(JSON.parse(msg.json).question.answers);
+        setLoading(false);
         break;
 
-      case TYPES.END_GAME:
-        // game over
-        console.log('game over');
+      case TYPES.ENDED:
+        console.log('game end');
+        // TODO
         //nagivate to end game page
         break;
 
@@ -42,23 +53,29 @@ function Quiz(props) {
   const handleMessageSend = (msg) => {
     console.log(msg);
 
-    // client.current.sendMessage(`/topic/quizroom/${pin}`, message);
+    client.current.sendMessage(
+      `/app/quizroom/${pin}`,
+      createMessage(TYPES.PLAY, cookies.nick, msg)
+    );
+
+    if (!loading) {
+      setLoading(true);
+    }
   };
 
   useEffect(() => {
     setTopics([`/topic/quizroom/${pin}`, `/user/topic/reply`]);
     setHandleMessage({ fn: onMessageReceived });
   }, [pin]);
-  return (
-    <>
-      {loading && <Loading />}
 
-      {!loading && (
-        <div>
-          <GameType type={gameType} answers={answers} handleClick={handleMessageSend} />
-        </div>
-      )}
-    </>
+  if (loading) {
+    return <Loading />;
+  }
+
+  return (
+    <div>
+      <GameType type={gameType} answers={answers} handleClick={handleMessageSend} />
+    </div>
   );
 }
 

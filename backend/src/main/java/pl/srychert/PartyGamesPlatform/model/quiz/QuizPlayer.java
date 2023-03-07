@@ -11,4 +11,5 @@ public class QuizPlayer {
     private String id;
     private String nick;
     private Integer points;
+    private Integer roundsPlayed;
 }

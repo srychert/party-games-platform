@@ -8,10 +8,16 @@ public enum MessageType {
     DISCONNECT,
     START_GAME,
     STARTED,
+    END_GAME,
+    ENDED,
     JOIN,
     JOINED,
     CREATE_ROOM,
     CREATED,
     DUPLICATE_NICK,
     NO_PIN, NO_ROOM,
+    NEXT_ROUND,
+    PLAY,
+    ANSWER,
+    ERROR
 }
