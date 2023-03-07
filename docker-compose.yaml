@@ -55,9 +55,7 @@ services:
       - REDIS_GENERATE=$REDIS_GENERATE
       - REDIS_HOST=redis
   front:
-    build:
-      context: ./frontend
-    # image: srychert/party-games-frontend:latest
+    image: srychert/party-games-frontend:latest
     ports:
       - 3000:80
     container_name: $FRONTEND_NAME
