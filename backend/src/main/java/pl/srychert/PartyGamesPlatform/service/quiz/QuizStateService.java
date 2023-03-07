@@ -12,8 +12,8 @@ import java.util.concurrent.ThreadLocalRandom;
 @Service
 public class QuizStateService {
     public String getUnusedPin(String hostId, String gameId) {
-        String pin = String.format("%08d",
-                ThreadLocalRandom.current().nextInt(0, 1_000_000));
+        String pin = String.format("%09d",
+                ThreadLocalRandom.current().nextInt(0, 1_000_000_000));
         QuizState quiz = OngoingQuizMockDB.quizes.get(pin);
 
         if (quiz != null) {
