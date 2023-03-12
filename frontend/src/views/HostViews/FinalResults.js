@@ -18,6 +18,8 @@ function FinalResults() {
     ],
   });
 
+  console.log(chartData);
+
   useEffect(() => {
     setChartData({
       labels: location.state.players.map((player) => player.nick),

@@ -89,6 +89,13 @@ function MainQuiz(props) {
     }
   };
 
+  const handleStart = () => {
+    client.current.sendMessage(
+      `/app/quizroom/${pin}/host`,
+      createMessage(TYPES.START_GAME, 'HOST')
+    );
+  };
+
   useEffect(() => {
     setTopics([`/topic/quizroom/${pin}/host`, `/user/topic/reply`]);
     setHandleMessage({ fn: handleMessage });
@@ -96,7 +103,15 @@ function MainQuiz(props) {
 
   // loading -> ( gameScreen -> pointsScreen ) -> ... -> endScreen
   if (loading) {
-    return <Loading />;
+    return (
+      <>
+        <div>
+          <button className="button absolute inset-1/2" onClick={handleStart}>
+            Start
+          </button>
+        </div>
+      </>
+    );
   }
 
   return (

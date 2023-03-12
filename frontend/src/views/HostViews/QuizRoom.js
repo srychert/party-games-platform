@@ -45,6 +45,10 @@ function QuizRoom(props) {
         setPlayers([...players, { nick: msg.sender, id: msg.content }]);
         break;
 
+      case TYPES.STARTED:
+        setLoading(false);
+        break;
+
       default:
         break;
     }
@@ -52,10 +56,10 @@ function QuizRoom(props) {
 
   // Game start button handler
   const handleClick = () => {
-    client.current.sendMessage(
-      `/app/quizroom/${pin}/host`,
-      createMessage(TYPES.START_GAME, 'HOST')
-    );
+    // client.current.sendMessage(
+    //   `/app/quizroom/${pin}/host`,
+    //   createMessage(TYPES.START_GAME, 'HOST')
+    // );
     navigate(`/host/${id}/quiz-room/${pin}`);
   };
 
