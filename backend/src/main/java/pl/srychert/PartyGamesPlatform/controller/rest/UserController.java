@@ -1,11 +1,11 @@
-package pl.srychert.PartyGamesPlatform.controller;
+package pl.srychert.PartyGamesPlatform.controller.rest;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import pl.srychert.PartyGamesPlatform.model.User;
-import pl.srychert.PartyGamesPlatform.service.UserService;
+import pl.srychert.PartyGamesPlatform.model.user.User;
+import pl.srychert.PartyGamesPlatform.service.auth.UserService;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,4 +1,4 @@
-package pl.srychert.PartyGamesPlatform.model;
+package pl.srychert.PartyGamesPlatform.model.user;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,7 +17,8 @@ public class MyUserDetails implements UserDetails {
     private final List<GrantedAuthority> authorities;
     private final LocalDate accountExpiryTime;
     private final LocalDate credentialsExpiryTime;
-    public MyUserDetails(User user){
+
+    public MyUserDetails(User user) {
         this.userName = user.getUserName();
         this.password = user.getPassword();
         this.active = user.isActive();

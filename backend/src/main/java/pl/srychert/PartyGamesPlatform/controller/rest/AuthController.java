@@ -1,4 +1,4 @@
-package pl.srychert.PartyGamesPlatform.controller;
+package pl.srychert.PartyGamesPlatform.controller.rest;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.srychert.PartyGamesPlatform.service.TokenService;
+import pl.srychert.PartyGamesPlatform.service.auth.TokenService;
 
 @RestController
 @RequestMapping("api/v1/token")
@@ -22,8 +22,8 @@ public class AuthController {
     }
 
     @GetMapping
-    public Boolean checkIfValid(Authentication authentication){
-        if(authentication == null) return false;
+    public Boolean checkIfValid(Authentication authentication) {
+        if (authentication == null) return false;
         return authentication.isAuthenticated();
     }
 

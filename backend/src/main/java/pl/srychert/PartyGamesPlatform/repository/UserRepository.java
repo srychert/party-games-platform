@@ -1,7 +1,7 @@
 package pl.srychert.PartyGamesPlatform.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import pl.srychert.PartyGamesPlatform.model.User;
+import pl.srychert.PartyGamesPlatform.model.user.User;
 
 import java.util.Optional;
 

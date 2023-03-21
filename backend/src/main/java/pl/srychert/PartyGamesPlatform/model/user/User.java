@@ -1,4 +1,4 @@
-package pl.srychert.PartyGamesPlatform.model;
+package pl.srychert.PartyGamesPlatform.model.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -8,7 +8,6 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -55,7 +54,7 @@ public class User {
         this.credentialsExpiryTime = LocalDate.now(ZoneId.of("Europe/Warsaw")).plusYears(1);
     }
 
-    public User(){
+    public User() {
 
     }
 }

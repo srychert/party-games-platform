@@ -7,7 +7,7 @@ import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import pl.srychert.PartyGamesPlatform.model.GameState;
+import pl.srychert.PartyGamesPlatform.model.game.GameState;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,8 +15,9 @@ import java.util.Map;
 
 @Configuration
 public class RedisConfig {
-    private final RedisTemplate<String,GameState> redisTemplate = RedisConfig.redisTemplate();
+    private final RedisTemplate<String, GameState> redisTemplate = RedisConfig.redisTemplate();
     private final HashOperations<String, String, GameState> hashOperations = redisTemplate.opsForHash();
+
     @Bean
     public static LettuceConnectionFactory redisConnectionFactory() {
         String host = System.getenv().getOrDefault("REDIS_HOST", "localhost");
@@ -28,7 +29,7 @@ public class RedisConfig {
     }
 
     public static RedisTemplate<String, GameState> redisTemplate() {
-        RedisTemplate<String, GameState> redisTemplate = new RedisTemplate<String ,GameState>();
+        RedisTemplate<String, GameState> redisTemplate = new RedisTemplate<String, GameState>();
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
@@ -39,15 +40,15 @@ public class RedisConfig {
         return () -> {
             String generateRedisDb = System.getenv("REDIS_GENERATE");
             System.out.println(generateRedisDb);
-            if("true".equals(generateRedisDb)){
+            if ("true".equals(generateRedisDb)) {
                 System.out.println("Deleting redis keys");
                 Object[] unusedKeys = hashOperations.keys("unused").toArray();
-                if(unusedKeys.length > 0){
+                if (unusedKeys.length > 0) {
                     hashOperations.delete("unused", unusedKeys);
                 }
 
                 Object[] usedKeys = hashOperations.keys("used").toArray();
-                if(usedKeys.length > 0){
+                if (usedKeys.length > 0) {
                     hashOperations.delete("used", usedKeys);
                 }
 

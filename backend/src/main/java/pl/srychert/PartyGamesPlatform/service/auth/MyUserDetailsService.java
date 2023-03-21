@@ -1,12 +1,12 @@
-package pl.srychert.PartyGamesPlatform.service;
+package pl.srychert.PartyGamesPlatform.service.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pl.srychert.PartyGamesPlatform.model.MyUserDetails;
-import pl.srychert.PartyGamesPlatform.model.User;
+import pl.srychert.PartyGamesPlatform.model.user.MyUserDetails;
+import pl.srychert.PartyGamesPlatform.model.user.User;
 import pl.srychert.PartyGamesPlatform.repository.UserRepository;
 
 import java.util.Optional;

@@ -1,9 +1,10 @@
-package pl.srychert.PartyGamesPlatform.service;
+package pl.srychert.PartyGamesPlatform.service.game;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.srychert.PartyGamesPlatform.exception.ApiRequestException;
-import pl.srychert.PartyGamesPlatform.model.Game;
+import pl.srychert.PartyGamesPlatform.model.game.Game;
 import pl.srychert.PartyGamesPlatform.repository.GameRepository;
 
 import java.util.List;
@@ -12,14 +13,15 @@ import java.util.Optional;
 @AllArgsConstructor
 @Service
 public class GameService {
-    private final GameRepository gameRepository;
+    @Autowired
+    GameRepository gameRepository;
 
     public List<Game> getAllGames() {
         return gameRepository.findAll();
     }
 
-    public List<Game> getGamesByCreatedBy(String email) {
-        return gameRepository.findGamesByCreatedBy(email);
+    public List<Game> getGamesByCreatedBy(String userName) {
+        return gameRepository.findGamesByCreatedBy(userName);
     }
 
     public Optional<Game> getGame(String id) {
@@ -27,11 +29,12 @@ public class GameService {
     }
 
     public Game addGame(Game game) {
-        Game newGame = new Game(
-                game.getTitle(),
-                game.getDescription(),
-                game.getQuestions(),
-                game.getCreatedBy());
+        Game newGame = Game.builder()
+                .title(game.getTitle())
+                .description(game.getDescription())
+                .questions(game.getQuestions())
+                .createdBy(game.getCreatedBy())
+                .build();
         return gameRepository.insert(newGame);
     }
 

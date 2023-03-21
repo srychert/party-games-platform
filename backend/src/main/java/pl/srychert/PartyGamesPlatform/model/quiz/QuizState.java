@@ -3,7 +3,6 @@ package pl.srychert.PartyGamesPlatform.model.quiz;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import pl.srychert.PartyGamesPlatform.model.Question;
 
 import java.util.List;
 

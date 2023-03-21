@@ -6,12 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.srychert.PartyGamesPlatform.OngoingQuizMockDB;
 import pl.srychert.PartyGamesPlatform.enums.MessageType;
-import pl.srychert.PartyGamesPlatform.model.Game;
-import pl.srychert.PartyGamesPlatform.model.Question;
 import pl.srychert.PartyGamesPlatform.model.TextMessageDTO;
+import pl.srychert.PartyGamesPlatform.model.quiz.Question;
+import pl.srychert.PartyGamesPlatform.model.quiz.Quiz;
 import pl.srychert.PartyGamesPlatform.model.quiz.QuizPlayer;
 import pl.srychert.PartyGamesPlatform.model.quiz.QuizState;
-import pl.srychert.PartyGamesPlatform.service.GameService;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +19,7 @@ import java.util.Optional;
 @Slf4j
 public class QuizRoomHostService {
     @Autowired
-    GameService gameService;
+    QuizService quizService;
 
     @Autowired
     QuizStateService quizStateService;
@@ -36,10 +35,10 @@ public class QuizRoomHostService {
 
     private TextMessageDTO handleCreateRoom(String name, TextMessageDTO textMessageDTO) {
         String pin = null;
-        Optional<Game> game = gameService.getGame(textMessageDTO.getContent());
+        Optional<Quiz> quiz = quizService.getQuiz(textMessageDTO.getContent());
 
-        if (game.isPresent()) {
-            pin = quizStateService.getUnusedPin(name, textMessageDTO.getContent(), game.get().getQuestions());
+        if (quiz.isPresent()) {
+            pin = quizStateService.getUnusedPin(name, textMessageDTO.getContent(), quiz.get().getQuestions());
         }
 
         if (pin == null) {
@@ -71,7 +70,7 @@ public class QuizRoomHostService {
     }
 
     private TextMessageDTO handleStartGame(String name, TextMessageDTO textMessageDTO, String pin) {
-        QuizState quiz = OngoingQuizMockDB.quizes.get(pin);
+        QuizState quiz = OngoingQuizMockDB.quizzes.get(pin);
 
         JSONObject jsonObject = createRoundJSONObject(quiz.getPlayers(), quiz.getQuestions().get(0));
 
@@ -83,7 +82,7 @@ public class QuizRoomHostService {
     }
 
     private TextMessageDTO handleNextRound(String name, TextMessageDTO textMessageDTO, String pin) {
-        QuizState quiz = OngoingQuizMockDB.quizes.get(pin);
+        QuizState quiz = OngoingQuizMockDB.quizzes.get(pin);
 
         try {
 

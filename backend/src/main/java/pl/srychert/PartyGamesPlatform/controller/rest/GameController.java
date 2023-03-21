@@ -1,37 +1,30 @@
-package pl.srychert.PartyGamesPlatform.controller;
+package pl.srychert.PartyGamesPlatform.controller.rest;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import pl.srychert.PartyGamesPlatform.model.Game;
-import pl.srychert.PartyGamesPlatform.service.GameService;
-import pl.srychert.PartyGamesPlatform.service.GameStateService;
+import pl.srychert.PartyGamesPlatform.model.game.Game;
+import pl.srychert.PartyGamesPlatform.service.game.GameService;
+import pl.srychert.PartyGamesPlatform.service.game.GameStateService;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/games")
 @AllArgsConstructor
 public class GameController {
-    private final GameService gameService;
-    private final GameStateService gameStateService;
-
-    @PostMapping(path = "/new/{gameId}")
-    public Map<String, String> newGame(@PathVariable("gameId") String id) {
-        Map<String, String> map = new HashMap<>();
-        map.put("pin", null);
-        gameService.getGame(id).ifPresent(g -> map.put("pin", gameStateService.getUnusedPin(id)));
-        return map;
-    }
+    @Autowired
+    GameService gameService;
+    @Autowired
+    GameStateService gameStateService;
 
     @GetMapping
-    public List<Game> getGames(@RequestParam(required = false) String email) {
-        if (email != null && !email.isEmpty()) {
-            return gameService.getGamesByCreatedBy(email);
+    public List<Game> getGames(@RequestParam(required = false) String userName) {
+        if (userName != null && !userName.isEmpty()) {
+            return gameService.getGamesByCreatedBy(userName);
         } else {
             return gameService.getAllGames();
         }
