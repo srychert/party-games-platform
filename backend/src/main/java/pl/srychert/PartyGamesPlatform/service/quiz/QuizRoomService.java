@@ -3,8 +3,8 @@ package pl.srychert.PartyGamesPlatform.service.quiz;
 import org.springframework.stereotype.Service;
 import pl.srychert.PartyGamesPlatform.OngoingQuizMockDB;
 import pl.srychert.PartyGamesPlatform.enums.MessageType;
-import pl.srychert.PartyGamesPlatform.model.Question;
 import pl.srychert.PartyGamesPlatform.model.TextMessageDTO;
+import pl.srychert.PartyGamesPlatform.model.quiz.Question;
 import pl.srychert.PartyGamesPlatform.model.quiz.QuizPlayer;
 import pl.srychert.PartyGamesPlatform.model.quiz.QuizState;
 
@@ -24,7 +24,7 @@ public class QuizRoomService {
     }
 
     private TextMessageDTO handleJoin(String name, TextMessageDTO textMessageDTO, String pin) {
-        QuizState quiz = OngoingQuizMockDB.quizes.get(pin);
+        QuizState quiz = OngoingQuizMockDB.quizzes.get(pin);
 
         if (quiz == null) {
             return TextMessageDTO.builder()
@@ -49,7 +49,7 @@ public class QuizRoomService {
 
         players.add(player);
         quiz.setPlayers(players);
-        OngoingQuizMockDB.quizes.put(pin, quiz);
+        OngoingQuizMockDB.quizzes.put(pin, quiz);
 
         return TextMessageDTO.builder()
                 .type(MessageType.JOINED)
@@ -58,7 +58,7 @@ public class QuizRoomService {
     }
 
     private TextMessageDTO handlePlay(String name, TextMessageDTO textMessageDTO, String pin) {
-        QuizState quiz = OngoingQuizMockDB.quizes.get(pin);
+        QuizState quiz = OngoingQuizMockDB.quizzes.get(pin);
         Question question = quiz.getQuestions().get(quiz.getRound());
 
         boolean isCorrect = question.getCorrect().toString().equals(textMessageDTO.getContent());

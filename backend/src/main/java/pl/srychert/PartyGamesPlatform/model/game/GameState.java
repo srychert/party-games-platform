@@ -1,4 +1,4 @@
-package pl.srychert.PartyGamesPlatform.model;
+package pl.srychert.PartyGamesPlatform.model.game;
 
 import lombok.Data;
 
@@ -11,7 +11,7 @@ public class GameState implements Serializable {
     private boolean onGoing;
     private String gameId;
 
-    public GameState () {
+    public GameState() {
 
     }
 }

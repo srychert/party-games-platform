@@ -1,9 +1,10 @@
-package pl.srychert.PartyGamesPlatform.model;
+package pl.srychert.PartyGamesPlatform.repository;
 
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 import pl.srychert.PartyGamesPlatform.config.RedisConfig;
+import pl.srychert.PartyGamesPlatform.model.game.GameState;
 
 import java.util.Map;
 import java.util.Objects;
@@ -11,10 +12,10 @@ import java.util.Optional;
 
 @Repository
 public class GameStateRepository {
-    private final RedisTemplate<String,GameState> redisTemplate = RedisConfig.redisTemplate();
+    private final RedisTemplate<String, GameState> redisTemplate = RedisConfig.redisTemplate();
     private final HashOperations<String, String, GameState> hashOperations = redisTemplate.opsForHash();
 
-    public Map.Entry<String, GameState> getRandomUnusedEntry(){
+    public Map.Entry<String, GameState> getRandomUnusedEntry() {
         return hashOperations.randomEntry("unused");
     }
 
@@ -31,7 +32,7 @@ public class GameStateRepository {
         hashOperations.put("used", pin, new GameState());
     }
 
-    public void update(String pin, GameState gameState){
+    public void update(String pin, GameState gameState) {
         hashOperations.put("used", pin, gameState);
     }
 

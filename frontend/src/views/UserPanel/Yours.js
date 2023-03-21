@@ -1,9 +1,9 @@
 import Nav from '../../components/UserPanel/Nav';
-import { useGames } from '../../hooks/useGames';
+import { useQuizzes } from '../../hooks/useQuizzes';
 import Loading from '../Loading';
 
 export default function Yours() {
-  const { isLoading, isError, data: games, error } = useGames();
+  const { isLoading, isError, data: games, error } = useQuizzes();
 
   if (isLoading) {
     return <Loading />;

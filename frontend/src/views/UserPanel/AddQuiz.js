@@ -1,11 +1,11 @@
 import React, { useReducer, useState } from 'react';
-import InitialState from '../../components/AddGameForm/InitialState';
-import AddQuestions from '../../components/AddGameForm/AddQuestions';
+import InitialState from '../../components/AddQuizForm/InitialState';
+import AddQuestions from '../../components/AddQuizForm/AddQuestions';
 import { Navigate, useNavigate } from 'react-router-dom';
 import Nav from '../../components/UserPanel/Nav';
 import { useApi } from '../../context/ApiProvider';
 import { useCookies } from 'react-cookie';
-import { useAddGame } from '../../hooks/useAddGame';
+import { useAddQuiz } from '../../hooks/useAddQuiz';
 import Loading from '../Loading';
 
 function reducer(state, action) {
@@ -34,15 +34,15 @@ function reducer(state, action) {
   throw Error('Unknown action: ' + action.type);
 }
 
-function AddGame() {
+function AddQuiz() {
   const { api } = useApi();
   const [cookies, setCookie, removeCookie] = useCookies();
   const navigate = useNavigate();
   const [initialState, setInitialState] = useState(true);
 
-  const { mutate, isLoading, isError, isSuccess, error } = useAddGame();
+  const { mutate, isLoading, isError, isSuccess, error } = useAddQuiz();
 
-  const [gameData, dispatch] = useReducer(reducer, {
+  const [quizData, dispatch] = useReducer(reducer, {
     title: '',
     description: '',
     debufs: false,
@@ -50,8 +50,8 @@ function AddGame() {
     createdBy: cookies.user,
   });
 
-  const submitGame = () => {
-    mutate({ game: gameData });
+  const submitQuiz = () => {
+    mutate({ quiz: quizData });
   };
 
   if (isLoading) {
@@ -67,7 +67,7 @@ function AddGame() {
       <Nav />
       <div className="form mx-auto w-fit">
         <div>
-          {gameData.questions.map((question, index) => (
+          {quizData.questions.map((question, index) => (
             <div key={`question-${index}`} className="flex gap-2 font-bold">
               <span>{question.question}</span>
               <button
@@ -90,9 +90,9 @@ function AddGame() {
           <AddQuestions dispatch={dispatch} />
         )}
 
-        {gameData.questions.length > 0 ? (
-          <button className="btn-form" onClick={submitGame}>
-            Submit Game
+        {quizData.questions.length > 0 ? (
+          <button className="btn-form" onClick={submitQuiz}>
+            Submit Quiz
           </button>
         ) : null}
       </div>
@@ -100,4 +100,4 @@ function AddGame() {
   );
 }
 
-export default AddGame;
+export default AddQuiz;

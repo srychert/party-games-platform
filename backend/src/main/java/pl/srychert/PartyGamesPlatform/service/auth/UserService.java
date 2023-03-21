@@ -1,11 +1,11 @@
-package pl.srychert.PartyGamesPlatform.service;
+package pl.srychert.PartyGamesPlatform.service.auth;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.srychert.PartyGamesPlatform.exception.ApiRequestException;
-import pl.srychert.PartyGamesPlatform.model.User;
+import pl.srychert.PartyGamesPlatform.model.user.User;
 import pl.srychert.PartyGamesPlatform.repository.UserRepository;
 
 import java.time.LocalDate;

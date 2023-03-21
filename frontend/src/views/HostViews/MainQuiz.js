@@ -17,10 +17,10 @@ function MainQuiz(props) {
   const navigate = useNavigate();
 
   const handleNextRound = async () => {
-    // show current score for five seconds
-    setPointsScreen(true);
-    await new Promise((r) => setTimeout(r, 5000));
-    setPointsScreen(false);
+    // TODO: show current score for five seconds
+    // setPointsScreen(true);
+    // await new Promise((r) => setTimeout(r, 5000));
+    // setPointsScreen(false);
 
     // get next round data
     setRound(round + 1);
@@ -76,9 +76,7 @@ function MainQuiz(props) {
         break;
 
       case TYPES.ENDED:
-        // game over
-        console.log('game over');
-        //nagivate to end game page
+        // nagivate to end game page
         navigate(`/host/${id}/finalresults/${pin}`, {
           state: { players: JSON.parse(msg.json).players },
         });
@@ -122,8 +120,7 @@ function MainQuiz(props) {
 
       <div className="game-board">
         <h1>Round {round + 1}</h1>
-        {/* fix pointschart */}
-        {/* {pointsScreen && <PointsChart players={players} />} */}
+        {pointsScreen && <PointsChart players={players} />}
         {!pointsScreen && <Question question={question} key={'question'} />}
       </div>
       <button className="button absolute top-5 right-5" onClick={handleNextRound}>

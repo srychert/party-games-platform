@@ -1,21 +1,23 @@
-package pl.srychert.PartyGamesPlatform.service;
+package pl.srychert.PartyGamesPlatform.service.game;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.srychert.PartyGamesPlatform.model.GameState;
-import pl.srychert.PartyGamesPlatform.model.GameStateRepository;
+import pl.srychert.PartyGamesPlatform.model.game.GameState;
+import pl.srychert.PartyGamesPlatform.repository.GameStateRepository;
 
 import java.util.Map;
 
 @AllArgsConstructor
 @Service
 public class GameStateService {
-    private final GameStateRepository gameStateRepository;
+    @Autowired
+    GameStateRepository gameStateRepository;
 
-    public String getUnusedPin(String gameId){
+    public String getUnusedPin(String gameId) {
         Map.Entry<String, GameState> randomEntry = gameStateRepository.getRandomUnusedEntry();
 
-        if(randomEntry == null){
+        if (randomEntry == null) {
             return null;
         }
 
@@ -29,7 +31,7 @@ public class GameStateService {
         return pin;
     }
 
-    public void startGame(String pin){
+    public void startGame(String pin) {
         gameStateRepository.getUsed(pin).ifPresent(gameState -> {
             gameState.setOnGoing(true);
             gameStateRepository.update(pin, gameState);

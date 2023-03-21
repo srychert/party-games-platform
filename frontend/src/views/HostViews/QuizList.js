@@ -3,7 +3,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { CgProfile } from 'react-icons/cg';
 import { IconContext } from 'react-icons';
 import { useCookies } from 'react-cookie';
-import { useGames } from '../../hooks/useGames';
+import { useQuizzes } from '../../hooks/useQuizzes';
 import Loading from '../Loading';
 import { useState } from 'react';
 
@@ -11,7 +11,7 @@ function QuizList() {
   const [cookies, setCookie] = useCookies();
   const auth = useAuth();
   let navigate = useNavigate();
-  const { isLoading, isError, data: games, error } = useGames();
+  const { isLoading, isError, data: games, error } = useQuizzes();
 
   const handleShowProfile = () => {
     navigate(`/profile`);

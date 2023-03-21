@@ -1,15 +1,17 @@
-package pl.srychert.PartyGamesPlatform.model;
+package pl.srychert.PartyGamesPlatform.model.quiz;
 
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Data;
 import pl.srychert.PartyGamesPlatform.enums.QuestionType;
 
 import java.util.List;
 
 @Data
+@Builder
 public class Question {
     @NotEmpty
     private String question;
@@ -20,13 +22,6 @@ public class Question {
     @NotNull
     @Min(0)
     private Integer correct;
-
-    public Question(String question, QuestionType type, List<String> answers, Integer correct) {
-        this.question = question;
-        this.type = type;
-        this.answers = answers;
-        this.correct = correct;
-    }
 
     // TODO write custom validator
     @AssertTrue

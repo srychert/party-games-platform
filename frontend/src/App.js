@@ -10,7 +10,7 @@ import FinalResults from './views/HostViews/FinalResults';
 import ProtectRoutes from './components/ProtectRoutes/ProtectRoutes';
 import Profile from './views/UserPanel/Profile';
 import Security from './views/UserPanel/Security';
-import AddGame from './views/UserPanel/AddGame';
+import AddQuiz from './views/UserPanel/AddQuiz';
 import Yours from './views/UserPanel/Yours';
 import PlayerLayout from './components/PlayerLayout';
 import HostLayout from './components/HostLayout';
@@ -35,7 +35,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/security" element={<Security />} />
         <Route path="/profile/yours" element={<Yours />} />
-        <Route path="/addgame" element={<AddGame />} />
+        <Route path="/addquiz" element={<AddQuiz />} />
       </Route>
     </Routes>
   );

@@ -1,14 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { useApi } from '../context/ApiProvider';
 
-export const useGame = (id, config) => {
+export const useQuiz = (id, config) => {
   const { api } = useApi();
 
   return useQuery({
-    queryKey: ['game', id],
+    queryKey: ['quiz', id],
     queryFn: async () => {
-      const game = await api.get(`/game/${id}`);
-      return game;
+      const quiz = await api.get(`/quizzes/${id}`);
+      return quiz;
     },
     ...config,
   });

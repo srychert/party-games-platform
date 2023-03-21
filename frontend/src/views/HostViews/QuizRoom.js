@@ -91,7 +91,7 @@ function QuizRoom(props) {
     <div className="flex h-screen w-screen flex-col items-center ">
       <Back to={`/host/`} />
       <div className="m-10 border-b-2 border-blue-500 p-5 text-9xl">{pin}</div>
-      <button className="button" onClick={() => handleClick()}>
+      <button className="button" onClick={() => startGame()}>
         Rozpocznij grę
       </button>
       <div className="flex flex-row justify-between">

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import GameType from '../../components/PhoneView/GameType';
 import Loading from '../Loading';
 import { createMessage, TYPES } from '../../services/SocketMessage';
@@ -12,6 +12,7 @@ function Quiz(props) {
   const [loading, setLoading] = useState(true);
   const { pin } = useParams();
   const [cookies, setCookie, removeCookie] = useCookies();
+  const navigate = useNavigate();
 
   const onMessageReceived = function (msg) {
     console.log(msg);
@@ -40,9 +41,10 @@ function Quiz(props) {
         break;
 
       case TYPES.ENDED:
-        console.log('game end');
-        // TODO
-        //nagivate to end game page
+        // TODO: Create separate route for players
+        navigate(`/host/placeholderID/finalresults/${pin}`, {
+          state: { players: JSON.parse(msg.json).players },
+        });
         break;
 
       default:

@@ -1,4 +1,4 @@
-package pl.srychert.PartyGamesPlatform.service;
+package pl.srychert.PartyGamesPlatform.service.auth;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
