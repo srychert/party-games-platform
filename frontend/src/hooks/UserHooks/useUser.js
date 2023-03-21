@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../useAuth';
+import { useQuery } from '@tanstack/react-query';
+import { useCookies } from 'react-cookie';
+import { useApi } from '../../context/ApiProvider';
 
-function useUser() {
-  const [userData, setUserData] = useState({});
-  const { api, cookies } = useAuth();
+function useUser(username, config) {
+  const { api } = useApi();
+  const [cookies, setCookie, removeCookie] = useCookies();
 
-  useEffect(() => {
-    api
-      .get(`users/user-name/${cookies.user}`)
-      .then((res) => {
-        setUserData(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  let key = username ?? cookies.user;
 
-  return userData;
+  return useQuery({
+    queryKey: ['user', key],
+    queryFn: async () => {
+      const user = await api.get(`users/user-name/${key}`);
+      console.log(user);
+      return user.data;
+    },
+    ...config,
+  });
 }
 
 export default useUser;

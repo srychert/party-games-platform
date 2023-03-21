@@ -10,12 +10,14 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WebSocketMeesageConfig implements WebSocketMessageBrokerConfigurer {
     @Override
-    public void registerStompEndpoints(final StompEndpointRegistry registry){
+    public void registerStompEndpoints(final StompEndpointRegistry registry) {
         registry.addEndpoint("/game").setAllowedOrigins("http://localhost:3000").withSockJS();
+        registry.addEndpoint("/quiz").setAllowedOrigins("http://localhost:3000")
+                .setHandshakeHandler(new CustomHandshakeHandler()).withSockJS();
     }
 
     @Override
-    public void configureMessageBroker(final MessageBrokerRegistry registry){
+    public void configureMessageBroker(final MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/app");
         registry.enableSimpleBroker("/topic");
     }

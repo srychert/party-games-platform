@@ -1,35 +1,27 @@
-import { useAuth } from '../../hooks/useAuth';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import Loading from '../Loading/Loading';
+import Loading from '../../views/Loading';
+import { useToken } from '../../hooks/useToken';
 
 const ProtectRoutes = () => {
-  const { api } = useAuth();
-  const [loading, setLoading] = useState(true);
-  const [tokenValid, setTokenValid] = useState('');
+  const { isLoading, isError, data, error } = useToken();
 
-  useEffect(() => {
-    const checkToken = async () => {
-      api
-        .get('token')
-        .then((r) => {
-          setTokenValid(r.data);
-          setLoading(false);
-        })
-        .catch((err) => {
-          setTokenValid('');
-          setLoading(false);
-        });
-    };
-
-    checkToken();
-  }, []);
-
-  if (loading) {
+  if (isLoading) {
     return <Loading></Loading>;
   }
 
-  return tokenValid !== '' ? <Outlet /> : <Navigate to="/login" />;
+  if (isError) {
+    if (error?.response?.status === 401) {
+      return <Navigate to="/login" />;
+    }
+
+    return <span>Error: {error.message}</span>;
+  }
+
+  if (data === null) {
+    return <Navigate to="/login" />;
+  }
+
+  return <Outlet />;
 };
 
 export default ProtectRoutes;

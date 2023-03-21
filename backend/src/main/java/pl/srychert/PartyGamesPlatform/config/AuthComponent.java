@@ -5,14 +5,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import pl.srychert.PartyGamesPlatform.model.Game;
-import pl.srychert.PartyGamesPlatform.model.GameRepository;
-import pl.srychert.PartyGamesPlatform.model.User;
-import pl.srychert.PartyGamesPlatform.model.UserRepository;
+import pl.srychert.PartyGamesPlatform.exception.ApiRequestException;
+import pl.srychert.PartyGamesPlatform.model.game.Game;
+import pl.srychert.PartyGamesPlatform.model.quiz.Quiz;
+import pl.srychert.PartyGamesPlatform.model.user.User;
+import pl.srychert.PartyGamesPlatform.repository.GameRepository;
+import pl.srychert.PartyGamesPlatform.repository.QuizRepository;
+import pl.srychert.PartyGamesPlatform.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @Component
@@ -23,8 +25,11 @@ public class AuthComponent {
     @Autowired
     GameRepository gameRepository;
 
+    @Autowired
+    QuizRepository quizRepository;
+
     public boolean hasPermission(String id) {
-        if(isAdmin()){
+        if (isAdmin()) {
             return true;
         }
 
@@ -39,7 +44,7 @@ public class AuthComponent {
     }
 
     public boolean hasPermissionByName(String userName) {
-        if(isAdmin()){
+        if (isAdmin()) {
             return true;
         }
 
@@ -52,8 +57,7 @@ public class AuthComponent {
     public boolean isAdmin() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         List<String> authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
+                .map(GrantedAuthority::getAuthority).toList();
 
         return authorities.contains("SCOPE_ADMIN");
     }
@@ -62,9 +66,17 @@ public class AuthComponent {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String name = authentication.getName();
 
-        Optional<Game> game = gameRepository.findById(gameId);
-        String createdBy = game.map(Game::getCreatedBy).orElse(null);
+        Game game = gameRepository.findById(gameId).orElseThrow(() -> new ApiRequestException("No such Game id in DB"));
 
-        return name.equals(createdBy);
+        return name.equals(game.getCreatedBy());
+    }
+
+    public boolean isQuizOwner(String quizId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String name = authentication.getName();
+
+        Quiz quiz = quizRepository.findById(quizId).orElseThrow(() -> new ApiRequestException("No such Quiz id in DB"));
+
+        return name.equals(quiz.getCreatedBy());
     }
 }
