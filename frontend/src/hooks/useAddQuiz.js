@@ -1,14 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
 import { useApi } from '../context/ApiProvider';
 
-export const useAddGame = () => {
+export const useAddQuiz = () => {
   const { api } = useApi();
 
   return useMutation({
-    mutationFn: async ({ game }) => {
-      console.log(game);
-      const newGame = await api.post(`/games`, game);
-      return newGame;
+    mutationFn: async ({ quiz }) => {
+      const newQuiz = await api.post(`/quizzes`, quiz);
+      return newQuiz;
     },
     onError: (error, variables, context) => {
       // An error happened!

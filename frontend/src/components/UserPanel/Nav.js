@@ -16,10 +16,10 @@ export default function Nav() {
         <button className="capitalize">Security</button>
       </Link>
       <Link to={`/profile/yours`} className={buttonClass}>
-        <button className="capitalize">Games</button>
+        <button className="capitalize">Quizzes</button>
       </Link>
-      <Link to={`/addgame`} className={buttonClass}>
-        <button className="capitalize">Add Game</button>
+      <Link to={`/addquiz`} className={buttonClass}>
+        <button className="capitalize">Add Quiz</button>
       </Link>
     </nav>
   );
