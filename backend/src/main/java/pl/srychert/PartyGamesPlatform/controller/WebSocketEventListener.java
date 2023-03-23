@@ -7,6 +7,7 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+import pl.srychert.PartyGamesPlatform.service.game.GameStateService;
 import pl.srychert.PartyGamesPlatform.service.quiz.QuizStateService;
 
 @Slf4j
@@ -18,6 +19,9 @@ public class WebSocketEventListener {
     @Autowired
     QuizStateService quizStateService;
 
+    @Autowired
+    GameStateService gameStateService;
+
     @EventListener
     public void handleWebSocketConnectListener(final SessionConnectedEvent event) {
         log.info("New connection!");
@@ -28,6 +32,7 @@ public class WebSocketEventListener {
         if (event.getUser() != null) {
             String hostId = event.getUser().getName();
             quizStateService.freePin(hostId);
+            gameStateService.freePin(hostId);
         }
         log.info("Disconnect!");
 //        final StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());

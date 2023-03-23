@@ -1,44 +1,39 @@
 package pl.srychert.PartyGamesPlatform.service.game;
 
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.srychert.PartyGamesPlatform.GameStateDB;
 import pl.srychert.PartyGamesPlatform.model.game.GameState;
-import pl.srychert.PartyGamesPlatform.repository.GameStateRepository;
 
 import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
-@AllArgsConstructor
 @Service
 public class GameStateService {
-    @Autowired
-    GameStateRepository gameStateRepository;
+    public String getUnusedPin(String hostId, String gameId) {
+        String pin = String.format("%09d",
+                ThreadLocalRandom.current().nextInt(0, 1_000_000_000));
+        GameState game = GameStateDB.games.get(pin);
 
-    public String getUnusedPin(String gameId) {
-        Map.Entry<String, GameState> randomEntry = gameStateRepository.getRandomUnusedEntry();
-
-        if (randomEntry == null) {
+        if (game != null) {
             return null;
         }
 
-        String pin = randomEntry.getKey();
-        GameState gameState = randomEntry.getValue();
-        gameState.setGameId(gameId);
+        GameState newGame = GameState.builder()
+                .hostId(hostId)
+                .gameId(gameId)
+                .build();
 
-        gameStateRepository.setPinAsUsed(pin);
-        gameStateRepository.update(pin, gameState);
-//        System.out.println(gameStateRepository.getAllUsed());
+        GameStateDB.games.put(pin, newGame);
         return pin;
     }
 
-    public void startGame(String pin) {
-        gameStateRepository.getUsed(pin).ifPresent(gameState -> {
-            gameState.setOnGoing(true);
-            gameStateRepository.update(pin, gameState);
-        });
-    }
+    public void freePin(String hostId) {
+        Optional<Map.Entry<String, GameState>> gameStateEntry = GameStateDB.games
+                .entrySet().stream()
+                .filter(entry -> entry.getValue().getHostId().equals(hostId))
+                .findFirst();
 
-    public String getGameId(String pin) {
-        return gameStateRepository.getGameId(pin);
+        gameStateEntry.ifPresent(entry -> GameStateDB.games.remove(entry.getKey()));
     }
 }
