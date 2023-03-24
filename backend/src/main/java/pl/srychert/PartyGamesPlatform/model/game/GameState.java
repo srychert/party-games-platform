@@ -11,7 +11,8 @@ import java.util.Map;
 public class GameState {
     private String hostId;
     private String gameId;
-    private Boolean onGoing;
+    @Builder.Default
+    private Boolean onGoing = false;
     @Builder.Default
     private Map<String, Player> players = new HashMap<>();
 }

@@ -8,8 +8,10 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
+import pl.srychert.PartyGamesPlatform.GameStateDB;
 import pl.srychert.PartyGamesPlatform.enums.MessageReceiver;
 import pl.srychert.PartyGamesPlatform.model.TextMessageDTO;
+import pl.srychert.PartyGamesPlatform.model.game.GameState;
 import pl.srychert.PartyGamesPlatform.service.game.GameRoomHostService;
 import pl.srychert.PartyGamesPlatform.service.game.GameRoomService;
 
@@ -33,12 +35,16 @@ public class GameMessageController {
                                    @DestinationVariable String pin,
                                    @Payload final TextMessageDTO textMessageDTO) {
 
-
         Map<MessageReceiver, TextMessageDTO> messages = gameRoomService
                 .handleMessage(principal.getName(), textMessageDTO, pin);
 
-        template.convertAndSendToUser(principal.getName(), "/topic/reply", messages.get(MessageReceiver.PLAYER));
-        template.convertAndSend(String.format("/topic/game-room/%s/host", pin), messages.get(MessageReceiver.HOST));
+        if (messages.get(MessageReceiver.HOST) != null) {
+            template.convertAndSend(String.format("/topic/game-room/%s/host", pin), messages.get(MessageReceiver.HOST));
+        }
+
+        if (messages.get(MessageReceiver.PLAYER) != null) {
+            template.convertAndSendToUser(principal.getName(), "/topic/reply", messages.get(MessageReceiver.PLAYER));
+        }
 
         return messages.get(MessageReceiver.ROOM);
     }
@@ -48,11 +54,25 @@ public class GameMessageController {
                                        @DestinationVariable String pin,
                                        @Payload final TextMessageDTO textMessageDTO) {
 
+        GameState game = GameStateDB.games.get(pin);
+
+        if (game == null) {
+            return null;
+        }
+
+        if (!principal.getName().equals(game.getHostId())) {
+            return null;
+        }
+
         Map<MessageReceiver, TextMessageDTO> messages = gameRoomHostService
                 .handleMessage(principal.getName(), textMessageDTO, pin);
 
-        template.convertAndSendToUser(principal.getName(), "/topic/reply", messages.get(MessageReceiver.PLAYER));
-        template.convertAndSend(String.format("/topic/game-room/%s", pin), messages.get(MessageReceiver.ROOM));
+        System.out.println(messages.get(MessageReceiver.HOST));
+
+        if (messages.get(MessageReceiver.ROOM) != null) {
+            template.convertAndSend("/topic/game-room/", messages.get(MessageReceiver.ROOM));
+        }
+
         return messages.get(MessageReceiver.HOST);
     }
 
@@ -63,6 +83,6 @@ public class GameMessageController {
         Map<MessageReceiver, TextMessageDTO> messages = gameRoomHostService
                 .handleMessage(principal.getName(), textMessageDTO, null);
 
-        return messages.get(MessageReceiver.PLAYER);
+        return messages.get(MessageReceiver.HOST);
     }
 }

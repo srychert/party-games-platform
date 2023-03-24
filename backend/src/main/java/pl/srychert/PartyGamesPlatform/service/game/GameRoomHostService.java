@@ -1,35 +1,50 @@
 package pl.srychert.PartyGamesPlatform.service.game;
 
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.srychert.PartyGamesPlatform.enums.MessageReceiver;
 import pl.srychert.PartyGamesPlatform.enums.MessageType;
 import pl.srychert.PartyGamesPlatform.model.TextMessageDTO;
+import pl.srychert.PartyGamesPlatform.model.game.GameState;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class GameRoomHostService {
+    @Autowired
+    GameStateService gameStateService;
 
-    public Map<MessageReceiver, TextMessageDTO> handleMessage(String name, TextMessageDTO textMessageDTO, String pin) {
+
+    public Map<MessageReceiver, TextMessageDTO> handleMessage(String id, TextMessageDTO textMessageDTO, String pin) {
         return switch (textMessageDTO.getType()) {
-            case CREATE_ROOM -> handleCreateRoom(name, textMessageDTO);
-            case START_GAME -> handleStartGame(name, textMessageDTO, pin);
-            case NEXT_ROUND -> handleNextRound(name, textMessageDTO, pin);
-            default -> null;
+            case CREATE_ROOM -> handleCreateRoom(id, textMessageDTO);
+            case START_GAME -> handleStartGame(id, textMessageDTO, pin);
+            case NEXT_ROUND -> handleNextRound(id, textMessageDTO, pin);
+            default -> new HashMap<>();
         };
     }
 
-    private Map<MessageReceiver, TextMessageDTO> handleCreateRoom(String name, TextMessageDTO textMessageDTO) {
+    private Map<MessageReceiver, TextMessageDTO> handleCreateRoom(String id, TextMessageDTO textMessageDTO) {
         Map<MessageReceiver, TextMessageDTO> messages = new HashMap<>();
-        // TODO get pin
-        String pin = null;
+        Optional<String> pinOpt = gameStateService.getUnusedPin();
 
-
-        if (pin == null) {
-            messages.put(MessageReceiver.PLAYER, TextMessageDTO.builder()
+        if (pinOpt.isEmpty()) {
+            messages.put(MessageReceiver.HOST, TextMessageDTO.builder()
                     .type(MessageType.NO_PIN)
+                    .sender("SERVER").build());
+            return messages;
+        }
+
+        String pin = pinOpt.get();
+
+        Optional<GameState> game = gameStateService.createGameState(pin, id, textMessageDTO.getContent());
+
+        if (game.isEmpty()) {
+            messages.put(MessageReceiver.HOST, TextMessageDTO.builder()
+                    .type(MessageType.NO_GAME)
                     .sender("SERVER").build());
             return messages;
         }
@@ -39,21 +54,29 @@ public class GameRoomHostService {
                 .content(pin)
                 .sender("SERVER").build();
 
-        messages.put(MessageReceiver.PLAYER, createdMsg);
+        messages.put(MessageReceiver.HOST, createdMsg);
 
         return messages;
     }
 
-    private Map<MessageReceiver, TextMessageDTO> handleStartGame(String name, TextMessageDTO textMessageDTO, String pin) {
+    private Map<MessageReceiver, TextMessageDTO> handleStartGame(String id, TextMessageDTO textMessageDTO, String pin) {
         Map<MessageReceiver, TextMessageDTO> messages = new HashMap<>();
 
-        // TODO logic for game start
+        boolean started = gameStateService.startGame(pin);
+
+        if (!started) {
+            messages.put(MessageReceiver.HOST, TextMessageDTO.builder()
+                    .type(MessageType.NO_ROOM)
+                    .sender("SERVER").build());
+            return messages;
+        }
+
+        // TODO add first round data
         JSONObject jsonObject = new JSONObject();
 
         TextMessageDTO startedMsg = TextMessageDTO.builder()
                 .type(MessageType.STARTED)
                 .json(jsonObject.toString())
-                .content("")
                 .sender("SERVER").build();
 
         messages.put(MessageReceiver.HOST, startedMsg);
@@ -62,7 +85,7 @@ public class GameRoomHostService {
         return messages;
     }
 
-    private Map<MessageReceiver, TextMessageDTO> handleNextRound(String name, TextMessageDTO textMessageDTO, String pin) {
+    private Map<MessageReceiver, TextMessageDTO> handleNextRound(String id, TextMessageDTO textMessageDTO, String pin) {
         Map<MessageReceiver, TextMessageDTO> messages = new HashMap<>();
 
         // TODO next round logic and game ending

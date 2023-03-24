@@ -1,6 +1,7 @@
 package pl.srychert.PartyGamesPlatform.service.game;
 
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.srychert.PartyGamesPlatform.enums.MessageReceiver;
 import pl.srychert.PartyGamesPlatform.enums.MessageType;
@@ -9,25 +10,35 @@ import pl.srychert.PartyGamesPlatform.model.game.Player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class GameRoomService {
 
-    public Map<MessageReceiver, TextMessageDTO> handleMessage(String name, TextMessageDTO textMessageDTO, String pin) {
+    @Autowired
+    GameStateService gameStateService;
+
+    public Map<MessageReceiver, TextMessageDTO> handleMessage(String id, TextMessageDTO textMessageDTO, String pin) {
         return switch (textMessageDTO.getType()) {
-            case JOIN -> handleJoin(name, textMessageDTO, pin);
-            case PLAY -> handlePlay(name, textMessageDTO, pin);
-            default -> null;
+            case JOIN -> handleJoin(id, textMessageDTO, pin);
+            case PLAY -> handlePlay(id, textMessageDTO, pin);
+            default -> new HashMap<>();
         };
     }
 
-    private Map<MessageReceiver, TextMessageDTO> handleJoin(String name, TextMessageDTO textMessageDTO, String pin) {
+    private Map<MessageReceiver, TextMessageDTO> handleJoin(String id, TextMessageDTO textMessageDTO, String pin) {
         Map<MessageReceiver, TextMessageDTO> messages = new HashMap<>();
 
-        Player player = Player.builder()
-                .id(name)
-                .nick(textMessageDTO.getSender())
-                .build();
+        Optional<Player> playerOptional = gameStateService.joinPlayer(pin, id, textMessageDTO.getSender());
+
+        if (playerOptional.isEmpty()) {
+            messages.put(MessageReceiver.PLAYER, TextMessageDTO.builder()
+                    .type(MessageType.NO_ROOM)
+                    .sender("SERVER").build());
+            return messages;
+        }
+
+        Player player = playerOptional.get();
 
         JSONObject playerJson = new JSONObject(player);
 
@@ -43,7 +54,7 @@ public class GameRoomService {
         return messages;
     }
 
-    private Map<MessageReceiver, TextMessageDTO> handlePlay(String name, TextMessageDTO textMessageDTO, String pin) {
+    private Map<MessageReceiver, TextMessageDTO> handlePlay(String id, TextMessageDTO textMessageDTO, String pin) {
         return null;
     }
 }

@@ -1,8 +1,12 @@
 package pl.srychert.PartyGamesPlatform.service.game;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.srychert.PartyGamesPlatform.GameStateDB;
+import pl.srychert.PartyGamesPlatform.model.game.Game;
 import pl.srychert.PartyGamesPlatform.model.game.GameState;
+import pl.srychert.PartyGamesPlatform.model.game.Player;
+import pl.srychert.PartyGamesPlatform.repository.GameRepository;
 
 import java.util.Map;
 import java.util.Optional;
@@ -10,22 +14,40 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class GameStateService {
-    public String getUnusedPin(String hostId, String gameId) {
+    @Autowired
+    GameRepository gameRepository;
+
+    public Optional<String> getUnusedPin() {
         String pin = String.format("%09d",
                 ThreadLocalRandom.current().nextInt(0, 1_000_000_000));
         GameState game = GameStateDB.games.get(pin);
 
         if (game != null) {
-            return null;
+            return Optional.empty();
         }
 
-        GameState newGame = GameState.builder()
+        return Optional.ofNullable(pin);
+    }
+
+    public Optional<GameState> createGameState(String unusedPin, String hostId, String gameId) {
+        Optional<Game> game = gameRepository.findById(gameId);
+
+        if (game.isEmpty()) {
+            return Optional.empty();
+        }
+
+        GameState newGameState = GameState.builder()
                 .hostId(hostId)
                 .gameId(gameId)
                 .build();
 
-        GameStateDB.games.put(pin, newGame);
-        return pin;
+        if (GameStateDB.games.containsKey(unusedPin)) {
+            return Optional.empty();
+        }
+
+        GameStateDB.games.put(unusedPin, newGameState);
+
+        return Optional.ofNullable(newGameState);
     }
 
     public void freePin(String hostId) {
@@ -35,5 +57,34 @@ public class GameStateService {
                 .findFirst();
 
         gameStateEntry.ifPresent(entry -> GameStateDB.games.remove(entry.getKey()));
+    }
+
+    public boolean startGame(String pin) {
+        GameState game = GameStateDB.games.get(pin);
+
+        if (game == null) {
+            return false;
+        }
+
+        game.setOnGoing(true);
+        return true;
+    }
+
+    public Optional<Player> joinPlayer(String pin, String playerId, String nick) {
+        GameState game = GameStateDB.games.get(pin);
+
+        if (game == null) {
+            return Optional.empty();
+        }
+
+        if (game.getOnGoing()) {
+            return Optional.empty();
+        }
+
+        Player player = Player.builder().id(playerId).nick(nick).build();
+
+        game.getPlayers().put(playerId, player);
+
+        return Optional.ofNullable(player);
     }
 }

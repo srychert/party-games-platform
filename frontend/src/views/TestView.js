@@ -4,8 +4,9 @@ import { createMessage, TYPES } from '../services/SocketMessage';
 function TestView(props) {
   const { client, setTopics, setHandleMessage, setHandleConnect, connected } = props;
 
+  const [pin, setPin] = useState('');
   const [messageType, setMessageType] = useState(TYPES.CREATE_ROOM);
-  const [selectedTopic, setSelectedTopic] = useState('/app/create/game-room');
+  const [selectedTopic, setSelectedTopic] = useState('create');
   const [senderField, setSenderField] = useState('HOST');
   const [contentField, setContentField] = useState('');
   const [jsonField, setJsonField] = useState('');
@@ -19,29 +20,40 @@ function TestView(props) {
   };
 
   const handelSendMsg = () => {
-    console.log(messageType, selectedTopic);
+    const topics = {
+      create: `/app/create/game-room`,
+      room: `/app/game-room/${pin}`,
+      host: `/app/game-room/${pin}/host`,
+    };
 
     client.current.sendMessage(
-      selectedTopic,
+      topics[selectedTopic],
       createMessage(messageType, senderField, contentField, jsonField)
     );
   };
 
   useEffect(() => {
     setTopics([
-      onHostView ? `/topic/create/game-room` : null,
-      `/topic/game-room/123456789`,
-      onHostView ? `/topic/game-room/123456789/host` : null,
+      `/topic/create/game-room`,
+      `/topic/game-room/${pin}`,
+      `/topic/game-room/${pin}/host`,
       `/user/topic/reply`,
     ]);
     setHandleMessage({ fn: onMessageReceived });
-  }, []);
+  }, [pin]);
 
   return (
     <div className="flex max-w-[300px] flex-col gap-2">
       <h1>Testing</h1>
-      <label>Type</label>
 
+      <label>Pin</label>
+      <input
+        className="border-2 border-black"
+        value={pin}
+        onChange={(e) => setPin(e.target.value)}
+      />
+
+      <label>Type</label>
       <select value={messageType} onChange={(e) => setMessageType(e.target.value)}>
         {Object.values(TYPES)
           .sort()
@@ -54,9 +66,9 @@ function TestView(props) {
 
       <label>Topic</label>
       <select value={selectedTopic} onChange={(e) => setSelectedTopic(e.target.value)}>
-        <option value="/app/create/game-room">Create</option>
-        <option value="/app/game-room/123456789">Room</option>
-        <option value="/app/game-room/123456789/host">Host</option>
+        <option value="create">Create</option>
+        <option value="room">Room</option>
+        <option value="host">Host</option>
       </select>
 
       <label>Sender</label>
