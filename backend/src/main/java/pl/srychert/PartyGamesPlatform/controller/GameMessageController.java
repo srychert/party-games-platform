@@ -67,8 +67,6 @@ public class GameMessageController {
         Map<MessageReceiver, TextMessageDTO> messages = gameRoomHostService
                 .handleMessage(principal.getName(), textMessageDTO, pin);
 
-        System.out.println(messages.get(MessageReceiver.HOST));
-
         if (messages.get(MessageReceiver.ROOM) != null) {
             template.convertAndSend("/topic/game-room/", messages.get(MessageReceiver.ROOM));
         }

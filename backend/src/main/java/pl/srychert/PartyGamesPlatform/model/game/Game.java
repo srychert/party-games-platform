@@ -11,6 +11,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
+import pl.srychert.PartyGamesPlatform.model.game.node.Node;
 
 import java.util.Map;
 
@@ -32,6 +33,6 @@ public class Game {
     private String createdBy;
     @NotNull
     @Size(min = 1)
-    private Map<String, @Valid Node> nodes;
+    private Map<Integer, @Valid Node> nodes;
 
 }
