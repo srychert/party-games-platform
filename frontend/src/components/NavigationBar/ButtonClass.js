@@ -4,3 +4,5 @@ export class button {
     this.to = to;
   }
 }
+
+button.to = 'home';

@@ -44,7 +44,7 @@ function Join(props) {
 
   return (
     <div className="flex h-screen w-screen flex-col items-center">
-      <NavigationBar buttons={[{ to: '/player', text: 'Player' }]} />
+      <NavigationBar buttons={[{ to: '/home', text: 'Player' }]} showNavbarInit={false} />
       <main className="flex h-full w-full items-center justify-center">
         <form onSubmit={handleJoin} className="form">
           <div className="flex flex-col p-2">

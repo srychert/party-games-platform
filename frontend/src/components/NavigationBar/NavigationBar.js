@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useAuth } from '../../hooks/useAuth';
-import { CgProfile } from 'react-icons/cg';
+import { CgProfile, CgHome } from 'react-icons/cg';
 import { IconContext } from 'react-icons';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
+import BurgerButton from '../BurgerButton/BurgerButton';
+import switchButton from './IconMapper';
 
 // props -> possible buttons with destinations
 // map possible buttons to Link components
 
-function NavigationBar(props) {
+function NavigationBar({ showNavbarInit = false, buttons, host = false }) {
+  const [showNavbar, setShowNavbar] = useState(showNavbarInit);
   const [cookies, setCookie] = useCookies();
   const auth = useAuth();
   let navigate = useNavigate();
@@ -27,31 +30,47 @@ function NavigationBar(props) {
     navigate(to);
   };
 
+  const handelBurgerClick = () => {
+    setShowNavbar(!showNavbar);
+    console.log('burger clicked');
+  };
+
   return (
     <div className="flex w-full flex-row justify-between bg-gray-200 p-5">
-      {props.buttons.map((button, index) => (
-        <button
-          className="button"
-          key={index}
-          onClick={() => handleLocationChange(button.to)}
-        >
-          {button.text}
-        </button>
-      ))}
-      <div className="flex items-center justify-center gap-4">
-        <button className="button" onClick={handleLogout}>
-          Logout
-        </button>
+      <BurgerButton onClick={handelBurgerClick} />
+      {showNavbar ? (
+        <nav className="flex flex-row justify-between">
+          {buttons.map((button, index) => (
+            <button
+              className="buttonSmall"
+              key={index}
+              onClick={() => handleLocationChange(button.to)}
+            >
+              <IconContext.Provider value={{ size: '2em' }}>
+                {switchButton(button.to)}
+              </IconContext.Provider>
+            </button>
+          ))}
+          {host ? (
+            <div className="flex items-center justify-center gap-4">
+              <button className="buttonSmall" onClick={handleLogout}>
+                <IconContext.Provider value={{ size: '2em' }}>
+                  {switchButton('/logout')}
+                </IconContext.Provider>
+              </button>
 
-        <div
-          className="flex cursor-pointer flex-col items-center justify-center"
-          onClick={handleShowProfile}
-        >
-          <IconContext.Provider value={{ size: '4em' }}>
-            <CgProfile />
-          </IconContext.Provider>
-        </div>
-      </div>
+              <div
+                className="flex cursor-pointer flex-col items-center justify-center"
+                onClick={handleShowProfile}
+              >
+                <IconContext.Provider value={{ size: '2em' }}>
+                  <CgProfile />
+                </IconContext.Provider>
+              </div>
+            </div>
+          ) : null}
+        </nav>
+      ) : null}
     </div>
   );
 }

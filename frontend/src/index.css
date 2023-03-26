@@ -9,6 +9,9 @@
   .button {
     @apply cursor-pointer rounded-lg border bg-sky-400 p-5 shadow-md;
   }
+  .buttonSmall {
+    @apply flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border bg-sky-400 text-sm shadow-md;
+  }
   .button:hover {
     @apply cursor-pointer bg-sky-600 text-white;
   }

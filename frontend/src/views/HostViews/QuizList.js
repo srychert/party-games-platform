@@ -36,7 +36,11 @@ function QuizList() {
       {isError && <span>Error: {error.message}</span>}
       {!isLoading && !isError && (
         <div className="flex flex-col">
-          <NavigationBar buttons={[{ to: '/', text: 'Home' }]} />
+          <NavigationBar
+            buttons={[{ to: '/home', text: 'Home' }]}
+            showNavbarInit={true}
+            host={true}
+          />
           {/* Filter */}
           <div className="m-2 flex items-center justify-center">
             <form className="flex flex-col">
