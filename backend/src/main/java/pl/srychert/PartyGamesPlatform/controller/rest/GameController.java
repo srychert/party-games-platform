@@ -1,25 +1,20 @@
 package pl.srychert.PartyGamesPlatform.controller.rest;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.srychert.PartyGamesPlatform.model.game.Game;
 import pl.srychert.PartyGamesPlatform.service.game.GameService;
-import pl.srychert.PartyGamesPlatform.service.game.GameStateService;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/games")
-@AllArgsConstructor
 public class GameController {
     @Autowired
     GameService gameService;
-    @Autowired
-    GameStateService gameStateService;
 
     @GetMapping
     public List<Game> getGames(@RequestParam(required = false) String userName) {

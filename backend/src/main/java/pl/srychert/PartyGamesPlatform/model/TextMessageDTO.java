@@ -10,7 +10,9 @@ import pl.srychert.PartyGamesPlatform.enums.MessageType;
 @Builder
 public class TextMessageDTO {
     private MessageType type;
-    private String content;
     private String sender;
-    private String json;
+    @Builder.Default
+    private String content = "";
+    @Builder.Default
+    private String json = "{}";
 }

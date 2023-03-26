@@ -1,7 +1,7 @@
 package pl.srychert.PartyGamesPlatform.controller.rest;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.srychert.PartyGamesPlatform.model.user.User;
@@ -13,10 +13,9 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/users")
-@AllArgsConstructor
 public class UserController {
-
-    private final UserService userService;
+    @Autowired
+    UserService userService;
 
     @GetMapping
     @PreAuthorize("@authComponent.isAdmin()")

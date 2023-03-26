@@ -4,6 +4,7 @@ import { SockJsClientDefaults } from '../services/SockJsClientDefaults';
 import FinalResults from '../views/HostViews/FinalResults';
 import MainQuiz from '../views/HostViews/MainQuiz';
 import QuizRoom from '../views/HostViews/QuizRoom';
+import TestView from '../views/TestView';
 
 function HostLayout() {
   const [topics, setTopics] = useState([]);
@@ -55,6 +56,7 @@ function HostLayout() {
         <Route path=":id" element={<QuizRoom {...props} />} />
         <Route path=":id/quiz-room/:pin" element={<MainQuiz {...props} />} />
         <Route path=":id/finalresults/:pin" element={<FinalResults {...props} />} />
+        <Route path="test" element={<TestView {...props} />} />
       </Routes>
     </>
   );

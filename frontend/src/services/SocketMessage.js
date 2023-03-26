@@ -1,9 +1,10 @@
-export const createMessage = (type, sender, content) => {
+export const createMessage = (type, sender, content, json) => {
   if (!Object.values(TYPES).includes(type)) throw TypeError;
   const msg = {
     type,
     sender,
     content,
+    json,
   };
   return JSON.stringify(msg);
 };
