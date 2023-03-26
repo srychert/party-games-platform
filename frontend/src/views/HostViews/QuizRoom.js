@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Back from '../../components/Back/Back';
 import { createMessage, TYPES } from '../../services/SocketMessage';
 import Loading from '../Loading';
+import NavigationBar from '../../components/NavigationBar/NavigationBar';
 
 function getPin(client, id) {
   client.current.sendMessage(
@@ -79,7 +79,7 @@ function QuizRoom(props) {
   if (error) {
     return (
       <div className="grid h-screen w-screen place-content-center ">
-        <Back to={`/host/`} />
+        <NavigationBar buttons={[{ to: '/host', text: 'Host' }]} />
         <div className="border-b-2 border-blue-500 text-3xl">
           <span>{error}</span>
         </div>
@@ -89,9 +89,9 @@ function QuizRoom(props) {
 
   return (
     <div className="flex h-screen w-screen flex-col items-center ">
-      <Back to={`/host/`} />
+      <NavigationBar buttons={[{ to: '/host', text: 'Host' }]} />
       <div className="m-10 border-b-2 border-blue-500 p-5 text-9xl">{pin}</div>
-      <button className="button" onClick={() => startGame()}>
+      <button className="button" onClick={() => handleClick()}>
         Rozpocznij grę
       </button>
       <div className="flex flex-row justify-between">

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Back from '../../components/Back/Back';
 import { createMessage, TYPES } from '../../services/SocketMessage';
 import { useCookies } from 'react-cookie';
+import NavigationBar from '../../components/NavigationBar/NavigationBar';
 
 function Join(props) {
   const { client, setTopics, setHandleMessage } = props;
@@ -25,7 +26,6 @@ function Join(props) {
         setCookie('nick', msg.sender, { path: '/' });
         navigate(`/player/quiz/${pin}`);
         break;
-
       case TYPES.DUPLICATE_NICK:
         setError('Duplicate nick');
         break;
@@ -43,36 +43,38 @@ function Join(props) {
   }, [pin]);
 
   return (
-    <div className="flex h-screen w-screen flex-col items-center justify-center">
-      <Back to={'/'} />
-      <form onSubmit={handleJoin} className="form">
-        <div className="flex flex-col p-2">
-          <label htmlFor="pin">Pin</label>
-          <input
-            className="form-input"
-            type="text"
-            name="pin"
-            id="pin"
-            autoComplete="off"
-            onChange={(e) => setPin(e.target.value)}
-          />
-        </div>
-        <div className="flex flex-col p-2">
-          <label htmlFor="nick">Nick</label>
-          <input
-            className="form-input"
-            type="text"
-            name="nick"
-            id="nick"
-            autoComplete="off"
-            onChange={(e) => changeNick(e.target.value)}
-          />
-        </div>
-        <div className="text-red-500">{error}</div>
-        <button type="submit" className="button">
-          Dołącz
-        </button>
-      </form>
+    <div className="flex h-screen w-screen flex-col items-center">
+      <NavigationBar buttons={[{ to: '/player', text: 'Player' }]} />
+      <main className="flex h-full w-full items-center justify-center">
+        <form onSubmit={handleJoin} className="form">
+          <div className="flex flex-col p-2">
+            <label htmlFor="pin">Pin</label>
+            <input
+              className="form-input"
+              type="text"
+              name="pin"
+              id="pin"
+              autoComplete="off"
+              onChange={(e) => setPin(e.target.value)}
+            />
+          </div>
+          <div className="flex flex-col p-2">
+            <label htmlFor="nick">Nick</label>
+            <input
+              className="form-input"
+              type="text"
+              name="nick"
+              id="nick"
+              autoComplete="off"
+              onChange={(e) => changeNick(e.target.value)}
+            />
+          </div>
+          <div className="text-red-500">{error}</div>
+          <button type="submit" className="button">
+            Dołącz
+          </button>
+        </form>
+      </main>
     </div>
   );
 }

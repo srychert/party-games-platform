@@ -19,7 +19,7 @@
     @apply border-sky-400 outline-none;
   }
   .form {
-    @apply flex flex-col content-center items-center justify-center p-10 shadow-lg shadow-sky-700;
+    @apply flex h-fit w-fit flex-col content-center items-center justify-center p-10 shadow-lg shadow-sky-700;
   }
   .tile {
     @apply m-2 flex h-32 w-32 flex-col content-center items-center justify-center rounded-lg p-40 shadow-md;

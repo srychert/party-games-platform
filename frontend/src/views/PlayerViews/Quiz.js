@@ -71,7 +71,7 @@ function Quiz(props) {
   }, [pin]);
 
   if (loading) {
-    return <Loading />;
+    return <Loading message={'Waiting for other players...'} />;
   }
 
   return (
