@@ -24,9 +24,9 @@ public abstract class Enemy implements Lootable {
     @NotNull
     private EnemyType type;
 
-    private Integer atk = 2;
-    private Integer speed = 2;
-    private Integer hp = 20;
+    private Integer hp;
+    private Integer atk;
+    private Integer speed;
     private Loot loot;
 
     public Enemy() {
