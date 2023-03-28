@@ -23,7 +23,7 @@ public abstract class Item implements Usable {
     private String id = UUID.randomUUID().toString();
     @NotNull
     private ItemType type;
-    private Integer cost = 0;
+    private Integer cost;
 
     public Item() {
     }
