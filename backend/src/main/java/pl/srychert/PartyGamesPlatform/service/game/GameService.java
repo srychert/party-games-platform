@@ -5,12 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.srychert.PartyGamesPlatform.exception.ApiRequestException;
 import pl.srychert.PartyGamesPlatform.model.game.Game;
+import pl.srychert.PartyGamesPlatform.model.game.item.Item;
+import pl.srychert.PartyGamesPlatform.model.game.node.MerchantNode;
 import pl.srychert.PartyGamesPlatform.model.game.node.Node;
 import pl.srychert.PartyGamesPlatform.repository.GameRepository;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -20,7 +23,8 @@ public class GameService {
     GameRepository gameRepository;
 
     public List<Game> getAllGames() {
-        return gameRepository.findAll();
+        return gameRepository.findAllWithoutNodes();
+//        return gameRepository.findAll();
     }
 
     public List<Game> getGamesByCreatedBy(String userName) {
@@ -31,19 +35,31 @@ public class GameService {
         return gameRepository.findById(id);
     }
 
+    private Map<Integer, Node> formatNodesById(Map<Integer, Node> map) {
+        return map.entrySet().stream()
+                // This peek modifies objects in a map
+                .peek(entry -> {
+                    Node node = entry.getValue();
+                    node.setId(entry.getKey());
+                    entry.setValue(node);
+
+                    if (node instanceof MerchantNode merchantNode) {
+                        Map<String, Item> items = merchantNode.getItemsList().stream()
+                                .collect(Collectors.toMap(Item::getId, Function.identity()));
+
+                        merchantNode.setItems(items);
+                        entry.setValue(merchantNode);
+                    }
+
+                }).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
     public Game addGame(Game game) {
         Game newGame = Game.builder()
                 .title(game.getTitle())
                 .description(game.getDescription())
                 .createdBy(game.getCreatedBy())
-                .nodes(game.getNodes()
-                        .entrySet().stream()
-                        .peek(entry -> {
-                            Node node = entry.getValue();
-                            node.setId(entry.getKey());
-                            entry.setValue(node);
-                        })
-                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))
+                .nodes(formatNodesById(game.getNodes()))
                 .build();
         return gameRepository.insert(newGame);
     }
@@ -65,14 +81,7 @@ public class GameService {
         updatedGame.setCreatedBy(game.getCreatedBy());
         updatedGame.setDescription(game.getDescription());
         updatedGame.setTotalTimesPlayed(game.getTotalTimesPlayed());
-        updatedGame.setNodes(game.getNodes()
-                .entrySet().stream()
-                .peek(entry -> {
-                    Node node = entry.getValue();
-                    node.setId(entry.getKey());
-                    entry.setValue(node);
-                })
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+        updatedGame.setNodes(formatNodesById(game.getNodes()));
 
         return gameRepository.save(updatedGame);
     }
