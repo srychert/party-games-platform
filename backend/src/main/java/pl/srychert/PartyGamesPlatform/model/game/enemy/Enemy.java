@@ -7,7 +7,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import pl.srychert.PartyGamesPlatform.enums.EnemyType;
 import pl.srychert.PartyGamesPlatform.model.game.Loot;
+import pl.srychert.PartyGamesPlatform.model.game.item.Item;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -31,5 +33,13 @@ public abstract class Enemy implements Lootable {
 
     public Enemy() {
 
+    }
+
+    public List<Item> lootItems() {
+        return this.getLoot().getItems();
+    }
+
+    public Integer lootGold() {
+        return this.getLoot().getGold();
     }
 }

@@ -3,9 +3,7 @@ package pl.srychert.PartyGamesPlatform.model.game.enemy;
 import lombok.Getter;
 import lombok.Setter;
 import pl.srychert.PartyGamesPlatform.model.game.Loot;
-import pl.srychert.PartyGamesPlatform.model.game.item.Item;
 
-import java.util.List;
 import java.util.Optional;
 
 @Getter
@@ -22,15 +20,5 @@ public class Slime extends Enemy {
         super.setAtk(provideAtk.orElse(1));
         super.setSpeed(provideSpeed.orElse(1));
         super.setLoot(provideLoot.orElse(Loot.builder().gold(1).build()));
-    }
-
-    @Override
-    public List<Item> lootItems() {
-        return this.getLoot().getItems();
-    }
-
-    @Override
-    public Integer lootGold() {
-        return this.getLoot().getGold();
     }
 }
