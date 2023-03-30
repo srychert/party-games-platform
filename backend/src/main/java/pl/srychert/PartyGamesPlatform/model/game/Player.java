@@ -3,6 +3,7 @@ package pl.srychert.PartyGamesPlatform.model.game;
 import lombok.Builder;
 import lombok.Data;
 import pl.srychert.PartyGamesPlatform.model.game.item.Item;
+import pl.srychert.PartyGamesPlatform.model.game.node.NodeOption;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,8 +16,6 @@ public class Player {
     private String id;
     private String nick;
     @Builder.Default
-    private Boolean currentRoundCompleted = false;
-    @Builder.Default
     private Integer gold = 0;
     @Builder.Default
     private Integer atk = 2;
@@ -25,11 +24,16 @@ public class Player {
     @Builder.Default
     private Integer hp = 20;
     @Builder.Default
-    private List<Integer> availableOptions = new ArrayList<>();
-    @Builder.Default
-    private List<Integer> decisions = new ArrayList<>();
-    @Builder.Default
     private Map<String, Item> items = new HashMap<>();
+
+    @Builder.Default
+    private Boolean currentRoundCompleted = false;
+    @Builder.Default
+    private Integer currentNode = 0;
+    @Builder.Default
+    private List<NodeOption> options = new ArrayList<>();
+    @Builder.Default
+    private Map<Integer, List<NodeOption>> history = new HashMap<>();
 
     public void addItem(Item item) {
         items.put(item.getId(), item);

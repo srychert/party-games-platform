@@ -6,4 +6,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @AllArgsConstructor
 public class SkipNode extends Node {
+
+    @NodeOptionMethod
+    public void skip() {
+    }
 }

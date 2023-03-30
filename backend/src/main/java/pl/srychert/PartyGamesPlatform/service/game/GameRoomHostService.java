@@ -7,8 +7,10 @@ import pl.srychert.PartyGamesPlatform.enums.MessageReceiver;
 import pl.srychert.PartyGamesPlatform.enums.MessageType;
 import pl.srychert.PartyGamesPlatform.model.TextMessageDTO;
 import pl.srychert.PartyGamesPlatform.model.game.GameState;
+import pl.srychert.PartyGamesPlatform.model.game.node.NodeOption;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -62,25 +64,33 @@ public class GameRoomHostService {
     private Map<MessageReceiver, TextMessageDTO> handleStartGame(String id, TextMessageDTO textMessageDTO, String pin) {
         Map<MessageReceiver, TextMessageDTO> messages = new HashMap<>();
 
-        boolean started = gameStateService.startGame(pin);
+        Optional<GameState> gameStateOpt = gameStateService.startGame(pin);
 
-        if (!started) {
+        if (gameStateOpt.isEmpty()) {
             messages.put(MessageReceiver.HOST, TextMessageDTO.builder()
                     .type(MessageType.NO_ROOM)
                     .sender("SERVER").build());
             return messages;
         }
 
-        // TODO add first round data
-        JSONObject jsonObject = new JSONObject();
+        GameState gameState = gameStateOpt.get();
+
+        List<NodeOption> options = gameStateService.getNodeOptions(gameState.getGameId(), 0);
 
         TextMessageDTO startedMsg = TextMessageDTO.builder()
                 .type(MessageType.STARTED)
-                .json(jsonObject.toString())
                 .sender("SERVER").build();
 
-        messages.put(MessageReceiver.HOST, startedMsg);
+        TextMessageDTO startedMsgHost = TextMessageDTO.builder()
+                .type(MessageType.STARTED)
+                .json(new JSONObject()
+                        .put("players", gameState.getPlayers())
+                        .put("options", options)
+                        .toString())
+                .sender("SERVER").build();
+
         messages.put(MessageReceiver.ROOM, startedMsg);
+        messages.put(MessageReceiver.HOST, startedMsgHost);
 
         return messages;
     }

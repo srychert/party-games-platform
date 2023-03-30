@@ -14,10 +14,12 @@ import java.util.concurrent.ThreadLocalRandom;
 @SuperBuilder
 @AllArgsConstructor
 public class HealNode extends Node {
+    @NodeOptionMethod
     public Integer freeHeal() {
         return 2;
     }
 
+    @NodeOptionMethod
     public Integer buyHeal(Player player, Integer gold) throws NotEnoughGoldException {
         if (player.getGold() < gold) {
             throw new NotEnoughGoldException();

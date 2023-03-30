@@ -32,6 +32,7 @@ public class MerchantNode extends Node {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Item> itemsList = new ArrayList<>();
 
+    @NodeOptionMethod
     public Item buyItem(Player player, String itemId) throws Exception {
         Item item = items.get(itemId);
 
