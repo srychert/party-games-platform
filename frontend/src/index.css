@@ -3,31 +3,32 @@
 @tailwind utilities;
 
 @layer components {
-  .box {
-    @apply flex content-center items-center justify-center rounded-lg bg-gray-200 shadow-md;
+  .answerBox {
+    @apply flex content-center items-center justify-center rounded-lg shadow-md;
   }
   .button {
-    @apply cursor-pointer rounded-lg border bg-sky-400 shadow-md;
+    @apply cursor-pointer rounded-lg bg-palet1-greenForest shadow-md;
   }
   .buttonRegular {
-    @apply flex items-center justify-center border p-2;
+    @apply flex items-center justify-center p-2;
     @apply button;
   }
   .buttonSmall {
-    @apply flex h-10 w-10 items-center justify-center border text-sm;
+    @apply flex h-10 w-10 items-center justify-center text-sm;
     @apply button;
   }
   .buttonSmall.active {
     @apply animate-[wiggle_1s_ease-in-out_infinite];
   }
   .button:hover {
-    @apply cursor-pointer bg-sky-600 text-white;
+    @apply cursor-pointer bg-palet1-purple text-white;
   }
+
   .form-input {
-    @apply h-10 rounded-lg border-2 border-sky-300 bg-white px-5 pr-10 text-sm;
+    @apply h-10 rounded-lg border border-palet1-purple px-5 pr-10 text-sm shadow-md shadow-palet1-brown shadow-palet1-purple;
   }
   .form-input:focus {
-    @apply border-sky-400 outline-none;
+    @apply border-2 border-palet1-purple outline-none;
   }
   .form {
     @apply flex h-fit w-fit flex-col content-center items-center justify-center p-10 shadow-lg shadow-sky-700;
@@ -37,18 +38,30 @@
     @apply button flex h-1/2 w-1/2 flex-col items-center justify-center;
   }
   .game-card {
-    @apply relative flex aspect-square w-[300px] flex-col rounded-lg border p-6 pt-8 shadow-md shadow-sky-600;
+    @apply relative flex aspect-square w-[300px] flex-col rounded-lg border border-palet1-purple p-6 pt-8 shadow-lg shadow-palet1-purple;
   }
   .game-numberPlayed {
-    @apply absolute right-1 top-1 rounded-lg border bg-gray-200 p-2 shadow-sm shadow-sky-500;
+    @apply absolute right-2 top-2 flex aspect-square w-10 items-center justify-center rounded-lg bg-palet1-background;
   }
-  .image {
-    @apply h-20 w-20 cursor-pointer rounded-full border border-sky-300 shadow-md;
-  }
-  .image:hover {
-    @apply border-sky-400;
-  }
+
   .btn-form {
     @apply button flex h-10 w-60 flex-col items-center justify-center;
+  }
+
+  .title {
+    @apply border-b-2 border-palet1-purple text-center text-2xl font-bold text-palet1-purple;
+  }
+
+  .yours-games {
+    @apply w-3/4 rounded-lg bg-palet1-background text-left text-sm text-gray-500 shadow-md dark:text-gray-400;
+  }
+  .yours-games:hover {
+    @apply cursor-pointer bg-palet1-purple text-white;
+  }
+  .yours-games-tbody {
+    @apply border-b bg-white dark:border-gray-700 dark:bg-gray-800;
+  }
+  .yours-games-row {
+    @apply whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white;
   }
 }

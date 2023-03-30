@@ -26,7 +26,7 @@ const switchIcon = (button) => {
       return <CgLock />;
     case '/profile/yours':
       return <CgTrash />;
-    case '/addquiz':
+    case '/profile/addquiz':
       return <CgAdd />;
 
     default:

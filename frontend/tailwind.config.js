@@ -16,12 +16,15 @@ module.exports = {
       },
       colors: {
         current: 'currentColor',
-        brown: '#8B5A2B',
-        greenForest: '#228B22',
-        ground: '#8F9779',
-        darkBlue: '#4B0082',
+        palet1: {
+          brown: '#8B5A2B',
+          greenForest: '#296329',
+          ground: '#8F9779',
+          purple: '#684780',
+          background: '#E9E0D1',
+        },
       },
+      plugins: [require('prettier-plugin-tailwindcss')],
     },
   },
-  plugins: [require('prettier-plugin-tailwindcss')],
 };
