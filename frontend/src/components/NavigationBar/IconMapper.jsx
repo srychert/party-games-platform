@@ -1,4 +1,4 @@
-import { CgHomeAlt, CgLogOff, CgBot, CgAdidas, CgMenu } from 'react-icons/cg';
+import { CgHomeAlt, CgLogOff, CgBot, CgAdidas, CgMenu, CgProfile } from 'react-icons/cg';
 
 const switchButton = (button) => {
   switch (button) {
@@ -10,6 +10,8 @@ const switchButton = (button) => {
       return <CgBot />;
     case '/host':
       return <CgAdidas />;
+    case '/profile':
+      return <CgProfile />;
     default:
       return <CgMenu />;
   }

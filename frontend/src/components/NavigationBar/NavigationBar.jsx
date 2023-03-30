@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../../hooks/useAuth';
-import { CgProfile, CgHome } from 'react-icons/cg';
 import { IconContext } from 'react-icons';
 import { useCookies } from 'react-cookie';
-import { useNavigate } from 'react-router-dom';
 import BurgerButton from '../BurgerButton/BurgerButton';
 import switchButton from './IconMapper';
 
@@ -35,44 +33,34 @@ function NavigationBar({ showNavbarInit = false, buttons = [], loggedIn = false 
     console.log('burger clicked');
   };
 
-  return (
-    <div className="flex w-full flex-row justify-between bg-gray-200 p-5">
-      <BurgerButton onClick={handelBurgerClick} />
-      {showNavbar ? (
-        <nav className="flex flex-row justify-between">
-          {buttons.map((button, index) => (
-            <button
-              className="buttonSmall"
-              key={index}
-              onClick={() => handleLocationChange(button.to)}
-            >
-              <IconContext.Provider value={{ size: '2em' }}>
-                {/* TODO use NavLink component from react router instead of buttons */}
-                {switchButton(button.to)}
-              </IconContext.Provider>
-            </button>
-          ))}
-          {loggedIn ? (
-            <div className="flex items-center justify-center gap-4">
-              <button className="buttonSmall" onClick={handleLogout}>
-                <IconContext.Provider value={{ size: '2em' }}>
-                  {switchButton('/logout')}
-                </IconContext.Provider>
-              </button>
+  useEffect(() => {
+    if (loggedIn) {
+      buttons.push({ to: '/profile', text: 'Host' });
+      buttons.push({ to: '/logout', text: 'Logout' });
+    }
+  }, []);
 
-              <div
-                className="flex cursor-pointer flex-col items-center justify-center"
-                onClick={handleShowProfile}
+  return (
+    <aside className="fixed left-0 top-0 z-40 h-screen w-16 -translate-x-full transition-transform sm:translate-x-0">
+      <div className="flex h-full flex-col gap-2 overflow-y-auto bg-gray-50 px-3 py-4 dark:bg-gray-800">
+        <BurgerButton onClick={handelBurgerClick} />
+        {showNavbar ? (
+          <nav className="flex flex-col justify-between gap-2">
+            {buttons.map((button, index) => (
+              <button
+                className="buttonSmall"
+                key={index}
+                onClick={() => handleLocationChange(button.to)}
               >
                 <IconContext.Provider value={{ size: '2em' }}>
-                  <CgProfile />
+                  {switchButton(button.to)}
                 </IconContext.Provider>
-              </div>
-            </div>
-          ) : null}
-        </nav>
-      ) : null}
-    </div>
+              </button>
+            ))}
+          </nav>
+        ) : null}
+      </div>
+    </aside>
   );
 }
 
