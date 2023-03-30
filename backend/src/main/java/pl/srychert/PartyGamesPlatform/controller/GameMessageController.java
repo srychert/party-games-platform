@@ -68,7 +68,7 @@ public class GameMessageController {
                 .handleMessage(principal.getName(), textMessageDTO, pin);
 
         if (messages.get(MessageReceiver.ROOM) != null) {
-            template.convertAndSend("/topic/game-room/", messages.get(MessageReceiver.ROOM));
+            template.convertAndSend(String.format("/topic/game-room/%s", pin), messages.get(MessageReceiver.ROOM));
         }
 
         return messages.get(MessageReceiver.HOST);

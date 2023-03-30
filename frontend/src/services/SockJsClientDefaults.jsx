@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import SockJsClient from 'react-stomp';
 
-const SOCKET_URL = 'http://localhost:8080/quiz';
+const SOCKET_URL = 'http://localhost:8080/game';
 
 export const SockJsClientDefaults = forwardRef(function SockJsClientDefaults(props, ref) {
   return (
