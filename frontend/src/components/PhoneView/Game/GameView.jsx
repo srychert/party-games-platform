@@ -11,9 +11,9 @@ function GameView(props) {
       </div>
       <div className="m-1 grid h-4/5 w-full grid-cols-2 gap-2">
         {answers.map((answer, index) => (
-          <div className="answerBox" key={index}>
+          <button className="answerBox" key={index}>
             {answer.text}
-          </div>
+          </button>
         ))}
       </div>
     </div>

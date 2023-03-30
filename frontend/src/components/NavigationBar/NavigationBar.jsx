@@ -21,14 +21,12 @@ function NavigationBar({
 
   const handelBurgerClick = () => {
     setShowNavbar(!showNavbar);
-    console.log('burger clicked');
   };
 
   const buttonsToRender = () => {
     const addedButtons = [];
 
     if (loggedIn) {
-      addedButtons.push({ to: '/', text: 'Home' });
       addedButtons.push({ to: '/profile', text: 'Host' });
       addedButtons.push({ to: '/logout', text: 'Logout' });
       return [...buttons, ...addedButtons];
@@ -49,20 +47,28 @@ function NavigationBar({
   };
 
   return (
-    <aside className="z-40 flex h-screen w-20 -translate-x-full justify-center bg-gray-300 transition-transform sm:translate-x-0">
-      <div className="flex h-full flex-col gap-2 overflow-y-auto px-3 py-4 ">
+    <aside
+      className={`z-40 flex ${
+        showNavbar ? 'h-screen w-20' : 'h-10 w-10'
+      } -translate-x-full justify-center bg-gray-800 transition-transform sm:translate-x-0`}
+    >
+      <div
+        className={`flex flex-col gap-2 overflow-hidden ${showNavbar ? 'p-3' : 'p-0'} `}
+      >
         <BurgerButton onClick={handelBurgerClick} />
-        {showNavbar ? (
-          <nav className="flex flex-col justify-between gap-2">
-            {buttonsToRender().map((button, index) => (
-              <NavLink className="buttonSmall" key={index} to={button.to}>
-                <IconContext.Provider value={{ size: '2em' }}>
-                  {switchIcon(button.to)}
-                </IconContext.Provider>
-              </NavLink>
-            ))}
-          </nav>
-        ) : null}
+        <nav
+          className={`flex flex-col justify-between gap-2 ${
+            showNavbar ? 'block' : 'hidden'
+          }`}
+        >
+          {buttonsToRender().map((button, index) => (
+            <NavLink className="buttonSmall" key={index} to={button.to}>
+              <IconContext.Provider value={{ size: '2em' }}>
+                {switchIcon(button.to)}
+              </IconContext.Provider>
+            </NavLink>
+          ))}
+        </nav>
       </div>
     </aside>
   );
