@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createMessage, TYPES } from '../../services/SocketMessage';
 import Loading from '../Loading';
-import NavigationBar from '../../components/NavigationBar/NavigationBar';
+import Error from '../Error';
 
 function getPin(client, id) {
   client.current.sendMessage(
@@ -77,27 +77,18 @@ function QuizRoom(props) {
   }
 
   if (error) {
-    return (
-      <div className="grid h-screen w-screen place-content-center ">
-        <div className="border-b-2 border-blue-500 text-3xl">
-          <span>{error}</span>
-        </div>
-      </div>
-    );
+    return <Error error={error} />;
   }
 
   return (
     <div className="flex h-screen w-screen flex-col items-center ">
-      <div className="m-10 border-b-2 border-blue-500 p-5 text-9xl">{pin}</div>
-      <button className="button" onClick={() => handleClick()}>
+      <div className="pin">{pin}</div>
+      <button className="buttonRegular" onClick={() => handleClick()}>
         Rozpocznij grę
       </button>
       <div className="flex flex-row justify-between">
         {players.map((player, index) => (
-          <div
-            className="animate-wiggle m-3 rounded-lg border bg-gradient-to-r from-blue-600 to-blue-200 p-3 shadow-sm"
-            key={index}
-          >
+          <div className="player-lobby animate-wiggle" key={index}>
             {player.nick}
           </div>
         ))}

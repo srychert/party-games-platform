@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Question from '../../components/Question/Question';
 import PointsChart from '../../components/PointsChart/PointsChart';
 import { TYPES, createMessage } from '../../services/SocketMessage';
 import Loading from '../Loading';
@@ -103,8 +102,8 @@ function MainQuiz(props) {
   if (loading) {
     return (
       <>
-        <div>
-          <button className="button absolute inset-1/2" onClick={handleStart}>
+        <div className="flex h-screen w-full items-center justify-center">
+          <button className="buttonRegular" onClick={handleStart}>
             Start
           </button>
         </div>
@@ -114,18 +113,23 @@ function MainQuiz(props) {
 
   return (
     <>
-      <button className="button absolute left-5 top-5" onClick={handleLeave}>
-        Leave
-      </button>
-
-      <div className="game-board">
-        <h1>Round {round + 1}</h1>
-        {pointsScreen && <PointsChart players={players} />}
-        {!pointsScreen && <Question question={question} key={'question'} />}
+      <div className="flex">
+        <div className="p-5">
+          <button className="buttonRegular" onClick={handleLeave}>
+            Leave
+          </button>
+        </div>
+        <div className="mx-5 flex flex-col items-center justify-center">
+          <h1>Round {round + 1}</h1>
+          {pointsScreen && <PointsChart players={players} />}
+          {!pointsScreen && <span className="text-8xl">{question}</span>}
+        </div>
+        <div className="p-5">
+          <button className="buttonRegular" onClick={handleNextRound}>
+            Next
+          </button>
+        </div>
       </div>
-      <button className="button absolute right-5 top-5" onClick={handleNextRound}>
-        Next
-      </button>
     </>
   );
 }

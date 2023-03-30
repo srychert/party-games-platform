@@ -52,17 +52,21 @@ function PlayerLayout() {
         onMessage={handleMessage.fn}
         ref={client}
       />
-      <NavigationBar buttons={[
-        { to: '/', text: 'Home' },
-        { to: '/player', text: 'Player' }
+      <NavigationBar
+        buttons={[
+          { to: '/', text: 'Home' },
+          { to: '/player/join', text: 'Player' },
         ]}
         showNavbarInit={true}
-        loggedIn={false} />
-      <Routes>
-        <Route path="join" exact element={<Join {...props} />} />
-        <Route path="quiz/:pin" element={<Quiz {...props} />} />
-        <Route path="test" element={<TestView {...props} />} />
-      </Routes>
+        loggedIn={false}
+      />
+      <main className="container flex h-full w-full">
+        <Routes>
+          <Route path="join" exact element={<Join {...props} />} />
+          <Route path="quiz/:pin" element={<Quiz {...props} />} />
+          <Route path="test" element={<TestView {...props} />} />
+        </Routes>
+      </main>
     </>
   );
 }

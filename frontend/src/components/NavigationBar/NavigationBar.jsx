@@ -49,7 +49,7 @@ function NavigationBar({
   };
 
   return (
-    <aside className="fixed left-0 top-0 z-40 h-screen w-16 -translate-x-full bg-gray-300 transition-transform sm:translate-x-0">
+    <aside className="z-40 flex h-screen w-20 -translate-x-full justify-center bg-gray-300 transition-transform sm:translate-x-0">
       <div className="flex h-full flex-col gap-2 overflow-y-auto px-3 py-4 ">
         <BurgerButton onClick={handelBurgerClick} />
         {showNavbar ? (

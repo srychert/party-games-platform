@@ -7,41 +7,34 @@ import ProtectRoutes from './components/ProtectRoutes/ProtectRoutes';
 import PlayerLayout from './components/PlayerLayout';
 import HostLayout from './components/HostLayout';
 import ProfileLayout from './components/ProfileLayout';
+import Loading from './views/Loading';
+import Error from './views/Error';
+import Game from './views/PlayerViews/Game';
 
 function App() {
   return (
     // TODO make a default container for all routes with default styles like h-screen
     // update all routes styles
-    <Routes>
-      <Route path="/" element={<ModePicker />} />
-      <Route
-        path="/login"
-        element={<Login field1="username" field2="password" passtype="password" />}
-      />
-      <Route path="/register" element={<Register />} />
+    <div className="default-container">
+      <Routes>
+        <Route path="/" element={<ModePicker />} />
+        <Route
+          path="/login"
+          element={<Login field1="username" field2="password" passtype="password" />}
+        />
+        <Route path="/register" element={<Register />} />
 
-      {/* Phone routes */}
-      <Route path="/player/*" element={<PlayerLayout />} />
+        {/* Phone routes */}
+        <Route path="/player/*" element={<PlayerLayout />} />
 
-      {/* Host routes */}
-      <Route element={<ProtectRoutes />}>
-        {/* <Route
-          path="/host"
-          element={
-            <>
-              {/* same as in HostLayout */}
-        {/* TODO: move to HostLayout but do not start WS connection on this route */}
-        {/* <NavigationBar showNavbarInit={true} loggedIn={true} />
-              <QuizList />
-            </>
-          }
-        /> 
-        */}
-        <Route path="/host/*" element={<HostLayout />} />
-        {/* TODO make layout for profile */}
-        <Route path="/profile/*" element={<ProfileLayout />} />
-      </Route>
-    </Routes>
+        {/* Host routes */}
+        <Route element={<ProtectRoutes />}>
+          <Route path="/host/*" element={<HostLayout />} />
+          <Route path="/profile/*" element={<ProfileLayout />} />
+        </Route>
+        <Route path="/test" element={<Game />} />
+      </Routes>
+    </div>
   );
 }
 

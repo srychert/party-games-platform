@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import GameType from '../../components/PhoneView/GameType';
+import QuizType from '../../components/PhoneView/Quiz/QuizType';
 import Loading from '../Loading';
 import { createMessage, TYPES } from '../../services/SocketMessage';
 import { useCookies } from 'react-cookie';
@@ -74,11 +74,7 @@ function Quiz(props) {
     return <Loading message={'Waiting for other players...'} />;
   }
 
-  return (
-    <div>
-      <GameType type={gameType} answers={answers} handleClick={handleMessageSend} />
-    </div>
-  );
+  return <QuizType type={gameType} answers={answers} handleClick={handleMessageSend} />;
 }
 
 export default Quiz;

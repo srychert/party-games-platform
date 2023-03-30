@@ -15,10 +15,12 @@ function HostLayout(props) {
         showNavbarInit={true}
         loggedIn={true}
       />
-      <Routes>
-        <Route path="/" element={<HostLayoutNotConnected {...props} />} />
-        <Route path="/*" element={<HostLayoutConnected {...props} />} />
-      </Routes>
+      <main className="container flex h-full w-full">
+        <Routes>
+          <Route path="/" element={<HostLayoutNotConnected {...props} />} />
+          <Route path="/*" element={<HostLayoutConnected {...props} />} />
+        </Routes>
+      </main>
     </>
   );
 }

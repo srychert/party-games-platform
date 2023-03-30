@@ -5,7 +5,6 @@ import FinalResults from '../views/HostViews/FinalResults';
 import MainQuiz from '../views/HostViews/MainQuiz';
 import QuizRoom from '../views/HostViews/QuizRoom';
 import TestView from '../views/TestView';
-import NavigationBar from './NavigationBar/NavigationBar';
 
 function HostLayoutConnected() {
   const [topics, setTopics] = useState([]);
@@ -52,14 +51,6 @@ function HostLayoutConnected() {
         onDisconnect={handleDisconnect.fn}
         onMessage={handleMessage.fn}
         ref={client}
-      />
-      <NavigationBar
-        buttons={[
-          { to: '/', text: 'Home' },
-          { to: '/host', text: 'Host' },
-        ]}
-        showNavbarInit={true}
-        loggedIn={true}
       />
       <Routes>
         <Route path=":id" element={<QuizRoom {...props} />} />

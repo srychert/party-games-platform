@@ -57,7 +57,6 @@ export default function Security() {
 
   return (
     <>
-      <NavigationBar profile={true} showNavbarInit={true} />
       <div className="flex flex-col gap-10">
         <div className="mx-auto flex gap-4 whitespace-nowrap text-xl font-bold">
           <div className="flex flex-col">

@@ -8,10 +8,23 @@ import {
   CgLock,
   CgTrash,
   CgAdd,
+  CgTrophy,
+  CgSandClock,
+  CgBell,
+  CgPill,
+  CgToolbox,
 } from 'react-icons/cg';
 
 const switchIcon = (button) => {
   switch (button) {
+    case 'menu':
+      return <CgMenu />;
+    case 'gameAction':
+      return <CgBell />;
+    case 'stats':
+      return <CgPill />;
+    case 'equipment':
+      return <CgToolbox />;
     case '/':
       return <CgHomeAlt />;
     case '/logout':
@@ -28,9 +41,10 @@ const switchIcon = (button) => {
       return <CgTrash />;
     case '/profile/addquiz':
       return <CgAdd />;
-
+    case '/player/join':
+      return <CgTrophy />;
     default:
-      return <CgMenu />;
+      return <CgSandClock />;
   }
 };
 

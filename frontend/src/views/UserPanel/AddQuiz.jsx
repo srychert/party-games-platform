@@ -62,7 +62,6 @@ function AddQuiz() {
 
   return (
     <>
-      <NavigationBar profile={true} showNavbarInit={true} />
       <div className="form mx-auto w-fit">
         {quizData.questions.map((question, index) => (
           <div key={`question-${index}`} className="flex gap-2 font-bold">

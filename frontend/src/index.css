@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer components {
+  .default-container {
+    @apply flex h-screen w-screen overflow-hidden;
+  }
   .answerBox {
     @apply flex content-center items-center justify-center rounded-lg shadow-md;
   }
@@ -35,7 +38,7 @@
   }
 
   .card {
-    @apply button flex h-1/2 w-1/2 flex-col items-center justify-center;
+    @apply button flex h-1/2 w-1/2 flex-col items-center justify-center self-center;
   }
   .game-card {
     @apply relative flex aspect-square w-[300px] flex-col rounded-lg border border-palet1-purple p-6 pt-8 shadow-lg shadow-palet1-purple;
@@ -63,5 +66,12 @@
   }
   .yours-games-row {
     @apply whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white;
+  }
+
+  .pin {
+    @apply m-10 border-b-2 border-blue p-5 text-9xl;
+  }
+  .player-lobby {
+    @apply m-3 rounded-lg border bg-palet1-background p-3 shadow-sm;
   }
 }

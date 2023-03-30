@@ -15,7 +15,6 @@ export default function Yours() {
 
   return (
     <>
-      <NavigationBar profile={true} showNavbarInit={true} />
       <div className="flex w-full justify-center">
         <table className="yours-games">
           <thead>

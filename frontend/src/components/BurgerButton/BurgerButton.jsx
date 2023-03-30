@@ -9,7 +9,7 @@ function BurgerButton({ onClick }) {
       onClick={onClick}
     >
       <IconContext.Provider value={{ size: '2em' }}>
-        {switchButton()}
+        {switchButton('menu')}
       </IconContext.Provider>
     </button>
   );

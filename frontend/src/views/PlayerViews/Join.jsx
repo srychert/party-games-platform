@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Back from '../../components/Back/Back';
 import { createMessage, TYPES } from '../../services/SocketMessage';
 import { useCookies } from 'react-cookie';
-import NavigationBar from '../../components/NavigationBar/NavigationBar';
 
 function Join(props) {
   const { client, setTopics, setHandleMessage } = props;
@@ -43,7 +41,7 @@ function Join(props) {
   }, [pin]);
 
   return (
-    <div className="flex h-screen w-screen flex-col items-center">
+    <div className="mx-auto self-center">
       <main className="flex h-full w-full items-center justify-center">
         <form onSubmit={handleJoin} className="form">
           <div className="flex flex-col p-2">
@@ -69,7 +67,7 @@ function Join(props) {
             />
           </div>
           <div className="text-red-500">{error}</div>
-          <button type="submit" className="button">
+          <button type="submit" className="buttonRegular">
             Dołącz
           </button>
         </form>
