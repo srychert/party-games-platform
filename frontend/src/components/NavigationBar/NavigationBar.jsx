@@ -12,7 +12,7 @@ import switchButton from './IconMapper';
 // props -> possible buttons with destinations
 // map possible buttons to Link components
 
-function NavigationBar({ showNavbarInit = false, buttons, host = false }) {
+function NavigationBar({ showNavbarInit = false, buttons = [], loggedIn = false }) {
   const [showNavbar, setShowNavbar] = useState(showNavbarInit);
   const [cookies, setCookie] = useCookies();
   const auth = useAuth();
@@ -47,11 +47,12 @@ function NavigationBar({ showNavbarInit = false, buttons, host = false }) {
               onClick={() => handleLocationChange(button.to)}
             >
               <IconContext.Provider value={{ size: '2em' }}>
+                {/* TODO use NavLink component from react router instead of buttons */}
                 {switchButton(button.to)}
               </IconContext.Provider>
             </button>
           ))}
-          {host ? (
+          {loggedIn ? (
             <div className="flex items-center justify-center gap-4">
               <button className="buttonSmall" onClick={handleLogout}>
                 <IconContext.Provider value={{ size: '2em' }}>

@@ -52,6 +52,12 @@ function HostLayout() {
         onMessage={handleMessage.fn}
         ref={client}
       />
+      <NavigationBar buttons={[
+        { to: '/', text: 'Home' },
+        { to: '/host', text: 'Host' },
+        ]}
+        showNavbarInit={true}
+        loggedIn={true} />
       <Routes>
         <Route path=":id" element={<QuizRoom {...props} />} />
         <Route path=":id/quiz-room/:pin" element={<MainQuiz {...props} />} />

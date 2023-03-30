@@ -79,7 +79,6 @@ function QuizRoom(props) {
   if (error) {
     return (
       <div className="grid h-screen w-screen place-content-center ">
-        <NavigationBar buttons={[{ to: '/host', text: 'Host' }]} />
         <div className="border-b-2 border-blue-500 text-3xl">
           <span>{error}</span>
         </div>
@@ -89,7 +88,6 @@ function QuizRoom(props) {
 
   return (
     <div className="flex h-screen w-screen flex-col items-center ">
-      <NavigationBar buttons={[{ to: '/host', text: 'Host' }]} />
       <div className="m-10 border-b-2 border-blue-500 p-5 text-9xl">{pin}</div>
       <button className="button" onClick={() => handleClick()}>
         Rozpocznij grę

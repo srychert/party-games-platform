@@ -4,6 +4,7 @@ import { SockJsClientDefaults } from '../services/SockJsClientDefaults';
 import TestView from '../views/TestView';
 import Join from '../views/PlayerViews/Join';
 import Quiz from '../views/PlayerViews/Quiz';
+import NavigationBar from './NavigationBar/NavigationBar';
 
 function PlayerLayout() {
   const [topics, setTopics] = useState([]);
@@ -51,6 +52,12 @@ function PlayerLayout() {
         onMessage={handleMessage.fn}
         ref={client}
       />
+      <NavigationBar buttons={[
+        { to: '/', text: 'Home' },
+        { to: '/player', text: 'Player' }
+        ]}
+        showNavbarInit={true}
+        loggedIn={false} />
       <Routes>
         <Route path="join" exact element={<Join {...props} />} />
         <Route path="quiz/:pin" element={<Quiz {...props} />} />

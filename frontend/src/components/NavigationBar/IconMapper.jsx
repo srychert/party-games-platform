@@ -2,7 +2,7 @@ import { CgHomeAlt, CgLogOff, CgBot, CgAdidas, CgMenu } from 'react-icons/cg';
 
 const switchButton = (button) => {
   switch (button) {
-    case '/home':
+    case '/':
       return <CgHomeAlt />;
     case '/logout':
       return <CgLogOff />;
