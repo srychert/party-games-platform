@@ -30,17 +30,18 @@ function App() {
 
       {/* Host routes */}
       <Route element={<ProtectRoutes />}>
-        <Route
+        {/* <Route
           path="/host"
           element={
             <>
               {/* same as in HostLayout */}
-              {/* TODO: move to HostLayout but do not start WS connection on this route */}
-              <NavigationBar showNavbarInit={true} loggedIn={true} />
+        {/* TODO: move to HostLayout but do not start WS connection on this route */}
+        {/* <NavigationBar showNavbarInit={true} loggedIn={true} />
               <QuizList />
             </>
           }
-        />
+        /> 
+        */}
         <Route path="/host/*" element={<HostLayout />} />
         {/* TODO make layout for profile */}
         <Route path="/profile" element={<Profile />} />
