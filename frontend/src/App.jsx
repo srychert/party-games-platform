@@ -4,9 +4,6 @@ import ModePicker from './views/ModePicker';
 import Login from './views/Login';
 import Register from './views/Register';
 import QuizList from './views/HostViews/QuizList';
-import QuizRoom from './views/HostViews/QuizRoom';
-import MainQuiz from './views/HostViews/MainQuiz';
-import FinalResults from './views/HostViews/FinalResults';
 import ProtectRoutes from './components/ProtectRoutes/ProtectRoutes';
 import Profile from './views/UserPanel/Profile';
 import Security from './views/UserPanel/Security';
@@ -33,19 +30,17 @@ function App() {
 
       {/* Host routes */}
       <Route element={<ProtectRoutes />}>
-        <Route path="/host" element={
-        <>
-        {/* same as in HostLayout */}
-        {/* TODO: move to HostLayout but do not start WS connection on this route */}
-        <NavigationBar buttons={[
-        { to: '/', text: 'Home' },
-        { to: '/host', text: 'Host' },
-        ]}
-        showNavbarInit={true}
-        loggedIn={true} />
-        <QuizList />
-        </>
-      } />
+        <Route
+          path="/host"
+          element={
+            <>
+              {/* same as in HostLayout */}
+              {/* TODO: move to HostLayout but do not start WS connection on this route */}
+              <NavigationBar showNavbarInit={true} loggedIn={true} />
+              <QuizList />
+            </>
+          }
+        />
         <Route path="/host/*" element={<HostLayout />} />
         {/* TODO make layout for profile */}
         <Route path="/profile" element={<Profile />} />

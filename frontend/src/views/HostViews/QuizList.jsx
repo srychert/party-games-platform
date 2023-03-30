@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useQuizzes } from '../../hooks/useQuizzes';
 import Loading from '../Loading';
 import { useState } from 'react';
-import NavigationBar from '../../components/NavigationBar/NavigationBar';
 import GameCard from '../../components/GameCard/GameCard';
 
 function QuizList() {

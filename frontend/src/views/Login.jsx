@@ -79,13 +79,13 @@ function Login(props) {
               </span>
             </label>
           </div>
-          <div>
-            <button type="submit" className="button m-3">
+          <div className="flex flex-col justify-center">
+            <button type="submit" className="buttonRegular m-3">
               Zaloguj
             </button>
             <button
               type="button"
-              className="button m-3"
+              className="buttonRegular m-3"
               onClick={() => navigate('/register')}
             >
               {' '}

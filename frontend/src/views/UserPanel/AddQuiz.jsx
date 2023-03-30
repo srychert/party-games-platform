@@ -2,11 +2,11 @@ import React, { useReducer, useState } from 'react';
 import InitialState from '../../components/AddQuizForm/InitialState';
 import AddQuestions from '../../components/AddQuizForm/AddQuestions';
 import { Navigate, useNavigate } from 'react-router-dom';
-import Nav from '../../components/UserPanel/Nav';
 import { useApi } from '../../context/ApiProvider';
 import { useCookies } from 'react-cookie';
 import { useAddQuiz } from '../../hooks/useAddQuiz';
 import Loading from '../Loading';
+import NavigationBar from '../../components/NavigationBar/NavigationBar';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -35,9 +35,7 @@ function reducer(state, action) {
 }
 
 function AddQuiz() {
-  const { api } = useApi();
   const [cookies, setCookie, removeCookie] = useCookies();
-  const navigate = useNavigate();
   const [initialState, setInitialState] = useState(true);
 
   const { mutate, isLoading, isError, isSuccess, error } = useAddQuiz();
@@ -64,26 +62,24 @@ function AddQuiz() {
 
   return (
     <>
-      <Nav />
+      <NavigationBar profile={true} showNavbarInit={true} />
       <div className="form mx-auto w-fit">
-        <div>
-          {quizData.questions.map((question, index) => (
-            <div key={`question-${index}`} className="flex gap-2 font-bold">
-              <span>{question.question}</span>
-              <button
-                className="border-2 border-black px-1"
-                onClick={() =>
-                  dispatch({
-                    type: 'remove_question',
-                    payload: index,
-                  })
-                }
-              >
-                Remove
-              </button>
-            </div>
-          ))}
-        </div>
+        {quizData.questions.map((question, index) => (
+          <div key={`question-${index}`} className="flex gap-2 font-bold">
+            <span>{question.question}</span>
+            <button
+              className="border-2 border-black px-1"
+              onClick={() =>
+                dispatch({
+                  type: 'remove_question',
+                  payload: index,
+                })
+              }
+            >
+              Remove
+            </button>
+          </div>
+        ))}
         {initialState ? (
           <InitialState setInitialState={setInitialState} dispatch={dispatch} />
         ) : (

@@ -5,6 +5,7 @@ import FinalResults from '../views/HostViews/FinalResults';
 import MainQuiz from '../views/HostViews/MainQuiz';
 import QuizRoom from '../views/HostViews/QuizRoom';
 import TestView from '../views/TestView';
+import NavigationBar from './NavigationBar/NavigationBar';
 
 function HostLayout() {
   const [topics, setTopics] = useState([]);
@@ -52,12 +53,14 @@ function HostLayout() {
         onMessage={handleMessage.fn}
         ref={client}
       />
-      <NavigationBar buttons={[
-        { to: '/', text: 'Home' },
-        { to: '/host', text: 'Host' },
+      <NavigationBar
+        buttons={[
+          { to: '/', text: 'Home' },
+          { to: '/host', text: 'Host' },
         ]}
         showNavbarInit={true}
-        loggedIn={true} />
+        loggedIn={true}
+      />
       <Routes>
         <Route path=":id" element={<QuizRoom {...props} />} />
         <Route path=":id/quiz-room/:pin" element={<MainQuiz {...props} />} />
