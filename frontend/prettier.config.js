@@ -3,5 +3,5 @@ module.exports = {
   tabWidth: 3,
   semi: false,
   singleQuote: false,
-  tailwindConfig: './styles/tailwind.config.js'
+  tailwindConfig: './tailwind.config.js',
 };

@@ -114,7 +114,7 @@ function MainQuiz(props) {
 
   return (
     <>
-      <button className="button absolute top-5 left-5" onClick={handleLeave}>
+      <button className="button absolute left-5 top-5" onClick={handleLeave}>
         Leave
       </button>
 
@@ -123,7 +123,7 @@ function MainQuiz(props) {
         {pointsScreen && <PointsChart players={players} />}
         {!pointsScreen && <Question question={question} key={'question'} />}
       </div>
-      <button className="button absolute top-5 right-5" onClick={handleNextRound}>
+      <button className="button absolute right-5 top-5" onClick={handleNextRound}>
         Next
       </button>
     </>

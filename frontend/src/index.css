@@ -55,7 +55,7 @@
     @apply relative flex flex-col rounded-lg border p-6 pt-8 shadow-md shadow-sky-600;
   }
   .game-noPlayed {
-    @apply absolute top-1 right-1 rounded-lg border bg-gray-200 p-2 shadow-sm shadow-sky-500;
+    @apply absolute right-1 top-1 rounded-lg border bg-gray-200 p-2 shadow-sm shadow-sky-500;
   }
   .image {
     @apply h-20 w-20 cursor-pointer rounded-full border border-sky-300 shadow-md;
