@@ -3,15 +3,10 @@ import { Routes, Route } from 'react-router-dom';
 import ModePicker from './views/ModePicker';
 import Login from './views/Login';
 import Register from './views/Register';
-import QuizList from './views/HostViews/QuizList';
 import ProtectRoutes from './components/ProtectRoutes/ProtectRoutes';
-import Profile from './views/UserPanel/Profile';
-import Security from './views/UserPanel/Security';
-import AddQuiz from './views/UserPanel/AddQuiz';
-import Yours from './views/UserPanel/Yours';
 import PlayerLayout from './components/PlayerLayout';
 import HostLayout from './components/HostLayout';
-import NavigationBar from './components/NavigationBar/NavigationBar';
+import ProfileLayout from './components/ProfileLayout';
 
 function App() {
   return (
@@ -44,10 +39,7 @@ function App() {
         */}
         <Route path="/host/*" element={<HostLayout />} />
         {/* TODO make layout for profile */}
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/profile/security" element={<Security />} />
-        <Route path="/profile/yours" element={<Yours />} />
-        <Route path="/addquiz" element={<AddQuiz />} />
+        <Route path="/profile/*" element={<ProfileLayout />} />
       </Route>
     </Routes>
   );

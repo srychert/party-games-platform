@@ -1,6 +1,5 @@
 import React from 'react';
 import useUser from '../../hooks/UserHooks/useUser';
-import Nav from '../../components/UserPanel/Nav';
 import { CgProfile } from 'react-icons/cg';
 import { IconContext } from 'react-icons';
 import Loading from '../Loading';

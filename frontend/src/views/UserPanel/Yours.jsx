@@ -1,5 +1,4 @@
 import NavigationBar from '../../components/NavigationBar/NavigationBar';
-import Nav from '../../components/UserPanel/Nav';
 import { useQuizzes } from '../../hooks/useQuizzes';
 import Loading from '../Loading';
 

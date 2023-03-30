@@ -1,4 +1,3 @@
-import Nav from '../../components/UserPanel/Nav';
 import { useState } from 'react';
 import useUser from '../../hooks/UserHooks/useUser';
 import { useAuth } from '../../hooks/useAuth';
