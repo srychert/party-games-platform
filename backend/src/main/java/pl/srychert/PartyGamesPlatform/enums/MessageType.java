@@ -19,5 +19,6 @@ public enum MessageType {
     NEXT_ROUND,
     PLAY,
     ANSWER,
-    NO_GAME, ERROR
+    NO_GAME, ERROR,
+    NODE_OPTION
 }

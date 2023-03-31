@@ -1,5 +1,8 @@
 package pl.srychert.PartyGamesPlatform.service.game;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,11 +10,13 @@ import pl.srychert.PartyGamesPlatform.enums.MessageReceiver;
 import pl.srychert.PartyGamesPlatform.enums.MessageType;
 import pl.srychert.PartyGamesPlatform.model.TextMessageDTO;
 import pl.srychert.PartyGamesPlatform.model.game.Player;
+import pl.srychert.PartyGamesPlatform.model.game.node.NodeOption;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class GameRoomService {
 
@@ -22,6 +27,7 @@ public class GameRoomService {
         return switch (textMessageDTO.getType()) {
             case JOIN -> handleJoin(id, textMessageDTO, pin);
             case PLAY -> handlePlay(id, textMessageDTO, pin);
+            case NODE_OPTION -> handleNodeOption(id, textMessageDTO, pin);
             default -> new HashMap<>();
         };
     }
@@ -56,5 +62,36 @@ public class GameRoomService {
 
     private Map<MessageReceiver, TextMessageDTO> handlePlay(String id, TextMessageDTO textMessageDTO, String pin) {
         return null;
+    }
+
+    private Map<MessageReceiver, TextMessageDTO> handleNodeOption(String id, TextMessageDTO textMessageDTO, String pin) {
+        Map<MessageReceiver, TextMessageDTO> messages = new HashMap<>();
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            // TODO optional param values in nodeOptions
+            NodeOption nodeOption = objectMapper.readValue(textMessageDTO.getJson(), NodeOption.class);
+
+            // TODO
+            gameStateService.callNodeMethod(pin, id, nodeOption);
+
+        } catch (JsonProcessingException exception) {
+            log.error(exception.getMessage());
+
+            messages.put(MessageReceiver.PLAYER,
+                    TextMessageDTO.builder()
+                            .type(MessageType.ERROR)
+                            .content("Bad json")
+                            .sender("SERVER").build());
+        } catch (Exception exception) {
+            log.error(exception.getMessage());
+
+            messages.put(MessageReceiver.PLAYER,
+                    TextMessageDTO.builder()
+                            .type(MessageType.ERROR)
+                            .sender("SERVER").build());
+        }
+
+        return messages;
     }
 }

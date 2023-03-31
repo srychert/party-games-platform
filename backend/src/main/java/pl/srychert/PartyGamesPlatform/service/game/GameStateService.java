@@ -3,14 +3,17 @@ package pl.srychert.PartyGamesPlatform.service.game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.srychert.PartyGamesPlatform.GameStateDB;
+import pl.srychert.PartyGamesPlatform.enums.NodeType;
 import pl.srychert.PartyGamesPlatform.model.game.Game;
 import pl.srychert.PartyGamesPlatform.model.game.GameState;
 import pl.srychert.PartyGamesPlatform.model.game.Player;
-import pl.srychert.PartyGamesPlatform.model.game.node.Node;
-import pl.srychert.PartyGamesPlatform.model.game.node.NodeOption;
-import pl.srychert.PartyGamesPlatform.model.game.node.NodeOptionMethod;
+import pl.srychert.PartyGamesPlatform.model.game.node.*;
 import pl.srychert.PartyGamesPlatform.repository.GameRepository;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
@@ -89,7 +92,9 @@ public class GameStateService {
         Player player = Player.builder()
                 .id(playerId)
                 .nick(nick)
-                .options(getNodeOptions(game.getGameId(), 0))
+                .options(getNodeOptions(game.getGameId(), 3))
+                .currentNode(3)
+                .gold(20)
                 .build();
 
         game.getPlayers().put(playerId, player);
@@ -117,13 +122,100 @@ public class GameStateService {
         return Arrays.stream(node.getClass().getMethods())
                 .flatMap(method -> {
                     if (method.isAnnotationPresent(NodeOptionMethod.class)) {
-                        return Stream.of(
-                                NodeOption.builder()
-                                        .name(method.getName())
-                                        .parameters(List.of(method.getParameters()))
-                                        .build());
+
+                        final Annotation[][] paramAnnotations = method.getParameterAnnotations();
+                        Parameter[] parameters = method.getParameters();
+                        List<CustomParameter> visibleParameters = new ArrayList<>();
+
+                        // getting only parameters with @VisibleParam annotation
+                        for (int i = 0; i < paramAnnotations.length; i++) {
+                            for (Annotation a : paramAnnotations[i]) {
+                                if (a instanceof VisibleParam) {
+                                    Parameter param = parameters[i];
+                                    CustomParameter cp = CustomParameter.builder()
+                                            .typeName(param.getParameterizedType().getTypeName())
+                                            .name(param.getName()).build();
+                                    visibleParameters.add(cp);
+                                }
+                            }
+                        }
+
+                        return Stream.of(NodeOption.builder()
+                                .name(method.getName())
+                                .parameters(visibleParameters)
+                                .build());
                     }
+
                     return Stream.empty();
                 }).toList();
+    }
+
+    private Optional<Method> getFirstMethodByName(Method[] allMethods, String methodName) {
+        for (Method m : allMethods) {
+            if (m.getName().equals(methodName)) {
+                System.out.println(m);
+                return Optional.of(m);
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    public void callNodeMethod(String pin, String playerId, NodeOption nodeOption) throws
+            InvocationTargetException, IllegalAccessException {
+        GameState gameState = GameStateDB.games.get(pin);
+
+        if (gameState == null) return;
+
+        Player player = gameState.getPlayers().get(playerId);
+
+        Integer nodeID = player.getCurrentNode();
+
+        Optional<Game> gameOpt = gameRepository.findById(gameState.getGameId());
+
+        if (gameOpt.isEmpty()) return;
+
+        Game game = gameOpt.get();
+
+        Node node = game.getNodes().get(nodeID);
+
+        NodeType nodeType = node.getType();
+
+        String methodName = nodeOption.getName();
+
+        var parameterTypes = nodeOption.getParameters().stream()
+                .map(customParameter -> {
+                    try {
+                        return Class.forName(customParameter.getTypeName());
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                }).toList();
+
+        System.out.println(parameterTypes);
+
+        List<Object> arguments = nodeOption.getParameters().stream().map(CustomParameter::getValue).toList();
+
+        System.out.println(arguments);
+
+        switch (nodeType) {
+            case SKIP -> ((SkipNode) node).skip();
+            case HEAL -> {
+                Optional<Method> methodOpt = getFirstMethodByName(HealNode.class.getMethods(), methodName);
+                if (methodOpt.isEmpty()) return;
+                Method method = methodOpt.get();
+
+                // Kinda bad
+                if (methodName.equals("buyHeal")) {
+                    Integer gold = (Integer) arguments.get(0);
+                    var result = method.invoke(node, player, gold);
+                    System.out.println(result);
+                }
+
+                // TODO resolve wrong argument types
+                var result = method.invoke(node, player, arguments);
+                System.out.println(result);
+            }
+        }
     }
 }
