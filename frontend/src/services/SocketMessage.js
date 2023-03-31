@@ -25,6 +25,7 @@ export const TYPES = {
   NO_ROOM: 'NO_ROOM',
   PLAY: 'PLAY',
   ANSWERS: 'ANSWERS',
+  NODE_OPTION: 'NODE_OPTION',
 
   // common
   STARTED: 'STARTED',
