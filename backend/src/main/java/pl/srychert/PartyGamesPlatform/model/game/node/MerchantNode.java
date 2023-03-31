@@ -33,7 +33,7 @@ public class MerchantNode extends Node {
     private List<Item> itemsList = new ArrayList<>();
 
     @NodeOptionMethod
-    public Item buyItem(Player player, String itemId) throws Exception {
+    public Item buyItem(Player player, @VisibleParam String itemId) throws Exception {
         Item item = items.get(itemId);
 
         if (item == null) {

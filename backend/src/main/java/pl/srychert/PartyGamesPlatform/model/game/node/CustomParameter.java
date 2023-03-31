@@ -4,15 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 @Builder
 @AllArgsConstructor
-public class NodeOption {
+public class CustomParameter {
     private String name;
-    private List<CustomParameter> parameters;
+    private String typeName;
+    private Object value;
 
-    public NodeOption() {
+    public CustomParameter() {
     }
 }
