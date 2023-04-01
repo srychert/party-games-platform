@@ -6,12 +6,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.srychert.PartyGamesPlatform.GameStateDB;
 import pl.srychert.PartyGamesPlatform.enums.MessageReceiver;
 import pl.srychert.PartyGamesPlatform.enums.MessageType;
 import pl.srychert.PartyGamesPlatform.model.TextMessageDTO;
 import pl.srychert.PartyGamesPlatform.model.game.Player;
 import pl.srychert.PartyGamesPlatform.model.game.node.NodeOption;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -69,11 +71,13 @@ public class GameRoomService {
 
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            // TODO optional param values in nodeOptions
             NodeOption nodeOption = objectMapper.readValue(textMessageDTO.getJson(), NodeOption.class);
 
-            // TODO
-            gameStateService.callNodeMethod(pin, id, nodeOption);
+            Player player = gameStateService.callNodeMethod(pin, id, nodeOption).orElseThrow(() -> new Exception("no player"));
+
+            System.out.printf("Player hp: %s%nPlayer gold:%d%n", player.getHp(), player.getGold());
+            System.out.printf("Player hp: %s%nPlayer gold:%d%n", GameStateDB.games.get(pin).getPlayers().get(id).getHp(),
+                    GameStateDB.games.get(pin).getPlayers().get(id).getGold());
 
         } catch (JsonProcessingException exception) {
             log.error(exception.getMessage());
@@ -82,6 +86,15 @@ public class GameRoomService {
                     TextMessageDTO.builder()
                             .type(MessageType.ERROR)
                             .content("Bad json")
+                            .sender("SERVER").build());
+        } catch (InvocationTargetException exception) {
+            String errorMessage = exception.getTargetException().getMessage();
+            log.error(errorMessage);
+
+            messages.put(MessageReceiver.PLAYER,
+                    TextMessageDTO.builder()
+                            .type(MessageType.ERROR)
+                            .content(errorMessage)
                             .sender("SERVER").build());
         } catch (Exception exception) {
             log.error(exception.getMessage());

@@ -20,11 +20,16 @@ public class HealNode extends Node {
     }
 
     @NodeOptionMethod
-    public Integer buyHeal(Player player, @VisibleParam Integer gold) throws NotEnoughGoldException {
+    public Player buyHeal(Player player, @VisibleParam Integer gold) throws NotEnoughGoldException {
         if (player.getGold() < gold) {
-            throw new NotEnoughGoldException();
+            throw new NotEnoughGoldException("Not enough gold");
         }
 
-        return ThreadLocalRandom.current().nextInt(gold, gold + 3);
+        Integer hpToHeal = ThreadLocalRandom.current().nextInt(gold, gold + 3);
+
+        player.setGold(player.getGold() - gold);
+        player.setHp(player.getHp() + hpToHeal);
+
+        return player;
     }
 }

@@ -11,7 +11,6 @@ import pl.srychert.PartyGamesPlatform.model.game.node.*;
 import pl.srychert.PartyGamesPlatform.repository.GameRepository;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.*;
@@ -92,8 +91,9 @@ public class GameStateService {
         Player player = Player.builder()
                 .id(playerId)
                 .nick(nick)
-                .options(getNodeOptions(game.getGameId(), 3))
-                .currentNode(3)
+                // TODO bring back defaults
+                .options(getNodeOptions(game.getGameId(), 4))
+                .currentNode(4)
                 .gold(20)
                 .build();
 
@@ -161,11 +161,31 @@ public class GameStateService {
         return Optional.empty();
     }
 
-    public void callNodeMethod(String pin, String playerId, NodeOption nodeOption) throws
-            InvocationTargetException, IllegalAccessException {
+    private Class<? extends Node> getNodeClass(NodeType nodeType) throws Exception {
+        switch (nodeType) {
+            case SKIP -> {
+                return SkipNode.class;
+            }
+            case HEAL -> {
+                return HealNode.class;
+            }
+            case MERCHANT -> {
+                return MerchantNode.class;
+            }
+            case FIGHT -> {
+                return FightNode.class;
+            }
+            default -> {
+                throw new Exception(String.format("No class for NodeType %s", nodeType.toString()));
+            }
+        }
+    }
+
+    public Optional<Player> callNodeMethod(String pin, String playerId, NodeOption nodeOption) throws
+            Exception {
         GameState gameState = GameStateDB.games.get(pin);
 
-        if (gameState == null) return;
+        if (gameState == null) return Optional.empty();
 
         Player player = gameState.getPlayers().get(playerId);
 
@@ -173,7 +193,7 @@ public class GameStateService {
 
         Optional<Game> gameOpt = gameRepository.findById(gameState.getGameId());
 
-        if (gameOpt.isEmpty()) return;
+        if (gameOpt.isEmpty()) return Optional.empty();
 
         Game game = gameOpt.get();
 
@@ -183,6 +203,9 @@ public class GameStateService {
 
         String methodName = nodeOption.getName();
 
+        System.out.println(methodName);
+
+        // not being used right now but could be useful when casting arguments
         var parameterTypes = nodeOption.getParameters().stream()
                 .map(customParameter -> {
                     try {
@@ -198,24 +221,37 @@ public class GameStateService {
 
         System.out.println(arguments);
 
-        switch (nodeType) {
-            case SKIP -> ((SkipNode) node).skip();
-            case HEAL -> {
-                Optional<Method> methodOpt = getFirstMethodByName(HealNode.class.getMethods(), methodName);
-                if (methodOpt.isEmpty()) return;
-                Method method = methodOpt.get();
+        Optional<Method> methodOpt = getFirstMethodByName(getNodeClass(nodeType).getMethods(), methodName);
+        if (methodOpt.isEmpty()) return Optional.empty();
+        Method method = methodOpt.get();
 
-                // Kinda bad
+        switch (nodeType) {
+            case SKIP -> {
+                return Optional.ofNullable(((SkipNode) node).skip(player));
+            }
+            case HEAL -> {
                 if (methodName.equals("buyHeal")) {
                     Integer gold = (Integer) arguments.get(0);
-                    var result = method.invoke(node, player, gold);
-                    System.out.println(result);
+                    var result = (Player) method.invoke(node, player, gold);
+                    return Optional.ofNullable(result);
                 }
-
-                // TODO resolve wrong argument types
-                var result = method.invoke(node, player, arguments);
-                System.out.println(result);
+            }
+            case MERCHANT -> {
+                if (methodName.equals("buyItem")) {
+                    String itemId = (String) arguments.get(0);
+                    var result = (Player) method.invoke(node, player, itemId);
+                    return Optional.ofNullable(result);
+                }
+            }
+            case FIGHT -> {
+                if (methodName.equals("fight")) {
+                    // TODO return info about enemy and fight state
+                    var result = (Player) method.invoke(node, player);
+                    return Optional.ofNullable(result);
+                }
             }
         }
+
+        return Optional.empty();
     }
 }

@@ -33,20 +33,21 @@ public class MerchantNode extends Node {
     private List<Item> itemsList = new ArrayList<>();
 
     @NodeOptionMethod
-    public Item buyItem(Player player, @VisibleParam String itemId) throws Exception {
+    public Player buyItem(Player player, @VisibleParam String itemId) throws Exception {
         Item item = items.get(itemId);
 
         if (item == null) {
-            throw new ItemNotPresentException(String.format("Item of id %s not present", itemId.toString()));
+            throw new ItemNotPresentException(String.format("Item of id %s not present", itemId));
         }
 
         if (item.getCost() > player.getGold()) {
-            throw new ItemTooExpensiveException();
+            throw new ItemTooExpensiveException("Item too expensive");
         }
 
         player.setGold(player.getGold() - item.getCost());
+        player.addItem(item);
 
-        return item;
+        return player;
     }
 
     public MerchantNode() {
