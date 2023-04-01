@@ -15,8 +15,11 @@ import java.util.concurrent.ThreadLocalRandom;
 @AllArgsConstructor
 public class HealNode extends Node {
     @NodeOptionMethod
-    public Integer freeHeal() {
-        return 2;
+    public Player freeHeal(Player player) {
+        player.setHp(player.getHp() + 2);
+        player.setCurrentRoundCompleted(true);
+
+        return player;
     }
 
     @NodeOptionMethod
@@ -29,6 +32,7 @@ public class HealNode extends Node {
 
         player.setGold(player.getGold() - gold);
         player.setHp(player.getHp() + hpToHeal);
+        player.setCurrentRoundCompleted(true);
 
         return player;
     }

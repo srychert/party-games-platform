@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.srychert.PartyGamesPlatform.GameStateDB;
 import pl.srychert.PartyGamesPlatform.enums.MessageReceiver;
 import pl.srychert.PartyGamesPlatform.enums.MessageType;
 import pl.srychert.PartyGamesPlatform.model.TextMessageDTO;
@@ -30,6 +29,7 @@ public class GameRoomService {
             case JOIN -> handleJoin(id, textMessageDTO, pin);
             case PLAY -> handlePlay(id, textMessageDTO, pin);
             case NODE_OPTION -> handleNodeOption(id, textMessageDTO, pin);
+            case NEXT_NODE -> handleNextNode(id, textMessageDTO, pin);
             default -> new HashMap<>();
         };
     }
@@ -68,6 +68,25 @@ public class GameRoomService {
 
     private Map<MessageReceiver, TextMessageDTO> handleNodeOption(String id, TextMessageDTO textMessageDTO, String pin) {
         Map<MessageReceiver, TextMessageDTO> messages = new HashMap<>();
+        Optional<Player> playerOpt = gameStateService.getPlayer(pin, id);
+
+        if (!gameStateService.isGameOngoing(pin)) {
+            return messages;
+        }
+
+        if (playerOpt.isEmpty()) {
+            messages.put(MessageReceiver.PLAYER,
+                    TextMessageDTO.builder()
+                            .type(MessageType.ERROR)
+                            .content(String.format("No player with id %s", id))
+                            .sender("SERVER").build());
+            return messages;
+        }
+
+        // Message not needed
+        if (playerOpt.get().getCurrentRoundCompleted()) {
+            return messages;
+        }
 
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -75,9 +94,11 @@ public class GameRoomService {
 
             Player player = gameStateService.callNodeMethod(pin, id, nodeOption).orElseThrow(() -> new Exception("no player"));
 
-            System.out.printf("Player hp: %s%nPlayer gold:%d%n", player.getHp(), player.getGold());
-            System.out.printf("Player hp: %s%nPlayer gold:%d%n", GameStateDB.games.get(pin).getPlayers().get(id).getHp(),
-                    GameStateDB.games.get(pin).getPlayers().get(id).getGold());
+            messages.put(MessageReceiver.PLAYER,
+                    TextMessageDTO.builder()
+                            .type(MessageType.ANSWER)
+                            .json(new JSONObject(player).toString())
+                            .sender("SERVER").build());
 
         } catch (JsonProcessingException exception) {
             log.error(exception.getMessage());
@@ -104,6 +125,15 @@ public class GameRoomService {
                             .type(MessageType.ERROR)
                             .sender("SERVER").build());
         }
+
+        return messages;
+    }
+
+    // TODO
+    private Map<MessageReceiver, TextMessageDTO> handleNextNode(String id, TextMessageDTO textMessageDTO, String pin) {
+        Map<MessageReceiver, TextMessageDTO> messages = new HashMap<>();
+        Optional<Player> playerOpt = gameStateService.getPlayer(pin, id);
+
 
         return messages;
     }

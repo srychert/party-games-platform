@@ -181,6 +181,24 @@ public class GameStateService {
         }
     }
 
+    public Boolean isGameOngoing(String pin) {
+        GameState gameState = GameStateDB.games.get(pin);
+
+        if (gameState == null) return false;
+
+        return gameState.getOnGoing();
+    }
+
+    public Optional<Player> getPlayer(String pin, String playerId) {
+        GameState gameState = GameStateDB.games.get(pin);
+
+        if (gameState == null) return Optional.empty();
+
+        Player player = gameState.getPlayers().get(playerId);
+
+        return Optional.ofNullable(player);
+    }
+
     public Optional<Player> callNodeMethod(String pin, String playerId, NodeOption nodeOption) throws
             Exception {
         GameState gameState = GameStateDB.games.get(pin);

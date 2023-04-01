@@ -47,6 +47,8 @@ public class MerchantNode extends Node {
         player.setGold(player.getGold() - item.getCost());
         player.addItem(item);
 
+        player.setCurrentRoundCompleted(true);
+
         return player;
     }
 

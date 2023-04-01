@@ -10,6 +10,7 @@ public class SkipNode extends Node {
 
     @NodeOptionMethod
     public Player skip(Player player) {
+        player.setCurrentRoundCompleted(true);
         return player;
     }
 }

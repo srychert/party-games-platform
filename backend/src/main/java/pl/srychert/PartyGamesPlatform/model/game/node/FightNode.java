@@ -52,5 +52,11 @@ public class FightNode extends Node {
 
         player.setGold(player.getGold() + gold);
         player.getItems().putAll(itemsMap);
+        player.setCurrentRoundCompleted(true);
+    }
+
+    // TODO implement
+    private void handlePlayerDeath(Player player) {
+
     }
 }
