@@ -1,5 +1,6 @@
 package pl.srychert.PartyGamesPlatform.service.game;
 
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class GameRoomHostService {
     @Autowired
@@ -98,22 +100,42 @@ public class GameRoomHostService {
     private Map<MessageReceiver, TextMessageDTO> handleNextRound(String id, TextMessageDTO textMessageDTO, String pin) {
         Map<MessageReceiver, TextMessageDTO> messages = new HashMap<>();
 
-        // TODO next round logic and game ending
         JSONObject jsonObject = new JSONObject();
 
-        TextMessageDTO nextRoundMsg = TextMessageDTO.builder()
-                .type(MessageType.NEXT_ROUND)
-                .json(jsonObject.toString())
+        try {
+            Map<String, List<JSONObject>> playersOptions = gameStateService.handleNextRound(pin);
+
+            TextMessageDTO nextRoundMsg = TextMessageDTO.builder()
+                    .type(MessageType.NEXT_ROUND)
+                    .json(jsonObject.put("playersOptions", new JSONObject(playersOptions)).toString())
+                    .sender("SERVER").build();
+
+            messages.put(MessageReceiver.ROOM, nextRoundMsg);
+
+        } catch (Exception exception) {
+            log.error(exception.getMessage());
+
+            messages.put(MessageReceiver.HOST,
+                    TextMessageDTO.builder()
+                            .type(MessageType.ERROR)
+                            .content(exception.getMessage())
+                            .sender("SERVER").build());
+        }
+
+        return messages;
+    }
+
+    // TODO
+    private Map<MessageReceiver, TextMessageDTO> handleGameEnd(String id, TextMessageDTO textMessageDTO, String pin) {
+        Map<MessageReceiver, TextMessageDTO> messages = new HashMap<>();
+
+        JSONObject jsonObject = new JSONObject();
+
+        TextMessageDTO gameEndMsg = TextMessageDTO.builder()
+                .type(MessageType.END_GAME)
                 .sender("SERVER").build();
 
-        TextMessageDTO gameEndedMsg = TextMessageDTO.builder()
-                .type(MessageType.ENDED)
-                .json(jsonObject.toString())
-                .sender("SERVER").build();
-
-
-        messages.put(MessageReceiver.HOST, nextRoundMsg);
-
+        messages.put(MessageReceiver.ROOM, gameEndMsg);
         return messages;
     }
 }

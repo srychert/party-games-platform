@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.json.JSONObject;
 import pl.srychert.PartyGamesPlatform.exception.item.ItemNotPresentException;
 import pl.srychert.PartyGamesPlatform.exception.item.ItemTooExpensiveException;
 import pl.srychert.PartyGamesPlatform.model.game.Player;
@@ -33,7 +34,8 @@ public class MerchantNode extends Node {
     private List<Item> itemsList = new ArrayList<>();
 
     @NodeOptionMethod
-    public Player buyItem(Player player, @VisibleParam String itemId) throws Exception {
+    public JSONObject buyItem(Player player, @VisibleParam String itemId) throws Exception {
+        JSONObject answer = new JSONObject();
         Item item = items.get(itemId);
 
         if (item == null) {
@@ -46,10 +48,10 @@ public class MerchantNode extends Node {
 
         player.setGold(player.getGold() - item.getCost());
         player.addItem(item);
-
         player.setCurrentRoundCompleted(true);
 
-        return player;
+        answer.put("player", new JSONObject(player));
+        return answer;
     }
 
     public MerchantNode() {

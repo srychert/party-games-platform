@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.json.JSONObject;
 import pl.srychert.PartyGamesPlatform.model.game.Player;
 import pl.srychert.PartyGamesPlatform.model.game.enemy.Enemy;
 import pl.srychert.PartyGamesPlatform.model.game.item.Item;
@@ -24,7 +25,9 @@ public class FightNode extends Node {
     // TODO better method
     // This is a placeholder
     @NodeOptionMethod
-    public Player fight(Player player) {
+    public JSONObject fight(Player player) {
+        JSONObject answer = new JSONObject();
+
         if (player.getSpeed() >= enemy.getSpeed()) {
             enemy.setHp(enemy.getHp() - player.getAtk());
             if (enemy.getHp() <= 0) {
@@ -32,7 +35,8 @@ public class FightNode extends Node {
             }
 
             player.setHp(player.getHp() - enemy.getAtk());
-            return player;
+            answer.put("player", new JSONObject(player));
+            return answer;
         }
 
         player.setHp(player.getHp() - enemy.getAtk());
@@ -42,7 +46,8 @@ public class FightNode extends Node {
             handleEnemyDeath(player);
         }
 
-        return player;
+        answer.put("player", new JSONObject(player));
+        return answer;
     }
 
     private void handleEnemyDeath(Player player) {

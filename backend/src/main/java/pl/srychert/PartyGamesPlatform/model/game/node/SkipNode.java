@@ -2,6 +2,7 @@ package pl.srychert.PartyGamesPlatform.model.game.node;
 
 import lombok.AllArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.json.JSONObject;
 import pl.srychert.PartyGamesPlatform.model.game.Player;
 
 @SuperBuilder
@@ -9,8 +10,12 @@ import pl.srychert.PartyGamesPlatform.model.game.Player;
 public class SkipNode extends Node {
 
     @NodeOptionMethod
-    public Player skip(Player player) {
+    public JSONObject skip(Player player) {
+        JSONObject answer = new JSONObject();
+
         player.setCurrentRoundCompleted(true);
-        return player;
+
+        answer.put("player", new JSONObject(player));
+        return answer;
     }
 }

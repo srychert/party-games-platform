@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.srychert.PartyGamesPlatform.enums.MessageReceiver;
 import pl.srychert.PartyGamesPlatform.enums.MessageType;
+import pl.srychert.PartyGamesPlatform.exception.NodeOptionProcessingException;
 import pl.srychert.PartyGamesPlatform.model.TextMessageDTO;
 import pl.srychert.PartyGamesPlatform.model.game.Player;
 import pl.srychert.PartyGamesPlatform.model.game.node.NodeOption;
@@ -40,14 +41,11 @@ public class GameRoomService {
         Optional<Player> playerOptional = gameStateService.joinPlayer(pin, id, textMessageDTO.getSender());
 
         if (playerOptional.isEmpty()) {
-            messages.put(MessageReceiver.PLAYER, TextMessageDTO.builder()
-                    .type(MessageType.NO_ROOM)
-                    .sender("SERVER").build());
+            addErrorMessageForPlayer(messages, "Join failed");
             return messages;
         }
 
         Player player = playerOptional.get();
-
         JSONObject playerJson = new JSONObject(player);
 
         TextMessageDTO joined = TextMessageDTO.builder()
@@ -68,23 +66,21 @@ public class GameRoomService {
 
     private Map<MessageReceiver, TextMessageDTO> handleNodeOption(String id, TextMessageDTO textMessageDTO, String pin) {
         Map<MessageReceiver, TextMessageDTO> messages = new HashMap<>();
-        Optional<Player> playerOpt = gameStateService.getPlayer(pin, id);
 
         if (!gameStateService.isGameOngoing(pin)) {
+            addErrorMessageForPlayer(messages, "Game is not ongoing");
             return messages;
         }
+
+        Optional<Player> playerOpt = gameStateService.getPlayer(pin, id);
 
         if (playerOpt.isEmpty()) {
-            messages.put(MessageReceiver.PLAYER,
-                    TextMessageDTO.builder()
-                            .type(MessageType.ERROR)
-                            .content(String.format("No player with id %s", id))
-                            .sender("SERVER").build());
+            addErrorMessageForPlayer(messages, String.format("No player with id %s", id));
             return messages;
         }
 
-        // Message not needed
         if (playerOpt.get().getCurrentRoundCompleted()) {
+            addErrorMessageForPlayer(messages, "Current round already completed");
             return messages;
         }
 
@@ -92,38 +88,31 @@ public class GameRoomService {
             ObjectMapper objectMapper = new ObjectMapper();
             NodeOption nodeOption = objectMapper.readValue(textMessageDTO.getJson(), NodeOption.class);
 
-            Player player = gameStateService.callNodeMethod(pin, id, nodeOption).orElseThrow(() -> new Exception("no player"));
+            JSONObject answer = gameStateService.callNodeMethod(pin, id, nodeOption);
 
             messages.put(MessageReceiver.PLAYER,
                     TextMessageDTO.builder()
                             .type(MessageType.ANSWER)
-                            .json(new JSONObject(player).toString())
+                            .json(answer.toString())
                             .sender("SERVER").build());
 
         } catch (JsonProcessingException exception) {
             log.error(exception.getMessage());
 
-            messages.put(MessageReceiver.PLAYER,
-                    TextMessageDTO.builder()
-                            .type(MessageType.ERROR)
-                            .content("Bad json")
-                            .sender("SERVER").build());
+            addErrorMessageForPlayer(messages, "Bad json");
+        } catch (NodeOptionProcessingException exception) {
+            log.error(exception.getMessage());
+
+            addErrorMessageForPlayer(messages, exception.getMessage());
         } catch (InvocationTargetException exception) {
             String errorMessage = exception.getTargetException().getMessage();
             log.error(errorMessage);
 
-            messages.put(MessageReceiver.PLAYER,
-                    TextMessageDTO.builder()
-                            .type(MessageType.ERROR)
-                            .content(errorMessage)
-                            .sender("SERVER").build());
+            addErrorMessageForPlayer(messages, errorMessage);
         } catch (Exception exception) {
             log.error(exception.getMessage());
 
-            messages.put(MessageReceiver.PLAYER,
-                    TextMessageDTO.builder()
-                            .type(MessageType.ERROR)
-                            .sender("SERVER").build());
+            addErrorMessageForPlayer(messages);
         }
 
         return messages;
@@ -136,5 +125,20 @@ public class GameRoomService {
 
 
         return messages;
+    }
+
+    private void addErrorMessageForPlayer(Map<MessageReceiver, TextMessageDTO> messages, String content) {
+        messages.put(MessageReceiver.PLAYER,
+                TextMessageDTO.builder()
+                        .type(MessageType.ERROR)
+                        .content(content)
+                        .sender("SERVER").build());
+    }
+
+    private void addErrorMessageForPlayer(Map<MessageReceiver, TextMessageDTO> messages) {
+        messages.put(MessageReceiver.PLAYER,
+                TextMessageDTO.builder()
+                        .type(MessageType.ERROR)
+                        .sender("SERVER").build());
     }
 }

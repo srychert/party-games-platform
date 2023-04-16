@@ -1,9 +1,12 @@
 package pl.srychert.PartyGamesPlatform.service.game;
 
+import jakarta.validation.Valid;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.srychert.PartyGamesPlatform.GameStateDB;
 import pl.srychert.PartyGamesPlatform.enums.NodeType;
+import pl.srychert.PartyGamesPlatform.exception.NodeOptionProcessingException;
 import pl.srychert.PartyGamesPlatform.model.game.Game;
 import pl.srychert.PartyGamesPlatform.model.game.GameState;
 import pl.srychert.PartyGamesPlatform.model.game.Player;
@@ -11,6 +14,7 @@ import pl.srychert.PartyGamesPlatform.model.game.node.*;
 import pl.srychert.PartyGamesPlatform.repository.GameRepository;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.*;
@@ -88,18 +92,21 @@ public class GameStateService {
             return Optional.empty();
         }
 
+        Map<String, Player> players = game.getPlayers();
+
+        if (players.containsKey(playerId)) return Optional.empty();
+
         Player player = Player.builder()
                 .id(playerId)
                 .nick(nick)
-                // TODO bring back defaults
-                .options(getNodeOptions(game.getGameId(), 4))
-                .currentNode(4)
+                .options(getNodeOptions(game.getGameId(), 0))
+                .currentNode(0)
                 .gold(20)
                 .build();
 
-        game.getPlayers().put(playerId, player);
+        players.put(playerId, player);
 
-        return Optional.ofNullable(player);
+        return Optional.of(player);
     }
 
     public List<NodeOption> getNodeOptions(String gameId, Integer nodeId) {
@@ -153,7 +160,6 @@ public class GameStateService {
     private Optional<Method> getFirstMethodByName(Method[] allMethods, String methodName) {
         for (Method m : allMethods) {
             if (m.getName().equals(methodName)) {
-                System.out.println(m);
                 return Optional.of(m);
             }
         }
@@ -161,7 +167,7 @@ public class GameStateService {
         return Optional.empty();
     }
 
-    private Class<? extends Node> getNodeClass(NodeType nodeType) throws Exception {
+    private Class<? extends Node> getNodeClass(NodeType nodeType) throws NodeOptionProcessingException {
         switch (nodeType) {
             case SKIP -> {
                 return SkipNode.class;
@@ -176,7 +182,7 @@ public class GameStateService {
                 return FightNode.class;
             }
             default -> {
-                throw new Exception(String.format("No class for NodeType %s", nodeType.toString()));
+                throw new NodeOptionProcessingException(String.format("No class for NodeType %s", nodeType.toString()));
             }
         }
     }
@@ -199,77 +205,58 @@ public class GameStateService {
         return Optional.ofNullable(player);
     }
 
-    public Optional<Player> callNodeMethod(String pin, String playerId, NodeOption nodeOption) throws
-            Exception {
-        GameState gameState = GameStateDB.games.get(pin);
+    public JSONObject callNodeMethod(String pin, String playerId, NodeOption nodeOption)
+            throws NodeOptionProcessingException, InvocationTargetException, IllegalAccessException {
 
-        if (gameState == null) return Optional.empty();
+        GameState gameState = Optional.ofNullable(GameStateDB.games.get(pin)).orElseThrow(
+                () -> new NodeOptionProcessingException(String.format("No game with pin %s", pin)));
 
         Player player = gameState.getPlayers().get(playerId);
 
-        Integer nodeID = player.getCurrentNode();
+        Game game = gameRepository.findById(gameState.getGameId()).orElseThrow(
+                () -> new NodeOptionProcessingException(String.format("No game data for id %s", gameState.getGameId())));
 
-        Optional<Game> gameOpt = gameRepository.findById(gameState.getGameId());
+        Node node = game.getNodes().get(player.getCurrentNode());
 
-        if (gameOpt.isEmpty()) return Optional.empty();
-
-        Game game = gameOpt.get();
-
-        Node node = game.getNodes().get(nodeID);
-
-        NodeType nodeType = node.getType();
+        List<Object> arguments = new ArrayList<>(nodeOption.getParameters().stream().map(CustomParameter::getValue).toList());
 
         String methodName = nodeOption.getName();
-
         System.out.println(methodName);
 
-        // not being used right now but could be useful when casting arguments
-        var parameterTypes = nodeOption.getParameters().stream()
-                .map(customParameter -> {
-                    try {
-                        return Class.forName(customParameter.getTypeName());
-                    } catch (ClassNotFoundException e) {
-                        throw new RuntimeException(e);
-                    }
-                }).toList();
+        Method method = getFirstMethodByName(getNodeClass(node.getType()).getMethods(), methodName).orElseThrow(() ->
+                new NodeOptionProcessingException(String.format("Method with name '%s' not found on current node", methodName)));
 
-        System.out.println(parameterTypes);
+        arguments.add(0, player);
+        return (JSONObject) method.invoke(node, arguments.toArray(new Object[0]));
+    }
 
-        List<Object> arguments = nodeOption.getParameters().stream().map(CustomParameter::getValue).toList();
+    public Map<String, List<JSONObject>> handleNextRound(String pin) throws Exception {
+        GameState gameState = Optional.ofNullable(GameStateDB.games.get(pin)).orElseThrow(
+                () -> new Exception(String.format("No game with pin %s", pin)));
 
-        System.out.println(arguments);
+        Game game = gameRepository.findById(gameState.getGameId()).orElseThrow(
+                () -> new NodeOptionProcessingException(String.format("No game data for id %s", gameState.getGameId())));
 
-        Optional<Method> methodOpt = getFirstMethodByName(getNodeClass(nodeType).getMethods(), methodName);
-        if (methodOpt.isEmpty()) return Optional.empty();
-        Method method = methodOpt.get();
+        Map<String, Player> players = gameState.getPlayers();
 
-        switch (nodeType) {
-            case SKIP -> {
-                return Optional.ofNullable(((SkipNode) node).skip(player));
-            }
-            case HEAL -> {
-                if (methodName.equals("buyHeal")) {
-                    Integer gold = (Integer) arguments.get(0);
-                    var result = (Player) method.invoke(node, player, gold);
-                    return Optional.ofNullable(result);
-                }
-            }
-            case MERCHANT -> {
-                if (methodName.equals("buyItem")) {
-                    String itemId = (String) arguments.get(0);
-                    var result = (Player) method.invoke(node, player, itemId);
-                    return Optional.ofNullable(result);
-                }
-            }
-            case FIGHT -> {
-                if (methodName.equals("fight")) {
-                    // TODO return info about enemy and fight state
-                    var result = (Player) method.invoke(node, player);
-                    return Optional.ofNullable(result);
-                }
-            }
+        Map<String, List<JSONObject>> nextNodesForPlayers = new HashMap<>();
+
+        for (Map.Entry<String, Player> entry : players.entrySet()) {
+            Player player = entry.getValue();
+
+            Node node = game.getNodes().get(player.getCurrentNode());
+
+            var nodesForPlayer = node.getNextNodesID().stream().map(integer -> {
+                @Valid Node nextNode = game.getNodes().get(integer);
+                return new JSONObject().put("id", nextNode.getId()).put("type", nextNode.getType());
+            }).toList();
+
+            nextNodesForPlayers.put(player.getId(), nodesForPlayer);
+
+            // TODO set flag to enable next node choosing
+            player.setCurrentRoundCompleted(false);
         }
 
-        return Optional.empty();
+        return nextNodesForPlayers;
     }
 }

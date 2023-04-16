@@ -1,9 +1,11 @@
 package pl.srychert.PartyGamesPlatform.model.game.node;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.json.JSONObject;
 import pl.srychert.PartyGamesPlatform.exception.general.NotEnoughGoldException;
 import pl.srychert.PartyGamesPlatform.model.game.Player;
 
@@ -14,16 +16,24 @@ import java.util.concurrent.ThreadLocalRandom;
 @SuperBuilder
 @AllArgsConstructor
 public class HealNode extends Node {
+    @Builder.Default
+    private Integer baseHeal = 2;
+
     @NodeOptionMethod
-    public Player freeHeal(Player player) {
-        player.setHp(player.getHp() + 2);
+    public JSONObject freeHeal(Player player) {
+        JSONObject answer = new JSONObject();
+
+        player.setHp(player.getHp() + baseHeal);
         player.setCurrentRoundCompleted(true);
 
-        return player;
+        answer.put("player", new JSONObject(player));
+        return answer;
     }
 
     @NodeOptionMethod
-    public Player buyHeal(Player player, @VisibleParam Integer gold) throws NotEnoughGoldException {
+    public JSONObject buyHeal(Player player, @VisibleParam Integer gold) throws NotEnoughGoldException {
+        JSONObject answer = new JSONObject();
+
         if (player.getGold() < gold) {
             throw new NotEnoughGoldException("Not enough gold");
         }
@@ -34,6 +44,11 @@ public class HealNode extends Node {
         player.setHp(player.getHp() + hpToHeal);
         player.setCurrentRoundCompleted(true);
 
-        return player;
+        answer.put("player", new JSONObject(player));
+        return answer;
+    }
+
+    public HealNode() {
+
     }
 }
