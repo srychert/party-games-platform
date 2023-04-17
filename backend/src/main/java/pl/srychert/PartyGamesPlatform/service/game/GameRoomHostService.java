@@ -8,6 +8,7 @@ import pl.srychert.PartyGamesPlatform.enums.MessageReceiver;
 import pl.srychert.PartyGamesPlatform.enums.MessageType;
 import pl.srychert.PartyGamesPlatform.model.TextMessageDTO;
 import pl.srychert.PartyGamesPlatform.model.game.GameState;
+import pl.srychert.PartyGamesPlatform.model.game.Player;
 import pl.srychert.PartyGamesPlatform.model.game.node.NodeOption;
 
 import java.util.HashMap;
@@ -27,6 +28,7 @@ public class GameRoomHostService {
             case CREATE_ROOM -> handleCreateRoom(id, textMessageDTO);
             case START_GAME -> handleStartGame(id, textMessageDTO, pin);
             case NEXT_ROUND -> handleNextRound(id, textMessageDTO, pin);
+            case END_GAME -> handleGameEnd(id, textMessageDTO, pin);
             default -> new HashMap<>();
         };
     }
@@ -112,6 +114,12 @@ public class GameRoomHostService {
 
             messages.put(MessageReceiver.ROOM, nextRoundMsg);
 
+        } catch (RuntimeException exception) {
+            messages.put(MessageReceiver.ROOM,
+                    TextMessageDTO.builder()
+                            .type(MessageType.ENDED)
+                            .json(new JSONObject().put("players", new JSONObject(exception.getMessage())).toString())
+                            .sender("SERVER").build());
         } catch (Exception exception) {
             log.error(exception.getMessage());
 
@@ -125,17 +133,31 @@ public class GameRoomHostService {
         return messages;
     }
 
-    // TODO
     private Map<MessageReceiver, TextMessageDTO> handleGameEnd(String id, TextMessageDTO textMessageDTO, String pin) {
         Map<MessageReceiver, TextMessageDTO> messages = new HashMap<>();
 
         JSONObject jsonObject = new JSONObject();
 
-        TextMessageDTO gameEndMsg = TextMessageDTO.builder()
-                .type(MessageType.END_GAME)
-                .sender("SERVER").build();
+        try {
+            Map<String, Player> players = gameStateService.endGame(id, pin);
 
-        messages.put(MessageReceiver.ROOM, gameEndMsg);
+            TextMessageDTO gameEndMsg = TextMessageDTO.builder()
+                    .type(MessageType.ENDED)
+                    .json(new JSONObject().put("players", new JSONObject(players)).toString())
+                    .sender("SERVER").build();
+
+            messages.put(MessageReceiver.ROOM, gameEndMsg);
+
+        } catch (Exception exception) {
+            log.error(exception.getMessage());
+
+            messages.put(MessageReceiver.HOST,
+                    TextMessageDTO.builder()
+                            .type(MessageType.ERROR)
+                            .content(exception.getMessage())
+                            .sender("SERVER").build());
+        }
+
         return messages;
     }
 }

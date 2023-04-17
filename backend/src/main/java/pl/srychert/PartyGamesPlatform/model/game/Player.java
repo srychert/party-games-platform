@@ -9,7 +9,7 @@ import java.util.*;
 
 @Data
 @Builder
-public class Player {
+public class Player implements Comparable<Player> {
     private String id;
     private String nick;
     @Builder.Default
@@ -35,6 +35,8 @@ public class Player {
     private List<NodeOption> options = new ArrayList<>();
     @Builder.Default
     private Map<Integer, List<NodeOption>> history = new HashMap<>();
+    @Builder.Default
+    private Boolean gameEnded = false;
 
     public void addItem(Item item) {
         items.put(item.getId(), item);
@@ -44,4 +46,8 @@ public class Player {
         items.remove(itemId);
     }
 
+    @Override
+    public int compareTo(Player p) {
+        return this.getGold() - p.getGold();
+    }
 }

@@ -229,15 +229,21 @@ public class GameStateService {
 
     public Map<String, List<JSONObject>> handleNextRound(String pin) throws Exception {
         GameState gameState = getGameStateOrThrow(pin);
+
+        if (!gameState.getOnGoing()) {
+            throw new Exception("Game is not ongoing");
+        }
+
         Game game = getGameOrThrow(gameState);
 
         Map<String, Player> players = gameState.getPlayers();
 
         Map<String, List<JSONObject>> nextNodesForPlayers = new HashMap<>();
 
+        int numberOfPlayersWithFinishedGames = 0;
+
         for (Map.Entry<String, Player> entry : players.entrySet()) {
             Player player = entry.getValue();
-
             Node node = game.getNodes().get(player.getCurrentNode());
 
             var nodesForPlayer = node.getNextNodesID().stream().map(integer -> {
@@ -246,10 +252,21 @@ public class GameStateService {
             }).toList();
 
             nextNodesForPlayers.put(player.getId(), nodesForPlayer);
+            player.setAvailableNodes(node.getNextNodesID());
+
+            if (nodesForPlayer.size() == 0) {
+                player.setGameEnded(true);
+                numberOfPlayersWithFinishedGames++;
+                continue;
+            }
 
             player.setCurrentRoundCompleted(false);
             player.setCanChooseNode(true);
-            player.setAvailableNodes(node.getNextNodesID());
+        }
+
+        if (numberOfPlayersWithFinishedGames == players.size()) {
+            Map<String, Player> playersFinal = endGame(game.getId(), pin);
+            throw new RuntimeException(new JSONObject(playersFinal).toString());
         }
 
         return nextNodesForPlayers;
@@ -275,6 +292,7 @@ public class GameStateService {
             player.setCanChooseNode(false);
 
             answer.put("player", new JSONObject(player));
+            answer.put("node", new JSONObject(game.getNodes().get(nextNodeId)));
 
             return answer;
 
@@ -291,5 +309,15 @@ public class GameStateService {
     private Game getGameOrThrow(GameState gameState) throws NodeOptionProcessingException {
         return gameRepository.findById(gameState.getGameId()).orElseThrow(
                 () -> new NodeOptionProcessingException(String.format("No game data for id %s", gameState.getGameId())));
+    }
+
+    public Map<String, Player> endGame(String id, String pin) throws NodeOptionProcessingException {
+        GameState gameState = getGameStateOrThrow(pin);
+        Map<String, Player> players = gameState.getPlayers();
+
+        gameState.setOnGoing(false);
+
+        // sorting final map by players gold
+        return new TreeMap<>(players);
     }
 }
