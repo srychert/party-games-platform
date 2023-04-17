@@ -208,13 +208,10 @@ public class GameStateService {
     public JSONObject callNodeMethod(String pin, String playerId, NodeOption nodeOption)
             throws NodeOptionProcessingException, InvocationTargetException, IllegalAccessException {
 
-        GameState gameState = Optional.ofNullable(GameStateDB.games.get(pin)).orElseThrow(
-                () -> new NodeOptionProcessingException(String.format("No game with pin %s", pin)));
+        GameState gameState = getGameStateOrThrow(pin);
+        Game game = getGameOrThrow(gameState);
 
         Player player = gameState.getPlayers().get(playerId);
-
-        Game game = gameRepository.findById(gameState.getGameId()).orElseThrow(
-                () -> new NodeOptionProcessingException(String.format("No game data for id %s", gameState.getGameId())));
 
         Node node = game.getNodes().get(player.getCurrentNode());
 
@@ -231,11 +228,8 @@ public class GameStateService {
     }
 
     public Map<String, List<JSONObject>> handleNextRound(String pin) throws Exception {
-        GameState gameState = Optional.ofNullable(GameStateDB.games.get(pin)).orElseThrow(
-                () -> new Exception(String.format("No game with pin %s", pin)));
-
-        Game game = gameRepository.findById(gameState.getGameId()).orElseThrow(
-                () -> new NodeOptionProcessingException(String.format("No game data for id %s", gameState.getGameId())));
+        GameState gameState = getGameStateOrThrow(pin);
+        Game game = getGameOrThrow(gameState);
 
         Map<String, Player> players = gameState.getPlayers();
 
@@ -253,10 +247,49 @@ public class GameStateService {
 
             nextNodesForPlayers.put(player.getId(), nodesForPlayer);
 
-            // TODO set flag to enable next node choosing
             player.setCurrentRoundCompleted(false);
+            player.setCanChooseNode(true);
+            player.setAvailableNodes(node.getNextNodesID());
         }
 
         return nextNodesForPlayers;
+    }
+
+    public JSONObject handleChooseNode(Player player, String content, String pin) throws Exception {
+        GameState gameState = getGameStateOrThrow(pin);
+        Game game = getGameOrThrow(gameState);
+
+        JSONObject answer = new JSONObject();
+
+        try {
+            int nextNodeId = Integer.parseInt(content);
+
+            if (!player.getAvailableNodes().contains(nextNodeId)) {
+                throw new Exception(String.format("Can't choose this Node with id %d", nextNodeId));
+            }
+
+
+            player.setOptions(getNodeOptions(game.getId(), nextNodeId));
+            player.setCurrentNode(nextNodeId);
+            player.setAvailableNodes(new HashSet<>());
+            player.setCanChooseNode(false);
+
+            answer.put("player", new JSONObject(player));
+
+            return answer;
+
+        } catch (NumberFormatException ex) {
+            throw new Exception("Not a valid Node id");
+        }
+    }
+
+    private GameState getGameStateOrThrow(String pin) throws NodeOptionProcessingException {
+        return Optional.ofNullable(GameStateDB.games.get(pin)).orElseThrow(
+                () -> new NodeOptionProcessingException(String.format("No game with pin %s", pin)));
+    }
+
+    private Game getGameOrThrow(GameState gameState) throws NodeOptionProcessingException {
+        return gameRepository.findById(gameState.getGameId()).orElseThrow(
+                () -> new NodeOptionProcessingException(String.format("No game data for id %s", gameState.getGameId())));
     }
 }

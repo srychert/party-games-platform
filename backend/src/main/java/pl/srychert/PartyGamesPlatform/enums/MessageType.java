@@ -1,19 +1,10 @@
 package pl.srychert.PartyGamesPlatform.enums;
 
 public enum MessageType {
-    ANSWERS,
-    RESULT,
-    MESSAGE,
-    CONNECT,
-    DISCONNECT,
-    START_GAME,
-    STARTED,
-    END_GAME,
-    ENDED,
-    JOIN,
-    JOINED,
-    CREATE_ROOM,
-    CREATED,
+    CREATE_ROOM, CREATED,
+    START_GAME, STARTED,
+    JOIN, JOINED,
+    END_GAME, ENDED,
     DUPLICATE_NICK,
     NO_PIN, NO_ROOM,
     NEXT_ROUND,
@@ -21,6 +12,5 @@ public enum MessageType {
     ANSWER,
     NO_GAME, ERROR,
     NODE_OPTION,
-    NEXT_NODE,
-    NEXT_NODE_LIST
+    CHOOSE_NODE
 }

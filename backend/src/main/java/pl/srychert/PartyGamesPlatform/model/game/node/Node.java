@@ -10,8 +10,8 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.UniqueElements;
 import pl.srychert.PartyGamesPlatform.enums.NodeType;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @SuperBuilder
@@ -31,7 +31,7 @@ public abstract class Node {
     private NodeType type;
     @Builder.Default
     @UniqueElements
-    private List<Integer> nextNodesID = new ArrayList<>();
+    private Set<Integer> nextNodesID = new HashSet<>();
 
     public Node() {
 

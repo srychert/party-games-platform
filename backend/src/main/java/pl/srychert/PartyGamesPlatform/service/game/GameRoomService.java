@@ -28,9 +28,8 @@ public class GameRoomService {
     public Map<MessageReceiver, TextMessageDTO> handleMessage(String id, TextMessageDTO textMessageDTO, String pin) {
         return switch (textMessageDTO.getType()) {
             case JOIN -> handleJoin(id, textMessageDTO, pin);
-            case PLAY -> handlePlay(id, textMessageDTO, pin);
             case NODE_OPTION -> handleNodeOption(id, textMessageDTO, pin);
-            case NEXT_NODE -> handleNextNode(id, textMessageDTO, pin);
+            case CHOOSE_NODE -> handleChooseNode(id, textMessageDTO, pin);
             default -> new HashMap<>();
         };
     }
@@ -60,10 +59,6 @@ public class GameRoomService {
         return messages;
     }
 
-    private Map<MessageReceiver, TextMessageDTO> handlePlay(String id, TextMessageDTO textMessageDTO, String pin) {
-        return null;
-    }
-
     private Map<MessageReceiver, TextMessageDTO> handleNodeOption(String id, TextMessageDTO textMessageDTO, String pin) {
         Map<MessageReceiver, TextMessageDTO> messages = new HashMap<>();
 
@@ -81,6 +76,11 @@ public class GameRoomService {
 
         if (playerOpt.get().getCurrentRoundCompleted()) {
             addErrorMessageForPlayer(messages, "Current round already completed");
+            return messages;
+        }
+
+        if (playerOpt.get().getCanChooseNode()) {
+            addErrorMessageForPlayer(messages, "Choose your next node now");
             return messages;
         }
 
@@ -118,15 +118,6 @@ public class GameRoomService {
         return messages;
     }
 
-    // TODO
-    private Map<MessageReceiver, TextMessageDTO> handleNextNode(String id, TextMessageDTO textMessageDTO, String pin) {
-        Map<MessageReceiver, TextMessageDTO> messages = new HashMap<>();
-        Optional<Player> playerOpt = gameStateService.getPlayer(pin, id);
-
-
-        return messages;
-    }
-
     private void addErrorMessageForPlayer(Map<MessageReceiver, TextMessageDTO> messages, String content) {
         messages.put(MessageReceiver.PLAYER,
                 TextMessageDTO.builder()
@@ -140,5 +131,38 @@ public class GameRoomService {
                 TextMessageDTO.builder()
                         .type(MessageType.ERROR)
                         .sender("SERVER").build());
+    }
+
+    private Map<MessageReceiver, TextMessageDTO> handleChooseNode(String id, TextMessageDTO textMessageDTO, String pin) {
+        Map<MessageReceiver, TextMessageDTO> messages = new HashMap<>();
+        Optional<Player> playerOpt = gameStateService.getPlayer(pin, id);
+
+        if (playerOpt.isEmpty()) {
+            addErrorMessageForPlayer(messages, String.format("No player with id %s", id));
+            return messages;
+        }
+
+        if (!playerOpt.get().getCanChooseNode()) {
+            addErrorMessageForPlayer(messages, "Can't choose next node right now");
+            return messages;
+        }
+
+        try {
+            JSONObject answer = gameStateService.handleChooseNode(playerOpt.get(), textMessageDTO.getContent(), pin);
+
+            messages.put(MessageReceiver.PLAYER,
+                    TextMessageDTO.builder()
+                            .type(MessageType.ANSWER)
+                            .json(answer.toString())
+                            .sender("SERVER").build());
+
+        } catch (Exception exception) {
+            log.error(exception.getMessage());
+
+            addErrorMessageForPlayer(messages, exception.getMessage());
+        }
+
+
+        return messages;
     }
 }

@@ -5,10 +5,7 @@ import lombok.Data;
 import pl.srychert.PartyGamesPlatform.model.game.item.Item;
 import pl.srychert.PartyGamesPlatform.model.game.node.NodeOption;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Data
 @Builder
@@ -29,7 +26,11 @@ public class Player {
     @Builder.Default
     private Boolean currentRoundCompleted = false;
     @Builder.Default
+    private Boolean canChooseNode = false;
+    @Builder.Default
     private Integer currentNode = 0;
+    @Builder.Default
+    private Set<Integer> availableNodes = new HashSet<>();
     @Builder.Default
     private List<NodeOption> options = new ArrayList<>();
     @Builder.Default

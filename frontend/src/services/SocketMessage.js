@@ -26,6 +26,7 @@ export const TYPES = {
   PLAY: 'PLAY',
   ANSWERS: 'ANSWERS',
   NODE_OPTION: 'NODE_OPTION',
+  CHOOSE_NODE: 'CHOOSE_NODE',
 
   // common
   STARTED: 'STARTED',
