@@ -19,6 +19,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.security.KeyPair;
@@ -39,6 +40,9 @@ public class SecurityConfiguration {
     private CorsConfigurationSource corsConfigurationSource;
     private final KeyPair keyPair = generateRsaKey();
 
+    @Autowired
+    private TokenFilter tokenFilter;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -54,14 +58,16 @@ public class SecurityConfiguration {
                                             "/*/*.html",
                                             "/*/*.css",
                                             "/*/*.js").permitAll()
-                                    .requestMatchers("/api/v1/users/**").hasAnyAuthority("SCOPE_ADMIN", "SCOPE_USER")
-                                    .requestMatchers("/api/v1/games/**").hasAnyAuthority("SCOPE_ADMIN", "SCOPE_USER")
-                                    .requestMatchers("/api/v1/quizzes/**").hasAnyAuthority("SCOPE_ADMIN", "SCOPE_USER")
-                                    .requestMatchers("/api/v1/token/**", "/game/**", "/quiz/**").permitAll();
-//                                    .anyRequest().authenticated();
+                                    .requestMatchers("/api/v1/users/**").hasAnyAuthority("SCOPE_USER")
+                                    .requestMatchers("/api/v1/games/**").hasAnyAuthority("SCOPE_USER")
+                                    .requestMatchers("/api/v1/quizzes/**").hasAnyAuthority("SCOPE_USER")
+                                    .requestMatchers("/api/v1/auth/**", "/game/**", "/quiz/**").permitAll()
+                                    .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                                    .anyRequest().hasAuthority("SCOPE_ADMIN");
                         }
                 )
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+                .addFilterAfter(tokenFilter, BasicAuthenticationFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(Customizer.withDefaults())
                 .cors().and()
