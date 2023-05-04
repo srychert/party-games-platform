@@ -8,7 +8,7 @@ import NavigationBar from './NavigationBar/NavigationBar';
 function ProfileLayout(props) {
   return (
     <>
-      <NavigationBar profile={true} />
+      <NavigationBar profile={true} showNavbarInit={true} />
       <main className="container flex h-full w-full">
         <Routes>
           <Route path="/" element={<Profile />} />

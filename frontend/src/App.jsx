@@ -7,9 +7,8 @@ import ProtectRoutes from './components/ProtectRoutes/ProtectRoutes';
 import PlayerLayout from './components/PlayerLayout';
 import HostLayout from './components/HostLayout';
 import ProfileLayout from './components/ProfileLayout';
-import Loading from './views/Loading';
-import Error from './views/Error';
 import Game from './views/PlayerViews/Game';
+import Logout from './views/Logout';
 
 function App() {
   return (
@@ -22,6 +21,7 @@ function App() {
           path="/login"
           element={<Login field1="username" field2="password" passtype="password" />}
         />
+        <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<Register />} />
 
         {/* Phone routes */}

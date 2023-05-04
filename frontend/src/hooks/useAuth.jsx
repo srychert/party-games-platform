@@ -9,12 +9,6 @@ export const UserProvider = ({ children }) => {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies();
 
-  const logout = () => {
-    removeCookie('token');
-    removeCookie('user');
-    navigate('/login');
-  };
-
   const setNick = (nick) => {
     setCookie('nick', nick, { path: '/' });
   };
@@ -25,7 +19,6 @@ export const UserProvider = ({ children }) => {
 
   const value = useMemo(
     () => ({
-      logout,
       setNick,
       removeNick,
     }),

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { useAuth } from '../../hooks/useAuth';
 import { IconContext } from 'react-icons';
 import BurgerButton from '../BurgerButton/BurgerButton';
 import switchIcon from './IconMapper';
@@ -13,11 +12,6 @@ function NavigationBar({
   profile = false,
 }) {
   const [showNavbar, setShowNavbar] = useState(showNavbarInit);
-  const auth = useAuth();
-
-  const handleLogout = () => {
-    auth.logout();
-  };
 
   const handelBurgerClick = () => {
     setShowNavbar(!showNavbar);

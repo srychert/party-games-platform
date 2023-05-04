@@ -1,12 +1,9 @@
 import { useState } from 'react';
 import useUser from '../../hooks/UserHooks/useUser';
-import { useAuth } from '../../hooks/useAuth';
 import Loading from '../Loading';
 import { useUpdateUser } from '../../hooks/UserHooks/useUpdateUser';
-import NavigationBar from '../../components/NavigationBar/NavigationBar';
 
 export default function Security() {
-  const { api, logout } = useAuth();
   const { isLoading, isError, data: user, error } = useUser();
 
   const [userName, setUserName] = useState('');
