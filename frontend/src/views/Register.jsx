@@ -1,12 +1,16 @@
 import { useState } from 'react';
-import { useAuth } from '../hooks/useAuth';
+import { useRegister } from '../hooks/useRegister';
+import Loading from './Loading';
+import { useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 
 function Register() {
-  const [UserName, setUserName] = useState('');
-  const [Password, setPassword] = useState('');
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  //   TODO
-  const { register } = useAuth();
+  const [errors, setErrors] = useState({});
+
+  const { mutate, isLoading, isError, isSuccess, error } = useRegister();
 
   const [passtype, setPasstype] = useState('password');
   const switchPasstype = () => {
@@ -16,36 +20,67 @@ function Register() {
       setPasstype('password');
     }
   };
-  const handleSignin = (event) => {
+
+  const handleRegister = (event) => {
     event.preventDefault();
-    console.error('Register not implemented');
-    // register({ UserName, Password, email });
+    mutate({ userName, password, email });
   };
+
+  useEffect(() => {
+    let localErros = {};
+
+    if (error?.response?.data) {
+      localErros.message = error?.response?.data.message;
+    }
+
+    if (error?.response?.data?.detailedMessages) {
+      error.response.data.detailedMessages.forEach((msg) => {
+        if (msg.includes('email')) localErros.email = msg;
+        if (msg.includes('password')) localErros.password = msg;
+        if (msg.includes('userName')) localErros.userName = msg;
+      });
+    }
+
+    setErrors(localErros);
+  }, [error]);
+
+  if (isError) {
+    if (!error?.response?.data) {
+      return <span>{error.message}</span>;
+    }
+  }
+
+  if (isSuccess) {
+    return <Navigate to="/login" state={{ afterRegister: true }} />;
+  }
 
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center">
-      <form onSubmit={(event) => handleSignin(event)} className="form">
+      <form onSubmit={handleRegister} className="form" method="post">
+        <h2 className="text-red-600">{errors.message}</h2>
         <div className="flex flex-col p-2">
-          <label htmlFor="email">E-mail</label>
+          <label htmlFor="email">Email</label>
           <input
             className="form-input"
             type="email"
-            name="username"
+            name="email"
             id="email"
             autoComplete="off"
             onChange={(e) => setEmail(e.target.value)}
           />
+          <span className="text-red-600">{errors.email}</span>
         </div>
         <div className="flex flex-col p-2">
-          <label htmlFor="username">Login</label>
+          <label htmlFor="userName">UserName</label>
           <input
             className="form-input"
             type="text"
-            name="username"
-            id="username"
+            name="userNa"
+            id="userNa"
             autoComplete="off"
             onChange={(e) => setUserName(e.target.value)}
           />
+          <span className="text-red-600">{errors.userName}</span>
         </div>
         <div className="flex flex-col p-2">
           <label htmlFor="password">Password</label>
@@ -57,6 +92,7 @@ function Register() {
             autoComplete="off"
             onChange={(e) => setPassword(e.target.value)}
           />
+          <span className="text-red-600">{errors.password}</span>
           <div className="mt-5">
             <label className="relative inline-flex cursor-pointer items-center">
               <input
@@ -72,10 +108,13 @@ function Register() {
             </label>
           </div>
         </div>
-        <div className="inline">
-          <button type="submit" className="button">
-            Zarejestruj się
-          </button>
+        <div className="grid w-full place-content-center ">
+          {isLoading && <Loading />}
+          {!isLoading && (
+            <button type="submit" className="buttonRegular m-3">
+              Zarejestruj się
+            </button>
+          )}
         </div>
       </form>
     </div>

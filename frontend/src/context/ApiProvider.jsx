@@ -1,31 +1,22 @@
 import axios from 'axios';
 import { useContext, createContext, useMemo } from 'react';
 import { useCookies } from 'react-cookie';
-import { useNavigate } from 'react-router-dom';
 
 const ApiContext = createContext();
 
 export const ApiProvider = ({ children }) => {
-  const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies();
 
   const api = axios.create({
     baseURL: 'http://localhost:8080/api/v1',
-    headers: {
-      Authorization: `Bearer ${cookies.token}`,
-    },
   });
 
   api.interceptors.request.use(function (config) {
+    config.headers.Authorization = null;
     const token = cookies.token;
 
-    api.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-
     if (token) {
-      api.defaults.headers.common['Authorization'] = token;
-    } else {
-      api.defaults.headers.common['Authorization'] = null;
-      //   navigate('/login');
+      config.headers.Authorization = 'Bearer ' + token;
     }
 
     return config;
@@ -41,7 +32,6 @@ export const ApiProvider = ({ children }) => {
 
       if (error?.response?.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
-        // navigate('/login');
       }
       return Promise.reject(error);
     }
