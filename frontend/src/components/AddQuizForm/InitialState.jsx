@@ -41,7 +41,7 @@ function InitialState({ setInitialState, dispatch }) {
         />
       </div>
 
-      <input className="btn-form" value={'Add Questions'} type={'submit'} />
+      <input className="button w-full" value={'Add Questions'} type={'submit'} />
     </form>
   );
 }

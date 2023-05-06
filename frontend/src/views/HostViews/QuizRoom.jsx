@@ -60,7 +60,7 @@ function QuizRoom(props) {
     //   `/app/quizroom/${pin}/host`,
     //   createMessage(TYPES.START_GAME, 'HOST')
     // );
-    navigate(`/host/${id}/quiz-room/${pin}`);
+    navigate(`/host/quiz/${id}/quiz-room/${pin}`);
   };
 
   useEffect(() => {

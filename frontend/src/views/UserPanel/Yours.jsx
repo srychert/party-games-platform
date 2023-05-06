@@ -1,9 +1,9 @@
-import NavigationBar from '../../components/NavigationBar/NavigationBar';
-import { useQuizzes } from '../../hooks/useQuizzes';
+import { useQuizzes } from '../../hooks/quiz/useQuizzes';
 import Loading from '../Loading';
 
 export default function Yours() {
-  const { isLoading, isError, data: games, error } = useQuizzes();
+  const { isLoading, isError, data, error } = useQuizzes();
+  const games = data?.data || [];
 
   if (isLoading) {
     return <Loading />;

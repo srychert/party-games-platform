@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useApi } from '../context/ApiProvider';
+import { useApi } from '../../context/ApiProvider';
 
 export const useQuiz = (id, config) => {
   const { api } = useApi();

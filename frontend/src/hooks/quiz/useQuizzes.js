@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useApi } from '../context/ApiProvider';
+import { useApi } from '../../context/ApiProvider';
 
 export const useQuizzes = (config) => {
   const { api } = useApi();
@@ -8,7 +8,7 @@ export const useQuizzes = (config) => {
     queryKey: ['quizzes'],
     queryFn: async () => {
       const quizzes = await api.get(`/quizzes`);
-      return quizzes.data;
+      return quizzes;
     },
     ...config,
   });

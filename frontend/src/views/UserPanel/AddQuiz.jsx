@@ -1,12 +1,10 @@
 import React, { useReducer, useState } from 'react';
 import InitialState from '../../components/AddQuizForm/InitialState';
 import AddQuestions from '../../components/AddQuizForm/AddQuestions';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { useApi } from '../../context/ApiProvider';
+import { Navigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import { useAddQuiz } from '../../hooks/useAddQuiz';
+import { useAddQuiz } from '../../hooks/quiz/useAddQuiz';
 import Loading from '../Loading';
-import NavigationBar from '../../components/NavigationBar/NavigationBar';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -86,7 +84,7 @@ function AddQuiz() {
         )}
 
         {quizData.questions.length > 0 ? (
-          <button className="btn-form" onClick={submitQuiz}>
+          <button className="button w-full" onClick={submitQuiz}>
             Submit Quiz
           </button>
         ) : null}

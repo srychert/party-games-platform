@@ -9,6 +9,7 @@ import HostLayout from './components/HostLayout';
 import ProfileLayout from './components/ProfileLayout';
 import Game from './views/PlayerViews/Game';
 import Logout from './views/Logout';
+import GeneralLayout from './components/GeneralLayout';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/host/*" element={<HostLayout />} />
           <Route path="/profile/*" element={<ProfileLayout />} />
         </Route>
+        <Route path="/*" element={<GeneralLayout />} />
         <Route path="/test" element={<Game />} />
       </Routes>
     </div>

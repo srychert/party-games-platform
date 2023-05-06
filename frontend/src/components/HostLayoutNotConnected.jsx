@@ -1,10 +1,10 @@
 import React from 'react';
-import QuizList from '../views/HostViews/QuizList';
+import List from '../views/HostViews/List';
 
 function HostLayoutNotConnected(props) {
   return (
     <>
-      <QuizList />
+      <List />
     </>
   );
 }

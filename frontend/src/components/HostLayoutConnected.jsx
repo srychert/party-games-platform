@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { SockJsClientDefaults } from '../services/SockJsClientDefaults';
-import FinalResults from '../views/HostViews/FinalResults';
 import MainQuiz from '../views/HostViews/MainQuiz';
 import QuizRoom from '../views/HostViews/QuizRoom';
 import TestView from '../views/TestView';
@@ -53,9 +52,8 @@ function HostLayoutConnected() {
         ref={client}
       />
       <Routes>
-        <Route path=":id" element={<QuizRoom {...props} />} />
-        <Route path=":id/quiz-room/:pin" element={<MainQuiz {...props} />} />
-        <Route path=":id/finalresults/:pin" element={<FinalResults {...props} />} />
+        <Route path="quiz/:id" element={<QuizRoom {...props} />} />
+        <Route path="quiz/:id/quiz-room/:pin" element={<MainQuiz {...props} />} />
         <Route path="test" element={<TestView {...props} />} />
       </Routes>
     </>

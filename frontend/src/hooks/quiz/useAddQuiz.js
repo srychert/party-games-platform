@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { useApi } from '../context/ApiProvider';
+import { useApi } from '../../context/ApiProvider';
 
 export const useAddQuiz = () => {
   const { api } = useApi();

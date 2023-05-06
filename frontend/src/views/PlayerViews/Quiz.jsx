@@ -41,8 +41,7 @@ function Quiz(props) {
         break;
 
       case TYPES.ENDED:
-        // TODO: Create separate route for players
-        navigate(`/host/placeholderID/finalresults/${pin}`, {
+        navigate(`/final-results`, {
           state: { players: JSON.parse(msg.json).players },
         });
         break;

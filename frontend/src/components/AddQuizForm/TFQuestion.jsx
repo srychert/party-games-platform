@@ -53,7 +53,7 @@ function TFQuestion({ dispatch, setType }) {
           />
         </div>
       </div>
-      <button className="btn-form" onClick={addQuestion}>
+      <button className="button w-full" onClick={addQuestion}>
         Add question
       </button>
     </div>

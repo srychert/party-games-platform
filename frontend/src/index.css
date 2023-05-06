@@ -16,26 +16,6 @@
     @apply animate-[wiggle_1s_ease-in-out_infinite];
   }
 
-  .card {
-    @apply button flex h-1/2 w-1/2 flex-col items-center justify-center self-center;
-  }
-
-  .game-card {
-    @apply relative flex aspect-square w-[300px] flex-col rounded-lg border border-violet-600 p-6 pt-8 shadow-lg shadow-violet-600;
-  }
-
-  .game-numberPlayed {
-    @apply absolute right-2 top-2 flex aspect-square w-10 items-center justify-center rounded-lg bg-amber-50;
-  }
-
-  .btn-form {
-    @apply button flex h-10 w-60 flex-col items-center justify-center;
-  }
-
-  .title {
-    @apply border-b-2 border-violet-600 text-center text-2xl font-bold text-violet-600;
-  }
-
   /* new-styles */
 
   /* containers */
@@ -50,7 +30,7 @@
 
   .button:hover,
   .button:focus {
-    @apply text-gray-100 brightness-110 hover:border-amber-600;
+    @apply border-amber-600 text-gray-100 brightness-110;
   }
 
   /* form specific */

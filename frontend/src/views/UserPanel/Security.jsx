@@ -71,7 +71,7 @@ export default function Security() {
 
         <div className="flex flex-row items-center justify-center gap-2">
           <button
-            className="btn-form"
+            className="button"
             onClick={() => {
               setUpdateElement('userName');
               setErros([]);
@@ -80,7 +80,7 @@ export default function Security() {
             Change username
           </button>
           <button
-            className="btn-form"
+            className="button"
             onClick={() => {
               setUpdateElement('password');
               setErros([]);
@@ -106,7 +106,7 @@ export default function Security() {
             {renderErrors()}
             <input
               type="button"
-              className="btn-form mt-1"
+              className="button mt-1"
               value="Change"
               data-value="userName"
               onClick={handleUpdate}
@@ -129,7 +129,7 @@ export default function Security() {
             />
             <input
               type="button"
-              className="btn-form mt-1"
+              className="button mt-1"
               value="Change"
               data-value="password"
               onClick={handleUpdate}
