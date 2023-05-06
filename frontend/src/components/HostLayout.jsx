@@ -15,7 +15,7 @@ function HostLayout(props) {
         showNavbarInit={true}
         loggedIn={true}
       />
-      <main className="container flex h-full w-full">
+      <main className="h-full w-full">
         <Routes>
           <Route path="/" element={<HostLayoutNotConnected {...props} />} />
           <Route path="/*" element={<HostLayoutConnected {...props} />} />

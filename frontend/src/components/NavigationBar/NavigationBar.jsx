@@ -41,30 +41,39 @@ function NavigationBar({
   };
 
   return (
-    <aside
-      className={`z-40 flex ${
-        showNavbar ? 'h-screen w-20' : 'h-10 w-10'
-      } -translate-x-full justify-center bg-gray-800 transition-transform sm:translate-x-0`}
-    >
-      <div
-        className={`flex flex-col gap-2 overflow-hidden ${showNavbar ? 'p-3' : 'p-0'} `}
+    <>
+      <BurgerButton
+        onClick={handelBurgerClick}
+        position={`${showNavbar ? 'hidden' : 'absolute'}`}
+      />
+      <aside
+        className={`flex h-full justify-center bg-gray-800 ${
+          showNavbar ? 'block' : 'hidden'
+        }`}
       >
-        <BurgerButton onClick={handelBurgerClick} />
-        <nav
-          className={`flex flex-col justify-between gap-2 ${
-            showNavbar ? 'block' : 'hidden'
-          }`}
-        >
-          {buttonsToRender().map((button, index) => (
-            <NavLink className="buttonSmall" key={index} to={button.to}>
-              <IconContext.Provider value={{ size: '2em' }}>
-                {switchIcon(button.to)}
-              </IconContext.Provider>
-            </NavLink>
-          ))}
-        </nav>
-      </div>
-    </aside>
+        <div className={`flex flex-col gap-2 overflow-hidden p-2 `}>
+          <BurgerButton onClick={handelBurgerClick} />
+          <nav className={`flex flex-col justify-between gap-2`}>
+            {buttonsToRender().map((button, index) => (
+              <div className="flex items-center gap-2" key={index}>
+                <NavLink className="buttonSmall" to={button.to}>
+                  <IconContext.Provider value={{ size: '2em' }}>
+                    {switchIcon(button.to)}
+                  </IconContext.Provider>
+                </NavLink>
+                <NavLink
+                  className={`hidden font-semibold text-gray-100 sm:block`}
+                  to={button.to}
+                  tabIndex={-1}
+                >
+                  <span>{button.text}</span>
+                </NavLink>
+              </div>
+            ))}
+          </nav>
+        </div>
+      </aside>
+    </>
   );
 }
 

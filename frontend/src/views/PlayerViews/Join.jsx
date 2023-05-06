@@ -41,10 +41,10 @@ function Join(props) {
   }, [pin]);
 
   return (
-    <div className="mx-auto self-center">
-      <main className="flex h-full w-full items-center justify-center">
-        <form onSubmit={handleJoin} className="form">
-          <div className="flex flex-col p-2">
+    <div className="grid h-full place-content-center">
+      <form onSubmit={handleJoin} className="form">
+        <div className="form-row">
+          <div className="form-input-container">
             <label htmlFor="pin">Pin</label>
             <input
               className="form-input"
@@ -55,7 +55,10 @@ function Join(props) {
               onChange={(e) => setPin(e.target.value)}
             />
           </div>
-          <div className="flex flex-col p-2">
+        </div>
+
+        <div className="form-row">
+          <div className="form-input-container">
             <label htmlFor="nick">Nick</label>
             <input
               className="form-input"
@@ -66,12 +69,13 @@ function Join(props) {
               onChange={(e) => changeNick(e.target.value)}
             />
           </div>
-          <div className="text-red-500">{error}</div>
-          <button type="submit" className="buttonRegular">
-            Dołącz
-          </button>
-        </form>
-      </main>
+        </div>
+
+        <div className="text-red-500">{error}</div>
+        <button type="submit" className="button">
+          Dołącz
+        </button>
+      </form>
     </div>
   );
 }

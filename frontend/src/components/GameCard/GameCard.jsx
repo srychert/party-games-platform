@@ -8,10 +8,7 @@ function GameCard({ game, handleChooseGame }) {
         <h2 className="title">{game.title}</h2>
         <div className="max-h-8 overflow-hidden p-1 font-bold">{game.createdBy}</div>
         <div className="max-h-24 overflow-hidden p-1">{game.description}</div>
-        <button
-          className="buttonRegular mt-auto"
-          onClick={() => handleChooseGame(game.id)}
-        >
+        <button className="button mt-auto" onClick={() => handleChooseGame(game.id)}>
           Graj
         </button>
       </div>

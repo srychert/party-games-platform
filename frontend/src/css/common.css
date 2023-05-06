@@ -1,4 +1,15 @@
-body {
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+
+#root {
   height: 100vh;
-  background-color: #8f9779;
+  height: 100dvh;
 }

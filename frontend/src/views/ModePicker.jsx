@@ -10,14 +10,24 @@ function ModePicker() {
   }
 
   return (
-    <>
-      <div className="card m-5" onClick={() => handleHost()}>
-        <div className="text-5xl sm:text-8xl ">Host</div>
+    <div className="full-screen-container">
+      <div className="grid gap-4 md:grid-cols-2">
+        <div
+          className="button grid aspect-square select-none place-content-center border-4 p-6"
+          onClick={() => handleHost()}
+          tabIndex={0}
+        >
+          <div className="text-6xl md:text-8xl">HOST</div>
+        </div>
+        <div
+          className="button grid aspect-square select-none place-content-center border-4 p-6"
+          onClick={() => handleJoin()}
+          tabIndex={0}
+        >
+          <div className="text-6xl md:text-8xl">PLAYER</div>
+        </div>
       </div>
-      <div className="card m-5" onClick={() => handleJoin()}>
-        <div className="text-5xl sm:text-8xl ">Gracz</div>
-      </div>
-    </>
+    </div>
   );
 }
 

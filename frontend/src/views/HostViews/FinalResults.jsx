@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import Back from '../../components/Back/Back';
 import PointsChart from '../../components/PointsChart/PointsChart';
 
 function FinalResults() {
@@ -37,7 +36,6 @@ function FinalResults() {
 
   return (
     <div className="flex w-full flex-col">
-      <Back to="/host" />
       <h1 className="self-center">Final Results</h1>
       <div className="flex flex-col items-center">
         <div className="w-1/2">

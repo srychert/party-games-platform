@@ -12,15 +12,10 @@ import Logout from './views/Logout';
 
 function App() {
   return (
-    // TODO make a default container for all routes with default styles like h-screen
-    // update all routes styles
-    <div className="default-container">
+    <div className="flex h-full bg-stone-300 text-gray-900">
       <Routes>
         <Route path="/" element={<ModePicker />} />
-        <Route
-          path="/login"
-          element={<Login field1="username" field2="password" passtype="password" />}
-        />
+        <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<Register />} />
 

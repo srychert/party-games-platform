@@ -29,34 +29,36 @@ function QuizList() {
     return filteredGames;
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>;
+  }
+
   return (
-    <div className="h-screen w-screen overflow-x-hidden">
-      {isLoading && <Loading />}
-      {isError && <span>Error: {error.message}</span>}
-      {!isLoading && !isError && (
-        <div className="flex flex-col">
-          {/* Filter */}
-          <div className="m-2 flex items-center justify-center">
-            <form className="flex flex-col">
-              <label htmlFor="gameName">Nazwa gry</label>
-              <input
-                className="form-input"
-                type="text"
-                name="gameName"
-                id="gameName"
-                autoComplete="off"
-                onChange={(e) => setGameName(e.target.value)}
-              />
-            </form>
-          </div>
-          {/* Games */}
-          <div className="flex flex-wrap justify-center gap-5">
-            {handleSearchFilter().map((game) => (
-              <GameCard key={game.id} game={game} handleChooseGame={handleChooseGame} />
-            ))}
-          </div>
-        </div>
-      )}
+    <div className="h-fullflex flex-col">
+      {/* Filter */}
+      <div className="m-2 flex items-center justify-center">
+        <form className="flex flex-col">
+          <label htmlFor="gameName">Nazwa gry</label>
+          <input
+            className="form-input"
+            type="text"
+            name="gameName"
+            id="gameName"
+            autoComplete="off"
+            onChange={(e) => setGameName(e.target.value)}
+          />
+        </form>
+      </div>
+      {/* Games */}
+      <div className="flex flex-wrap justify-center gap-5">
+        {handleSearchFilter().map((game) => (
+          <GameCard key={game.id} game={game} handleChooseGame={handleChooseGame} />
+        ))}
+      </div>
     </div>
   );
 }

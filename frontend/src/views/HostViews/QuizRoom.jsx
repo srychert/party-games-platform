@@ -81,14 +81,19 @@ function QuizRoom(props) {
   }
 
   return (
-    <div className="flex h-screen w-screen flex-col items-center ">
-      <div className="pin">{pin}</div>
-      <button className="buttonRegular" onClick={() => handleClick()}>
+    <div className="grid place-content-center gap-2">
+      <div className="m-6 grid place-content-center border-b-2 border-purple-600 p-5 text-6xl sm:text-8xl">
+        {pin}
+      </div>
+      <button className="button" onClick={() => handleClick()}>
         Rozpocznij grę
       </button>
-      <div className="flex flex-row justify-between">
+      <div className="mt-8 flex flex-wrap gap-2">
         {players.map((player, index) => (
-          <div className="player-lobby animate-wiggle" key={index}>
+          <div
+            className="animate-wiggle rounded-lg border bg-violet-600 p-3 text-gray-100 drop-shadow-md"
+            key={index}
+          >
             {player.nick}
           </div>
         ))}

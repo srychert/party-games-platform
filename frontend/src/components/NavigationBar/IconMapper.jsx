@@ -13,12 +13,15 @@ import {
   CgBell,
   CgPill,
   CgToolbox,
+  CgClose,
 } from 'react-icons/cg';
 
 const switchIcon = (button) => {
   switch (button) {
     case 'menu':
       return <CgMenu />;
+    case 'menuOpen':
+      return <CgClose />;
     case 'gameAction':
       return <CgBell />;
     case 'stats':

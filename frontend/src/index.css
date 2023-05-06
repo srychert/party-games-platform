@@ -3,48 +3,29 @@
 @tailwind utilities;
 
 @layer components {
-  .default-container {
-    @apply flex h-screen w-screen overflow-hidden;
-  }
   .answerBox {
     @apply flex content-center items-center justify-center rounded-lg shadow-md;
   }
-  .button {
-    @apply cursor-pointer rounded-lg bg-palet1-greenForest shadow-md;
-  }
-  .buttonRegular {
-    @apply flex items-center justify-center p-2;
-    @apply button;
-  }
+
   .buttonSmall {
     @apply flex h-10 w-10 items-center justify-center text-sm;
     @apply button;
   }
+
   .buttonSmall.active {
     @apply animate-[wiggle_1s_ease-in-out_infinite];
-  }
-  .button:hover {
-    @apply cursor-pointer bg-palet1-purple text-white;
-  }
-
-  .form-input {
-    @apply h-10 rounded-lg border border-palet1-purple px-5 pr-10 text-sm shadow-md shadow-palet1-brown shadow-palet1-purple;
-  }
-  .form-input:focus {
-    @apply border-2 border-palet1-purple outline-none;
-  }
-  .form {
-    @apply flex h-fit w-fit flex-col content-center items-center justify-center p-10 shadow-lg shadow-sky-700;
   }
 
   .card {
     @apply button flex h-1/2 w-1/2 flex-col items-center justify-center self-center;
   }
+
   .game-card {
-    @apply relative flex aspect-square w-[300px] flex-col rounded-lg border border-palet1-purple p-6 pt-8 shadow-lg shadow-palet1-purple;
+    @apply relative flex aspect-square w-[300px] flex-col rounded-lg border border-violet-600 p-6 pt-8 shadow-lg shadow-violet-600;
   }
+
   .game-numberPlayed {
-    @apply absolute right-2 top-2 flex aspect-square w-10 items-center justify-center rounded-lg bg-palet1-background;
+    @apply absolute right-2 top-2 flex aspect-square w-10 items-center justify-center rounded-lg bg-amber-50;
   }
 
   .btn-form {
@@ -52,26 +33,40 @@
   }
 
   .title {
-    @apply border-b-2 border-palet1-purple text-center text-2xl font-bold text-palet1-purple;
+    @apply border-b-2 border-violet-600 text-center text-2xl font-bold text-violet-600;
   }
 
-  .yours-games {
-    @apply w-3/4 rounded-lg bg-palet1-background text-left text-sm text-gray-500 shadow-md dark:text-gray-400;
-  }
-  .yours-games:hover {
-    @apply cursor-pointer bg-palet1-purple text-white;
-  }
-  .yours-games-tbody {
-    @apply border-b bg-white dark:border-gray-700 dark:bg-gray-800;
-  }
-  .yours-games-row {
-    @apply whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white;
+  /* new-styles */
+
+  /* containers */
+  .full-screen-container {
+    @apply mx-auto grid place-content-center md:container;
   }
 
-  .pin {
-    @apply m-10 border-b-2 border-blue p-5 text-9xl;
+  /* buttons */
+  .button {
+    @apply grid cursor-pointer place-content-center rounded-lg border bg-emerald-600 p-2 outline-none;
   }
-  .player-lobby {
-    @apply m-3 rounded-lg border bg-palet1-background p-3 shadow-sm;
+
+  .button:hover,
+  .button:focus {
+    @apply text-gray-100 brightness-110 hover:border-amber-600;
+  }
+
+  /* form specific */
+  .form {
+    @apply grid gap-4 rounded-lg border border-violet-600 p-8 shadow-md shadow-purple-600;
+  }
+
+  .form-row {
+    @apply flex gap-2;
+  }
+
+  .form-input-container {
+    @apply grid w-full;
+  }
+
+  .form-input {
+    @apply block w-full appearance-none rounded p-2 outline-amber-500;
   }
 }

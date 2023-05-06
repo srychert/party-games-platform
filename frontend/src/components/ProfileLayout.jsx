@@ -9,7 +9,7 @@ function ProfileLayout(props) {
   return (
     <>
       <NavigationBar profile={true} showNavbarInit={true} />
-      <main className="container flex h-full w-full">
+      <main className="h-full w-full">
         <Routes>
           <Route path="/" element={<Profile />} />
           <Route path="/security" element={<Security />} />

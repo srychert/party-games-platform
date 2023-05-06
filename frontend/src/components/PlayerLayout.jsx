@@ -60,7 +60,7 @@ function PlayerLayout() {
         showNavbarInit={true}
         loggedIn={false}
       />
-      <main className="container flex h-full w-full">
+      <main className="h-full w-full">
         <Routes>
           <Route path="join" exact element={<Join {...props} />} />
           <Route path="quiz/:pin" element={<Quiz {...props} />} />

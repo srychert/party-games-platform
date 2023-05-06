@@ -103,7 +103,7 @@ function MainQuiz(props) {
     return (
       <>
         <div className="flex h-screen w-full items-center justify-center">
-          <button className="buttonRegular" onClick={handleStart}>
+          <button className="button" onClick={handleStart}>
             Start
           </button>
         </div>
@@ -115,7 +115,7 @@ function MainQuiz(props) {
     <>
       <div className="flex">
         <div className="p-5">
-          <button className="buttonRegular" onClick={handleLeave}>
+          <button className="button" onClick={handleLeave}>
             Leave
           </button>
         </div>
@@ -125,7 +125,7 @@ function MainQuiz(props) {
           {!pointsScreen && <span className="text-8xl">{question}</span>}
         </div>
         <div className="p-5">
-          <button className="buttonRegular" onClick={handleNextRound}>
+          <button className="button" onClick={handleNextRound}>
             Next
           </button>
         </div>
