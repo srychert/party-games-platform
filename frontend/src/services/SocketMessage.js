@@ -32,4 +32,5 @@ export const TYPES = {
   STARTED: 'STARTED',
   ENDED: 'ENDED',
   RESULTS: 'RESULTS',
+  ERROR: 'ERROR',
 };

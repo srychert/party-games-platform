@@ -2,14 +2,14 @@ import { TYPES, createMessage } from '../../services/SocketMessage';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import PointsChart from '../../components/PointsChart/PointsChart';
+import Loading from '../Loading';
 
 function MainGame(props) {
   const { client, setTopics, setHandleMessage } = props;
   const { id, pin } = useParams();
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [round, setRound] = useState(0);
-  const [question, setQuestion] = useState('');
-  const [pointsScreen, setPointsScreen] = useState(false);
   const [players, setPlayers] = useState([]);
 
   const navigate = useNavigate();
@@ -30,7 +30,6 @@ function MainGame(props) {
     function setPlayersAndQuestionFromMessage(msg) {
       const { players, question } = JSON.parse(msg.json);
       setPlayers(players);
-      setQuestion(question.question);
       return { players, question };
     }
 
@@ -52,6 +51,10 @@ function MainGame(props) {
         });
         break;
 
+      case TYPES.ERROR:
+        setError(JSON.parse(msg.json).message);
+        break;
+
       default:
         break;
     }
@@ -59,12 +62,16 @@ function MainGame(props) {
 
   useEffect(() => {
     client.current.sendMessage(
-      `/app/quizroom/${pin}/host`,
+      `/app/game-room/${pin}/host`,
       createMessage(TYPES.START_GAME, 'HOST')
     );
-    setTopics([`/topic/quizroom/${pin}/host`, `/user/topic/reply`]);
+    setTopics([`/topic/game-room/${pin}/host`, `/user/topic/reply`]);
     setHandleMessage({ fn: handleMessage });
   }, [pin]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -74,11 +81,7 @@ function MainGame(props) {
             Leave
           </button>
         </div>
-        <div className="mx-5 flex flex-col items-center justify-center">
-          <h1>Round {round + 1}</h1>
-          {pointsScreen && <PointsChart players={players} />}
-          {!pointsScreen && <span className="text-8xl">{question}</span>}
-        </div>
+        <div className="mx-5 flex flex-col items-center justify-center">STARTED</div>
       </div>
     </>
   );
