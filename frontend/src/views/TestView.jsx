@@ -43,7 +43,7 @@ function TestView(props) {
   }, [pin]);
 
   return (
-    <div className="flex flex-1 max-w-[500px] flex-col gap-2 p-2">
+    <div className="flex max-w-[500px] flex-1 flex-col gap-2 p-2">
       <h1>Testing</h1>
 
       <label>Pin</label>
@@ -87,7 +87,7 @@ function TestView(props) {
 
       <label>Json</label>
       <textarea
-        className="border-2 border-black h-[300px]"
+        className="h-[300px] border-2 border-black"
         value={jsonField}
         onChange={(e) => setJsonField(e.target.value)}
       />

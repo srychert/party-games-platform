@@ -9,11 +9,20 @@ function Join(props) {
   const [error, setError] = useState('');
   const [nick, changeNick] = useState('');
   const [cookies, setCookie, removeCookie] = useCookies();
+  const [gameType, setGameType] = useState('game');
   const navigate = useNavigate();
 
   const handleJoin = (event) => {
     event.preventDefault();
-    client.current.sendMessage(`/app/quizroom/${pin}`, createMessage(TYPES.JOIN, nick));
+    //REFACTORABLE
+    if (gameType === 'game') {
+      client.current.sendMessage(
+        `/app/game-room/${pin}`,
+        createMessage(TYPES.JOIN, nick)
+      );
+    } else {
+      client.current.sendMessage(`/app/quizroom/${pin}`, createMessage(TYPES.JOIN, nick));
+    }
   };
 
   const handleMessage = (msg) => {
@@ -22,7 +31,12 @@ function Join(props) {
       case TYPES.JOINED:
         setCookie('player_id', msg.content, { path: '/' });
         setCookie('nick', msg.sender, { path: '/' });
-        navigate(`/player/quiz/${pin}`);
+        //REFACTORABLE
+        if (gameType === 'game') {
+          navigate(`/player/game/${pin}`);
+        } else {
+          navigate(`/player/quiz/${pin}`);
+        }
         break;
       case TYPES.DUPLICATE_NICK:
         setError('Duplicate nick');
@@ -36,7 +50,11 @@ function Join(props) {
   };
 
   useEffect(() => {
-    setTopics([`/topic/quizroom/${pin}`, `/user/topic/reply`]);
+    if (gameType === 'game') {
+      setTopics([`/topic/game-room/${pin}`, `/user/topic/reply`]);
+    } else {
+      setTopics([`/topic/quizroom/${pin}`, `/user/topic/reply`]);
+    }
     setHandleMessage({ fn: handleMessage });
   }, [pin]);
 
@@ -68,6 +86,21 @@ function Join(props) {
               autoComplete="off"
               onChange={(e) => changeNick(e.target.value)}
             />
+          </div>
+        </div>
+
+        <div className="form-row">
+          <div className="form-input-container">
+            <label htmlFor="gameType">Game type</label>
+            <select
+              className="form-input"
+              name="gameType"
+              id="gameType"
+              onChange={(e) => setGameType(e.target.value)}
+            >
+              <option value="game">Game</option>
+              <option value="quiz">Quiz</option>
+            </select>
           </div>
         </div>
 

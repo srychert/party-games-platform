@@ -16,33 +16,33 @@ function Profile() {
   }
 
   return (
-    <>
-      <div className="mt-5 flex h-full w-full flex-wrap items-center justify-center gap-4">
+    <div className="flex h-full w-full flex-col overflow-y-scroll">
+      <div className="flex justify-center">
         <IconContext.Provider value={{ size: '9em' }}>
           <CgProfile />
         </IconContext.Provider>
-        <div className="flex gap-4 whitespace-nowrap text-xl font-bold">
-          <div className="flex flex-col">
-            <span>Username:</span>
-            <span>Roles:</span>
-            <span>Email:</span>
-            <span>Acount active:</span>
-          </div>
+      </div>
 
+      <div className="flex gap-4 whitespace-nowrap text-xl font-bold">
+        <div className="flex flex-col">
+          <span>Username:</span>
+          <span>Roles:</span>
+          <span>Email:</span>
+          <span>Active:</span>
+        </div>
+
+        <div>
+          <div>{user?.userName}</div>
           <div>
-            <div>{user.userName}</div>
-            <div>
-              {user.roles &&
-                user.roles.map((role) => {
-                  return <span key={role}>{role}</span>;
-                })}
-            </div>
-            <div>{user.email}</div>
-            <div>{user.active ? 'Yes' : 'No'}</div>
+            {user?.roles?.map((role) => {
+              return <span key={role}>{role}</span>;
+            })}
           </div>
+          <div>{user?.email}</div>
+          <div>{user?.active ? 'Yes' : 'No'}</div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

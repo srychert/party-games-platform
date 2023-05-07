@@ -52,7 +52,7 @@ function List() {
   }
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full w-full flex-col overflow-y-scroll">
       {/* Filter */}
       <div className="m-2 flex items-center justify-center">
         <form className="flex flex-col">

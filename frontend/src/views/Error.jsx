@@ -1,7 +1,7 @@
 function Error({ message }) {
   return (
-    <div className="mx-auto self-center">
-      {message && <div className="m-2 animate-spin text-xl">{message}</div>}
+    <div className="flex h-full w-full items-center justify-center overflow-hidden">
+      {message && <div className="text-xl font-bold text-red-600">{message}</div>}
     </div>
   );
 }

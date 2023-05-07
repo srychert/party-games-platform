@@ -23,17 +23,7 @@ function Quiz(props) {
         setGameType(JSON.parse(msg.json).question.type);
         setAnswers(JSON.parse(msg.json).question.answers);
         break;
-      // case TYPES.ANSWERS:
-      //   /*
-      //     message.json: {
-      //     type: 'ABCD',
-      //     answers: ['a', 'b', 'c', 'd'],
-      //   }
-      //   */
-      //   setGameType(JSON.parse(msg.json).type);
-      //   setAnswers(JSON.parse(msg.json).answers);
-      //   setLoading(false);
-      //   break;
+
       case TYPES.NEXT_ROUND:
         setGameType(JSON.parse(msg.json).question.type);
         setAnswers(JSON.parse(msg.json).question.answers);
