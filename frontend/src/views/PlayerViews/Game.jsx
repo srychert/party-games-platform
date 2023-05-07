@@ -7,23 +7,27 @@ import Loading from '../Loading';
 import Error from '../Error';
 
 function Game(props) {
-  const { client, setTopics, setHandleMessage } = props;
-  const [answers, setAnswers] = useState(['a', 'b', 'c', 'd']);
+  const { client, setTopics, setHandleMessage, init_player } = props;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { pin } = useParams();
   const [cookies, setCookie, removeCookie] = useCookies();
   const navigate = useNavigate();
+  const [player, setPlayer] = useState(null);
 
   const onMessageReceived = function (msg) {
     console.log(msg);
+    console.log(JSON.parse(msg.json));
     switch (msg.type) {
       case TYPES.STARTED:
         setLoading(false);
+        setPlayer(init_player);
+        console.log(player);
         break;
       case TYPES.NEXT_ROUND:
         break;
       case TYPES.ENDED:
+        navigate('/player/join');
         break;
       default:
         break;
@@ -55,7 +59,7 @@ function Game(props) {
 
   return (
     <>
-      <GameView answers={answers} />
+      <GameView props={player} />
     </>
   );
 }

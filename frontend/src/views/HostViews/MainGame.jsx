@@ -15,10 +15,8 @@ function MainGame(props) {
   const navigate = useNavigate();
   const handleLeave = () => {
     console.log('leave');
-    // END_GAME is not being handled by backend
-    // but navigation to host should end the connection and end the game
     client.current.sendMessage(
-      `/app/quizroom/${pin}/host`,
+      `/app/game-room/${pin}/host`,
       createMessage(TYPES.END_GAME, 'Host')
     );
     navigate(`/host`);
@@ -27,20 +25,20 @@ function MainGame(props) {
     console.log(msg);
     console.log(JSON.parse(msg.json));
 
-    function setPlayersAndQuestionFromMessage(msg) {
-      const { players, question } = JSON.parse(msg.json);
+    function setPlayersAndOptionsFromMessage(msg) {
+      const { players, options } = JSON.parse(msg.json);
       setPlayers(players);
-      return { players, question };
+      return { players, options };
     }
 
     switch (msg.type) {
       case TYPES.STARTED:
-        setPlayersAndQuestionFromMessage(msg);
+        setPlayersAndOptionsFromMessage(msg);
         setLoading(false);
         break;
 
       case TYPES.NEXT_ROUND:
-        setPlayersAndQuestionFromMessage(msg);
+        setPlayersAndOptionsFromMessage(msg);
         setRound(round + 1);
         break;
 

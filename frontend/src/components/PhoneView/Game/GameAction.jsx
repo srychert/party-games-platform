@@ -7,6 +7,7 @@ import switchIcon from '../../NavigationBar/IconMapper';
 
 function GameAction(props) {
   const [view, setView] = useState('action');
+  const { player } = props;
 
   return (
     <>
@@ -29,8 +30,8 @@ function GameAction(props) {
       </nav>
       <div className="flex h-full items-center justify-center">
         {view === 'action' ? <Action /> : null}
-        {view === 'stats' ? <Stats /> : null}
-        {view === 'eq' ? <Equipment /> : null}
+        {view === 'stats' ? <Stats props={player} /> : null}
+        {view === 'eq' ? <Equipment props={player} /> : null}
       </div>
     </>
   );
