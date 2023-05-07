@@ -5,9 +5,8 @@ import Equipment from './Equipment';
 import { IconContext } from 'react-icons';
 import switchIcon from '../../NavigationBar/IconMapper';
 
-function GameAction(props) {
+function GameAction() {
   const [view, setView] = useState('action');
-  const { player } = props;
 
   return (
     <>
@@ -30,8 +29,8 @@ function GameAction(props) {
       </nav>
       <div className="flex h-full items-center justify-center">
         {view === 'action' ? <Action /> : null}
-        {view === 'stats' ? <Stats props={player} /> : null}
-        {view === 'eq' ? <Equipment props={player} /> : null}
+        {view === 'stats' ? <Stats /> : null}
+        {view === 'eq' ? <Equipment /> : null}
       </div>
     </>
   );

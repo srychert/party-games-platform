@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import GameView from '../../components/PhoneView/Game/GameView';
 import { useCookies } from 'react-cookie';
 import { TYPES, createMessage } from '../../services/SocketMessage';
@@ -7,13 +7,14 @@ import Loading from '../Loading';
 import Error from '../Error';
 
 function Game(props) {
-  const { client, setTopics, setHandleMessage, init_player } = props;
+  const { client, setTopics, setHandleMessage } = props;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { pin } = useParams();
   const [cookies, setCookie, removeCookie] = useCookies();
   const navigate = useNavigate();
-  const [player, setPlayer] = useState(null);
+  const location = useLocation();
+  const [player, setPlayer] = useState(JSON.parse(location.state.player));
 
   const onMessageReceived = function (msg) {
     console.log(msg);
@@ -21,7 +22,6 @@ function Game(props) {
     switch (msg.type) {
       case TYPES.STARTED:
         setLoading(false);
-        setPlayer(init_player);
         console.log(player);
         break;
       case TYPES.NEXT_ROUND:
@@ -59,7 +59,7 @@ function Game(props) {
 
   return (
     <>
-      <GameView props={player} />
+      <GameView />
     </>
   );
 }

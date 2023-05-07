@@ -1,7 +1,10 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 
-function Stats(props) {
-  const { player } = props;
+function Stats() {
+  const location = useLocation();
+  const player = JSON.parse(location.state.player);
+  console.log(player);
   return (
     <>
       <div className="flex gap-4 whitespace-nowrap text-xl font-bold">
@@ -13,10 +16,10 @@ function Stats(props) {
         </div>
 
         <div>
-          <div>{player?.attack}</div>
-          <div>{player?.hp}</div>
-          <div>{player?.gold}</div>
-          <div>{player?.speed}</div>
+          <div>{player.atk}</div>
+          <div>{player.hp}</div>
+          <div>{player.gold}</div>
+          <div>{player.speed}</div>
         </div>
       </div>
     </>
