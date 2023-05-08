@@ -1,4 +1,4 @@
-FROM openjdk:17-alpine AS build
+FROM bellsoft/liberica-openjdk-alpine:17 AS build
 
 COPY . .
 
@@ -7,7 +7,7 @@ RUN chmod +x ./gradlew && \
     ./gradlew bootJar
 
 
-FROM openjdk:17 AS main
+FROM bellsoft/liberica-openjdk-alpine:17 AS main
 
 WORKDIR /app
 
