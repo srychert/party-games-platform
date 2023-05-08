@@ -218,7 +218,6 @@ public class GameStateService {
         List<Object> arguments = new ArrayList<>(nodeOption.getParameters().stream().map(CustomParameter::getValue).toList());
 
         String methodName = nodeOption.getName();
-        System.out.println(methodName);
 
         Method method = getFirstMethodByName(getNodeClass(node.getType()).getMethods(), methodName).orElseThrow(() ->
                 new NodeOptionProcessingException(String.format("Method with name '%s' not found on current node", methodName)));

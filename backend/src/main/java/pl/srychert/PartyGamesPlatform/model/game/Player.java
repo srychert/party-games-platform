@@ -10,7 +10,7 @@ import java.util.*;
 
 @Data
 @Builder
-public class Player implements Comparable<Player> {
+public class Player implements Comparable<Player>, GameEntity {
     private String id;
     private String nick;
     @Builder.Default
