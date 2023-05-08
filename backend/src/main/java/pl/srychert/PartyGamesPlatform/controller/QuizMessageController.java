@@ -50,9 +50,10 @@ public class QuizMessageController {
 
         TextMessageDTO answer = quizRoomHostService.handleMessage(principal.getName(), textMessageDTO, pin);
 
-        // TODO
-        // send to room only new question with answers
-        template.convertAndSend(String.format("/topic/quizroom/%s", pin), answer);
+        if (answer != null) {
+            template.convertAndSend(String.format("/topic/quizroom/%s", pin), answer);
+        }
+
         return answer;
     }
 
