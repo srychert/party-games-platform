@@ -3,6 +3,7 @@ package pl.srychert.PartyGamesPlatform.model.game.item;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import pl.srychert.PartyGamesPlatform.enums.ItemType;
@@ -23,6 +24,7 @@ public abstract class Item implements Usable {
     private String id = UUID.randomUUID().toString();
     @NotNull
     private ItemType type;
+    @Min(0)
     private Integer cost;
 
     public Item() {

@@ -2,6 +2,7 @@ package pl.srychert.PartyGamesPlatform.model.game;
 
 import lombok.Builder;
 import lombok.Data;
+import pl.srychert.PartyGamesPlatform.enums.Stance;
 import pl.srychert.PartyGamesPlatform.model.game.item.Item;
 import pl.srychert.PartyGamesPlatform.model.game.node.NodeOption;
 
@@ -22,6 +23,8 @@ public class Player implements Comparable<Player> {
     private Integer hp = 20;
     @Builder.Default
     private Map<String, Item> items = new HashMap<>();
+    @Builder.Default
+    private Stance stance = Stance.NORMAL;
 
     @Builder.Default
     private Boolean currentRoundCompleted = false;

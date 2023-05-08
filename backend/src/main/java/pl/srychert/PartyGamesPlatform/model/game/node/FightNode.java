@@ -1,5 +1,6 @@
 package pl.srychert.PartyGamesPlatform.model.game.node;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FightNode extends Node {
-    private Enemy enemy;
+    private @Valid Enemy enemy;
 
     // TODO better method
     // This is a placeholder
