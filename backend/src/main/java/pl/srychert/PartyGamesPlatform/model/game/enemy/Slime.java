@@ -2,6 +2,7 @@ package pl.srychert.PartyGamesPlatform.model.game.enemy;
 
 import lombok.Getter;
 import lombok.Setter;
+import pl.srychert.PartyGamesPlatform.enums.EnemyType;
 import pl.srychert.PartyGamesPlatform.enums.Stance;
 import pl.srychert.PartyGamesPlatform.model.game.Loot;
 
@@ -28,5 +29,6 @@ public class Slime extends Enemy {
                 StanceWithChance.builder().stance(Stance.NORMAL).chance(100).build()
         )));
         super.setStance(providedStance.orElse(Stance.NORMAL));
+        setType(EnemyType.SLIME);
     }
 }

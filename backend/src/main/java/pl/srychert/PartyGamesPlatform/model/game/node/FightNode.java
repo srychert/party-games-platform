@@ -16,7 +16,6 @@ import pl.srychert.PartyGamesPlatform.model.game.Player;
 import pl.srychert.PartyGamesPlatform.model.game.enemy.Enemy;
 import pl.srychert.PartyGamesPlatform.model.game.item.Item;
 
-import java.util.AbstractMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
@@ -118,18 +117,26 @@ public class FightNode extends Node {
             throw new ItemNotPresentException(String.format("No item with id %s", itemId));
         }
 
-        AbstractMap.SimpleImmutableEntry<ItemEffect, ?> entry = item.use();
+        Map<ItemEffect, ?> effectMap = item.use();
 
-        switch (entry.getKey()) {
-            case HEAL -> player.setHp(player.getHp() + (Integer) entry.getValue());
-            default ->
-                    throw new UnhandledItemEffectException(String.format("Unhandled item effect %s", entry.getKey()));
+        for (var entry : effectMap.entrySet()) {
+            processItemEffect(player, entry.getKey(), entry.getValue());
         }
 
         player.getItems().remove(itemId);
 
         answer.put("player", new JSONObject(player));
         return answer;
+    }
+
+    public void processItemEffect(Player player, ItemEffect effect, Object obj) throws UnhandledItemEffectException {
+        switch (effect) {
+            case HEAL -> {
+                Integer maxHp = Player.builder().build().getHp();
+                player.setHp(Math.min(player.getHp() + (Integer) obj, maxHp));
+            }
+            default -> throw new UnhandledItemEffectException(String.format("Unhandled item effect %s", effect));
+        }
     }
 
     private void playerAttacksFirst(Player player, Enemy enemy) {
