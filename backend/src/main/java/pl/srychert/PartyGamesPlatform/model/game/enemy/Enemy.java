@@ -76,7 +76,6 @@ public abstract class Enemy implements Lootable, GameEntity {
         int randomValue = ThreadLocalRandom.current().nextInt(1, 101);
 
         OptionalInt index = IntStream.range(0, chances.size())
-                .peek(i -> System.out.println(randomValue <= chances.get(i)))
                 .filter(i -> randomValue <= chances.get(i))
                 .findFirst();
 

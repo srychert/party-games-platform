@@ -1,12 +1,11 @@
 package pl.srychert.PartyGamesPlatform.model.game.node;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.json.JSONObject;
+import org.springframework.data.annotation.Transient;
 import pl.srychert.PartyGamesPlatform.GameStateDB;
 import pl.srychert.PartyGamesPlatform.enums.ItemEffect;
 import pl.srychert.PartyGamesPlatform.enums.Stance;
@@ -30,6 +29,39 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class FightNode extends Node {
     private @Valid Enemy enemy;
+    @JsonIgnore
+    @Transient
+    @Builder.Default
+    private Boolean playerAtkFirst = false;
+    @JsonIgnore
+    @Transient
+    @Builder.Default
+    private Integer playerDmgDealt = 0;
+    @JsonIgnore
+    @Transient
+    @Builder.Default
+    private Integer playerDmgTaken = 0;
+    @JsonIgnore
+    @Transient
+    @Builder.Default
+    private Boolean playerDied = false;
+
+    @JsonIgnore
+    @Transient
+    @Builder.Default
+    private Boolean enemyAtkFirst = false;
+    @JsonIgnore
+    @Transient
+    @Builder.Default
+    private Integer enemyDmgDealt = 0;
+    @JsonIgnore
+    @Transient
+    @Builder.Default
+    private Integer enemyDmgTaken = 0;
+    @JsonIgnore
+    @Transient
+    @Builder.Default
+    private Boolean enemyDied = false;
 
     @NodeOptionMethod
     public JSONObject fight(Player player) {
@@ -54,8 +86,16 @@ public class FightNode extends Node {
             }
         }
 
-        answer.put("enemy", new JSONObject(enemyCurrent));
-        answer.put("player", new JSONObject(player));
+        answer.put("enemy", new JSONObject(enemyCurrent)
+                .put("atkFirst", enemyAtkFirst)
+                .put("dmgDealt", enemyDmgDealt)
+                .put("dmgTaken", enemyDmgTaken)
+                .put("died", enemyDied));
+        answer.put("player", new JSONObject(player)
+                .put("atkFirst", playerAtkFirst)
+                .put("dmgDealt", playerDmgDealt)
+                .put("dmgTaken", playerDmgTaken)
+                .put("died", playerDied));
         return answer;
     }
 
@@ -93,14 +133,17 @@ public class FightNode extends Node {
     }
 
     private void playerAttacksFirst(Player player, Enemy enemy) {
-        dealDamage(enemy, calculateDamage(player));
+        playerAtkFirst = true;
+        playerDmgDealt = calculateDamage(player);
+        enemyDmgTaken = dealDamage(enemy, playerDmgDealt);
 
         if (isDead(enemy)) {
             handleEnemyDeath(player, enemy);
             return;
         }
 
-        dealDamage(player, calculateDamage(enemy));
+        enemyDmgDealt = calculateDamage(enemy);
+        playerDmgTaken = dealDamage(player, enemyDmgDealt);
 
         if (isDead(player)) {
             handlePlayerDeath(player);
@@ -108,14 +151,17 @@ public class FightNode extends Node {
     }
 
     private void enemyAttacksFirst(Player player, Enemy enemy) {
-        dealDamage(player, calculateDamage(enemy));
+        enemyAtkFirst = true;
+        enemyDmgDealt = calculateDamage(enemy);
+        playerDmgTaken = dealDamage(player, enemyDmgDealt);
 
         if (isDead(player)) {
             handlePlayerDeath(player);
             return;
         }
 
-        dealDamage(enemy, calculateDamage(player));
+        playerDmgDealt = calculateDamage(player);
+        enemyDmgTaken = dealDamage(enemy, playerDmgDealt);
 
         if (isDead(enemy)) {
             handleEnemyDeath(player, enemy);
@@ -141,19 +187,24 @@ public class FightNode extends Node {
         return dmg;
     }
 
-    private void dealDamage(GameEntity entity, Integer dmg) {
+    private Integer dealDamage(GameEntity entity, Integer dmg) {
+        Integer dmgTaken = 0;
+
         switch (entity.getStance()) {
-            case NORMAL -> entity.setHp(entity.getHp() - dmg);
-            case DEFENSIVE -> entity.setHp(entity.getHp() - (int) Math.round(dmg * 0.5));
-            case OFFENSIVE -> entity.setHp(entity.getHp() - (int) Math.round(dmg * 1.5));
+            case NORMAL -> dmgTaken = dmg;
+            case DEFENSIVE -> dmgTaken = (int) Math.round(dmg * 0.5);
+            case OFFENSIVE -> dmgTaken = (int) Math.round(dmg * 1.5);
             case COUNTER -> {
                 if (ThreadLocalRandom.current().nextFloat() < 0.2) {
-                    entity.setHp(entity.getHp() - dmg * 2);
+                    dmgTaken = dmg * 2;
                 } else {
-                    entity.setHp(entity.getHp() - (int) Math.round(dmg * 0.75));
+                    dmgTaken = (int) Math.round(dmg * 0.75);
                 }
             }
         }
+
+        entity.setHp(entity.getHp() - dmgTaken);
+        return dmgTaken;
     }
 
     private boolean isDead(GameEntity entity) {
@@ -162,6 +213,7 @@ public class FightNode extends Node {
 
     private void handleEnemyDeath(Player player, Enemy enemy) {
         GameStateDB.enemyByPlayerId.remove(player.getId());
+        enemyDied = true;
         Integer gold = enemy.getLoot().getGold();
         Map<String, Item> itemsMap = enemy.getLoot().getItems()
                 .stream().collect(Collectors.toMap(Item::getId, Function.identity()));
@@ -172,6 +224,7 @@ public class FightNode extends Node {
     }
 
     private void handlePlayerDeath(Player player) {
+        playerDied = true;
         player.setCurrentRoundCompleted(true);
         player.setHp((int) Math.round(Player.builder().build().getHp() * 0.5));
     }
