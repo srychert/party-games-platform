@@ -32,7 +32,8 @@ function NavigationBar({
       addedButtons.push({ to: '/profile', text: 'Profile' });
       addedButtons.push({ to: '/profile/security', text: 'Security' });
       addedButtons.push({ to: '/profile/yours', text: 'Quizzes' });
-      addedButtons.push({ to: '/profile/addquiz', text: 'Add Quiz' });
+      addedButtons.push({ to: '/profile/add-game', text: 'Add Game' });
+      addedButtons.push({ to: '/profile/add-quiz', text: 'Add Quiz' });
       addedButtons.push({ to: '/logout', text: 'Logout' });
       return [...buttons, ...addedButtons];
     }

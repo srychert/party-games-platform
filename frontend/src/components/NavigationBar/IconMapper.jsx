@@ -8,6 +8,7 @@ import {
   CgLock,
   CgTrash,
   CgAdd,
+  CgAddR,
   CgTrophy,
   CgSandClock,
   CgBell,
@@ -42,7 +43,9 @@ const switchIcon = (button) => {
       return <CgLock />;
     case '/profile/yours':
       return <CgTrash />;
-    case '/profile/addquiz':
+    case '/profile/add-game':
+      return <CgAddR />;
+    case '/profile/add-quiz':
       return <CgAdd />;
     case '/player/join':
       return <CgTrophy />;
