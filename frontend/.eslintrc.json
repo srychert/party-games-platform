@@ -3,7 +3,9 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:prettier/recommended",
-    "plugin:tailwindcss/recommended"
+    "plugin:tailwindcss/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:import/recommended"
   ],
   "env": {
     "browser": true,

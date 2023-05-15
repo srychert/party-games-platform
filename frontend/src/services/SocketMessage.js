@@ -1,9 +1,10 @@
-export const createMessage = (type, sender, content) => {
+export const createMessage = (type, sender, content, json) => {
   if (!Object.values(TYPES).includes(type)) throw TypeError;
   const msg = {
     type,
     sender,
     content,
+    json,
   };
   return JSON.stringify(msg);
 };
@@ -24,6 +25,8 @@ export const TYPES = {
   NO_ROOM: 'NO_ROOM',
   PLAY: 'PLAY',
   ANSWERS: 'ANSWERS',
+  NODE_OPTION: 'NODE_OPTION',
+  CHOOSE_NODE: 'CHOOSE_NODE',
 
   // common
   STARTED: 'STARTED',

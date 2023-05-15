@@ -1,5 +1,6 @@
 package pl.srychert.PartyGamesPlatform.model.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
@@ -24,6 +25,7 @@ public class User {
     @Indexed(unique = true)
     private String userName;
     @NotBlank
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     private boolean active;
     private List<String> roles;

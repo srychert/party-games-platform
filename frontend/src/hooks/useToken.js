@@ -9,7 +9,7 @@ export const useToken = (config) => {
   return useQuery({
     queryKey: ['token'],
     queryFn: async () => {
-      const authenticated = await api.get('/token');
+      const authenticated = await api.get('/auth/token');
 
       if (authenticated?.data) {
         return cookies.token;

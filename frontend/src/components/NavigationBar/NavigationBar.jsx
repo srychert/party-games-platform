@@ -1,0 +1,80 @@
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+
+import { IconContext } from 'react-icons';
+import BurgerButton from '../BurgerButton/BurgerButton';
+import switchIcon from './IconMapper';
+
+function NavigationBar({
+  showNavbarInit = false,
+  buttons = [],
+  loggedIn = false,
+  profile = false,
+}) {
+  const [showNavbar, setShowNavbar] = useState(showNavbarInit);
+
+  const handelBurgerClick = () => {
+    setShowNavbar(!showNavbar);
+  };
+
+  const buttonsToRender = () => {
+    const addedButtons = [];
+
+    if (loggedIn) {
+      addedButtons.push({ to: '/profile', text: 'Host' });
+      addedButtons.push({ to: '/logout', text: 'Logout' });
+      return [...buttons, ...addedButtons];
+    }
+
+    if (profile) {
+      addedButtons.push({ to: '/', text: 'Home' });
+      addedButtons.push({ to: '/host', text: 'Host' });
+      addedButtons.push({ to: '/profile', text: 'Profile' });
+      addedButtons.push({ to: '/profile/security', text: 'Security' });
+      addedButtons.push({ to: '/profile/yours', text: 'Quizzes' });
+      addedButtons.push({ to: '/profile/addquiz', text: 'Add Quiz' });
+      addedButtons.push({ to: '/logout', text: 'Logout' });
+      return [...buttons, ...addedButtons];
+    }
+
+    return [...buttons, ...addedButtons];
+  };
+
+  return (
+    <>
+      <BurgerButton
+        onClick={handelBurgerClick}
+        position={`${showNavbar ? 'hidden' : 'absolute'}`}
+      />
+      <aside
+        className={`flex h-full justify-center bg-gray-800 ${
+          showNavbar ? 'block' : 'hidden'
+        }`}
+      >
+        <div className={`flex flex-col gap-2 overflow-hidden p-2 `}>
+          <BurgerButton onClick={handelBurgerClick} />
+          <nav className={`flex flex-col justify-between gap-2`}>
+            {buttonsToRender().map((button, index) => (
+              <div className="flex items-center gap-2" key={index}>
+                <NavLink className="buttonSmall" to={button.to}>
+                  <IconContext.Provider value={{ size: '2em' }}>
+                    {switchIcon(button.to)}
+                  </IconContext.Provider>
+                </NavLink>
+                <NavLink
+                  className={`hidden font-semibold text-gray-100 sm:block`}
+                  to={button.to}
+                  tabIndex={-1}
+                >
+                  <span>{button.text}</span>
+                </NavLink>
+              </div>
+            ))}
+          </nav>
+        </div>
+      </aside>
+    </>
+  );
+}
+
+export default NavigationBar;

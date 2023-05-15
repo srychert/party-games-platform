@@ -1,9 +1,12 @@
 package pl.srychert.PartyGamesPlatform.service.auth;
 
+import jakarta.annotation.Resource;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
@@ -18,7 +21,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class TokenService {
     @Autowired
-    private final JwtEncoder encoder;
+    private JwtEncoder encoder;
+
+    // inject the template as ListOperations
+    @Resource(name = "redisTemplate")
+    private SetOperations<String, String> setOps;
 
     public String generateToken(Authentication authentication) {
         Instant now = Instant.now();
@@ -35,6 +42,14 @@ public class TokenService {
                 .claim("scope", scope)
                 .build();
         return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+    }
+
+    public void putTokenIntoBlockList(Jwt jwt) {
+        setOps.add("jwtBlockList", jwt.getTokenValue());
+    }
+
+    public TokenService() {
+
     }
 
 }

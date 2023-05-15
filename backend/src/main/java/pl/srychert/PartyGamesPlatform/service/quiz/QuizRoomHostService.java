@@ -72,7 +72,15 @@ public class QuizRoomHostService {
     private TextMessageDTO handleStartGame(String name, TextMessageDTO textMessageDTO, String pin) {
         QuizState quiz = OngoingQuizMockDB.quizzes.get(pin);
 
+        if (quiz == null) {
+            return TextMessageDTO.builder()
+                    .type(MessageType.ERROR)
+                    .content("No Quiz")
+                    .sender("SERVER").build();
+        }
+
         JSONObject jsonObject = createRoundJSONObject(quiz.getPlayers(), quiz.getQuestions().get(0));
+        quizService.incrementTotalTimesPlayed(quiz.getGameId());
 
         return TextMessageDTO.builder()
                 .type(MessageType.STARTED)
