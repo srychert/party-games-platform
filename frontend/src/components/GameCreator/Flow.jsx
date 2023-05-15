@@ -13,12 +13,14 @@ import initialEdges from './edges.js';
 import CustomControls from './CustomControls.jsx';
 import '../../css/react-flow.css';
 import NodeModal from './NodeModal.jsx';
+import defaultNode from './defaultNode.js';
 
 function Flow({ items, enemies }) {
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState(initialEdges);
   const [lastNodeId, setLastNodeId] = useState(initialNodes.length);
   const [isOpen, setIsOpen] = useState(false);
+  const [node, setNode] = useState(null);
 
   function closeModal() {
     setIsOpen(false);
@@ -47,16 +49,7 @@ function Flow({ items, enemies }) {
   );
 
   const addNode = () => {
-    setNodes((nds) => [
-      ...nds,
-      {
-        id: `${lastNodeId + 1}`,
-        data: { label: '' },
-        position: { x: -100, y: -100 },
-        sourcePosition: 'right',
-        targetPosition: 'left',
-      },
-    ]);
+    setNodes((nds) => [...nds, { ...defaultNode, id: `${lastNodeId + 1}` }]);
     setLastNodeId(lastNodeId + 1);
   };
 
@@ -68,13 +61,10 @@ function Flow({ items, enemies }) {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
-        onNodeDoubleClick={() => {
+        onNodeDoubleClick={(e) => {
           console.log('dbClick');
+          setNode(nodes.find((n) => n.id === e.target.dataset.id));
           openModal();
-        }}
-        onNodeContextMenu={(e) => {
-          e.preventDefault();
-          console.log('menu');
         }}
         fitView
       >
@@ -84,7 +74,12 @@ function Flow({ items, enemies }) {
           <button className="button">Save Game</button>
         </Panel>
       </ReactFlow>
-      <NodeModal isOpen={isOpen} openModal={openModal} closeModal={closeModal} />
+      <NodeModal
+        isOpen={isOpen}
+        openModal={openModal}
+        closeModal={closeModal}
+        node={node}
+      />
     </>
   );
 }

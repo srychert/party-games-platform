@@ -1,27 +1,35 @@
+import defaultNode from './defaultNode';
+
 export default [
   {
-    id: '1',
+    ...defaultNode,
+    id: '0',
     type: 'input',
-    data: { label: 'Starting Node' },
     position: { x: 0, y: 0 },
-    sourcePosition: 'right',
-    targetPosition: 'left',
     deletable: false,
   },
 
   {
-    id: '2',
-    // you can also pass a React component as a label
-    data: { label: <div>Default Node</div> },
-    position: { x: 200, y: -100 },
-    sourcePosition: 'right',
-    targetPosition: 'left',
+    ...defaultNode,
+    id: '1',
+    position: { x: 200, y: -150 },
   },
+
   {
+    ...defaultNode,
+    id: '2',
+    position: { x: 200, y: -50 },
+  },
+
+  {
+    ...defaultNode,
     id: '3',
-    data: { label: 'Other' },
-    position: { x: 400, y: 0 },
-    sourcePosition: 'right',
-    targetPosition: 'left',
+    position: { x: 200, y: 50 },
+  },
+
+  {
+    ...defaultNode,
+    id: '4',
+    position: { x: 200, y: 150 },
   },
 ];

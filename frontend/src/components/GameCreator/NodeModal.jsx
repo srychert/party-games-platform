@@ -1,11 +1,17 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
+import CustomSelect from './CustomSelect';
+import { NODES } from './NodeTypes';
 
-export default function NodeModal({ isOpen, openModal, closeModal }) {
+export default function NodeModal({ isOpen, openModal, closeModal, node }) {
   const handleSaveNode = () => {
     // TODO
     closeModal();
   };
+
+  if (!node) {
+    return <></>;
+  }
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -33,13 +39,14 @@ export default function NodeModal({ isOpen, openModal, closeModal }) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-screen-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900"
+                  className="mb-4 text-lg font-medium leading-6 text-gray-900"
                 >
-                  Node Type
+                  Node
                 </Dialog.Title>
+                <CustomSelect items={Object.values(NODES)} />
                 <div className="mt-2">
                   <p className="text-sm text-gray-500">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum eum
