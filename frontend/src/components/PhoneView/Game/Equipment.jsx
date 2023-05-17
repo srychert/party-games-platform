@@ -1,5 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import ItemMapper from '../../GameIconMapper/ItemMapper';
+import EnemyMapper from '../../GameIconMapper/EnemyMapper';
 
 function Equipment(props) {
   const location = useLocation();
@@ -7,7 +9,13 @@ function Equipment(props) {
   console.log(player, node);
   return (
     <>
-      <div>{player.gold}</div>
+      <div>
+        {player.gold}
+        <div>
+          <ItemMapper gameType={'item name'} />
+          <EnemyMapper gameType={'enemy name'} />
+        </div>
+      </div>
     </>
   );
 }

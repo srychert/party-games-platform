@@ -7,7 +7,7 @@ function GameView({ handleAnswer }) {
   const { player, node } = JSON.parse(location.state.player);
 
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full overflow-hidden">
       <div className="flex h-1/4 w-full flex-col border">
         <GameAction />
       </div>
