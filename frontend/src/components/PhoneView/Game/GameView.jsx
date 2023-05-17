@@ -2,9 +2,9 @@ import React from 'react';
 import GameAction from './GameAction';
 import { useLocation } from 'react-router-dom';
 
-function GameView() {
+function GameView({ handleAnswer }) {
   const location = useLocation();
-  const player = JSON.parse(location.state.player);
+  const { player, node } = JSON.parse(location.state.player);
 
   return (
     <div className="h-full w-full">
@@ -12,9 +12,9 @@ function GameView() {
         <GameAction />
       </div>
       <div className="m-1 grid h-4/5 w-full grid-cols-2 gap-2">
-        {player.options.map((answer, index) => (
-          <button className="answerBox" key={index}>
-            {answer.name}
+        {node.nextNodesID.map((answer, index) => (
+          <button className="answerBox" key={index} onClick={() => handleAnswer(index)}>
+            {answer}
           </button>
         ))}
       </div>

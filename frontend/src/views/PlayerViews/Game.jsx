@@ -25,6 +25,8 @@ function Game(props) {
         console.log(player);
         break;
       case TYPES.NEXT_ROUND:
+        setLoading(false);
+        setPlayer(JSON.parse(msg.json));
         break;
       case TYPES.ENDED:
         navigate('/player/join');
@@ -57,9 +59,14 @@ function Game(props) {
     return <Error message={error} />;
   }
 
+  function handleAnswer(answer) {
+    //console.log(answer);
+    createMessage(TYPES.CHOOSE_NODE, cookies.nick, answer);
+  }
+
   return (
     <>
-      <GameView />
+      <GameView handleAnswer={handleAnswer} />
     </>
   );
 }

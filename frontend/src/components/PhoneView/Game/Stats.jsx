@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 function Stats() {
   const location = useLocation();
-  const player = JSON.parse(location.state.player);
+  const { player } = JSON.parse(location.state.player);
   return (
     <>
       <div className="flex gap-4 whitespace-nowrap text-xl font-bold">
