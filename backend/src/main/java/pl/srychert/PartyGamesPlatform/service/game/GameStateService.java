@@ -109,6 +109,24 @@ public class GameStateService {
         return Optional.of(player);
     }
 
+    public Optional<Node> getCurrentNode(String pin, Player player) {
+        GameState gameState = GameStateDB.games.get(pin);
+
+        if (gameState == null) {
+            return Optional.empty();
+        }
+
+        Optional<Game> gameOpt = gameRepository.findById(gameState.getGameId());
+
+        if (gameOpt.isEmpty()) {
+            return Optional.empty();
+        }
+
+        Game game = gameOpt.get();
+        
+        return Optional.ofNullable(game.getNodes().get(player.getCurrentNode()));
+    }
+
     public List<NodeOption> getNodeOptions(String gameId, Integer nodeId) {
         Optional<Game> gameOpt = gameRepository.findById(gameId);
 
@@ -218,7 +236,6 @@ public class GameStateService {
         List<Object> arguments = new ArrayList<>(nodeOption.getParameters().stream().map(CustomParameter::getValue).toList());
 
         String methodName = nodeOption.getName();
-        System.out.println(methodName);
 
         Method method = getFirstMethodByName(getNodeClass(node.getType()).getMethods(), methodName).orElseThrow(() ->
                 new NodeOptionProcessingException(String.format("Method with name '%s' not found on current node", methodName)));

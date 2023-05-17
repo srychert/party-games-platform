@@ -18,12 +18,14 @@ import java.util.concurrent.ThreadLocalRandom;
 public class HealNode extends Node {
     @Builder.Default
     private Integer baseHeal = 2;
+    @Builder.Default
+    private Integer maxHp = Player.builder().build().getHp();
 
     @NodeOptionMethod
     public JSONObject freeHeal(Player player) {
         JSONObject answer = new JSONObject();
 
-        player.setHp(player.getHp() + baseHeal);
+        player.setHp(Math.min(player.getHp() + baseHeal, maxHp));
         player.setCurrentRoundCompleted(true);
 
         answer.put("player", new JSONObject(player));

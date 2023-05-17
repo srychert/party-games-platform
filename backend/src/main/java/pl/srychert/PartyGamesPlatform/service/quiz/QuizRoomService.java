@@ -59,6 +59,14 @@ public class QuizRoomService {
 
     private TextMessageDTO handlePlay(String name, TextMessageDTO textMessageDTO, String pin) {
         QuizState quiz = OngoingQuizMockDB.quizzes.get(pin);
+
+        if (quiz == null) {
+            return TextMessageDTO.builder()
+                    .type(MessageType.ERROR)
+                    .content("No Quiz")
+                    .sender("SERVER").build();
+        }
+
         Question question = quiz.getQuestions().get(quiz.getRound());
 
         boolean isCorrect = question.getCorrect().toString().equals(textMessageDTO.getContent());

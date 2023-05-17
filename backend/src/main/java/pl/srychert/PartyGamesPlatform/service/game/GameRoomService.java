@@ -11,6 +11,7 @@ import pl.srychert.PartyGamesPlatform.enums.MessageType;
 import pl.srychert.PartyGamesPlatform.exception.NodeOptionProcessingException;
 import pl.srychert.PartyGamesPlatform.model.TextMessageDTO;
 import pl.srychert.PartyGamesPlatform.model.game.Player;
+import pl.srychert.PartyGamesPlatform.model.game.node.Node;
 import pl.srychert.PartyGamesPlatform.model.game.node.NodeOption;
 
 import java.lang.reflect.InvocationTargetException;
@@ -45,12 +46,20 @@ public class GameRoomService {
         }
 
         Player player = playerOptional.get();
-        JSONObject playerJson = new JSONObject(player);
+        Optional<Node> nodeOptional = gameStateService.getCurrentNode(pin, player);
+
+        if (nodeOptional.isEmpty()) {
+            addErrorMessageForPlayer(messages, "Join failed - empty current Node");
+            return messages;
+        }
 
         TextMessageDTO joined = TextMessageDTO.builder()
                 .type(MessageType.JOINED)
                 .content(player.getId())
-                .json(playerJson.toString())
+                .json(new JSONObject()
+                        .put("player", new JSONObject(player))
+                        .put("node", new JSONObject(nodeOptional.get()))
+                        .toString())
                 .sender(player.getNick()).build();
 
         messages.put(MessageReceiver.HOST, joined);

@@ -2,8 +2,8 @@ package pl.srychert.PartyGamesPlatform.model.game.item;
 
 import pl.srychert.PartyGamesPlatform.enums.ItemEffect;
 
-import java.util.AbstractMap;
+import java.util.Map;
 
-public interface Usable {
-    AbstractMap.SimpleImmutableEntry<ItemEffect, ?> use();
+public interface Usable<T> {
+    Map<ItemEffect, T> use();
 }

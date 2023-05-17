@@ -1,11 +1,15 @@
 package pl.srychert.PartyGamesPlatform.service.game;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.srychert.PartyGamesPlatform.exception.ApiRequestException;
 import pl.srychert.PartyGamesPlatform.model.game.Game;
+import pl.srychert.PartyGamesPlatform.model.game.enemy.Enemy;
+import pl.srychert.PartyGamesPlatform.model.game.enemy.Slime;
 import pl.srychert.PartyGamesPlatform.model.game.item.Item;
+import pl.srychert.PartyGamesPlatform.model.game.item.potion.HealPotion;
 import pl.srychert.PartyGamesPlatform.model.game.node.MerchantNode;
 import pl.srychert.PartyGamesPlatform.model.game.node.Node;
 import pl.srychert.PartyGamesPlatform.repository.GameRepository;
@@ -16,6 +20,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@Slf4j
 @AllArgsConstructor
 @Service
 public class GameService {
@@ -94,5 +99,17 @@ public class GameService {
         updatedGame.setTotalTimesPlayed(updatedGame.getTotalTimesPlayed() + 1);
 
         return gameRepository.save(updatedGame);
+    }
+
+    public List<Item> getItems() {
+        return List.of(
+                new HealPotion()
+        );
+    }
+
+    public List<Enemy> getEnemies() {
+        return List.of(
+                new Slime()
+        );
     }
 }

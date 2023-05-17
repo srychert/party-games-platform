@@ -4,10 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
@@ -19,6 +16,7 @@ import java.util.Map;
 @Data
 @Document
 @Builder
+@AllArgsConstructor
 public class Game {
     @Setter(AccessLevel.NONE)
     @Id
@@ -35,4 +33,6 @@ public class Game {
     @Size(min = 1)
     private Map<Integer, @Valid Node> nodes;
 
+    public Game() {
+    }
 }
