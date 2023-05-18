@@ -20,7 +20,7 @@ function Flow({ items, enemies }) {
   const [edges, setEdges] = useState(initialEdges);
   const [lastNodeId, setLastNodeId] = useState(initialNodes.length);
   const [isOpen, setIsOpen] = useState(false);
-  const [node, setNode] = useState(null);
+  const [node, setNode] = useState(nodes[0]);
 
   function closeModal() {
     setIsOpen(false);
@@ -29,11 +29,6 @@ function Flow({ items, enemies }) {
   function openModal() {
     setIsOpen(true);
   }
-
-  useEffect(() => {
-    console.log(items);
-    console.log(enemies);
-  }, [items, enemies]);
 
   const onNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -62,7 +57,6 @@ function Flow({ items, enemies }) {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onNodeDoubleClick={(e) => {
-          console.log('dbClick');
           setNode(nodes.find((n) => n.id === e.target.dataset.id));
           openModal();
         }}
@@ -79,6 +73,8 @@ function Flow({ items, enemies }) {
         openModal={openModal}
         closeModal={closeModal}
         node={node}
+        setNodes={setNodes}
+        key={node.id}
       />
     </>
   );

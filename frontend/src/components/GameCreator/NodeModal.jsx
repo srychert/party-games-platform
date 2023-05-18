@@ -1,13 +1,30 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment } from 'react';
-import CustomSelect from './CustomSelect';
+import { Fragment, useCallback, useState } from 'react';
+import NodeTypeSelect from './NodeTypeSelect';
 import { NODES } from './NodeTypes';
+import Heal from './Nodes/Heal';
 
-export default function NodeModal({ isOpen, openModal, closeModal, node }) {
+export default function NodeModal({ isOpen, openModal, closeModal, node, setNodes }) {
+  const [currentNode, setCurrentNode] = useState(node);
+
   const handleSaveNode = () => {
-    // TODO
+    setNodes((nds) => [...nds.filter((n) => n.id !== node.id), currentNode]);
+
     closeModal();
   };
+
+  const renderFields = useCallback(() => {
+    switch (currentNode.data.node.type) {
+      case NODES.SKIP:
+        return null;
+
+      case NODES.HEAL:
+        return <Heal node={currentNode} setNode={setCurrentNode} key={currentNode.id} />;
+
+      default:
+        return null;
+    }
+  }, [currentNode]);
 
   if (!node) {
     return <></>;
@@ -44,17 +61,15 @@ export default function NodeModal({ isOpen, openModal, closeModal, node }) {
                   as="h3"
                   className="mb-4 text-lg font-medium leading-6 text-gray-900"
                 >
-                  Node
+                  Node {currentNode.data.node.type}
                 </Dialog.Title>
-                <CustomSelect items={Object.values(NODES)} />
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum eum
-                    laborum sunt iusto necessitatibus totam, rerum fugit maxime architecto
-                    fuga minus possimus dolorem culpa magnam repellat neque repellendus,
-                    earum dignissimos.
-                  </p>
-                </div>
+                <NodeTypeSelect
+                  items={Object.values(NODES)}
+                  setNode={setCurrentNode}
+                  node={currentNode}
+                />
+
+                {renderFields()}
 
                 <div className="mt-4">
                   <button type="button" className="button" onClick={handleSaveNode}>

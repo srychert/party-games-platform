@@ -5,13 +5,28 @@ import React from 'react';
 import { IconContext } from 'react-icons';
 import { CgCheck } from 'react-icons/cg';
 
-function CustomSelect({ items }) {
-  const [selectedItem, setSelectedItem] = useState(items[0]);
+function NodeTypeSelect({ items, setNode, node }) {
+  const [selectedItem, setSelectedItem] = useState(node.data.node.type);
+
+  const handleChange = (v) => {
+    setSelectedItem(v);
+    setNode((node) => {
+      return {
+        ...node,
+        data: {
+          label: v,
+          node: {
+            type: v,
+          },
+        },
+      };
+    });
+  };
 
   return (
-    <Listbox value={selectedItem} onChange={setSelectedItem}>
-      <Listbox.Label>Node Type</Listbox.Label>
-      <Listbox.Button className="/50 relative w-full cursor-pointer rounded-lg bg-white px-3 py-2 text-left shadow-md  focus:outline-amber-600">
+    <Listbox value={selectedItem} onChange={handleChange}>
+      <Listbox.Label>Type</Listbox.Label>
+      <Listbox.Button className="/50 relative w-full cursor-pointer rounded-lg bg-white px-1 py-2 text-left shadow-md  focus:outline-amber-600">
         <span className="block truncate">{selectedItem}</span>
       </Listbox.Button>
       <Transition
@@ -26,7 +41,7 @@ function CustomSelect({ items }) {
           {items.map((item, idx) => (
             <Listbox.Option key={idx} value={item} className="border-b-2">
               {({ active, selected }) => (
-                <li
+                <div
                   className={`p-2 ${
                     active ? 'bg-emerald-600 text-white' : 'bg-white text-black'
                   }`}
@@ -39,7 +54,7 @@ function CustomSelect({ items }) {
                     )}
                     <span className="block truncate">{item}</span>
                   </div>
-                </li>
+                </div>
               )}
             </Listbox.Option>
           ))}
@@ -49,4 +64,4 @@ function CustomSelect({ items }) {
   );
 }
 
-export default CustomSelect;
+export default NodeTypeSelect;
