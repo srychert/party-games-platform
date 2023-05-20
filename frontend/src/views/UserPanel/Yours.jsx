@@ -15,9 +15,9 @@ export default function Yours() {
 
   return (
     <>
-      <div className="flex w-full justify-center">
-        <table className="yours-games">
-          <thead>
+      <div className="flex w-full justify-center items-center h-screen">
+        <table className="rounded-lg border border-violet-600 shadow-lg shadow-violet-600 overflow-hidden">
+          <thead className="border-b bg-amber-50 font-semibold">
             <tr>
               <th className="px-6 py-3">Title</th>
               <th className="px-6 py-3">Description</th>
@@ -27,7 +27,7 @@ export default function Yours() {
           <tbody>
             {games.map((game) => {
               return (
-                <tr key={game.id} className="yours-games-tbody">
+                <tr key={game.id} className="yours-games-tbody border-b">
                   <th className="yours-games-row">{game.title}</th>
                   <th className="px-6 py-4">{game.description}</th>
                   <th className="px-6 py-4">{game.totalTimesPlayed}</th>
