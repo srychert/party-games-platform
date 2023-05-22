@@ -1,9 +1,10 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useCallback, useState } from 'react';
-import NodeTypeSelect from './NodeTypeSelect';
+import NodeTypeSelect from './Select/NodeTypeSelect';
 import { NODES } from './NodeTypes';
 import Heal from './Nodes/Heal';
 import Merchant from './Nodes/Merchant';
+import Fight from './Nodes/Fight';
 
 export default function NodeModal({ isOpen, openModal, closeModal, node, setNodes }) {
   const [currentNode, setCurrentNode] = useState(node);
@@ -31,6 +32,9 @@ export default function NodeModal({ isOpen, openModal, closeModal, node, setNode
         return (
           <Merchant node={currentNode} setNode={setCurrentNode} key={currentNode.id} />
         );
+
+      case NODES.FIGHT:
+        return <Fight node={currentNode} setNode={setCurrentNode} key={currentNode.id} />;
 
       default:
         return null;
@@ -76,11 +80,7 @@ export default function NodeModal({ isOpen, openModal, closeModal, node, setNode
                 </Dialog.Title>
 
                 <div className="mb-6">
-                  <NodeTypeSelect
-                    items={Object.values(NODES)}
-                    setNode={setCurrentNode}
-                    node={currentNode}
-                  />
+                  <NodeTypeSelect node={currentNode} setNode={setCurrentNode} />
                 </div>
 
                 <div className="grid gap-4">{renderFields()}</div>

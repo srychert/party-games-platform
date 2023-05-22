@@ -5,29 +5,19 @@ import React from 'react';
 import { IconContext } from 'react-icons';
 import { CgCheck } from 'react-icons/cg';
 
-function NodeTypeSelect({ items, setNode, node }) {
-  const [selectedItem, setSelectedItem] = useState(node.data.node.type);
+function BaseSelect({ label = 'Type', options, startOption, handelSelect }) {
+  const [selectedOption, setSelectedOption] = useState(startOption);
 
   const handleChange = (v) => {
-    setSelectedItem(v);
-    setNode((node) => {
-      return {
-        ...node,
-        data: {
-          label: v,
-          node: {
-            type: v,
-          },
-        },
-      };
-    });
+    setSelectedOption(v);
+    handelSelect(v);
   };
 
   return (
-    <Listbox value={selectedItem} onChange={handleChange}>
-      <Listbox.Label>Type</Listbox.Label>
+    <Listbox value={selectedOption} onChange={handleChange}>
+      <Listbox.Label>{label}</Listbox.Label>
       <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white py-2 text-left shadow-md  focus:outline-amber-600">
-        <span className="block truncate">{selectedItem}</span>
+        <span className="block truncate">{selectedOption.option}</span>
       </Listbox.Button>
       <Transition
         enter="transition duration-200 ease-out"
@@ -38,8 +28,8 @@ function NodeTypeSelect({ items, setNode, node }) {
         leaveTo="transform scale-95 opacity-0"
       >
         <Listbox.Options className="mt-2 grid cursor-pointer">
-          {items.map((item, idx) => (
-            <Listbox.Option key={idx} value={item} className="border-b-2">
+          {options.map((option, idx) => (
+            <Listbox.Option key={idx} value={option} className="border-b-2">
               {({ active, selected }) => (
                 <div
                   className={`p-2 ${
@@ -52,7 +42,7 @@ function NodeTypeSelect({ items, setNode, node }) {
                         <CgCheck />
                       </IconContext.Provider>
                     )}
-                    <span className="block truncate">{item}</span>
+                    <span className="block truncate">{option.option}</span>
                   </div>
                 </div>
               )}
@@ -64,4 +54,4 @@ function NodeTypeSelect({ items, setNode, node }) {
   );
 }
 
-export default NodeTypeSelect;
+export default BaseSelect;
