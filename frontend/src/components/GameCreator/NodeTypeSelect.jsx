@@ -26,7 +26,7 @@ function NodeTypeSelect({ items, setNode, node }) {
   return (
     <Listbox value={selectedItem} onChange={handleChange}>
       <Listbox.Label>Type</Listbox.Label>
-      <Listbox.Button className="/50 relative w-full cursor-pointer rounded-lg bg-white px-1 py-2 text-left shadow-md  focus:outline-amber-600">
+      <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white py-2 text-left shadow-md  focus:outline-amber-600">
         <span className="block truncate">{selectedItem}</span>
       </Listbox.Button>
       <Transition

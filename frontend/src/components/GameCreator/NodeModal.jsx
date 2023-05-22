@@ -3,6 +3,7 @@ import { Fragment, useCallback, useState } from 'react';
 import NodeTypeSelect from './NodeTypeSelect';
 import { NODES } from './NodeTypes';
 import Heal from './Nodes/Heal';
+import Merchant from './Nodes/Merchant';
 
 export default function NodeModal({ isOpen, openModal, closeModal, node, setNodes }) {
   const [currentNode, setCurrentNode] = useState(node);
@@ -13,6 +14,11 @@ export default function NodeModal({ isOpen, openModal, closeModal, node, setNode
     closeModal();
   };
 
+  const handelClose = () => {
+    setCurrentNode(node);
+    closeModal();
+  };
+
   const renderFields = useCallback(() => {
     switch (currentNode.data.node.type) {
       case NODES.SKIP:
@@ -20,6 +26,11 @@ export default function NodeModal({ isOpen, openModal, closeModal, node, setNode
 
       case NODES.HEAL:
         return <Heal node={currentNode} setNode={setCurrentNode} key={currentNode.id} />;
+
+      case NODES.MERCHANT:
+        return (
+          <Merchant node={currentNode} setNode={setCurrentNode} key={currentNode.id} />
+        );
 
       default:
         return null;
@@ -32,7 +43,7 @@ export default function NodeModal({ isOpen, openModal, closeModal, node, setNode
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={closeModal}>
+      <Dialog as="div" className="relative z-50" onClose={handelClose}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -63,13 +74,16 @@ export default function NodeModal({ isOpen, openModal, closeModal, node, setNode
                 >
                   Node {currentNode.data.node.type}
                 </Dialog.Title>
-                <NodeTypeSelect
-                  items={Object.values(NODES)}
-                  setNode={setCurrentNode}
-                  node={currentNode}
-                />
 
-                {renderFields()}
+                <div className="mb-6">
+                  <NodeTypeSelect
+                    items={Object.values(NODES)}
+                    setNode={setCurrentNode}
+                    node={currentNode}
+                  />
+                </div>
+
+                <div className="grid gap-4">{renderFields()}</div>
 
                 <div className="mt-4">
                   <button type="button" className="button" onClick={handleSaveNode}>

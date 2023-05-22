@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import Flow from '../../components/GameCreator/Flow';
 import { useItems } from '../../hooks/game/useItems';
 import { useEnemies } from '../../hooks/game/useEnemies';
 import Loading from '../Loading';
+import { GameContext } from '../../components/GameCreator/gameContext';
 
 function AddGame() {
   const itemsQuery = useItems();
@@ -21,9 +22,11 @@ function AddGame() {
   }
 
   return (
-    <div className="h-full">
-      <Flow items={itemsQuery.data} enemies={enemiesQuery.data} />
-    </div>
+    <GameContext.Provider value={{ items: itemsQuery.data, enemies: enemiesQuery.data }}>
+      <div className="h-full">
+        <Flow />
+      </div>
+    </GameContext.Provider>
   );
 }
 

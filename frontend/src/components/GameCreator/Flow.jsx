@@ -15,7 +15,7 @@ import '../../css/react-flow.css';
 import NodeModal from './NodeModal.jsx';
 import defaultNode from './defaultNode.js';
 
-function Flow({ items, enemies }) {
+function Flow() {
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState(initialEdges);
   const [lastNodeId, setLastNodeId] = useState(initialNodes.length);
@@ -57,7 +57,9 @@ function Flow({ items, enemies }) {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onNodeDoubleClick={(e) => {
-          setNode(nodes.find((n) => n.id === e.target.dataset.id));
+          const clickedId = e.target.dataset.id;
+          if (clickedId === '0') return;
+          setNode(nodes.find((n) => n.id === clickedId));
           openModal();
         }}
         fitView
@@ -74,7 +76,7 @@ function Flow({ items, enemies }) {
         closeModal={closeModal}
         node={node}
         setNodes={setNodes}
-        key={node.id}
+        key={`${node.id}-${node.type}`}
       />
     </>
   );
