@@ -63,7 +63,7 @@ function Fight({ node, setNode }) {
   return (
     <div>
       <EnemyTypeSelect node={node} setNode={setNode} enemies={enemies} />
-      {node.data.node.enemy && (
+      {node.data.node.enemy?.type && (
         <div>
           <div className="mt-4 grid grid-cols-2 gap-4">
             <div className="grid">
@@ -108,7 +108,7 @@ function Fight({ node, setNode }) {
                 id="stance"
                 className="rounded border"
                 value={enemy.stance}
-                onChange={(e) => setEnemy({ ...enemy, stance: parseInt(e.target.value) })}
+                onChange={(e) => setEnemy({ ...enemy, stance: e.target.value })}
               >
                 {Object.values(STANCES).map((stance) => {
                   return (
