@@ -13,7 +13,7 @@ function NavigationBar({
 }) {
   const [showNavbar, setShowNavbar] = useState(showNavbarInit);
 
-  const handelBurgerClick = () => {
+  const handleBurgerClick = () => {
     setShowNavbar(!showNavbar);
   };
 
@@ -44,7 +44,7 @@ function NavigationBar({
   return (
     <>
       <BurgerButton
-        onClick={handelBurgerClick}
+        onClick={handleBurgerClick}
         position={`${showNavbar ? 'hidden' : 'absolute'}`}
       />
       <aside
@@ -53,7 +53,7 @@ function NavigationBar({
         }`}
       >
         <div className={`flex flex-col gap-2 overflow-hidden p-2 `}>
-          <BurgerButton onClick={handelBurgerClick} />
+          <BurgerButton onClick={handleBurgerClick} />
           <nav className={`flex flex-col justify-between gap-2`}>
             {buttonsToRender().map((button, index) => (
               <div className="flex items-center gap-2" key={index}>

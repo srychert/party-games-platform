@@ -2,7 +2,7 @@ import React from 'react';
 import BaseSelect from './BaseSelect';
 
 function EnemyTypeSelect({ node, setNode, enemies }) {
-  const handelSelect = (option) => {
+  const handleSelect = (option) => {
     setNode((node) => {
       return {
         ...node,
@@ -27,7 +27,7 @@ function EnemyTypeSelect({ node, setNode, enemies }) {
         option: node.data.node?.enemy?.type || enemies[0].type,
         value: node.data.node?.enemy || enemies[0],
       }}
-      handelSelect={handelSelect}
+      handleSelect={handleSelect}
     />
   );
 }

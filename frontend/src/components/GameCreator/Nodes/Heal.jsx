@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 function Heal({ node, setNode }) {
   const [baseHeal, setBaseHeal] = useState(node.data.node.baseHeal || 2);
 
-  const handelChangeBaseHeal = (e) => {
+  const handleChangeBaseHeal = (e) => {
     const num = parseInt(e.target.value);
     const isValid = Number.isInteger(num) && num > 0;
 
@@ -35,7 +35,7 @@ function Heal({ node, setNode }) {
           name="baseHeal"
           id="baseHeal"
           autoComplete="off"
-          onChange={handelChangeBaseHeal}
+          onChange={handleChangeBaseHeal}
           value={baseHeal}
           min="0"
           step="1"

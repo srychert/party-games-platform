@@ -3,7 +3,7 @@ import BaseSelect from './BaseSelect';
 import { NODES } from '../NodeTypes';
 
 function NodeTypeSelect({ node, setNode, options }) {
-  const handelSelect = (option) => {
+  const handleSelect = (option) => {
     setNode((node) => {
       return {
         ...node,
@@ -28,7 +28,7 @@ function NodeTypeSelect({ node, setNode, options }) {
     <BaseSelect
       options={options || defaultOptions}
       startOption={{ option: node.data.node.type, value: node.data.node.type }}
-      handelSelect={handelSelect}
+      handleSelect={handleSelect}
     />
   );
 }

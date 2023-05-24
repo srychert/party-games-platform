@@ -5,12 +5,12 @@ import React from 'react';
 import { IconContext } from 'react-icons';
 import { CgCheck } from 'react-icons/cg';
 
-function BaseSelect({ label = 'Type', options, startOption, handelSelect }) {
+function BaseSelect({ label = 'Type', options, startOption, handleSelect }) {
   const [selectedOption, setSelectedOption] = useState(startOption);
 
   const handleChange = (v) => {
     setSelectedOption(v);
-    handelSelect(v);
+    handleSelect(v);
   };
 
   return (

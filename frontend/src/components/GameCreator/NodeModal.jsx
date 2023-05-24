@@ -15,7 +15,7 @@ export default function NodeModal({ isOpen, openModal, closeModal, node, setNode
     closeModal();
   };
 
-  const handelClose = () => {
+  const handleClose = () => {
     setCurrentNode(node);
     closeModal();
   };
@@ -47,7 +47,7 @@ export default function NodeModal({ isOpen, openModal, closeModal, node, setNode
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={handelClose}>
+      <Dialog as="div" className="relative z-50" onClose={handleClose}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"

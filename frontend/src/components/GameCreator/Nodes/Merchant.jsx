@@ -33,13 +33,13 @@ function Merchant({ node, setNode }) {
     );
   };
 
-  const handelCostChange = (id, cost) => {
+  const handleCostChange = (id, cost) => {
     setNodeItems((items) =>
       items.map((item) => (item.id === id ? { ...item, cost } : item))
     );
   };
 
-  const handelItemEffectChange = (id, key, value) => {
+  const handleItemEffectChange = (id, key, value) => {
     setNodeItems((items) =>
       items.map((item) =>
         item.id === id
@@ -95,7 +95,7 @@ function Merchant({ node, setNode }) {
                   <input
                     id={`cost-${item.id}`}
                     placeholder={item.cost}
-                    onChange={(e) => handelCostChange(item.id, e.target.value)}
+                    onChange={(e) => handleCostChange(item.id, e.target.value)}
                   ></input>
                 </div>
 
@@ -109,7 +109,7 @@ function Merchant({ node, setNode }) {
                           id={`effect-${item.id}-${idx}`}
                           placeholder={value}
                           onChange={(e) =>
-                            handelItemEffectChange(item.id, effect, e.target.value)
+                            handleItemEffectChange(item.id, effect, e.target.value)
                           }
                         ></input>
                       </div>
