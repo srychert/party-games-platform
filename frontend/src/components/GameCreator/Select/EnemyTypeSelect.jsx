@@ -24,8 +24,8 @@ function EnemyTypeSelect({ node, setNode, enemies }) {
         return { option: enemy.type, value: enemy };
       })}
       startOption={{
-        option: node.data.node?.enemy?.type || enemies[0].type,
-        value: node.data.node?.enemy || enemies[0],
+        option: node.data.node?.enemy?.type ?? '',
+        value: node.data.node?.enemy?.type ?? '',
       }}
       handleSelect={handleSelect}
     />
