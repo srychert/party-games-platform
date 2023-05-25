@@ -26,7 +26,6 @@ function Join(props) {
   };
 
   const handleMessage = (msg) => {
-    console.log(msg);
     console.log(JSON.parse(msg.json));
     switch (msg.type) {
       case TYPES.JOINED:
@@ -34,7 +33,12 @@ function Join(props) {
         setCookie('nick', msg.sender, { path: '/' });
         //REFACTORABLE
         if (gameType === 'game') {
-          navigate(`/player/game/${pin}`, { state: { player: msg.json } });
+          navigate(`/player/game/${pin}`, {
+            state: {
+              player: JSON.parse(msg.json).player,
+              nodes: JSON.parse(msg.json).node,
+            },
+          });
         } else {
           navigate(`/player/quiz/${pin}`);
         }

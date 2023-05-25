@@ -5,6 +5,7 @@ import { useCookies } from 'react-cookie';
 import { TYPES, createMessage } from '../../services/SocketMessage';
 import Loading from '../Loading';
 import Error from '../Error';
+import playContext from '../../context/PlayContext';
 
 function Game(props) {
   const { client, setTopics, setHandleMessage } = props;
@@ -14,7 +15,8 @@ function Game(props) {
   const [cookies, setCookie, removeCookie] = useCookies();
   const navigate = useNavigate();
   const location = useLocation();
-  const [player, setPlayer] = useState(JSON.parse(location.state.player));
+  const [player, setPlayer] = useState(location.state.player);
+  const [nodes, setNodes] = useState(location.state.nodes);
 
   const onMessageReceived = function (msg) {
     console.log(msg);
@@ -24,25 +26,23 @@ function Game(props) {
         setLoading(false);
         console.log(player);
         break;
+      case TYPES.ANSWERS:
+        setLoading(false);
+        setPlayer(JSON.parse(msg.json).player);
+        break;
       case TYPES.NEXT_ROUND:
         setLoading(false);
-        setPlayer(JSON.parse(msg.json));
+        setPlayer((player.canChooseNode = true));
+        setNodes(JSON.parse(msg.json).playersOptions[player.id]);
         break;
       case TYPES.ENDED:
         navigate('/player/join');
         break;
+      case TYPES.ERROR:
+        console.log(msg);
+        break;
       default:
         break;
-    }
-  };
-  const handleMessageSend = (msg) => {
-    console.log(msg);
-    client.current.sendMessage(
-      `/app/game-room/${pin}`,
-      createMessage(TYPES.PLAY, cookies.nick, msg)
-    );
-    if (!loading) {
-      setLoading(true);
     }
   };
 
@@ -58,15 +58,22 @@ function Game(props) {
   if (error) {
     return <Error message={error} />;
   }
-
-  function handleAnswer(answer) {
-    //console.log(answer);
-    createMessage(TYPES.CHOOSE_NODE, cookies.nick, answer);
+  // cały json z options i params
+  function handleNodeOption(nodeOption) {
+    //NODE_OPTIONS
+    createMessage(TYPES.NODE_OPTIONS, cookies.nick, '', nodeOption);
+  }
+  // tylko id node
+  function handleChooseNode(node) {
+    //CHOOSE_NODE
+    createMessage(TYPES.CHOOSE_NODE, cookies.nick, node);
   }
 
   return (
     <>
-      <GameView handleAnswer={handleAnswer} />
+      <playContext.Provider value={{ player, nodes }}>
+        <GameView handleNextNode={handleChooseNode} handleNodeOption={handleNodeOption} />
+      </playContext.Provider>
     </>
   );
 }

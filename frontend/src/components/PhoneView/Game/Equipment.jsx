@@ -1,12 +1,11 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useContext } from 'react';
 import ItemMapper from '../../GameIconMapper/ItemMapper';
 import EnemyMapper from '../../GameIconMapper/EnemyMapper';
+import playContext from '../../../context/PlayContext';
 
-function Equipment(props) {
-  const location = useLocation();
-  const { player, node } = JSON.parse(location.state.player);
-  console.log(player, node);
+function Equipment() {
+  const { player, nodes } = useContext(playContext);
+  console.log(player, nodes);
   return (
     <>
       <div>

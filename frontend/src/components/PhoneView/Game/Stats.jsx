@@ -1,9 +1,8 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useContext } from 'react';
+import playContext from '../../../context/PlayContext';
 
 function Stats() {
-  const location = useLocation();
-  const { player } = JSON.parse(location.state.player);
+  const { player } = useContext(playContext);
   return (
     <>
       <div className="flex gap-4 whitespace-nowrap text-xl font-bold">

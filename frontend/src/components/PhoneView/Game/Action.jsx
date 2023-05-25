@@ -1,11 +1,10 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useContext } from 'react';
+import playContext from '../../../context/PlayContext';
 
-function Action(props) {
-  const location = useLocation();
-  const { player, node } = JSON.parse(location.state.player);
-  console.log(player, node);
-  return <div>{node.type}</div>;
+function Action() {
+  const { player, nodes } = useContext(playContext);
+
+  return <div>{nodes.type}</div>;
 }
 
 export default Action;
