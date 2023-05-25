@@ -21,7 +21,7 @@ function NavigationBar({
     const addedButtons = [];
 
     if (loggedIn) {
-      addedButtons.push({ to: '/profile', text: 'Host' });
+      addedButtons.push({ to: '/profile', text: 'Profile' });
       addedButtons.push({ to: '/logout', text: 'Logout' });
       return [...buttons, ...addedButtons];
     }
