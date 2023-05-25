@@ -19,7 +19,7 @@ function TestView(props) {
     console.log(msg);
   };
 
-  const handelSendMsg = () => {
+  const handleSendMsg = () => {
     const topics = {
       create: `/app/create/game-room`,
       room: `/app/game-room/${pin}`,
@@ -92,7 +92,7 @@ function TestView(props) {
         onChange={(e) => setJsonField(e.target.value)}
       />
 
-      <button onClick={handelSendMsg}>Send</button>
+      <button onClick={handleSendMsg}>Send</button>
     </div>
   );
 }

@@ -1,0 +1,9 @@
+.react-flow__controls-button {
+    width: 32px;
+    height: 32px;
+}
+
+.react-flow__controls-button svg {
+    max-width: 24px;
+    max-height: 24px;
+}

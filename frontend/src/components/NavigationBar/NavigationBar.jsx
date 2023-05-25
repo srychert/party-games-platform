@@ -13,7 +13,7 @@ function NavigationBar({
 }) {
   const [showNavbar, setShowNavbar] = useState(showNavbarInit);
 
-  const handelBurgerClick = () => {
+  const handleBurgerClick = () => {
     setShowNavbar(!showNavbar);
   };
 
@@ -32,7 +32,8 @@ function NavigationBar({
       addedButtons.push({ to: '/profile', text: 'Profile' });
       addedButtons.push({ to: '/profile/security', text: 'Security' });
       addedButtons.push({ to: '/profile/yours', text: 'Quizzes' });
-      addedButtons.push({ to: '/profile/addquiz', text: 'Add Quiz' });
+      addedButtons.push({ to: '/profile/add-game', text: 'Add Game' });
+      addedButtons.push({ to: '/profile/add-quiz', text: 'Add Quiz' });
       addedButtons.push({ to: '/logout', text: 'Logout' });
       return [...buttons, ...addedButtons];
     }
@@ -43,7 +44,7 @@ function NavigationBar({
   return (
     <>
       <BurgerButton
-        onClick={handelBurgerClick}
+        onClick={handleBurgerClick}
         position={`${showNavbar ? 'hidden' : 'absolute'}`}
       />
       <aside
@@ -52,7 +53,7 @@ function NavigationBar({
         }`}
       >
         <div className={`flex flex-col gap-2 overflow-hidden p-2 `}>
-          <BurgerButton onClick={handelBurgerClick} />
+          <BurgerButton onClick={handleBurgerClick} />
           <nav className={`flex flex-col justify-between gap-2`}>
             {buttonsToRender().map((button, index) => (
               <div className="flex items-center gap-2" key={index}>

@@ -4,6 +4,7 @@ import Yours from '../views/UserPanel/Yours';
 import AddQuiz from '../views/UserPanel/AddQuiz';
 import Profile from '../views/UserPanel/Profile';
 import NavigationBar from './NavigationBar/NavigationBar';
+import AddGame from '../views/UserPanel/AddGame';
 
 function ProfileLayout(props) {
   return (
@@ -14,7 +15,8 @@ function ProfileLayout(props) {
           <Route path="/" element={<Profile />} />
           <Route path="/security" element={<Security />} />
           <Route path="/yours" element={<Yours />} />
-          <Route path="/addquiz" element={<AddQuiz />} />
+          <Route path="/add-quiz" element={<AddQuiz />} />
+          <Route path="/add-game" element={<AddGame />} />
         </Routes>
       </main>
     </>
