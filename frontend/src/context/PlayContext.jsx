@@ -3,7 +3,7 @@ import { createContext } from 'react';
 const playContext = createContext({
   player: null,
   nodeOptions: null,
-  nodes: null,
+  node: null,
   enemy: null,
   error: null,
 });

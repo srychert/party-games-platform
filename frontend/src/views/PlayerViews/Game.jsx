@@ -15,8 +15,9 @@ function Game(props) {
   const navigate = useNavigate();
   const location = useLocation();
   const [player, setPlayer] = useState(location.state.player);
-  const [nodes, setNodes] = useState(location.state.nodes);
-  const [nodesOptions, setNodesOptions] = useState(null);
+  const [node, setNode] = useState(location.state.node);
+  const [nodeOptions, setNodeOptions] = useState(null);
+  const [nextNodes, setNextNodes] = useState(null);
 
   const onMessageReceived = function (msg) {
     console.log(msg);
@@ -29,12 +30,12 @@ function Game(props) {
       case TYPES.ANSWER:
         setLoading(false);
         setPlayer(JSON.parse(msg.json).player);
-        setNodesOptions(JSON.parse(msg.json).nodes);
+        setNodeOptions(JSON.parse(msg.json).node);
         break;
       case TYPES.NEXT_ROUND:
         setLoading(false);
         setPlayer({ ...player, canChooseNode: true });
-        setNodes(JSON.parse(msg.json).playersOptions[player.id]);
+        setNextNodes(JSON.parse(msg.json).playerOptions[player.id]);
         break;
       case TYPES.ENDED:
         navigate('/player/join');
@@ -78,7 +79,7 @@ function Game(props) {
   }
   return (
     <>
-      <playContext.Provider value={{ player, nodes, error }}>
+      <playContext.Provider value={{ player, node, error }}>
         <GameView handleNextNode={handleChooseNode} handleNodeOption={handleNodeOption} />
       </playContext.Provider>
     </>

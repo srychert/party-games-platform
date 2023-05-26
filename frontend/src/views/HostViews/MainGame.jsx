@@ -72,11 +72,7 @@ function MainGame(props) {
       `/app/game-room/${pin}/host`,
       createMessage(TYPES.START_GAME, 'HOST')
     );
-    setTopics([
-      `/topic/game-room/${pin}/host`,
-      `/user/topic/reply`,
-      `app/game-room/${pin}`,
-    ]);
+    setTopics([`/topic/game-room/${pin}/host`, `/topic/game-room/${pin}`]);
     setHandleMessage({ fn: handleMessage });
   }, [pin]);
 

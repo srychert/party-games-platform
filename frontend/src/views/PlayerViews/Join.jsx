@@ -36,7 +36,7 @@ function Join(props) {
           navigate(`/player/game/${pin}`, {
             state: {
               player: JSON.parse(msg.json).player,
-              nodes: JSON.parse(msg.json).node,
+              node: JSON.parse(msg.json).node,
             },
           });
         } else {
