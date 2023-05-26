@@ -16,6 +16,7 @@ function Game(props) {
   const location = useLocation();
   const [player, setPlayer] = useState(location.state.player);
   const [nodes, setNodes] = useState(location.state.nodes);
+  const [nodesOptions, setNodesOptions] = useState(null);
 
   const onMessageReceived = function (msg) {
     console.log(msg);
@@ -28,6 +29,7 @@ function Game(props) {
       case TYPES.ANSWER:
         setLoading(false);
         setPlayer(JSON.parse(msg.json).player);
+        setNodesOptions(JSON.parse(msg.json).nodes);
         break;
       case TYPES.NEXT_ROUND:
         setLoading(false);
