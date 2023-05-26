@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import playContext from '../../../../context/PlayContext';
 
 function Heal({ handleNodeOption }) {
-  const [healAmount, setHealAmount] = useState(2);
+  const [goldAmount, setGoldAmount] = useState(2);
   const { player } = useContext(playContext);
   return (
     <>
@@ -10,15 +10,23 @@ function Heal({ handleNodeOption }) {
         Free Heal
       </button>
       <div className="answerBox">
-        Buy Heal for {healAmount} gold
+        Buy Heal for {goldAmount} gold
         <div className="grid">
-          <button className="button" onClick={() => setHealAmount(healAmount + 1)}>
+          <button className="button" onClick={() => setGoldAmount(goldAmount + 1)}>
             +
           </button>
-          <button className="button" onClick={() => setHealAmount(healAmount - 1)}>
+          <button className="button" onClick={() => setGoldAmount(goldAmount - 1)}>
             -
           </button>
-          <button className="button" onClick={() => handleNodeOption(healAmount)}>
+          <button
+            className="button"
+            onClick={() =>
+              handleNodeOption({
+                ...player.options[1],
+                parameters: [{ value: goldAmount }],
+              })
+            }
+          >
             Confirm
           </button>
         </div>

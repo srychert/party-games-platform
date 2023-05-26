@@ -7,7 +7,7 @@ function Fight({ handleNodeOption }) {
   const { player } = useContext(playContext);
   return (
     <>
-      <button className="answerBox" onClick={() => handleNodeOption()}>
+      <button className="answerBox" onClick={() => handleNodeOption(player.options[0])}>
         Fight
       </button>
       <div className="answerBox">
@@ -18,21 +18,41 @@ function Fight({ handleNodeOption }) {
             <option value="offensive">Offensive</option>
             <option value="balanced">Balanced</option>
           </select>
-          <button className="button" onClick={() => handleNodeOption(stance)}>
+          <button
+            className="button"
+            onClick={() =>
+              handleNodeOption({
+                ...player.options[1],
+                parameters: [{ value: stance }],
+              })
+            }
+          >
             Confirm
           </button>
         </div>
         <div className="grid">
-          <select onChange={(e) => setItemID(e.target.value)}>
-            {player.items.map((item, index) => (
-              <option value={item.id} key={index}>
-                {item.name}
-              </option>
-            ))}
-          </select>
-          <button className="button" onClick={() => handleNodeOption(itemID)}>
-            Confirm
-          </button>
+          {player.items.length > 0 ? (
+            <div>
+              <select onChange={(e) => setItemID(e.target.value)}>
+                {player.items.map((item, index) => (
+                  <option value={item.id} key={index}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+              <button
+                className="button"
+                onClick={() =>
+                  handleNodeOption({
+                    ...player.options[1],
+                    parameters: [{ value: itemID }],
+                  })
+                }
+              >
+                Confirm
+              </button>
+            </div>
+          ) : null}
         </div>
       </div>
     </>
@@ -40,3 +60,9 @@ function Fight({ handleNodeOption }) {
 }
 
 export default Fight;
+
+// TODO:
+
+// null moze być "nie masz itemów"
+
+// stance enum a nie jakiś string
