@@ -5,6 +5,7 @@ const playContext = createContext({
   nodeOptions: null,
   nodes: null,
   enemy: null,
+  error: null,
 });
 
 export default playContext;

@@ -4,7 +4,6 @@ import GameView from '../../components/PhoneView/Game/GameView';
 import { useCookies } from 'react-cookie';
 import { TYPES, createMessage } from '../../services/SocketMessage';
 import Loading from '../Loading';
-import Error from '../Error';
 import playContext from '../../context/PlayContext';
 
 function Game(props) {
@@ -26,13 +25,13 @@ function Game(props) {
         setLoading(false);
         console.log(player);
         break;
-      case TYPES.ANSWERS:
+      case TYPES.ANSWER:
         setLoading(false);
         setPlayer(JSON.parse(msg.json).player);
         break;
       case TYPES.NEXT_ROUND:
         setLoading(false);
-        setPlayer((player.canChooseNode = true));
+        setPlayer({ ...player, canChooseNode: true });
         setNodes(JSON.parse(msg.json).playersOptions[player.id]);
         break;
       case TYPES.ENDED:
@@ -40,6 +39,7 @@ function Game(props) {
         break;
       case TYPES.ERROR:
         console.log(msg);
+        setError(msg.content);
         break;
       default:
         break;
@@ -55,23 +55,29 @@ function Game(props) {
     return <Loading message={'Waiting for host'} />;
   }
 
-  if (error) {
-    return <Error message={error} />;
-  }
   // cały json z options i params
   function handleNodeOption(nodeOption) {
     //NODE_OPTIONS
-    createMessage(TYPES.NODE_OPTIONS, cookies.nick, '', nodeOption);
+    // NODE TYPE jakies default params albo dodane hmmm
+    console.log(nodeOption, 'NODE_OPTION');
+    nodeOption = { ...nodeOption, value: nodeOption ? nodeOption : '' };
+    client.current.sendMessage(
+      `/app/game-room/${pin}`,
+      createMessage(TYPES.NODE_OPTION, cookies.nick, '', JSON.stringify(nodeOption))
+    );
   }
   // tylko id node
   function handleChooseNode(node) {
     //CHOOSE_NODE
-    createMessage(TYPES.CHOOSE_NODE, cookies.nick, node);
+    console.log(node, 'CHOOSE_NODE');
+    client.current.sendMessage(
+      `/app/game-room/${pin}`,
+      createMessage(TYPES.CHOOSE_NODE, cookies.nick, node)
+    );
   }
-
   return (
     <>
-      <playContext.Provider value={{ player, nodes }}>
+      <playContext.Provider value={{ player, nodes, error }}>
         <GameView handleNextNode={handleChooseNode} handleNodeOption={handleNodeOption} />
       </playContext.Provider>
     </>

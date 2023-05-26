@@ -21,6 +21,15 @@ function MainGame(props) {
     );
     navigate(`/host`);
   };
+
+  const handleNextRound = () => {
+    console.log('next round');
+    client.current.sendMessage(
+      `/app/game-room/${pin}/host`,
+      createMessage(TYPES.NEXT_ROUND, 'Host')
+    );
+  };
+
   const handleMessage = (msg) => {
     console.log(msg);
     console.log(JSON.parse(msg.json));
@@ -63,7 +72,11 @@ function MainGame(props) {
       `/app/game-room/${pin}/host`,
       createMessage(TYPES.START_GAME, 'HOST')
     );
-    setTopics([`/topic/game-room/${pin}/host`, `/user/topic/reply`]);
+    setTopics([
+      `/topic/game-room/${pin}/host`,
+      `/user/topic/reply`,
+      `app/game-room/${pin}`,
+    ]);
     setHandleMessage({ fn: handleMessage });
   }, [pin]);
 
@@ -73,13 +86,18 @@ function MainGame(props) {
 
   return (
     <>
-      <div className="flex">
+      <div className="flex justify-between">
         <div className="p-5">
           <button className="button" onClick={handleLeave}>
             Leave
           </button>
         </div>
         <div className="mx-5 flex flex-col items-center justify-center">STARTED</div>
+        <div className="p-5">
+          <button className="button" onClick={handleNextRound}>
+            Next Round
+          </button>
+        </div>
       </div>
     </>
   );

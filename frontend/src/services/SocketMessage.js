@@ -6,6 +6,7 @@ export const createMessage = (type, sender, content, json) => {
     content,
     json,
   };
+  console.log('createMessage', msg);
   return JSON.stringify(msg);
 };
 
@@ -24,7 +25,7 @@ export const TYPES = {
   DUPLICATE_NICK: 'DUPLICATE_NICK',
   NO_ROOM: 'NO_ROOM',
   PLAY: 'PLAY',
-  ANSWERS: 'ANSWERS',
+  ANSWER: 'ANSWER',
   NODE_OPTION: 'NODE_OPTION',
   CHOOSE_NODE: 'CHOOSE_NODE',
 
