@@ -60,7 +60,6 @@ function Game(props) {
     //NODE_OPTIONS
     // NODE TYPE jakies default params albo dodane hmmm
     console.log(nodeOption, 'NODE_OPTION');
-    nodeOption = { ...nodeOption, value: nodeOption ? nodeOption : '' };
     client.current.sendMessage(
       `/app/game-room/${pin}`,
       createMessage(TYPES.NODE_OPTION, cookies.nick, '', JSON.stringify(nodeOption))

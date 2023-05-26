@@ -30,7 +30,7 @@ function Fight({ handleNodeOption }) {
               </option>
             ))}
           </select>
-          <button className="button" onClick={() => handleNodeOption(stance)}>
+          <button className="button" onClick={() => handleNodeOption(itemID)}>
             Confirm
           </button>
         </div>

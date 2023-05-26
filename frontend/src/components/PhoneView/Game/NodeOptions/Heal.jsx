@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import playContext from '../../../../context/PlayContext';
 
 function Heal({ handleNodeOption }) {
   const [healAmount, setHealAmount] = useState(2);
+  const { player } = useContext(playContext);
   return (
     <>
-      <button className="answerBox" onClick={() => handleNodeOption()}>
+      <button className="answerBox" onClick={() => handleNodeOption(player.options[0])}>
         Free Heal
       </button>
       <div className="answerBox">

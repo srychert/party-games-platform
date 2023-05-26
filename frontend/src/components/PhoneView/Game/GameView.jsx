@@ -36,10 +36,11 @@ function GameView({ handleNextNode, handleNodeOption }) {
       {/** To akcja w nodzie, wybierasz opcje noda (params?) */}
       {player.currentRoundCompleted == false && (
         <div className="m-1 grid h-4/5 w-full grid-cols-2 gap-2">
-          {player.currentNode == 0 && <Skip handleNodeOption={handleNodeOption} />}
-          {player.currentNode == 1 && <Fight handleNodeOption={handleNodeOption} />}
-          {player.currentNode == 2 && <Heal handleNodeOption={handleNodeOption} />}
-          {player.currentNode == 3 && <Merchant handleNodeOption={handleNodeOption} />}
+          {player.currentNode == 1 ||
+            (player.currentNode == 0 && <Skip handleNodeOption={handleNodeOption} />)}
+          {player.currentNode == 2 && <Fight handleNodeOption={handleNodeOption} />}
+          {player.currentNode == 3 && <Heal handleNodeOption={handleNodeOption} />}
+          {player.currentNode == 4 && <Merchant handleNodeOption={handleNodeOption} />}
         </div>
       )}
       {player.currentRoundCompleted == true && player.canChooseNode == false && (
