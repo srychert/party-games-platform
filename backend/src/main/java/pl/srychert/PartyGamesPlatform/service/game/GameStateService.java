@@ -123,7 +123,7 @@ public class GameStateService {
         }
 
         Game game = gameOpt.get();
-        
+
         return Optional.ofNullable(game.getNodes().get(player.getCurrentNode()));
     }
 
