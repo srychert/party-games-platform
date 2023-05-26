@@ -1,5 +1,5 @@
 import defaultNode from './defaultNode';
-import { NODES } from './NodeTypes';
+import { NODES } from '../../enums/NodeTypes';
 
 export default [
   {
@@ -32,9 +32,9 @@ export default [
     ...defaultNode,
     id: '3',
     data: {
-    label: NODES.HEAL,
-    node: {
-      type: NODES.HEAL,
+      label: NODES.HEAL,
+      node: {
+        type: NODES.HEAL,
       },
     },
     position: { x: 200, y: 50 },
@@ -44,9 +44,9 @@ export default [
     ...defaultNode,
     id: '4',
     data: {
-    label: NODES.MERCHANT,
-    node: {
-      type: NODES.MERCHANT,
+      label: NODES.MERCHANT,
+      node: {
+        type: NODES.MERCHANT,
       },
     },
     position: { x: 200, y: 150 },

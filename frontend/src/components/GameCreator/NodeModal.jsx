@@ -1,7 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useCallback, useState } from 'react';
 import NodeTypeSelect from './Select/NodeTypeSelect';
-import { NODES } from './NodeTypes';
+import { NODES } from '../../enums/NodeTypes';
 import Heal from './Nodes/Heal';
 import Merchant from './Nodes/Merchant';
 import Fight from './Nodes/Fight';

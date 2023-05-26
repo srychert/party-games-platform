@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import PointsChart from '../../components/PointsChart/PointsChart';
-import { TYPES, createMessage } from '../../services/SocketMessage';
+import { createMessage } from '../../services/SocketMessage';
 import Loading from '../Loading';
+import { TYPES } from '../../enums/MessageTypes';
 
 function MainQuiz(props) {
   const { client, setTopics, setHandleMessage } = props;

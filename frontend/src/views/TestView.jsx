@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { createMessage, TYPES } from '../services/SocketMessage';
+import { createMessage } from '../services/SocketMessage';
+import { TYPES } from '../enums/MessageTypes';
 
 function TestView(props) {
   const { client, setTopics, setHandleMessage, setHandleConnect, connected } = props;

@@ -1,4 +1,4 @@
-import { NODES } from './NodeTypes';
+import { NODES } from '../../enums/NodeTypes';
 
 export default {
   id: '',

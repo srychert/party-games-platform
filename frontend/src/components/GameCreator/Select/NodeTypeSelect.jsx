@@ -1,6 +1,6 @@
 import React from 'react';
 import BaseSelect from './BaseSelect';
-import { NODES } from '../NodeTypes';
+import { NODES } from '../../../enums/NodeTypes';
 
 function NodeTypeSelect({ node, setNode, options }) {
   const handleSelect = (option) => {

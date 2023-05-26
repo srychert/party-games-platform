@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { createMessage, TYPES } from '../../services/SocketMessage';
+import { createMessage } from '../../services/SocketMessage';
 import Loading from '../Loading';
 import Error from '../Error';
+import { TYPES } from '../../enums/MessageTypes';
 
 function getPin(client, id) {
   client.current.sendMessage(

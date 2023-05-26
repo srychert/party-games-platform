@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createMessage, TYPES } from '../../services/SocketMessage';
+import { createMessage } from '../../services/SocketMessage';
 import { useCookies } from 'react-cookie';
+import { TYPES } from '../../enums/MessageTypes';
 
 function Join(props) {
   const { client, setTopics, setHandleMessage } = props;

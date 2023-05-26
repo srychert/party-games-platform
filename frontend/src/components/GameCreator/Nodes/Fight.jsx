@@ -1,9 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import EnemyTypeSelect from '../Select/EnemyTypeSelect';
 import { GameContext } from '../gameContext';
-import { STANCES } from '../StanceTypes';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { STANCES } from '../../../enums/StanceTypes';
 
 const defaultStances = Object.values(STANCES).map((key) => {
   return {

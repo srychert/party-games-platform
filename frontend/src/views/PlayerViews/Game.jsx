@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import GameView from '../../components/PhoneView/Game/GameView';
 import { useCookies } from 'react-cookie';
-import { TYPES, createMessage } from '../../services/SocketMessage';
+import { createMessage } from '../../services/SocketMessage';
 import Loading from '../Loading';
 import playContext from '../../context/PlayContext';
+import { TYPES } from '../../enums/MessageTypes';
 
 function Game(props) {
   const { client, setTopics, setHandleMessage } = props;
@@ -14,10 +15,9 @@ function Game(props) {
   const [cookies, setCookie, removeCookie] = useCookies();
   const navigate = useNavigate();
   const location = useLocation();
-  const [player, setPlayer] = useState(location.state.player);
-  const [node, setNode] = useState(location.state.node);
-  const [nodeOptions, setNodeOptions] = useState(null);
-  const [nextNodes, setNextNodes] = useState(null);
+  const [player, setPlayer] = useState(location.state.player); // player info, node options, flags, etc.
+  const [node, setNode] = useState(location.state.node); // node info (enemy, merchants items, etc.)
+  const [nextNodes, setNextNodes] = useState(null); // next nodes to choose from
 
   const onMessageReceived = function (msg) {
     console.log(msg);
@@ -30,7 +30,6 @@ function Game(props) {
       case TYPES.ANSWER:
         setLoading(false);
         setPlayer(JSON.parse(msg.json).player);
-        setNodeOptions(JSON.parse(msg.json).node);
         break;
       case TYPES.NEXT_ROUND:
         setLoading(false);

@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import QuizType from '../../components/PhoneView/Quiz/QuizType';
 import Loading from '../Loading';
-import { createMessage, TYPES } from '../../services/SocketMessage';
+import { createMessage } from '../../services/SocketMessage';
 import { useCookies } from 'react-cookie';
+import { TYPES } from '../../enums/MessageTypes';
 
 function Quiz(props) {
   const { client, setTopics, setHandleMessage } = props;
