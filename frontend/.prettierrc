@@ -1,5 +1,9 @@
 {
   "printWidth": 90,
   "singleQuote": true,
-  "endOfLine": "lf"
+  "endOfLine": "lf",
+  "trailingComma": "es5",
+  "tabWidth": 2,
+  "semi": true,
+  "tailwindConfig": "./tailwind.config.js"
 }
