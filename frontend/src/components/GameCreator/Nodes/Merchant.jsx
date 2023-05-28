@@ -4,7 +4,7 @@ import { CgPen, CgTrash } from 'react-icons/cg';
 import { IconContext } from 'react-icons';
 
 function Merchant({ node, setNode }) {
-  const [nodeItems, setNodeItems] = useState(node.data.node.itemList || []);
+  const [nodeItems, setNodeItems] = useState(node.data.node.itemsList || []);
 
   useEffect(() => {
     setNode((node) => {
@@ -14,7 +14,7 @@ function Merchant({ node, setNode }) {
           ...node.data,
           node: {
             ...node.data.node,
-            itemList: nodeItems,
+            itemsList: nodeItems,
           },
         },
       };
@@ -43,7 +43,7 @@ function Merchant({ node, setNode }) {
     setNodeItems((items) =>
       items.map((item) =>
         item.id === id
-          ? { ...item, itemEffectMap: { ...item.itemEffectMap, [key]: value } }
+          ? { ...item, itemEffectMap: { ...item.itemEffectMap, [key]: parseInt(value) } }
           : item
       )
     );

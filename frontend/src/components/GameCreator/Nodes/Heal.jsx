@@ -1,7 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 function Heal({ node, setNode }) {
   const [baseHeal, setBaseHeal] = useState(node.data.node.baseHeal || 2);
+
+  const updateNodeBaseHeal = (value) => {
+    setNode((node) => {
+      return {
+        ...node,
+        data: {
+          ...node.data,
+          node: {
+            ...node.data.node,
+            baseHeal: value,
+          },
+        },
+      };
+    });
+  };
 
   const handleChangeBaseHeal = (e) => {
     const num = parseInt(e.target.value);
@@ -10,20 +25,13 @@ function Heal({ node, setNode }) {
     setBaseHeal(num);
 
     if (isValid) {
-      setNode((node) => {
-        return {
-          ...node,
-          data: {
-            ...node.data,
-            node: {
-              ...node.data.node,
-              baseHeal: num,
-            },
-          },
-        };
-      });
+      updateNodeBaseHeal(num);
     }
   };
+
+  useEffect(() => {
+    updateNodeBaseHeal(baseHeal);
+  }, []);
 
   return (
     <div className="form-row">

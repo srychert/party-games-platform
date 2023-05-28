@@ -3,7 +3,7 @@ import { Listbox, Transition } from '@headlessui/react';
 
 import React from 'react';
 import { IconContext } from 'react-icons';
-import { CgCheck } from 'react-icons/cg';
+import { CgCheck, CgSelect } from 'react-icons/cg';
 
 function BaseSelect({ label = 'Type', options, startOption, handleSelect }) {
   const [selectedOption, setSelectedOption] = useState(startOption);
@@ -16,8 +16,11 @@ function BaseSelect({ label = 'Type', options, startOption, handleSelect }) {
   return (
     <Listbox value={selectedOption} onChange={handleChange}>
       <Listbox.Label>{label}</Listbox.Label>
-      <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white py-2 text-left shadow-md  focus:outline-amber-600">
+      <Listbox.Button className="relative flex w-full cursor-pointer justify-between rounded-lg bg-white py-2 text-left shadow-md  focus:outline-amber-600">
         <span className="block truncate">{selectedOption.option}</span>
+        <IconContext.Provider value={{ size: '1.5em' }}>
+          <CgSelect className="mr-2" />
+        </IconContext.Provider>
       </Listbox.Button>
       <Transition
         enter="transition duration-200 ease-out"

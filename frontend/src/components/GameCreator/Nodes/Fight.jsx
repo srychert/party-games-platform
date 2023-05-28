@@ -27,8 +27,6 @@ function Fight({ node, setNode }) {
   });
 
   useEffect(() => {
-    console.log('node change');
-
     if (node.data.node.enemy) {
       const rest = defaultStances
         .filter((s) => !node.data.node.enemy.stances.find((es) => es.stance === s.stance))
