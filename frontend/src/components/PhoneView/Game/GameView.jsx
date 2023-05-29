@@ -8,9 +8,8 @@ import Heal from './NodeOptions/Heal';
 import Merchant from './NodeOptions/Merchant';
 
 function GameView({ handleNextNode, handleNodeOption }) {
-  const { player, node } = useContext(playContext);
+  const { player, nextNodes } = useContext(playContext);
 
-  console.log(node);
   console.log(player);
 
   return (
@@ -21,7 +20,7 @@ function GameView({ handleNextNode, handleNodeOption }) {
       {/** To jest po akcji w nodzie, wybierasz kolejną drogę */}
       {player.canChooseNode == true && (
         <div className="m-1 grid h-4/5 w-full grid-cols-2 gap-2">
-          {node.map((nextNode, index) => (
+          {nextNodes.map((nextNode, index) => (
             <button
               className="answerBox"
               key={index}
@@ -36,8 +35,9 @@ function GameView({ handleNextNode, handleNodeOption }) {
       {/** To akcja w nodzie, wybierasz opcje noda (params?) */}
       {player.currentRoundCompleted == false && (
         <div className="m-1 grid h-4/5 w-full grid-cols-2 gap-2">
-          {node.type == 1 ||
-            (player.currentNode == 0 && <Skip handleNodeOption={handleNodeOption} />)}
+          {(player.currentNode == 1 || player.currentNode == 0) && (
+            <Skip handleNodeOption={handleNodeOption} />
+          )}
           {player.currentNode == 2 && <Fight handleNodeOption={handleNodeOption} />}
           {player.currentNode == 3 && <Heal handleNodeOption={handleNodeOption} />}
           {player.currentNode == 4 && <Merchant handleNodeOption={handleNodeOption} />}

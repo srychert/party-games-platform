@@ -16,7 +16,7 @@ function Game(props) {
   const navigate = useNavigate();
   const location = useLocation();
   const [player, setPlayer] = useState(location.state.player); // player info, node options, flags, etc.
-  const [node, setNode] = useState(location.state.node); // node info (enemy, merchants items, etc.)
+  const [nodeOptions, setNodeOptions] = useState(location.state.node); // node info (enemy, merchants items, etc.)
   const [nextNodes, setNextNodes] = useState(null); // next nodes to choose from
 
   const onMessageReceived = function (msg) {
@@ -34,7 +34,7 @@ function Game(props) {
       case TYPES.NEXT_ROUND:
         setLoading(false);
         setPlayer({ ...player, canChooseNode: true });
-        setNextNodes(JSON.parse(msg.json).playerOptions[player.id]);
+        setNextNodes(JSON.parse(msg.json).playersOptions[player.id]);
         break;
       case TYPES.ENDED:
         navigate('/player/join');
@@ -78,7 +78,14 @@ function Game(props) {
   }
   return (
     <>
-      <playContext.Provider value={{ player, node, error }}>
+      <playContext.Provider
+        value={{
+          player: player,
+          nextNodes: nextNodes,
+          nodeOptions: nodeOptions,
+          error: error,
+        }}
+      >
         <GameView handleNextNode={handleChooseNode} handleNodeOption={handleNodeOption} />
       </playContext.Provider>
     </>
