@@ -30,6 +30,7 @@ public class Goblin extends Enemy {
                 StanceWithChance.builder().stance(Stance.DEFENSIVE).chance(20).build()
         )));
         super.setStance(providedStance.orElse(Stance.NORMAL));
+        setPath("goblin.png");
         setType(EnemyType.GOBLIN);
     }
 }

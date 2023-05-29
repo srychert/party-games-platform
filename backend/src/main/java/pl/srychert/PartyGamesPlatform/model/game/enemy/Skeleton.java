@@ -30,6 +30,7 @@ public class Skeleton extends Enemy {
                 StanceWithChance.builder().stance(Stance.COUNTER).chance(40).build()
         )));
         super.setStance(providedStance.orElse(Stance.NORMAL));
+        setPath("skeleton.png");
         setType(EnemyType.SKELETON);
     }
 }

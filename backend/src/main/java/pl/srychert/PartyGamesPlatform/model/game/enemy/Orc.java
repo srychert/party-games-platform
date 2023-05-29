@@ -30,6 +30,7 @@ public class Orc extends Enemy {
                 StanceWithChance.builder().stance(Stance.DEFENSIVE).chance(20).build()
         )));
         super.setStance(providedStance.orElse(Stance.NORMAL));
+        setPath("orc.png");
         setType(EnemyType.ORC);
     }
 }

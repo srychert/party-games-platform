@@ -30,6 +30,7 @@ public class Dragon extends Enemy {
                 StanceWithChance.builder().stance(Stance.OFFENSIVE).chance(30).build()
         )));
         super.setStance(providedStance.orElse(Stance.NORMAL));
+        setPath("dragon.png");
         setType(EnemyType.DRAGON);
     }
 }

@@ -46,6 +46,8 @@ public abstract class Enemy implements Lootable, GameEntity {
     @SumChance
     private List<@Valid StanceWithChance> stances;
     private Stance stance;
+    @NotNull
+    private String path;
     private @Valid Loot loot;
 
     public Enemy() {
