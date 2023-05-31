@@ -32,7 +32,7 @@ public class Vampire extends Enemy {
                 StanceWithChance.builder().stance(Stance.DEFENSIVE).chance(10).build(),
         )));
         super.setStance(providedStance.orElse(Stance.NORMAL));
-        setPath("vampire.png");
+        setPath("enemies/vampire.png");
         setType(EnemyType.VAMPIRE);
     }
 }

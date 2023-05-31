@@ -30,7 +30,7 @@ public class Zombie extends Enemy {
                 StanceWithChance.builder().stance(Stance.DEFENSIVE).chance(10).build()
         )));
         super.setStance(providedStance.orElse(Stance.NORMAL));
-        setPath("zombie.png");
+        setPath("enemies/zombie.png");
         setType(EnemyType.ZOMBIE);
     }
 }

@@ -30,7 +30,7 @@ public class Wizard extends Enemy {
                 StanceWithChance.builder().stance(Stance.DEFENSIVE).chance(20).build()
         )));
         super.setStance(providedStance.orElse(Stance.NORMAL));
-        setPath("wizard.png");
+        setPath("enemies/wizard.png");
         setType(EnemyType.WIZARD);
     }
 }

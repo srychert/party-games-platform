@@ -32,7 +32,7 @@ public class Werewolf extends Enemy {
                 StanceWithChance.builder().stance(Stance.DEFENSIVE).chance(10).build()
         )));
         super.setStance(providedStance.orElse(Stance.NORMAL));
-        setPath("werewolf.png");
+        setPath("enemies/werewolf.png");
         setType(EnemyType.WEREWOLF);
     }
 }

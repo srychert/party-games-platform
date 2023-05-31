@@ -30,7 +30,7 @@ public class Ghost extends Enemy {
                 StanceWithChance.builder().stance(Stance.DEFENSIVE).chance(10).build()
         )));
         super.setStance(providedStance.orElse(Stance.NORMAL));
-        setPath("ghost.png");
+        setPath("enemies/ghost.png");
         setType(EnemyType.GHOST);
     }
 }

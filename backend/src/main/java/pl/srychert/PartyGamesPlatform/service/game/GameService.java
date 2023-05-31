@@ -109,7 +109,22 @@ public class GameService {
 
     public List<Enemy> getEnemies() {
         return List.of(
-                new Slime()
+                new Dragon(),
+                new Ghost(),
+                new Goblin(),
+                new Orc(),
+                new Skeleton(),
+                new Slime(),
+                new Spide(),
+                new Vampire(),
+                new Werewolf(),
+                new Witch(),
+                new Wizard(),
+                new Zombie(),
+                new Rat(),
+                new Wolf(),
+                new Demon()
+
         );
     }
 }

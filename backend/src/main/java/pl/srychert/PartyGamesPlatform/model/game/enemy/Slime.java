@@ -29,7 +29,7 @@ public class Slime extends Enemy {
                 StanceWithChance.builder().stance(Stance.NORMAL).chance(100).build()
         )));
         super.setStance(providedStance.orElse(Stance.NORMAL));
-        setPath("slime.png")
+        setPath("enemies/slime.png")
         setType(EnemyType.SLIME);
     }
 }

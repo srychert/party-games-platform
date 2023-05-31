@@ -30,7 +30,7 @@ public class Wolf extends Enemy {
                 StanceWithChance.builder().stance(Stance.DEFENSIVE).chance(20).build()
         )));
         super.setStance(providedStance.orElse(Stance.NORMAL));
-        setPath("wolf.png");
+        setPath("enemies/wolf.png");
         setType(EnemyType.WOLF);
     }
 }

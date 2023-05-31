@@ -31,7 +31,7 @@ public class Demon extends Enemy {
                 StanceWithChance.builder().stance(Stance.DEFENSIVE).chance(20).build()
         )));
         super.setStance(providedStance.orElse(Stance.NORMAL));
-        setPath("demon.png");
+        setPath("enemies/demon.png");
         setType(EnemyType.DEMON);
     }
 }

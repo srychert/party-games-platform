@@ -30,7 +30,7 @@ public class Witch extends Enemy {
                 StanceWithChance.builder().stance(Stance.DEFENSIVE).chance(30).build()
         )));
         super.setStance(providedStance.orElse(Stance.NORMAL));
-        setPath("witch.png");
+        setPath("enemies/witch.png");
         setType(EnemyType.WITCH);
     }
 }

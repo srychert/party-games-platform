@@ -29,7 +29,7 @@ public class Rat extends Enemy {
                 StanceWithChance.builder().stance(Stance.NORMAL).chance(100).build()
         )));
         super.setStance(providedStance.orElse(Stance.NORMAL));
-        setPath("rat.png");
+        setPath("enemies/rat.png");
         setType(EnemyType.RAT);
     }
 }
