@@ -6,6 +6,7 @@ import QuizRoom from '../views/HostViews/QuizRoom';
 import TestView from '../views/TestView';
 import GameRoom from '../views/HostViews/GameRoom';
 import MainGame from '../views/HostViews/MainGame';
+import GameFinalResults from '../views/HostViews/GameFinalResults';
 
 function HostLayoutConnected() {
   const [topics, setTopics] = useState([]);
@@ -59,6 +60,7 @@ function HostLayoutConnected() {
         <Route path="game/:id" element={<GameRoom {...props} />} />
         <Route path="game/:id/game-room/:pin" element={<MainGame {...props} />} />
         <Route path="test" element={<TestView {...props} />} />
+        <Route path="final-results" element={<GameFinalResults />} />
       </Routes>
     </>
   );

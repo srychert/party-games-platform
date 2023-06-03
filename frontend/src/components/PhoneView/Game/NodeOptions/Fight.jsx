@@ -87,9 +87,3 @@ function Fight({ handleNodeOption }) {
 }
 
 export default Fight;
-
-// TODO:
-
-// null moze być "nie masz itemów"
-
-// stance enum a nie jakiś string
