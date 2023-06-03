@@ -6,6 +6,7 @@ import { createMessage } from '../../services/SocketMessage';
 import Loading from '../Loading';
 import playContext from '../../context/PlayContext';
 import { TYPES } from '../../enums/MessageTypes';
+import { NODES } from '../../enums/NodeTypes';
 
 function Game(props) {
   const { client, setTopics, setHandleMessage } = props;
@@ -18,6 +19,11 @@ function Game(props) {
   const [player, setPlayer] = useState(location.state.player); // player info, node options, flags, etc.
   const [nodeOptions, setNodeOptions] = useState(location.state.node); // node info (enemy, merchants items, etc.)
   const [nextNodes, setNextNodes] = useState(null); // next nodes to choose from
+  const [currentNode, setCurrentNode] = useState({
+    nextNodesID: [1, 2, 3, 4],
+    id: 0,
+    type: NODES.SKIP,
+  });
 
   const onMessageReceived = function (msg) {
     console.log(msg);
@@ -25,11 +31,13 @@ function Game(props) {
     switch (msg.type) {
       case TYPES.STARTED:
         setLoading(false);
-        console.log(player);
         break;
       case TYPES.ANSWER:
         setLoading(false);
         setPlayer(JSON.parse(msg.json).player);
+        if (JSON.parse(msg.json).node) {
+          setCurrentNode(JSON.parse(msg.json).node);
+        }
         break;
       case TYPES.NEXT_ROUND:
         setLoading(false);
@@ -81,9 +89,10 @@ function Game(props) {
       <playContext.Provider
         value={{
           player: player,
-          nextNodes: nextNodes,
           nodeOptions: nodeOptions,
           error: error,
+          nextNodes: nextNodes,
+          currentNode: currentNode,
         }}
       >
         <GameView handleNextNode={handleChooseNode} handleNodeOption={handleNodeOption} />

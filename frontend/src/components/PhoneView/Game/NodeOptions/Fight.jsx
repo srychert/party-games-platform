@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import playContext from '../../../../context/PlayContext';
+import { STANCES } from '../../../../enums/StanceTypes';
 
 function Fight({ handleNodeOption }) {
   const [stance, setStance] = useState(2);
@@ -7,22 +8,48 @@ function Fight({ handleNodeOption }) {
   const { player } = useContext(playContext);
   return (
     <>
-      <button className="answerBox" onClick={() => handleNodeOption(player.options[0])}>
+      <button
+        className="answerBox"
+        onClick={() =>
+          handleNodeOption(player.options.find((option) => option.name === 'fight'))
+        }
+      >
         Fight
       </button>
       <div className="answerBox">
         Change fight stance
         <div className="grid">
           <select onChange={(e) => setStance(e.target.value)}>
-            <option value="defensive">Defensive</option>
-            <option value="offensive">Offensive</option>
-            <option value="balanced">Balanced</option>
+            <option
+              value={STANCES.DEFENSIVE}
+              visibility={(player.stance !== STANCES.DEFENSIVE).toString()}
+            >
+              Defensive
+            </option>
+            <option
+              value={STANCES.OFFENSIVE}
+              visibility={(player.stance !== STANCES.OFFENSIVE).toString()}
+            >
+              Offensive
+            </option>
+            <option
+              value={STANCES.COUNTER}
+              visibility={(player.stance !== STANCES.COUNTER).toString()}
+            >
+              Counter
+            </option>
+            <option
+              value={STANCES.NORMAL}
+              visibility={(player.stance !== STANCES.NORMAL).toString()}
+            >
+              Normal
+            </option>
           </select>
           <button
             className="button"
             onClick={() =>
               handleNodeOption({
-                ...player.options[1],
+                ...player.options.find((option) => option.name === 'changeStance'),
                 parameters: [{ value: stance }],
               })
             }
@@ -44,7 +71,7 @@ function Fight({ handleNodeOption }) {
                 className="button"
                 onClick={() =>
                   handleNodeOption({
-                    ...player.options[1],
+                    ...player.options.find((option) => option.name === 'useItem'),
                     parameters: [{ value: itemID }],
                   })
                 }

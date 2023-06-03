@@ -6,9 +6,10 @@ import Skip from './NodeOptions/Skip';
 import Fight from './NodeOptions/Fight';
 import Heal from './NodeOptions/Heal';
 import Merchant from './NodeOptions/Merchant';
+import { NODES } from '../../../enums/NodeTypes';
 
 function GameView({ handleNextNode, handleNodeOption }) {
-  const { player, nextNodes } = useContext(playContext);
+  const { player, nextNodes, currentNode } = useContext(playContext);
 
   console.log(player);
 
@@ -17,6 +18,9 @@ function GameView({ handleNextNode, handleNodeOption }) {
       <div className="flex h-1/4 w-full flex-col border">
         <GameAction />
       </div>
+      {player.currentRoundCompleted == true && player.canChooseNode == false && (
+        <Loading message={'Waiting for other players'} />
+      )}
       {/** To jest po akcji w nodzie, wybierasz kolejną drogę */}
       {player.canChooseNode == true && (
         <div className="m-1 grid h-4/5 w-full grid-cols-2 gap-2">
@@ -33,18 +37,21 @@ function GameView({ handleNextNode, handleNodeOption }) {
       )}
 
       {/** To akcja w nodzie, wybierasz opcje noda (params?) */}
-      {player.currentRoundCompleted == false && (
+      {player.currentRoundCompleted == false && player.canChooseNode == false && (
         <div className="m-1 grid h-4/5 w-full grid-cols-2 gap-2">
-          {(player.currentNode == 1 || player.currentNode == 0) && (
+          {currentNode.type === NODES.SKIP && (
             <Skip handleNodeOption={handleNodeOption} />
           )}
-          {player.currentNode == 2 && <Fight handleNodeOption={handleNodeOption} />}
-          {player.currentNode == 3 && <Heal handleNodeOption={handleNodeOption} />}
-          {player.currentNode == 4 && <Merchant handleNodeOption={handleNodeOption} />}
+          {currentNode.type === NODES.FIGHT && (
+            <Fight handleNodeOption={handleNodeOption} />
+          )}
+          {currentNode.type === NODES.HEAL && (
+            <Heal handleNodeOption={handleNodeOption} />
+          )}
+          {currentNode.type === NODES.MERCHANT && (
+            <Merchant handleNodeOption={handleNodeOption} />
+          )}
         </div>
-      )}
-      {player.currentRoundCompleted == true && player.canChooseNode == false && (
-        <Loading message={'Waiting for other players'} />
       )}
     </div>
   );
