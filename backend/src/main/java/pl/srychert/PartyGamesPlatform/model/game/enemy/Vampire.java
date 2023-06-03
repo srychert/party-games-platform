@@ -29,7 +29,7 @@ public class Vampire extends Enemy {
                 StanceWithChance.builder().stance(Stance.NORMAL).chance(50).build(),
                 StanceWithChance.builder().stance(Stance.OFFENSIVE).chance(20).build(),
                 StanceWithChance.builder().stance(Stance.COUNTER).chance(20).build(),
-                StanceWithChance.builder().stance(Stance.DEFENSIVE).chance(10).build(),
+                StanceWithChance.builder().stance(Stance.DEFENSIVE).chance(10).build()
         )));
         super.setStance(providedStance.orElse(Stance.NORMAL));
         setPath("enemies/vampire.png");

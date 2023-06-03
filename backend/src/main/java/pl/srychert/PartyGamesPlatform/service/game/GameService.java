@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.srychert.PartyGamesPlatform.exception.ApiRequestException;
 import pl.srychert.PartyGamesPlatform.model.game.Game;
-import pl.srychert.PartyGamesPlatform.model.game.enemy.Enemy;
-import pl.srychert.PartyGamesPlatform.model.game.enemy.Slime;
+import pl.srychert.PartyGamesPlatform.model.game.enemy.*;
 import pl.srychert.PartyGamesPlatform.model.game.item.Item;
 import pl.srychert.PartyGamesPlatform.model.game.item.potion.HealPotion;
 import pl.srychert.PartyGamesPlatform.model.game.node.MerchantNode;
@@ -115,7 +114,7 @@ public class GameService {
                 new Orc(),
                 new Skeleton(),
                 new Slime(),
-                new Spide(),
+                new Spider(),
                 new Vampire(),
                 new Werewolf(),
                 new Witch(),
