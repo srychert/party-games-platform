@@ -9,6 +9,7 @@ import pl.srychert.PartyGamesPlatform.model.game.Game;
 import pl.srychert.PartyGamesPlatform.model.game.enemy.*;
 import pl.srychert.PartyGamesPlatform.model.game.item.Item;
 import pl.srychert.PartyGamesPlatform.model.game.item.potion.HealPotion;
+import pl.srychert.PartyGamesPlatform.model.game.item.potion.Potion;
 import pl.srychert.PartyGamesPlatform.model.game.node.MerchantNode;
 import pl.srychert.PartyGamesPlatform.model.game.node.Node;
 import pl.srychert.PartyGamesPlatform.repository.GameRepository;
@@ -102,7 +103,8 @@ public class GameService {
 
     public List<Item> getItems() {
         return List.of(
-                new HealPotion()
+                new HealPotion(),
+                new Potion()
         );
     }
 

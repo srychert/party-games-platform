@@ -1,6 +1,5 @@
 package pl.srychert.PartyGamesPlatform.model.game.item.potion;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import pl.srychert.PartyGamesPlatform.enums.ItemEffect;
@@ -13,22 +12,13 @@ import java.util.Optional;
 
 @Getter
 @Setter
-public class HealPotion extends Item {
-    public HealPotion() {
+public class Potion extends Item {
+    public Potion() {
         Optional<Integer> providedCost = Optional.ofNullable(super.getCost());
         Optional<Map<ItemEffect, Integer>> providedItemEffectMap = Optional.ofNullable(super.getItemEffectMap());
 
-        super.setCost(providedCost.orElse(2));
-        super.setItemEffectMap(providedItemEffectMap.orElse(getDefaultMap()));
-        setType(ItemType.HEAL_POTION);
-    }
-
-    @JsonIgnore
-    public Map<ItemEffect, Integer> getDefaultMap() {
-        HashMap<ItemEffect, Integer> effects = new HashMap<>();
-
-        effects.put(ItemEffect.HEAL, 4);
-
-        return effects;
+        super.setCost(providedCost.orElse(1));
+        super.setItemEffectMap(providedItemEffectMap.orElse(new HashMap<>()));
+        setType(ItemType.POTION);
     }
 }

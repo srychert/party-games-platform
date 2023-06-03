@@ -66,11 +66,7 @@ public class FightNode extends Node {
     public JSONObject fight(Player player) {
         JSONObject answer = new JSONObject();
 
-        if (!GameStateDB.enemyByPlayerId.containsKey(player.getId())) {
-            GameStateDB.enemyByPlayerId.put(player.getId(), enemy);
-        }
-
-        Enemy enemyCurrent = GameStateDB.enemyByPlayerId.get(player.getId());
+        Enemy enemyCurrent = getCurrentEnemy(player);
         enemyCurrent.drawStance();
 
         if (player.getSpeed() > enemyCurrent.getSpeed()) {
@@ -117,10 +113,11 @@ public class FightNode extends Node {
             throw new ItemNotPresentException(String.format("No item with id %s", itemId));
         }
 
-        Map<ItemEffect, ?> effectMap = item.use();
+        Map<ItemEffect, Integer> effectMap = item.use();
+        Enemy enemyCurrent = getCurrentEnemy(player);
 
         for (var entry : effectMap.entrySet()) {
-            processItemEffect(player, entry.getKey(), entry.getValue());
+            processItemEffect(player, enemyCurrent, entry.getKey(), entry.getValue());
         }
 
         player.getItems().remove(itemId);
@@ -129,12 +126,32 @@ public class FightNode extends Node {
         return answer;
     }
 
-    public void processItemEffect(Player player, ItemEffect effect, Object obj) throws UnhandledItemEffectException {
+    public Enemy getCurrentEnemy(Player player) {
+        if (!GameStateDB.enemyByPlayerId.containsKey(player.getId())) {
+            GameStateDB.enemyByPlayerId.put(player.getId(), enemy);
+        }
+
+        return GameStateDB.enemyByPlayerId.get(player.getId());
+    }
+
+    public void processItemEffect(Player player, Enemy enemy, ItemEffect effect, Integer value)
+            throws UnhandledItemEffectException {
         switch (effect) {
             case HEAL -> {
                 Integer maxHp = Player.builder().build().getHp();
-                player.setHp(Math.min(player.getHp() + (Integer) obj, maxHp));
+                player.setHp(Math.min(player.getHp() + value, maxHp));
             }
+            case HP_BUFF -> player.setHp(player.getHp() + value);
+            case ATK_BUFF -> player.setAtk(player.getAtk() + value);
+            case SPEED_BUFF -> player.setSpeed(player.getSpeed() + value);
+            case HP_DEBUFF -> {
+                enemy.setHp(enemy.getHp() - value);
+                if (enemy.getHp() <= 0) {
+                    handleEnemyDeath(player, enemy);
+                }
+            }
+            case ATK_DEBUFF -> enemy.setAtk(Math.max(enemy.getAtk() - value, 0));
+            case SPEED_DEBUFF -> enemy.setSpeed(Math.max(enemy.getSpeed() - value, 0));
             default -> throw new UnhandledItemEffectException(String.format("Unhandled item effect %s", effect));
         }
     }
