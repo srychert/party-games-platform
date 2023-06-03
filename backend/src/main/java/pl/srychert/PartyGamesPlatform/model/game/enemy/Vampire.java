@@ -11,9 +11,9 @@ import java.util.Optional;
 
 @Getter
 @Setter
-public class Slime extends Enemy {
+public class Vampire extends Enemy {
 
-    public Slime() {
+    public Vampire() {
         Optional<Integer> providedHp = Optional.ofNullable(super.getHp());
         Optional<Integer> providedAtk = Optional.ofNullable(super.getAtk());
         Optional<Integer> providedSpeed = Optional.ofNullable(super.getSpeed());
@@ -21,15 +21,18 @@ public class Slime extends Enemy {
         Optional<List<StanceWithChance>> providedStances = Optional.ofNullable(super.getStances());
         Optional<Stance> providedStance = Optional.ofNullable(super.getStance());
 
-        super.setHp(providedHp.orElse(4));
-        super.setAtk(providedAtk.orElse(1));
-        super.setSpeed(providedSpeed.orElse(1));
-        super.setLoot(providedLoot.orElse(Loot.builder().gold(1).build()));
+        super.setHp(providedHp.orElse(30));
+        super.setAtk(providedAtk.orElse(12));
+        super.setSpeed(providedSpeed.orElse(10));
+        super.setLoot(providedLoot.orElse(Loot.builder().gold(40).build()));
         super.setStances(providedStances.orElse(List.of(
-                StanceWithChance.builder().stance(Stance.NORMAL).chance(100).build()
+                StanceWithChance.builder().stance(Stance.NORMAL).chance(50).build(),
+                StanceWithChance.builder().stance(Stance.OFFENSIVE).chance(20).build(),
+                StanceWithChance.builder().stance(Stance.COUNTER).chance(20).build(),
+                StanceWithChance.builder().stance(Stance.DEFENSIVE).chance(10).build()
         )));
         super.setStance(providedStance.orElse(Stance.NORMAL));
-        setPath("enemies/slime.png");
-        setType(EnemyType.SLIME);
+        setPath("enemies/vampire.png");
+        setType(EnemyType.VAMPIRE);
     }
 }

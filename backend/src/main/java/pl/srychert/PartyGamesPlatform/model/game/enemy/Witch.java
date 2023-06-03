@@ -11,9 +11,9 @@ import java.util.Optional;
 
 @Getter
 @Setter
-public class Slime extends Enemy {
+public class Witch extends Enemy {
 
-    public Slime() {
+    public Witch() {
         Optional<Integer> providedHp = Optional.ofNullable(super.getHp());
         Optional<Integer> providedAtk = Optional.ofNullable(super.getAtk());
         Optional<Integer> providedSpeed = Optional.ofNullable(super.getSpeed());
@@ -21,15 +21,16 @@ public class Slime extends Enemy {
         Optional<List<StanceWithChance>> providedStances = Optional.ofNullable(super.getStances());
         Optional<Stance> providedStance = Optional.ofNullable(super.getStance());
 
-        super.setHp(providedHp.orElse(4));
-        super.setAtk(providedAtk.orElse(1));
-        super.setSpeed(providedSpeed.orElse(1));
-        super.setLoot(providedLoot.orElse(Loot.builder().gold(1).build()));
+        super.setHp(providedHp.orElse(12));
+        super.setAtk(providedAtk.orElse(6));
+        super.setSpeed(providedSpeed.orElse(3));
+        super.setLoot(providedLoot.orElse(Loot.builder().gold(30).build()));
         super.setStances(providedStances.orElse(List.of(
-                StanceWithChance.builder().stance(Stance.NORMAL).chance(100).build()
+                StanceWithChance.builder().stance(Stance.NORMAL).chance(70).build(),
+                StanceWithChance.builder().stance(Stance.DEFENSIVE).chance(30).build()
         )));
         super.setStance(providedStance.orElse(Stance.NORMAL));
-        setPath("enemies/slime.png");
-        setType(EnemyType.SLIME);
+        setPath("enemies/witch.png");
+        setType(EnemyType.WITCH);
     }
 }

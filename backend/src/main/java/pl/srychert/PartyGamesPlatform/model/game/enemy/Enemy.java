@@ -28,7 +28,21 @@ import java.util.stream.IntStream;
         property = "type",
         visible = true)
 @JsonSubTypes({
+        @JsonSubTypes.Type(value = Demon.class, name = "DEMON"),
+        @JsonSubTypes.Type(value = Dragon.class, name = "DRAGON"),
+        @JsonSubTypes.Type(value = Ghost.class, name = "GHOST"),
+        @JsonSubTypes.Type(value = Goblin.class, name = "GOBLIN"),
+        @JsonSubTypes.Type(value = Orc.class, name = "ORC"),
+        @JsonSubTypes.Type(value = Rat.class, name = "RAT"),
+        @JsonSubTypes.Type(value = Skeleton.class, name = "SKELETON"),
         @JsonSubTypes.Type(value = Slime.class, name = "SLIME"),
+        @JsonSubTypes.Type(value = Spider.class, name = "SPIDER"),
+        @JsonSubTypes.Type(value = Vampire.class, name = "VAMPIRE"),
+        @JsonSubTypes.Type(value = Werewolf.class, name = "WEREWOLF"),
+        @JsonSubTypes.Type(value = Witch.class, name = "WITCH"),
+        @JsonSubTypes.Type(value = Wizard.class, name = "WIZARD"),
+        @JsonSubTypes.Type(value = Wolf.class, name = "WOLF"),
+        @JsonSubTypes.Type(value = Zombie.class, name = "ZOMBIE"),
 })
 public abstract class Enemy implements Lootable, GameEntity {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -46,6 +60,8 @@ public abstract class Enemy implements Lootable, GameEntity {
     @SumChance
     private List<@Valid StanceWithChance> stances;
     private Stance stance;
+    @NotNull
+    private String path;
     private @Valid Loot loot;
 
     public Enemy() {

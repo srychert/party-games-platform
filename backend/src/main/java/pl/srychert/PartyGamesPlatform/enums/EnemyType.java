@@ -1,5 +1,5 @@
 package pl.srychert.PartyGamesPlatform.enums;
 
 public enum EnemyType {
-    SLIME, RAT, GOBLIN, WOLF, ORC, DEMON, DRAGON
+    DRAGON, GHOST, GOBLIN, ORC, SKELETON, SLIME, SPIDER, VAMPIRE, WEREWOLF, WITCH, WIZARD, ZOMBIE, RAT, WOLF, DEMON
 }
