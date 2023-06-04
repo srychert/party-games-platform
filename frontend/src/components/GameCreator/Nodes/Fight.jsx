@@ -56,12 +56,19 @@ function Fight({ node, setNode }) {
     });
   }, [enemy]);
 
+  const stanceColors = {
+    [STANCES.OFFENSIVE]: 'border-red-300 outline-red-600',
+    [STANCES.DEFENSIVE]: 'border-blue-300 outline-blue-600',
+    [STANCES.NORMAL]: 'border-green-300 outline-green-600',
+    [STANCES.COUNTER]: 'border-violet-300 outline-violet-600',
+  };
+
   return (
     <div>
       <EnemyTypeSelect node={node} setNode={setNode} enemies={enemies} />
       {node.data.node.enemy?.type && (
         <div>
-          <div className="mt-4 grid grid-cols-2 gap-4">
+          <div className="mt-4 grid grid-cols-3 gap-x-8 gap-y-2 rounded-lg border p-2">
             <div className="grid">
               <label htmlFor="hp">Hp</label>
               <input
@@ -71,7 +78,7 @@ function Fight({ node, setNode }) {
                 min={0}
                 value={enemy.hp}
                 onChange={(e) => setEnemy({ ...enemy, hp: parseInt(e.target.value) })}
-                className="rounded border"
+                className="creator-input border-red-300 outline-red-600"
               ></input>
             </div>
             <div className="grid">
@@ -83,7 +90,7 @@ function Fight({ node, setNode }) {
                 min={0}
                 value={enemy.atk}
                 onChange={(e) => setEnemy({ ...enemy, atk: parseInt(e.target.value) })}
-                className="rounded border"
+                className="creator-input border-blue-300 outline-blue-600"
               ></input>
             </div>
             <div className="grid">
@@ -95,14 +102,14 @@ function Fight({ node, setNode }) {
                 min={0}
                 value={enemy.speed}
                 onChange={(e) => setEnemy({ ...enemy, speed: parseInt(e.target.value) })}
-                className="rounded border"
+                className="creator-input border-yellow-300 outline-yellow-300"
               ></input>
             </div>
             <div className="grid">
               <label htmlFor="stance">Initial stance</label>
               <select
                 id="stance"
-                className="rounded border"
+                className="creator-input border-violet-300 outline-violet-600"
                 value={enemy.stance}
                 onChange={(e) => setEnemy({ ...enemy, stance: e.target.value })}
               >
@@ -115,9 +122,29 @@ function Fight({ node, setNode }) {
                 })}
               </select>
             </div>
+            <div className="grid">
+              <label htmlFor="gold">Gold</label>
+              <input
+                id="gold"
+                type="number"
+                step={1}
+                min={0}
+                value={enemy.loot.gold}
+                onChange={(e) =>
+                  setEnemy({
+                    ...enemy,
+                    loot: { ...enemy.loot, gold: parseInt(e.target.value) },
+                  })
+                }
+                className="creator-input border-amber-300 outline-amber-400"
+              ></input>
+
+              {/* TODO loot items */}
+              <div></div>
+            </div>
           </div>
 
-          <div className="mt-4 grid grid-cols-2 gap-4">
+          <div className="mt-4 grid grid-cols-2 gap-x-8 gap-y-2 rounded-lg border p-2">
             {Object.values(STANCES).map((stance) => {
               return (
                 <div className="grid" key={stance}>
@@ -139,34 +166,11 @@ function Fight({ node, setNode }) {
                         ),
                       })
                     }
-                    className="rounded border"
+                    className={`creator-input ${stanceColors[stance]}`}
                   ></input>
                 </div>
               );
             })}
-          </div>
-
-          <div className="mt-4 grid grid-rows-2 gap-4">
-            <div className="grid">
-              <label htmlFor="gold">Gold</label>
-              <input
-                id="gold"
-                type="number"
-                step={1}
-                min={0}
-                value={enemy.loot.gold}
-                onChange={(e) =>
-                  setEnemy({
-                    ...enemy,
-                    loot: { ...enemy.loot, gold: parseInt(e.target.value) },
-                  })
-                }
-                className="rounded border"
-              ></input>
-            </div>
-
-            {/* TODO loot items */}
-            <div></div>
           </div>
         </div>
       )}

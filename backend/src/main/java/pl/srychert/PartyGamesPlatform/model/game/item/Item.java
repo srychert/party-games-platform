@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import pl.srychert.PartyGamesPlatform.enums.ItemEffect;
 import pl.srychert.PartyGamesPlatform.enums.ItemType;
-import pl.srychert.PartyGamesPlatform.model.game.item.potion.HealPotion;
+import pl.srychert.PartyGamesPlatform.model.game.item.potion.*;
 
 import java.util.Map;
 import java.util.UUID;
@@ -20,15 +20,28 @@ import java.util.UUID;
         visible = true)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = HealPotion.class, name = "HEAL_POTION"),
+        @JsonSubTypes.Type(value = RedBuffPotion.class, name = "RED_BUFF_POTION"),
+        @JsonSubTypes.Type(value = BlueBuffPotion.class, name = "BLUE_BUFF_POTION"),
+        @JsonSubTypes.Type(value = YellowBuffPotion.class, name = "YELLOW_BUFF_POTION"),
+        @JsonSubTypes.Type(value = VioletBuffPotion.class, name = "VIOLET_BUFF_POTION"),
+        @JsonSubTypes.Type(value = OrangeBuffPotion.class, name = "ORANGE_BUFF_POTION"),
+        @JsonSubTypes.Type(value = GreenBuffPotion.class, name = "GREEN_BUFF_POTION"),
+        @JsonSubTypes.Type(value = WhiteBuffPotion.class, name = "WHITE_BUFF_POTION"),
 })
-public abstract class Item implements Usable {
+public abstract class Item implements Usable<Integer> {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String id = UUID.randomUUID().toString();
     @NotNull
     private ItemType type;
     @Min(0)
     private Integer cost;
-    private Map<ItemEffect, ?> itemEffectMap;
+    private Map<ItemEffect, Integer> itemEffectMap;
+    @NotNull
+    private String path;
+
+    public Map<ItemEffect, Integer> use() {
+        return getItemEffectMap();
+    }
 
     public Item() {
     }
