@@ -20,10 +20,13 @@ public class BootConfiguration {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
+    public static final String host = System.getenv().getOrDefault("FRONTEND_ADDRESS", "http://localhost")
+            + ":" + System.getenv().getOrDefault("FRONTEND_PORT", "3000");
+
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://127.0.0.1:3000"));
+        configuration.setAllowedOrigins(Arrays.asList(host, "http://127.0.0.1:3000"));
         configuration.addAllowedHeader("*");
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS"));
         configuration.setAllowCredentials(true);
