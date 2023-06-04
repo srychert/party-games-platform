@@ -108,12 +108,12 @@ function Merchant({ node, setNode }) {
                       id={`cost-${item.id}`}
                       placeholder={item.cost}
                       onChange={(e) => handleCostChange(item.id, e.target.value)}
-                      className="form-input p-1 placeholder-slate-600"
+                      className="creator-input"
                     ></input>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+                <div className="grid grid-cols-3 gap-x-8 gap-y-2">
                   {Object.entries(item.itemEffectMap).map(([effect, value], idx) => {
                     return (
                       <div className="grid gap-1" key={`${item.id}-${idx}`}>
@@ -124,7 +124,7 @@ function Merchant({ node, setNode }) {
                           onChange={(e) =>
                             handleItemEffectChange(item.id, effect, e.target.value)
                           }
-                          className="form-input p-1 placeholder-slate-600"
+                          className="creator-input"
                         ></input>
                       </div>
                     );

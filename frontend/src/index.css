@@ -49,4 +49,8 @@
   .form-input {
     @apply block w-full appearance-none rounded p-2 outline-amber-500;
   }
+
+  .creator-input {
+    @apply form-input border p-1 placeholder-slate-600
+  }
 }
