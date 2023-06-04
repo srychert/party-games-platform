@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ItemsComboBox from '../ItemsComboBox';
 import { CgPen, CgTrash } from 'react-icons/cg';
 import { IconContext } from 'react-icons';
+import getImgUrl from '../../../services/FileService';
 
 function Merchant({ node, setNode }) {
   const [nodeItems, setNodeItems] = useState(node.data.node.itemsList || []);
@@ -99,7 +100,7 @@ function Merchant({ node, setNode }) {
             >
               <div className="grid gap-2 overflow-hidden">
                 <div className="flex items-center gap-4">
-                  <img className="w-12" src={`/src/assets/${item.path}`}></img>
+                  <img className="w-12" src={getImgUrl(`${item.path}`)}></img>
                   <div className="grid">
                     <label htmlFor={`cost-${item.id}`} className="text-lg">
                       Cost:
