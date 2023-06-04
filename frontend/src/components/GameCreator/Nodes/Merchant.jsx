@@ -43,7 +43,13 @@ function Merchant({ node, setNode }) {
     setNodeItems((items) =>
       items.map((item) =>
         item.id === id
-          ? { ...item, itemEffectMap: { ...item.itemEffectMap, [key]: parseInt(value) } }
+          ? {
+              ...item,
+              itemEffectMap: {
+                ...item.itemEffectMap,
+                [key]: isNaN(parseInt(value)) ? 0 : parseInt(value),
+              },
+            }
           : item
       )
     );
@@ -58,9 +64,9 @@ function Merchant({ node, setNode }) {
 
       {nodeItems.map((item) => {
         return (
-          <div className="grid" key={item.id}>
-            <div className="flex justify-between">
-              <h2 className="bold">{item.type}</h2>
+          <div className="grid gap-2" key={item.id}>
+            <div className="flex items-center justify-between">
+              <h2 className="font-bold">{item.type}</h2>
               <div className="flex gap-2">
                 <button
                   className="buttonSmall bg-rose-600"
@@ -83,39 +89,47 @@ function Merchant({ node, setNode }) {
             </div>
 
             <div
-              className="grid"
+              className={`grid rounded-lg border p-2 ${
+                item.edit ? 'border-violet-600' : ''
+              }`}
               style={{
                 gridTemplateRows: `${item.edit ? '1fr' : '0fr'}`,
-                transition: 'grid-template-rows 0.5s ease-out',
+                transition: 'all 0.5s ease-out',
               }}
             >
-              <div className="overflow-hidden">
-                <div className="flex gap-2">
-                  <label htmlFor={`cost-${item.id}`}>Cost</label>
-                  <input
-                    id={`cost-${item.id}`}
-                    placeholder={item.cost}
-                    onChange={(e) => handleCostChange(item.id, e.target.value)}
-                  ></input>
+              <div className="grid gap-2 overflow-hidden">
+                <div className="flex items-center gap-4">
+                  <img className="w-12" src={`/src/assets/${item.path}`}></img>
+                  <div className="grid">
+                    <label htmlFor={`cost-${item.id}`} className="text-lg">
+                      Cost:
+                    </label>
+                    <input
+                      id={`cost-${item.id}`}
+                      placeholder={item.cost}
+                      onChange={(e) => handleCostChange(item.id, e.target.value)}
+                      className="form-input p-1 placeholder-slate-600"
+                    ></input>
+                  </div>
                 </div>
 
-                {Object.entries(item.itemEffectMap).map(([effect, value], idx) => {
-                  return (
-                    <div className="grid grid-cols-2" key={`${item.id}-${idx}`}>
-                      <span>Effect: {effect}</span>
-                      <div className="flex gap-2">
-                        <label htmlFor={`effect-${item.id}-${idx}`}>Effect Value: </label>
+                <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+                  {Object.entries(item.itemEffectMap).map(([effect, value], idx) => {
+                    return (
+                      <div className="grid gap-1" key={`${item.id}-${idx}`}>
+                        <label htmlFor={`effect-${item.id}-${idx}`}>{effect}: </label>
                         <input
                           id={`effect-${item.id}-${idx}`}
                           placeholder={value}
                           onChange={(e) =>
                             handleItemEffectChange(item.id, effect, e.target.value)
                           }
+                          className="form-input p-1 placeholder-slate-600"
                         ></input>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>
