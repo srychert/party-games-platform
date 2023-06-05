@@ -5,6 +5,7 @@ import TestView from '../views/TestView';
 import Join from '../views/PlayerViews/Join';
 import Quiz from '../views/PlayerViews/Quiz';
 import NavigationBar from './NavigationBar/NavigationBar';
+import Game from '../views/PlayerViews/Game';
 
 function PlayerLayout() {
   const [topics, setTopics] = useState([]);
@@ -64,6 +65,7 @@ function PlayerLayout() {
         <Routes>
           <Route path="join" exact element={<Join {...props} />} />
           <Route path="quiz/:pin" element={<Quiz {...props} />} />
+          <Route path="game/:pin" element={<Game {...props} />} />
           <Route path="test" element={<TestView {...props} />} />
         </Routes>
       </main>

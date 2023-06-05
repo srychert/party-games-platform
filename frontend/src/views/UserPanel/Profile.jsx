@@ -16,33 +16,37 @@ function Profile() {
   }
 
   return (
-    <>
-      <div className="mt-5 flex h-full w-full flex-wrap items-center justify-center gap-4">
-        <IconContext.Provider value={{ size: '9em' }}>
-          <CgProfile />
-        </IconContext.Provider>
-        <div className="flex gap-4 whitespace-nowrap text-xl font-bold">
-          <div className="flex flex-col">
-            <span>Username:</span>
-            <span>Roles:</span>
-            <span>Email:</span>
-            <span>Acount active:</span>
+    <div className="flex justify-center items-center h-screen -mt-20">
+    <div className="flex aspect-square min-w-[400px] flex-col rounded-lg border border-violet-600 shadow-lg shadow-violet-600 overflow-hidden">
+        <div className="flex h-full w-full flex-col overflow-y-scroll p-4">
+          <div className="flex justify-center">
+            <IconContext.Provider value={{ size: '9em' }}>
+              <CgProfile />
+            </IconContext.Provider>
           </div>
-
-          <div>
-            <div>{user.userName}</div>
-            <div>
-              {user.roles &&
-                user.roles.map((role) => {
-                  return <span key={role}>{role}</span>;
-                })}
+          <h2 className="border-b-2 border-violet-600 text-center text-2xl font-bold text-violet-600">
+            {user?.userName}
+          </h2>
+          <div className="flex justify-center mt-10 text-center">
+            <div className="flex gap-6 whitespace-nowrap text-xl font-bold">
+              <div className="flex flex-col gap-5">
+                <span>Roles:</span>
+                <span>Email:</span>
+              </div>
+              <div className="flex flex-col gap-5">
+                <div>
+                  {user?.roles?.map((role) => {
+                    return <span key={role}>{role}</span>;
+                  })}
+                </div>
+                <div>{user?.email}</div>
+              </div>
             </div>
-            <div>{user.email}</div>
-            <div>{user.active ? 'Yes' : 'No'}</div>
           </div>
         </div>
+        <div className={`self-end text-center w-full ${user?.active ? 'bg-green-500' : 'bg-red-500'} font-semibold h-[30px]`}>{user?.active ? 'Active: Yes' : 'Active: No'}</div>
       </div>
-    </>
+    </div>
   );
 }
 

@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import QuizType from '../../components/PhoneView/Quiz/QuizType';
 import Loading from '../Loading';
-import { createMessage, TYPES } from '../../services/SocketMessage';
+import { createMessage } from '../../services/SocketMessage';
 import { useCookies } from 'react-cookie';
+import { TYPES } from '../../enums/MessageTypes';
 
 function Quiz(props) {
   const { client, setTopics, setHandleMessage } = props;
@@ -23,17 +24,7 @@ function Quiz(props) {
         setGameType(JSON.parse(msg.json).question.type);
         setAnswers(JSON.parse(msg.json).question.answers);
         break;
-      // case TYPES.ANSWERS:
-      //   /*
-      //     message.json: {
-      //     type: 'ABCD',
-      //     answers: ['a', 'b', 'c', 'd'],
-      //   }
-      //   */
-      //   setGameType(JSON.parse(msg.json).type);
-      //   setAnswers(JSON.parse(msg.json).answers);
-      //   setLoading(false);
-      //   break;
+
       case TYPES.NEXT_ROUND:
         setGameType(JSON.parse(msg.json).question.type);
         setAnswers(JSON.parse(msg.json).question.answers);

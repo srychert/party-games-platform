@@ -60,34 +60,36 @@ function AddQuiz() {
 
   return (
     <>
-      <div className="form mx-auto w-fit">
-        {quizData.questions.map((question, index) => (
-          <div key={`question-${index}`} className="flex gap-2 font-bold">
-            <span>{question.question}</span>
-            <button
-              className="border-2 border-black px-1"
-              onClick={() =>
-                dispatch({
-                  type: 'remove_question',
-                  payload: index,
-                })
-              }
-            >
-              Remove
-            </button>
-          </div>
-        ))}
-        {initialState ? (
-          <InitialState setInitialState={setInitialState} dispatch={dispatch} />
-        ) : (
-          <AddQuestions dispatch={dispatch} />
-        )}
+      <div className="flex w-full justify-center items-center h-screen">
+        <div className="form mx-auto w-fit ">
+          {quizData.questions.map((question, index) => (
+            <div key={`question-${index}`} className="flex gap-2 font-bold">
+              <span>{question.question}</span>
+              <button
+                className="border-2 border-black px-1"
+                onClick={() =>
+                  dispatch({
+                    type: 'remove_question',
+                    payload: index,
+                  })
+                }
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          {initialState ? (
+            <InitialState setInitialState={setInitialState} dispatch={dispatch} />
+          ) : (
+            <AddQuestions dispatch={dispatch} />
+          )}
 
-        {quizData.questions.length > 0 ? (
-          <button className="button w-full" onClick={submitQuiz}>
-            Submit Quiz
-          </button>
-        ) : null}
+          {quizData.questions.length > 0 ? (
+            <button className="button w-full" onClick={submitQuiz}>
+              Submit Quiz
+            </button>
+          ) : null}
+        </div>
       </div>
     </>
   );

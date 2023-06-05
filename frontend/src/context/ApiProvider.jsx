@@ -8,7 +8,7 @@ export const ApiProvider = ({ children }) => {
   const [cookies, setCookie, removeCookie] = useCookies();
 
   const api = axios.create({
-    baseURL: 'http://localhost:8080/api/v1',
+    baseURL: `${import.meta.env.API_URL}:${import.meta.env.API_PORT}/api/v1`,
   });
 
   api.interceptors.request.use(function (config) {

@@ -17,13 +17,13 @@
     "ecmaFeatures": {
       "jsx": true,
       "modules": true
-
     }
   },
   "rules": {
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+    "import/no-unresolved": "off"
   },
   "settings": {
     "react": {

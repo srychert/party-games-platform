@@ -4,6 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import pl.srychert.PartyGamesPlatform.enums.QuestionType;
 import pl.srychert.PartyGamesPlatform.model.quiz.Question;
@@ -25,6 +26,7 @@ public class PartyGamesPlatformApplication {
     // Add test data
     // TODO delete later
     @Bean
+    @Profile("!test")
     CommandLineRunner runner(UserRepository userRepository, GameRepository gameRepository,
                              QuizRepository quizRepository, MongoTemplate mongoTemplate) {
         return args -> {

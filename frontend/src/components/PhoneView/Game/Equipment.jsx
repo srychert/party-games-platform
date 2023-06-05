@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import ItemMapper from '../../GameIconMapper/ItemMapper';
+import EnemyMapper from '../../GameIconMapper/EnemyMapper';
+import playContext from '../../../context/PlayContext';
 
-function Equipment(props) {
+function Equipment() {
+  const { player, nodes } = useContext(playContext);
+  console.log(player, nodes);
   return (
     <>
-      <div>Equipment</div>
+      <div>
+        {player.gold}
+        <div>
+          <ItemMapper gameType={'item name'} />
+          <EnemyMapper gameType={'enemy name'} />
+        </div>
+      </div>
     </>
   );
 }

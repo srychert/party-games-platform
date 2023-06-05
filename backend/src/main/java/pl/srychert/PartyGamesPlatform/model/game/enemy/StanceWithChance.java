@@ -1,7 +1,8 @@
 package pl.srychert.PartyGamesPlatform.model.game.enemy;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +14,8 @@ import pl.srychert.PartyGamesPlatform.enums.Stance;
 public class StanceWithChance {
     @NotNull
     private Stance stance;
-    @Positive
+    @Min(0)
+    @Max(100)
     private Integer chance;
 
     public StanceWithChance() {

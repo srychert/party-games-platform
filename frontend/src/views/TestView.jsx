@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { createMessage, TYPES } from '../services/SocketMessage';
+import { createMessage } from '../services/SocketMessage';
+import { TYPES } from '../enums/MessageTypes';
 
 function TestView(props) {
   const { client, setTopics, setHandleMessage, setHandleConnect, connected } = props;
@@ -19,7 +20,7 @@ function TestView(props) {
     console.log(msg);
   };
 
-  const handelSendMsg = () => {
+  const handleSendMsg = () => {
     const topics = {
       create: `/app/create/game-room`,
       room: `/app/game-room/${pin}`,
@@ -43,7 +44,7 @@ function TestView(props) {
   }, [pin]);
 
   return (
-    <div className="flex flex-1 max-w-[500px] flex-col gap-2 p-2">
+    <div className="flex max-w-[500px] flex-1 flex-col gap-2 p-2">
       <h1>Testing</h1>
 
       <label>Pin</label>
@@ -87,12 +88,12 @@ function TestView(props) {
 
       <label>Json</label>
       <textarea
-        className="border-2 border-black h-[300px]"
+        className="h-[300px] border-2 border-black"
         value={jsonField}
         onChange={(e) => setJsonField(e.target.value)}
       />
 
-      <button onClick={handelSendMsg}>Send</button>
+      <button onClick={handleSendMsg}>Send</button>
     </div>
   );
 }

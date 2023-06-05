@@ -14,27 +14,21 @@ import java.util.Optional;
 @Getter
 @Setter
 public class HealPotion extends Item {
-    private Integer healAmount = 4;
-
     public HealPotion() {
         Optional<Integer> providedCost = Optional.ofNullable(super.getCost());
-        Optional<Map<ItemEffect, ?>> providedItemEffectMap = Optional.ofNullable(super.getItemEffectMap());
+        Optional<Map<ItemEffect, Integer>> providedItemEffectMap = Optional.ofNullable(super.getItemEffectMap());
 
         super.setCost(providedCost.orElse(2));
         super.setItemEffectMap(providedItemEffectMap.orElse(getDefaultMap()));
+        setPath("items/potion/heal-potion.png");
         setType(ItemType.HEAL_POTION);
-    }
-
-    @Override
-    public Map<ItemEffect, ?> use() {
-        return getItemEffectMap();
     }
 
     @JsonIgnore
     public Map<ItemEffect, Integer> getDefaultMap() {
         HashMap<ItemEffect, Integer> effects = new HashMap<>();
 
-        effects.put(ItemEffect.HEAL, healAmount);
+        effects.put(ItemEffect.HEAL, 4);
 
         return effects;
     }

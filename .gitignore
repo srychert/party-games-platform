@@ -1,3 +1,4 @@
 mongodb
 cache
 .env
+.DS_Store

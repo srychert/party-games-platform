@@ -5,7 +5,7 @@ import Equipment from './Equipment';
 import { IconContext } from 'react-icons';
 import switchIcon from '../../NavigationBar/IconMapper';
 
-function GameAction(props) {
+function GameAction() {
   const [view, setView] = useState('action');
 
   return (

@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import PointsChart from '../../components/PointsChart/PointsChart';
-import { TYPES, createMessage } from '../../services/SocketMessage';
+import { createMessage } from '../../services/SocketMessage';
 import Loading from '../Loading';
+import { TYPES } from '../../enums/MessageTypes';
 
 function MainQuiz(props) {
   const { client, setTopics, setHandleMessage } = props;
@@ -58,18 +59,6 @@ function MainQuiz(props) {
         break;
 
       case TYPES.NEXT_ROUND:
-        /* 
-        message.json: {
-            question: {
-              type: 'ABCD',
-              question: 'Pytanie',
-              answers: ['a', 'b', 'c', 'd'],
-            }
-            players: [
-              { id: "", nick: 'a', points: 1 }, 
-              { id: "", nick: 'b', points: 2}],
-          }
-        */
         setPlayersAndQuestionFromMessage(msg);
         setRound(round + 1);
         break;
@@ -135,3 +124,16 @@ function MainQuiz(props) {
 }
 
 export default MainQuiz;
+
+/* 
+        message.json: {
+            question: {
+              type: 'ABCD',
+              question: 'Pytanie',
+              answers: ['a', 'b', 'c', 'd'],
+            }
+            players: [
+              { id: "", nick: 'a', points: 1 }, 
+              { id: "", nick: 'b', points: 2}],
+          }
+        */
