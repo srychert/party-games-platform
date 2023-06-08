@@ -76,9 +76,10 @@ function Fight({ handleNodeOption }) {
               .map((item, index) => (
                 <div
                   value={item.id}
-                  style={{ backgroundColor: itemID === item.id ? 'green' : '' }}
                   key={index}
-                  className="flex-row justify-center"
+                  className={`flex-row justify-center ${
+                    itemID === item.id ? 'bg-green-500/30' : ''
+                  }`}
                 >
                   <button onClick={() => handleClick(item.id)}>
                     <img

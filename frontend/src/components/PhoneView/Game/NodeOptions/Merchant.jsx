@@ -25,9 +25,11 @@ function Merchant({ handleNodeOption }) {
             .map((item, index) => (
               <div
                 value={item.id}
-                style={{ backgroundColor: selectedItemID === item.id ? 'green' : '' }}
+                style={{ green: '' }}
                 key={index}
-                className="flex-row justify-center"
+                className={`flex-row justify-center ${
+                  selectedItemID === item.id ? 'bg-green-500/30' : ''
+                }`}
               >
                 <button onClick={() => handleClick(item.id)}>
                   <img
@@ -36,7 +38,8 @@ function Merchant({ handleNodeOption }) {
                     className="m-auto h-12 w-12"
                   />
                   <div>
-                    {itemTypeToString(item.type)} {item.cost}
+                    {itemTypeToString(item.type)}
+                    <div>${item.cost}</div>
                   </div>
                 </button>
               </div>
