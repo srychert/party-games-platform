@@ -69,16 +69,24 @@ public class GameStateService {
     }
 
     public Optional<GameState> startGame(String pin) {
-        Optional<GameState> gameOpt = Optional.ofNullable(GameStateDB.games.get(pin));
+        Optional<GameState> gameStateOpt = Optional.ofNullable(GameStateDB.games.get(pin));
 
-        if (gameOpt.isEmpty()) {
+        if (gameStateOpt.isEmpty()) {
             return Optional.empty();
         }
 
-        GameState game = gameOpt.get();
-        game.setOnGoing(true);
+        GameState gameState = gameStateOpt.get();
+        gameState.setOnGoing(true);
 
-        return Optional.of(game);
+        Optional<Game> gameOpt = gameRepository.findById(gameState.getGameId());
+
+        if (gameOpt.isPresent()) {
+            Game game = gameOpt.get();
+            game.setTotalTimesPlayed(game.getTotalTimesPlayed() + 1);
+            gameRepository.save(game);
+        }
+
+        return Optional.of(gameState);
     }
 
     public Optional<Player> joinPlayer(String pin, String playerId, String nick) {
