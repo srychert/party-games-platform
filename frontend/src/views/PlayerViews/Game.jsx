@@ -24,6 +24,7 @@ function Game(props) {
     id: 0,
     type: NODES.SKIP,
   });
+  const [enemy, setEnemy] = useState(null);
 
   const onMessageReceived = function (msg) {
     console.log(msg);
@@ -35,8 +36,15 @@ function Game(props) {
       case TYPES.ANSWER:
         setLoading(false);
         setPlayer(JSON.parse(msg.json).player);
+        // BACKEND FIX ASAP
         if (JSON.parse(msg.json).node) {
           setCurrentNode(JSON.parse(msg.json).node);
+          if (JSON.parse(msg.json).node.enemy) {
+            setEnemy(JSON.parse(msg.json).node.enemy);
+          }
+        }
+        if (JSON.parse(msg.json).enemy) {
+          setEnemy(JSON.parse(msg.json).enemy);
         }
         break;
       case TYPES.NEXT_ROUND:
@@ -93,6 +101,7 @@ function Game(props) {
           error: error,
           nextNodes: nextNodes,
           currentNode: currentNode,
+          enemy: enemy,
         }}
       >
         <GameView handleNextNode={handleChooseNode} handleNodeOption={handleNodeOption} />

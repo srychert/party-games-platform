@@ -33,6 +33,10 @@
     @apply border-amber-600 text-gray-100 brightness-110;
   }
 
+  .button:disabled{
+    @apply border-gray-400 bg-gray-600
+  }
+
   /* form specific */
   .form {
     @apply grid gap-4 rounded-lg border border-violet-600 p-8 shadow-md shadow-purple-600;
