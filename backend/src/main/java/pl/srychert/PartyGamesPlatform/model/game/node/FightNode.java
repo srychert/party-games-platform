@@ -83,8 +83,6 @@ public class FightNode extends Node {
             }
         }
 
-        System.out.println(enemyCurrent.getStance());
-
         answer.put("node", new JSONObject().put("type", this.getType()).put(
                 "enemy", new JSONObject(enemyCurrent)
                         .put("atkFirst", enemyAtkFirst)

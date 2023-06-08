@@ -107,19 +107,21 @@ public class GameRoomHostService {
         try {
             Map<String, List<JSONObject>> playersOptions = gameStateService.handleNextRound(pin);
 
-            TextMessageDTO nextRoundMsg = TextMessageDTO.builder()
-                    .type(MessageType.NEXT_ROUND)
-                    .json(jsonObject.put("playersOptions", new JSONObject(playersOptions)).toString())
-                    .sender("SERVER").build();
+            if (gameStateService.getGameInfo(pin, null).isAllPlayersGameEnded()) {
+                messages.put(MessageReceiver.ROOM,
+                        TextMessageDTO.builder()
+                                .type(MessageType.ENDED)
+                                .json(new JSONObject().put("players", gameStateService.endGame(pin)).toString())
+                                .sender("SERVER").build());
+                return messages;
+            }
 
-            messages.put(MessageReceiver.ROOM, nextRoundMsg);
-
-        } catch (RuntimeException exception) {
             messages.put(MessageReceiver.ROOM,
                     TextMessageDTO.builder()
-                            .type(MessageType.ENDED)
-                            .json(new JSONObject().put("players", new JSONObject(exception.getMessage())).toString())
+                            .type(MessageType.NEXT_ROUND)
+                            .json(jsonObject.put("playersOptions", playersOptions).toString())
                             .sender("SERVER").build());
+
         } catch (Exception exception) {
             log.error(exception.getMessage());
 
@@ -139,7 +141,7 @@ public class GameRoomHostService {
         JSONObject jsonObject = new JSONObject();
 
         try {
-            Map<String, Player> players = gameStateService.endGame(id, pin);
+            Map<String, Player> players = gameStateService.endGame(pin);
 
             TextMessageDTO gameEndMsg = TextMessageDTO.builder()
                     .type(MessageType.ENDED)

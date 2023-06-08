@@ -10,12 +10,14 @@ import pl.srychert.PartyGamesPlatform.enums.MessageReceiver;
 import pl.srychert.PartyGamesPlatform.enums.MessageType;
 import pl.srychert.PartyGamesPlatform.exception.NodeOptionProcessingException;
 import pl.srychert.PartyGamesPlatform.model.TextMessageDTO;
+import pl.srychert.PartyGamesPlatform.model.game.GameInfo;
 import pl.srychert.PartyGamesPlatform.model.game.Player;
 import pl.srychert.PartyGamesPlatform.model.game.node.Node;
 import pl.srychert.PartyGamesPlatform.model.game.node.NodeOption;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -98,19 +100,34 @@ public class GameRoomService {
             NodeOption nodeOption = objectMapper.readValue(textMessageDTO.getJson(), NodeOption.class);
 
             JSONObject answer = gameStateService.callNodeMethod(pin, id, nodeOption);
+            GameInfo gameInfo = gameStateService.getGameInfo(pin, id);
 
-            messages.put(MessageReceiver.PLAYER,
-                    TextMessageDTO.builder()
-                            .type(MessageType.ANSWER)
-                            .json(answer.toString())
-                            .sender("SERVER").build());
+            if (gameInfo.isAllPlayersRoundCompleted() && !gameInfo.isAllPlayersGameEnded()) {
+                Map<String, List<JSONObject>> playersOptions = gameStateService.handleNextRound(pin);
 
-            messages.put(MessageReceiver.HOST,
-                    TextMessageDTO.builder()
-                            .type(MessageType.ANSWER)
-                            .json(answer.toString())
-                            .content(id)
-                            .sender("SERVER").build());
+                messages.put(MessageReceiver.ROOM,
+                        TextMessageDTO.builder()
+                                .type(MessageType.NEXT_ROUND)
+                                .json(new JSONObject().put("playersOptions", playersOptions).toString())
+                                .sender("SERVER").build());
+            }
+
+            if (gameInfo.isAllPlayersGameEnded()) {
+                messages.put(MessageReceiver.ROOM,
+                        TextMessageDTO.builder()
+                                .type(MessageType.ENDED)
+                                .json(new JSONObject().put("players", gameStateService.endGame(pin)).toString())
+                                .sender("SERVER").build());
+                return messages;
+            }
+
+            TextMessageDTO answerMsg = TextMessageDTO.builder()
+                    .type(MessageType.ANSWER)
+                    .json(answer.toString())
+                    .sender("SERVER").build();
+
+            messages.put(MessageReceiver.PLAYER, answerMsg);
+            messages.put(MessageReceiver.HOST, answerMsg);
 
         } catch (JsonProcessingException exception) {
             log.error(exception.getMessage());

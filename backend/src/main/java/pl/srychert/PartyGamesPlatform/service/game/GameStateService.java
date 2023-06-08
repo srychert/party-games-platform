@@ -3,11 +3,13 @@ package pl.srychert.PartyGamesPlatform.service.game;
 import jakarta.validation.Valid;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import pl.srychert.PartyGamesPlatform.GameStateDB;
 import pl.srychert.PartyGamesPlatform.enums.NodeType;
 import pl.srychert.PartyGamesPlatform.exception.NodeOptionProcessingException;
 import pl.srychert.PartyGamesPlatform.model.game.Game;
+import pl.srychert.PartyGamesPlatform.model.game.GameInfo;
 import pl.srychert.PartyGamesPlatform.model.game.GameState;
 import pl.srychert.PartyGamesPlatform.model.game.Player;
 import pl.srychert.PartyGamesPlatform.model.game.node.*;
@@ -25,6 +27,9 @@ import java.util.stream.Stream;
 public class GameStateService {
     @Autowired
     GameRepository gameRepository;
+
+    @Autowired
+    SimpMessagingTemplate template;
 
     public Optional<String> getUnusedPin() {
         String pin = String.format("%09d",
@@ -265,8 +270,6 @@ public class GameStateService {
 
         Map<String, List<JSONObject>> nextNodesForPlayers = new HashMap<>();
 
-        int numberOfPlayersWithFinishedGames = 0;
-
         for (Map.Entry<String, Player> entry : players.entrySet()) {
             Player player = entry.getValue();
             Node node = game.getNodes().get(player.getCurrentNode());
@@ -281,17 +284,11 @@ public class GameStateService {
 
             if (nodesForPlayer.size() == 0) {
                 player.setGameEnded(true);
-                numberOfPlayersWithFinishedGames++;
                 continue;
             }
 
             player.setCurrentRoundCompleted(false);
             player.setCanChooseNode(true);
-        }
-
-        if (numberOfPlayersWithFinishedGames == players.size()) {
-            Map<String, Player> playersFinal = endGame(game.getId(), pin);
-            throw new RuntimeException(new JSONObject(playersFinal).toString());
         }
 
         return nextNodesForPlayers;
@@ -336,7 +333,7 @@ public class GameStateService {
                 () -> new NodeOptionProcessingException(String.format("No game data for id %s", gameState.getGameId())));
     }
 
-    public Map<String, Player> endGame(String id, String pin) throws NodeOptionProcessingException {
+    public Map<String, Player> endGame(String pin) throws NodeOptionProcessingException {
         GameState gameState = getGameStateOrThrow(pin);
         Map<String, Player> players = gameState.getPlayers();
 
@@ -344,5 +341,37 @@ public class GameStateService {
 
         // sorting final map by players gold
         return new TreeMap<>(players);
+    }
+
+    public GameInfo getGameInfo(String pin, String playerId) throws NodeOptionProcessingException {
+        GameState gameState = getGameStateOrThrow(pin);
+        Map<String, Player> players = gameState.getPlayers();
+        int numberOfPlayersWithCompletedCurrentRound = 0;
+        int numberOfPlayersWithGameEnded = 0;
+
+        for (Map.Entry<String, Player> entry : players.entrySet()) {
+            Player player = entry.getValue();
+
+            if (player.getCurrentRoundCompleted()) {
+                numberOfPlayersWithCompletedCurrentRound++;
+            }
+
+            if (player.getCurrentRoundCompleted() && player.getId().equals(playerId)) {
+                Game game = getGameOrThrow(gameState);
+                Node node = game.getNodes().get(player.getCurrentNode());
+                if (node.getNextNodesID().size() == 0) {
+                    numberOfPlayersWithGameEnded++;
+                }
+            }
+
+            if (player.getGameEnded()) {
+                numberOfPlayersWithGameEnded++;
+            }
+        }
+
+        return GameInfo.builder()
+                .allPlayersRoundCompleted(numberOfPlayersWithCompletedCurrentRound == players.size())
+                .allPlayersGameEnded(numberOfPlayersWithGameEnded == players.size())
+                .build();
     }
 }
