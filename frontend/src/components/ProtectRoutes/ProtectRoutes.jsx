@@ -10,15 +10,13 @@ const ProtectRoutes = () => {
   }
 
   if (isError) {
-    if (error?.response?.status === 401) {
-      return <Navigate to="/login" />;
-    }
+    console.error(error);
 
     return <span>Error: {error.message}</span>;
   }
 
-  if (data === null) {
-    return <Navigate to="/login" />;
+  if (data.status === 302) {
+    return <Navigate to="/login" replace />;
   }
 
   return <Outlet />;

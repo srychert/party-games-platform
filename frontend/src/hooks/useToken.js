@@ -1,23 +1,22 @@
 import { useQuery } from '@tanstack/react-query';
 import { useApi } from '../context/ApiProvider';
-import { useCookies } from 'react-cookie';
+import { redirect } from 'react-router-dom';
 
 export const useToken = (config) => {
   const { api } = useApi();
-  const [cookies, setCookie, removeCookie] = useCookies();
 
   return useQuery({
     queryKey: ['token'],
     queryFn: async () => {
       const authenticated = await api.get('/auth/token');
 
-      if (authenticated?.data) {
-        return cookies.token;
+      if (authenticated.data === false) {
+        return redirect('/login');
       }
 
-      return null;
+      return authenticated;
     },
-    retry: false,
+    // retry: false,
     ...config,
   });
 };

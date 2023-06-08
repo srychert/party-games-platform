@@ -22,21 +22,6 @@ export const ApiProvider = ({ children }) => {
     return config;
   });
 
-  // Response interceptor for API calls
-  api.interceptors.response.use(
-    (response) => {
-      return response;
-    },
-    async function (error) {
-      const originalRequest = error.config;
-
-      if (error?.response?.status === 401 && !originalRequest._retry) {
-        originalRequest._retry = true;
-      }
-      return Promise.reject(error);
-    }
-  );
-
   const value = useMemo(
     () => ({
       api,

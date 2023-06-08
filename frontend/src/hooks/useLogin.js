@@ -28,7 +28,6 @@ export const useLogin = () => {
     },
     onSuccess: (token, variables, context) => {
       setCookie('token', token.data, { path: '/' });
-      queryClient.invalidateQueries(['token']);
       queryClient.invalidateQueries(['user']);
     },
     onSettled: (data, error, variables, context) => {
