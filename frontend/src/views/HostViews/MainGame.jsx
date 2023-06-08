@@ -32,23 +32,20 @@ function MainGame(props) {
   };
 
   const handleMessage = (msg) => {
-    console.log(msg);
-    console.log(JSON.parse(msg.json));
-
-    function setPlayersAndOptionsFromMessage(msg) {
-      const { players, options } = JSON.parse(msg.json);
-      setPlayers(players);
-      return { players, options };
-    }
+    const msgJson = JSON.parse(msg.json);
+    console.log(msgJson);
 
     switch (msg.type) {
       case TYPES.STARTED:
-        setPlayersAndOptionsFromMessage(msg);
+        setPlayers(msgJson.players);
         setLoading(false);
         break;
 
+      // TODO update host view with player info
+      case TYPES.ANSWER:
+        break;
+
       case TYPES.NEXT_ROUND:
-        setPlayersAndOptionsFromMessage(msg);
         setRound(round + 1);
         break;
 
@@ -56,13 +53,13 @@ function MainGame(props) {
         // nagivate to end game page
         navigate(`/host/final-results`, {
           state: {
-            players: JSON.parse(msg.json).players,
+            players: msgJson.players,
           },
         });
         break;
 
       case TYPES.ERROR:
-        setError(JSON.parse(msg.json).message);
+        setError(msgJson.message);
         break;
 
       default:

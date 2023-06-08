@@ -105,6 +105,13 @@ public class GameRoomService {
                             .json(answer.toString())
                             .sender("SERVER").build());
 
+            messages.put(MessageReceiver.HOST,
+                    TextMessageDTO.builder()
+                            .type(MessageType.ANSWER)
+                            .json(answer.toString())
+                            .content(id)
+                            .sender("SERVER").build());
+
         } catch (JsonProcessingException exception) {
             log.error(exception.getMessage());
 

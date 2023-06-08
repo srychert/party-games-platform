@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import playContext from '../../../context/PlayContext';
 import { NODES } from '../../../enums/NodeTypes';
+import getImgUrl from '../../../services/FileService';
 
 function Action() {
   const { player, currentNode, error, enemy } = useContext(playContext);
@@ -30,7 +31,7 @@ function Action() {
                 <tr>
                   <th>
                     <img
-                      src={`/src/assets/${enemy.path}`}
+                      src={getImgUrl(`${enemy.path}`)}
                       alt={enemy.type}
                       className="m-auto h-8 w-8"
                     />

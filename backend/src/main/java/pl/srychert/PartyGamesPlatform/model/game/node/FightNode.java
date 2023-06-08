@@ -2,6 +2,7 @@ package pl.srychert.PartyGamesPlatform.model.game.node;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.json.JSONObject;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FightNode extends Node {
+    @NotNull
     private @Valid Enemy enemy;
     @JsonIgnore
     @Transient
@@ -81,11 +83,14 @@ public class FightNode extends Node {
             }
         }
 
-        answer.put("enemy", new JSONObject(enemyCurrent)
-                .put("atkFirst", enemyAtkFirst)
-                .put("dmgDealt", enemyDmgDealt)
-                .put("dmgTaken", enemyDmgTaken)
-                .put("died", enemyDied));
+        System.out.println(enemyCurrent.getStance());
+
+        answer.put("node", new JSONObject().put("type", this.getType()).put(
+                "enemy", new JSONObject(enemyCurrent)
+                        .put("atkFirst", enemyAtkFirst)
+                        .put("dmgDealt", enemyDmgDealt)
+                        .put("dmgTaken", enemyDmgTaken)
+                        .put("died", enemyDied)));
         answer.put("player", new JSONObject(player)
                 .put("atkFirst", playerAtkFirst)
                 .put("dmgDealt", playerDmgDealt)

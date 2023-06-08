@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
 import playContext from '../../../../context/PlayContext';
 import { itemTypeToString } from '../../../../services/ItemTypeToString';
+import getImgUrl from '../../../../services/FileService';
 
 function Merchant({ handleNodeOption }) {
   const [selectedItemID, setselectedItemID] = useState(null);
   const { player, currentNode } = useContext(playContext);
-  console.log(player);
 
   const handleClick = (id) => {
     if (selectedItemID === id) {
@@ -33,7 +33,7 @@ function Merchant({ handleNodeOption }) {
               >
                 <button onClick={() => handleClick(item.id)}>
                   <img
-                    src={`/src/assets/${item.path}`}
+                    src={getImgUrl(`${item.path}`)}
                     alt={item.name}
                     className="m-auto h-12 w-12"
                   />

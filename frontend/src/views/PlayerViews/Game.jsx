@@ -28,35 +28,27 @@ function Game(props) {
 
   const onMessageReceived = function (msg) {
     console.log(msg);
-    console.log(JSON.parse(msg.json));
+    let msgJson = JSON.parse(msg.json ?? '{}');
+    console.log(msgJson);
     switch (msg.type) {
       case TYPES.STARTED:
         setLoading(false);
         break;
       case TYPES.ANSWER:
         setLoading(false);
-        setPlayer(JSON.parse(msg.json).player);
-        // BACKEND FIX ASAP
-        if (JSON.parse(msg.json).node) {
-          setCurrentNode(JSON.parse(msg.json).node);
-          if (JSON.parse(msg.json).node.enemy) {
-            setEnemy(JSON.parse(msg.json).node.enemy);
-          }
-        }
-        if (JSON.parse(msg.json).enemy) {
-          setEnemy(JSON.parse(msg.json).enemy);
-        }
+        setPlayer(msgJson.player);
+        if (msgJson?.node) setCurrentNode(msgJson?.node);
+        if (msgJson?.node?.enemy) setEnemy(msgJson?.node?.enemy);
         break;
       case TYPES.NEXT_ROUND:
         setLoading(false);
         setPlayer({ ...player, canChooseNode: true });
-        setNextNodes(JSON.parse(msg.json).playersOptions[player.id]);
+        setNextNodes(msgJson.playersOptions[player.id]);
         break;
       case TYPES.ENDED:
         navigate('/player/join');
         break;
       case TYPES.ERROR:
-        console.log(msg);
         setError(msg.content);
         break;
       default:
@@ -80,7 +72,7 @@ function Game(props) {
     console.log(nodeOption, 'NODE_OPTION');
     client.current.sendMessage(
       `/app/game-room/${pin}`,
-      createMessage(TYPES.NODE_OPTION, cookies.nick, '', JSON.stringify(nodeOption))
+      createMessage(TYPES.NODE_OPTION, cookies.nick, '', nodeOption)
     );
   }
   // tylko id node

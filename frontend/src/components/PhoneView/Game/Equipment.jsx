@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 
 import playContext from '../../../context/PlayContext';
 import { itemTypeToString } from '../../../services/ItemTypeToString';
+import getImgUrl from '../../../services/FileService';
 
 function Equipment() {
   const { player, nodes } = useContext(playContext);
@@ -20,7 +21,7 @@ function Equipment() {
                   <div value={item.id} key={index} className="flex-row justify-center">
                     <div>
                       <img
-                        src={`/src/assets/${item.path}`}
+                        src={getImgUrl(`${item.path}`)}
                         alt={item.name}
                         className="m-auto h-12 w-12"
                       />

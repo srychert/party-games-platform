@@ -6,8 +6,7 @@ export const createMessage = (type, sender, content, json) => {
     type,
     sender,
     content,
-    json,
+    json: JSON.stringify(json),
   };
-  console.log('createMessage', msg);
   return JSON.stringify(msg);
 };

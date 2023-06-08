@@ -2,11 +2,14 @@ import React, { useState, useContext } from 'react';
 import playContext from '../../../../context/PlayContext';
 import { STANCES } from '../../../../enums/StanceTypes';
 import { itemTypeToString } from '../../../../services/ItemTypeToString';
+import getImgUrl from '../../../../services/FileService';
 
 function Fight({ handleNodeOption }) {
-  const [stance, setStance] = useState(2);
-  const [itemID, setItemID] = useState(null);
   const { player } = useContext(playContext);
+  const [stance, setStance] = useState(
+    Object.values(STANCES).find((s) => s !== player.stance)
+  );
+  const [itemID, setItemID] = useState(null);
 
   const handleClick = (id) => {
     if (itemID === id) {
@@ -30,30 +33,13 @@ function Fight({ handleNodeOption }) {
         Change fight stance
         <div className="grid">
           <select onChange={(e) => setStance(e.target.value)}>
-            <option
-              value={STANCES.DEFENSIVE}
-              visibility={(player.stance !== STANCES.DEFENSIVE).toString()}
-            >
-              Defensive
-            </option>
-            <option
-              value={STANCES.OFFENSIVE}
-              visibility={(player.stance !== STANCES.OFFENSIVE).toString()}
-            >
-              Offensive
-            </option>
-            <option
-              value={STANCES.COUNTER}
-              visibility={(player.stance !== STANCES.COUNTER).toString()}
-            >
-              Counter
-            </option>
-            <option
-              value={STANCES.NORMAL}
-              visibility={(player.stance !== STANCES.NORMAL).toString()}
-            >
-              Normal
-            </option>
+            {Object.values(STANCES).map((stance) => {
+              return (
+                <option value={stance} key={stance} hidden={player.stance === stance}>
+                  {stance.charAt(0) + stance.toLowerCase().slice(1)}
+                </option>
+              );
+            })}
           </select>
           <button
             className="button"
@@ -69,7 +55,7 @@ function Fight({ handleNodeOption }) {
         </div>
       </div>
       <div className="answerBox grid">
-        {player.items ? (
+        {Object.values(player.items).length > 0 ? (
           <div>
             {Object.keys(player.items)
               .map((key) => player.items[key])
@@ -83,8 +69,8 @@ function Fight({ handleNodeOption }) {
                 >
                   <button onClick={() => handleClick(item.id)}>
                     <img
-                      src={`/src/assets/${item.path}`}
-                      alt={item.name}
+                      src={getImgUrl(`${item.path}`)}
+                      alt={item.type}
                       className="m-auto h-12 w-12"
                     />
                     <div>
