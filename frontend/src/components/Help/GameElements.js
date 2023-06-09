@@ -120,5 +120,9 @@ export const gameEnemies = [
     name: 'Demon',
     path: 'enemies/demon.png',
   },
-  {},
+  {
+    id: 21,
+    name: 'Dragon',
+    path: 'enemies/dragon.png',
+  },
 ];

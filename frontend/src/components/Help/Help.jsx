@@ -103,6 +103,7 @@ function Help() {
                 />
                 <div>{element.name}</div>
               </div>
+              <div></div>
             </>
           ))}
       </div>
