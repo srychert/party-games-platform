@@ -28,6 +28,8 @@ function GameRoom(props) {
     }
   }, [connected]);
 
+  console.log(players);
+
   const onMessageReceived = (msg) => {
     console.log(msg);
 

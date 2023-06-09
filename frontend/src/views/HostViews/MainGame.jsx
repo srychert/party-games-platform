@@ -88,7 +88,12 @@ function MainGame(props) {
             Leave
           </button>
         </div>
-        <div className="mx-5 flex flex-col items-center justify-center">STARTED</div>
+        <div className="mx-5 flex flex-col items-center justify-center">
+          <div>Started</div>
+          <div>
+            <iframe src="https://giphy.com/embed/QpWDP1YMziaQw" allowFullScreen></iframe>
+          </div>
+        </div>
         <div className="p-5">
           <button className="button" onClick={handleNextRound}>
             Next Round
@@ -100,5 +105,3 @@ function MainGame(props) {
 }
 
 export default MainGame;
-
-// TODO
