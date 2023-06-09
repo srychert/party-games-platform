@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import pl.srychert.PartyGamesPlatform.exception.ApiRequestException;
 import pl.srychert.PartyGamesPlatform.model.game.Game;
 import pl.srychert.PartyGamesPlatform.model.game.enemy.*;
-import pl.srychert.PartyGamesPlatform.model.game.item.Item;
+import pl.srychert.PartyGamesPlatform.model.game.item.*;
 import pl.srychert.PartyGamesPlatform.model.game.item.potion.*;
 import pl.srychert.PartyGamesPlatform.model.game.node.MerchantNode;
 import pl.srychert.PartyGamesPlatform.model.game.node.Node;
@@ -109,7 +109,14 @@ public class GameService {
                 new VioletBuffPotion(),
                 new OrangeBuffPotion(),
                 new GreenBuffPotion(),
-                new WhiteBuffPotion()
+                new WhiteBuffPotion(),
+                new CursedSword(),
+                new BindingChain(),
+                new DustOfSlowness(),
+                new ScrollOfWeakening(),
+                new PiercingArrow(),
+                new ToxicCauldron(),
+                new DeadlyCloud()
         );
     }
 
