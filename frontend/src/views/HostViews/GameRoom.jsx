@@ -45,7 +45,7 @@ function GameRoom(props) {
         break;
 
       case TYPES.JOINED:
-        setPlayers([...players, { nick: msg.sender, id: msg.content }]);
+        setPlayers((prev) => [...prev, { nick: msg.sender, id: msg.content }]);
         break;
 
       case TYPES.STARTED:
@@ -89,7 +89,7 @@ function GameRoom(props) {
         Rozpocznij grę
       </button>
       <div className="mt-8 flex flex-wrap gap-2">
-        {players.map((player, index) => (
+        {players?.map((player, index) => (
           <div
             className="animate-wiggle rounded-lg border bg-violet-600 p-3 text-gray-100 drop-shadow-md"
             key={index}
