@@ -113,3 +113,12 @@ export const gameItems = [
     path: 'items/toxic-cauldron.png',
   },
 ];
+
+export const gameEnemies = [
+  {
+    id: 20,
+    name: 'Demon',
+    path: 'enemies/demon.png',
+  },
+  {},
+];

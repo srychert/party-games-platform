@@ -1,5 +1,5 @@
 import react, { useState } from 'react';
-import { gameNodes, gameItems } from './GameElements';
+import { gameNodes, gameItems, gameEnemies } from './GameElements';
 import switchIcon from '../NavigationBar/IconMapper';
 import { IconContext } from 'react-icons';
 import getImgUrl from '../../services/FileService';
@@ -7,29 +7,46 @@ import getImgUrl from '../../services/FileService';
 const gameElements = {
   NODES: 'Nodes',
   ITEMS: 'Items',
+  ENEMY: 'Enemy',
 };
 
 function Help() {
   const gameNodeStyle = `
-    border-b-2 border-b-gray-500 p-2 flex
+    border-b-2 border-b-gray-500 p-2 flex items-center
     `;
   const headerStyle = `
     text-center
     `;
   const [helpElement, setHelpElement] = useState(gameElements.NODES);
   const handleOnClick = (direction) => {
-    if (direction === '/help/left') {
-      if (helpElement === gameElements.NODES) {
-        setHelpElement(gameElements.ITEMS);
-      } else {
+    switch (helpElement) {
+      case gameElements.NODES:
+        if (direction === '/help/left') {
+          setHelpElement(gameElements.ITEMS);
+        }
+        if (direction === '/help/right') {
+          setHelpElement(gameElements.ENEMY);
+        }
+        break;
+      case gameElements.ITEMS:
+        if (direction === '/help/left') {
+          setHelpElement(gameElements.ENEMY);
+        }
+        if (direction === '/help/right') {
+          setHelpElement(gameElements.NODES);
+        }
+        break;
+      case gameElements.ENEMY:
+        if (direction === '/help/left') {
+          setHelpElement(gameElements.NODES);
+        }
+        if (direction === '/help/right') {
+          setHelpElement(gameElements.ITEMS);
+        }
+        break;
+      default:
         setHelpElement(gameElements.NODES);
-      }
-    } else if (direction === '/help/right') {
-      if (helpElement === gameElements.NODES) {
-        setHelpElement(gameElements.ITEMS);
-      } else {
-        setHelpElement(gameElements.NODES);
-      }
+        break;
     }
   };
   return (
@@ -66,11 +83,26 @@ function Help() {
                 <img
                   src={getImgUrl(`${element?.path}`)}
                   alt={element.name}
-                  className="h-6 w-6"
+                  className="m-2 h-10 w-10"
                 />
-                {element.name}
+                <div>{element.name}</div>
               </div>
-              <div className={gameNodeStyle}>{element.desc}</div>
+              <div className={gameNodeStyle}>
+                <div>{element.desc}</div>
+              </div>
+            </>
+          ))}
+        {helpElement === gameElements.ENEMY &&
+          gameEnemies.map((element, index) => (
+            <>
+              <div className={gameNodeStyle}>
+                <img
+                  src={getImgUrl(`${element?.path}`)}
+                  alt={element.name}
+                  className="m-2 h-10 w-10"
+                />
+                <div>{element.name}</div>
+              </div>
             </>
           ))}
       </div>
