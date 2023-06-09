@@ -37,7 +37,7 @@ function Login(props) {
   }
 
   if (isSuccess) {
-    return <Navigate to="/host" />;
+    return <Navigate to="/host" state={{ loginSuccess: true }} />;
   }
 
   return (

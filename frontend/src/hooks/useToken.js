@@ -10,13 +10,13 @@ export const useToken = (config) => {
     queryFn: async () => {
       const authenticated = await api.get('/auth/token');
 
-      if (authenticated.data === false) {
+      if (authenticated.data !== true) {
         return redirect('/login');
       }
 
       return authenticated;
     },
-    // retry: false,
+    retry: false,
     ...config,
   });
 };
