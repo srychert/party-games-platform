@@ -1,10 +1,11 @@
 import React from 'react';
+import Help from '../components/Help/Help';
 
 function TestingComponents() {
   return (
-    <div>
-      <h1>Testing Components</h1>
-    </div>
+    <>
+      <Help />
+    </>
   );
 }
 
