@@ -17,6 +17,7 @@ import pl.srychert.PartyGamesPlatform.model.game.Player;
 import pl.srychert.PartyGamesPlatform.model.game.enemy.Enemy;
 import pl.srychert.PartyGamesPlatform.model.game.item.Item;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
@@ -254,5 +255,6 @@ public class FightNode extends Node {
         playerDied = true;
         player.setCurrentRoundCompleted(true);
         player.setHp((int) Math.round(Player.builder().build().getHp() * 0.5));
+        player.setItems(new HashMap<>());
     }
 }

@@ -54,6 +54,16 @@ public class MerchantNode extends Node {
         return answer;
     }
 
+    @NodeOptionMethod
+    public JSONObject leave(Player player) {
+        JSONObject answer = new JSONObject();
+
+        player.setCurrentRoundCompleted(true);
+
+        answer.put("player", new JSONObject(player));
+        return answer;
+    }
+
     public MerchantNode() {
 
     }

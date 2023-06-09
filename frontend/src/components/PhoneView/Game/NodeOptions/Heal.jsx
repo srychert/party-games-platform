@@ -31,6 +31,18 @@ function Heal({ handleNodeOption }) {
           </button>
         </div>
       </div>
+      <div className="answerBox">
+        <button
+          className="button"
+          onClick={() =>
+            handleNodeOption({
+              ...player.options.find((option) => option.name === 'leave'),
+            })
+          }
+        >
+          Leave
+        </button>
+      </div>
     </>
   );
 }
