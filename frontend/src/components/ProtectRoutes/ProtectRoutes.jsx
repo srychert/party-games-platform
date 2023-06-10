@@ -7,7 +7,7 @@ const ProtectRoutes = () => {
   const location = useLocation();
 
   if (isLoading) {
-    return <Loading></Loading>;
+    return <Loading />;
   }
 
   if (error?.response?.status === 401 || data?.status === 302) {
