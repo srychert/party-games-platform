@@ -1,9 +1,16 @@
 import react, { useState } from 'react';
-import { gameNodes, gameItems, gameEnemies } from './GameElements';
+import { gameNodes, gameEnemies } from './GameElements';
 import switchIcon from '../NavigationBar/IconMapper';
 import { IconContext } from 'react-icons';
 import getImgUrl from '../../services/FileService';
 import { useItems } from '../../hooks/game/useItems';
+import { useEnemies } from '../../hooks/game/useEnemies';
+import Loading from '../../views/Loading';
+import Error from '../../views/Error';
+import { itemTypeToString, itemEffectsToString } from '../../utils/ItemUtils';
+import { enemieTypeToString } from '../../utils/EnemyUtils';
+import EnemiesStats from './EnemiesStats';
+import ItemsStats from './ItemsStats';
 
 const gameElements = {
   NODES: 'Nodes',
@@ -12,16 +19,29 @@ const gameElements = {
 };
 
 function Helper() {
+  const [helpElement, setHelpElement] = useState(gameElements.NODES);
   const gameNodeStyle = `
     border-b-2 border-b-gray-500 p-2 flex items-center
     `;
-  const headerStyle = `
-    text-center
+  const gameItemsStyle = `
+    flex flex-col border-b-2 border-b-gray-500 p-2 flex items-center
+    `;
+  const gameEnemiesStyle = `
+    flex flex-col border-b-2 border-b-gray-500 p-2 flex items-center
     `;
 
-  const gameItemsHooked = useItems();
-  console.log(gameItemsHooked.data);
-  const [helpElement, setHelpElement] = useState(gameElements.NODES);
+  const itemsQuery = useItems();
+  const enemiesQuery = useEnemies();
+
+  if (itemsQuery.isLoading || enemiesQuery.isLoading) {
+    return <Loading />;
+  }
+  if (itemsQuery.isError || enemiesQuery.isError) {
+    return <Error message={itemsQuery.error?.message} />;
+  }
+
+  console.log(enemiesQuery.data);
+
   const handleOnClick = (direction) => {
     switch (helpElement) {
       case gameElements.NODES:
@@ -53,6 +73,7 @@ function Helper() {
         break;
     }
   };
+
   return (
     <div className="h-3/4 w-full overflow-y-scroll">
       <div className="m-auto flex w-3/4 justify-between">
@@ -68,10 +89,6 @@ function Helper() {
           </IconContext.Provider>
         </button>
       </div>
-      <div className="grid grid-cols-2 justify-center">
-        <div className={headerStyle}>Element</div>
-        <div className={headerStyle}>Description</div>
-      </div>
       <div className="grid grid-cols-2 p-2">
         {helpElement === gameElements.NODES &&
           gameNodes.map((element, index) => (
@@ -81,7 +98,7 @@ function Helper() {
             </>
           ))}
         {helpElement === gameElements.ITEMS &&
-          gameItems.map((element, index) => (
+          itemsQuery.data.map((element, index) => (
             <>
               <div className={gameNodeStyle}>
                 <img
@@ -89,15 +106,15 @@ function Helper() {
                   alt={element.name}
                   className="m-2 h-10 w-10"
                 />
-                <div>{element.name}</div>
+                <div>{itemTypeToString(element.type)}</div>
               </div>
-              <div className={gameNodeStyle}>
-                <div>{element.desc}</div>
+              <div className={gameItemsStyle}>
+                <ItemsStats itemStats={itemEffectsToString(element.itemEffectMap)} />
               </div>
             </>
           ))}
         {helpElement === gameElements.ENEMY &&
-          gameEnemies.map((element, index) => (
+          enemiesQuery.data.map((element, index) => (
             <>
               <div className={gameNodeStyle}>
                 <img
@@ -105,9 +122,11 @@ function Helper() {
                   alt={element.name}
                   className="m-2 h-10 w-10"
                 />
-                <div>{element.name}</div>
+                <div>{enemieTypeToString(element.type)}</div>
               </div>
-              <div></div>
+              <div className={gameEnemiesStyle}>
+                <EnemiesStats enemie={element} />
+              </div>
             </>
           ))}
       </div>

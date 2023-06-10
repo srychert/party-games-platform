@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import playContext from '../../../../context/PlayContext';
 import { STANCES } from '../../../../enums/StanceTypes';
-import { itemTypeToString } from '../../../../services/ItemTypeToString';
+import { itemTypeToString } from '../../../../utils/ItemUtils';
 import getImgUrl from '../../../../services/FileService';
 
 function Fight({ handleNodeOption }) {
