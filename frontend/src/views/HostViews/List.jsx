@@ -26,11 +26,19 @@ function List() {
     navigate(`/host/${gameType}/${gameID}`);
   };
 
+  const [gameTypes, setGameTypes] = useState({
+    game: true,
+    quiz: true,
+  });
   const [query, setQuery] = useState('');
   const [sortType, setSortType] = useState('ttp-desc');
 
-  const handleSearchFilter = () => {
-    return allGames.filter(
+  const handleGameTypeFilter = (games) => {
+    return games.filter((game) => gameTypes[game.type]);
+  };
+
+  const handleSearchFilter = (games) => {
+    return games.filter(
       (game) =>
         game.title.toLowerCase().includes(query.toLowerCase()) ||
         game.description.toLowerCase().includes(query.toLowerCase())
@@ -55,17 +63,20 @@ function List() {
       default:
         break;
     }
-    console.log(games);
     return games;
   };
 
   const filterAndSort = () => {
-    const filtered = handleSearchFilter();
-    const sorted = handleSort(filtered);
+    const filteredByGameType = handleGameTypeFilter(allGames);
+    const filteredByQuery = handleSearchFilter(filteredByGameType);
+    const sorted = handleSort(filteredByQuery);
     return sorted;
   };
 
-  const visibleGames = useMemo(() => filterAndSort(), [allGames, query, sortType]);
+  const visibleGames = useMemo(
+    () => filterAndSort(),
+    [allGames, gameTypes, query, sortType]
+  );
 
   if (quizzesQuery.isLoading || gamesQuery.isLoading) {
     return <Loading />;
@@ -94,8 +105,8 @@ function List() {
           },
         }}
       >
-        {/* Filter */}
-        <div className="mb-8 flex flex-wrap items-center justify-center gap-4 border-b-2 p-6 sm:justify-between">
+        {/* Filters And Sorters */}
+        <div className="mb-8 flex flex-wrap items-center justify-center gap-4 border-b-2 p-6">
           <div className="relative">
             <input
               className="form-input w-[200px]"
@@ -120,6 +131,43 @@ function List() {
               <option value="title-desc">Title - DESC</option>
             </select>
             <CgSelect />
+          </div>
+          <div>
+            <fieldset className="flex w-[200px] justify-between rounded bg-white  p-2">
+              <div className="flex gap-2">
+                <label htmlFor="games">Games</label>
+                <input
+                  type="checkbox"
+                  id="games"
+                  className="accent-emerald-600"
+                  name="games"
+                  value="games"
+                  onChange={() =>
+                    setGameTypes((types) => {
+                      return { ...types, game: !types.game };
+                    })
+                  }
+                  checked={gameTypes.game}
+                />
+              </div>
+
+              <div className="flex gap-2">
+                <label htmlFor="quizzes">Quizzes</label>
+                <input
+                  type="checkbox"
+                  id="quizzes"
+                  className="accent-emerald-600"
+                  name="quizzes"
+                  value="quizzes"
+                  onChange={() =>
+                    setGameTypes((types) => {
+                      return { ...types, quiz: !types.quiz };
+                    })
+                  }
+                  checked={gameTypes.quiz}
+                />
+              </div>
+            </fieldset>
           </div>
         </div>
         {/* Games */}
