@@ -7,7 +7,7 @@ export const useItems = (config) => {
   return useQuery({
     queryKey: ['items'],
     queryFn: async () => {
-      const items = await api.get(`/games/items`);
+      const items = await api.get(`/defaults/items`);
       return items.data;
     },
     ...config,

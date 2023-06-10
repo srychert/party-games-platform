@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.srychert.PartyGamesPlatform.model.game.Game;
-import pl.srychert.PartyGamesPlatform.model.game.enemy.Enemy;
-import pl.srychert.PartyGamesPlatform.model.game.item.Item;
 import pl.srychert.PartyGamesPlatform.service.game.GameService;
 
 import java.util.List;
@@ -50,15 +48,4 @@ public class GameController {
             @Valid @RequestBody Game game) {
         return gameService.updateGame(id, game);
     }
-
-    @GetMapping(path = "items")
-    public List<Item> getItems() {
-        return gameService.getItems();
-    }
-
-    @GetMapping(path = "enemies")
-    public List<Enemy> getEnemies() {
-        return gameService.getEnemies();
-    }
-
 }
