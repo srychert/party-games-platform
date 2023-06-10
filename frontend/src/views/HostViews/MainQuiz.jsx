@@ -65,7 +65,7 @@ function MainQuiz(props) {
 
       case TYPES.ENDED:
         // nagivate to end game page
-        navigate(`/final-results`, {
+        navigate(`/host/quiz/final-results`, {
           state: { players: JSON.parse(msg.json).players },
         });
         break;

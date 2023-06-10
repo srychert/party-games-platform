@@ -43,7 +43,7 @@ function QuizRoom(props) {
         break;
 
       case TYPES.JOINED:
-        setPlayers([...players, { nick: msg.sender, id: msg.content }]);
+        setPlayers((prev) => [...players, { nick: msg.sender, id: msg.content }]);
         break;
 
       case TYPES.STARTED:

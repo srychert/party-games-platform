@@ -27,7 +27,6 @@ function Join(props) {
   };
 
   const handleMessage = (msg) => {
-    console.log(JSON.parse(msg.json));
     switch (msg.type) {
       case TYPES.JOINED:
         setCookie('player_id', msg.content, { path: '/' });
@@ -62,7 +61,7 @@ function Join(props) {
       setTopics([`/topic/quizroom/${pin}`, `/user/topic/reply`]);
     }
     setHandleMessage({ fn: handleMessage });
-  }, [pin]);
+  }, [pin, gameType]);
 
   return (
     <div className="grid h-full place-content-center">
