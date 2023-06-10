@@ -16,9 +16,9 @@ function Profile() {
   }
 
   return (
-    <div className="flex justify-center items-center h-screen -mt-20">
-    <div className="flex aspect-square min-w-[400px] flex-col rounded-lg border border-violet-600 shadow-lg shadow-violet-600 overflow-hidden">
-        <div className="flex h-full w-full flex-col overflow-y-scroll p-4">
+    <div className="-mt-20 flex h-screen items-center justify-center">
+      <div className="flex aspect-square min-w-[400px] flex-col overflow-hidden rounded-lg border border-violet-600 shadow-lg shadow-violet-600">
+        <div className="flex h-full w-full flex-col overflow-y-auto p-4">
           <div className="flex justify-center">
             <IconContext.Provider value={{ size: '9em' }}>
               <CgProfile />
@@ -27,7 +27,7 @@ function Profile() {
           <h2 className="border-b-2 border-violet-600 text-center text-2xl font-bold text-violet-600">
             {user?.userName}
           </h2>
-          <div className="flex justify-center mt-10 text-center">
+          <div className="mt-10 flex justify-center text-center">
             <div className="flex gap-6 whitespace-nowrap text-xl font-bold">
               <div className="flex flex-col gap-5">
                 <span>Roles:</span>
@@ -44,7 +44,13 @@ function Profile() {
             </div>
           </div>
         </div>
-        <div className={`self-end text-center w-full ${user?.active ? 'bg-green-500' : 'bg-red-500'} font-semibold h-[30px]`}>{user?.active ? 'Active: Yes' : 'Active: No'}</div>
+        <div
+          className={`w-full self-end text-center ${
+            user?.active ? 'bg-green-500' : 'bg-red-500'
+          } h-[30px] font-semibold`}
+        >
+          {user?.active ? 'Active: Yes' : 'Active: No'}
+        </div>
       </div>
     </div>
   );

@@ -92,7 +92,7 @@ function List() {
   }
 
   return (
-    <div className="flex h-full w-full flex-col overflow-y-scroll">
+    <div className="flex h-full w-full flex-col overflow-y-auto pb-4">
       <IconContext.Provider
         value={{
           size: '1.25em',

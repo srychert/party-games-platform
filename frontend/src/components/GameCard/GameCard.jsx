@@ -20,12 +20,12 @@ function GameCard({ game, handleChooseGame }) {
           {game.title}
         </h2>
         <div className="max-h-8 overflow-hidden p-1 font-bold">{game.createdBy}</div>
-        <div className="max-h-24 sm:max-h-36 overflow-hidden p-1">{game.description}</div>
+        <div className="max-h-24 overflow-hidden p-1 sm:max-h-36">{game.description}</div>
         <button
           className="button mt-auto"
           onClick={() => handleChooseGame(game.type, game.id)}
         >
-          Graj
+          Play
         </button>
       </div>
     </div>
