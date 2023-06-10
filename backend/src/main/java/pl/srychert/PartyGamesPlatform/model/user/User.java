@@ -3,6 +3,7 @@ package pl.srychert.PartyGamesPlatform.model.user;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
@@ -25,6 +26,7 @@ public class User {
     @Indexed(unique = true)
     private String userName;
     @NotBlank
+    @Size(min = 8, message = "Must be at least 8 characters ")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     private boolean active;

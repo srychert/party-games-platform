@@ -32,10 +32,6 @@ function Login(props) {
     return <Loading />;
   }
 
-  if (isError) {
-    return <span>{error.message}</span>;
-  }
-
   if (isSuccess) {
     return <Navigate to="/host" state={{ loginSuccess: true }} />;
   }
@@ -43,7 +39,7 @@ function Login(props) {
   return (
     <div className="full-screen-container">
       <Back to={'/'} />
-      <form onSubmit={(event) => handleLogin(event)} className="form">
+      <form id="login-form" onSubmit={(event) => handleLogin(event)} className="form">
         <div className="form-row">
           <div className="form-input-container">
             <label htmlFor="username">Login</label>
@@ -104,6 +100,13 @@ function Login(props) {
             Register
           </button>
         </div>
+        {isError && (
+          <span className="font-semibold text-red-600">
+            {error?.response?.status === 401
+              ? 'Wrong credentials'
+              : 'Something went wrong try again later'}
+          </span>
+        )}
       </form>
     </div>
   );
