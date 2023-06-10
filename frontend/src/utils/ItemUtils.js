@@ -27,7 +27,6 @@ function mapShortToLongName(shortName) {
 }
 
 export function itemEffectsToString(itemEffects) {
-  console.log(itemEffects);
   return Object.keys(itemEffects).map((effect) => {
     return {
       name: mapShortToLongName(effect),

@@ -13,21 +13,15 @@ import EnemiesStats from './EnemiesStats';
 import ItemsStats from './ItemsStats';
 
 const gameElements = {
-  NODES: 'Nodes',
-  ITEMS: 'Items',
-  ENEMY: 'Enemy',
+  NODES: 'Nodes with descriptions',
+  ITEMS: 'Items with default stats',
+  ENEMY: 'Enemies with default stats',
 };
 
 function Helper() {
   const [helpElement, setHelpElement] = useState(gameElements.NODES);
   const gameNodeStyle = `
     border-b-2 border-b-gray-500 p-2 flex items-center
-    `;
-  const gameItemsStyle = `
-    flex flex-col border-b-2 border-b-gray-500 p-2 flex items-center
-    `;
-  const gameEnemiesStyle = `
-    flex flex-col border-b-2 border-b-gray-500 p-2 flex items-center
     `;
 
   const itemsQuery = useItems();
@@ -39,8 +33,6 @@ function Helper() {
   if (itemsQuery.isError || enemiesQuery.isError) {
     return <Error message={itemsQuery.error?.message} />;
   }
-
-  console.log(enemiesQuery.data);
 
   const handleOnClick = (direction) => {
     switch (helpElement) {
@@ -76,7 +68,7 @@ function Helper() {
 
   return (
     <div className="h-3/4 w-full overflow-y-scroll">
-      <div className="m-auto flex w-3/4 justify-between">
+      <div className="sticky top-0 flex w-full justify-between bg-stone-300 p-2">
         <button onClick={() => handleOnClick('/help/left')}>
           <IconContext.Provider value={{ size: '2em' }}>
             {switchIcon('/help/left')}
@@ -108,7 +100,7 @@ function Helper() {
                 />
                 <div>{itemTypeToString(element.type)}</div>
               </div>
-              <div className={gameItemsStyle}>
+              <div className="items-center border-b-2 border-b-gray-500 p-2">
                 <ItemsStats itemStats={itemEffectsToString(element.itemEffectMap)} />
               </div>
             </>
@@ -124,7 +116,7 @@ function Helper() {
                 />
                 <div>{enemieTypeToString(element.type)}</div>
               </div>
-              <div className={gameEnemiesStyle}>
+              <div className="items-center border-b-2 border-b-gray-500 p-2">
                 <EnemiesStats enemie={element} />
               </div>
             </>
