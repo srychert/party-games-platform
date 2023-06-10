@@ -100,7 +100,7 @@ function Helper() {
                 />
                 <div>{itemTypeToString(element.type)}</div>
               </div>
-              <div className="items-center border-b-2 border-b-gray-500 p-2">
+              <div className={gameNodeStyle}>
                 <ItemsStats itemStats={itemEffectsToString(element.itemEffectMap)} />
               </div>
             </>
@@ -116,7 +116,7 @@ function Helper() {
                 />
                 <div>{enemieTypeToString(element.type)}</div>
               </div>
-              <div className="items-center border-b-2 border-b-gray-500 p-2">
+              <div className={gameNodeStyle}>
                 <EnemiesStats enemie={element} />
               </div>
             </>
