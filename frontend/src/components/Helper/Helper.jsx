@@ -3,6 +3,7 @@ import { gameNodes, gameItems, gameEnemies } from './GameElements';
 import switchIcon from '../NavigationBar/IconMapper';
 import { IconContext } from 'react-icons';
 import getImgUrl from '../../services/FileService';
+import { useItems } from '../../hooks/game/useItems';
 
 const gameElements = {
   NODES: 'Nodes',
@@ -10,13 +11,16 @@ const gameElements = {
   ENEMY: 'Enemy',
 };
 
-function Help() {
+function Helper() {
   const gameNodeStyle = `
     border-b-2 border-b-gray-500 p-2 flex items-center
     `;
   const headerStyle = `
     text-center
     `;
+
+  const gameItemsHooked = useItems();
+  console.log(gameItemsHooked.data);
   const [helpElement, setHelpElement] = useState(gameElements.NODES);
   const handleOnClick = (direction) => {
     switch (helpElement) {
@@ -111,4 +115,4 @@ function Help() {
   );
 }
 
-export default Help;
+export default Helper;

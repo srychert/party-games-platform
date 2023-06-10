@@ -60,6 +60,7 @@ function List() {
         break;
       case 'title-asc':
         games.sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase()));
+        break;
       default:
         break;
     }
