@@ -11,35 +11,23 @@ export const ApiProvider = ({ children }) => {
     baseURL: `${import.meta.env.API_URL}:${import.meta.env.API_PORT}/api/v1`,
   });
 
+  const requestsWithoutToken = ['/defaults/items', '/defaults/enemies'];
+
   api.interceptors.request.use(function (config) {
     config.headers.Authorization = null;
     const token = cookies.token;
 
-    if (token) {
+    if (token && !requestsWithoutToken.includes(config.url)) {
       config.headers.Authorization = 'Bearer ' + token;
     }
 
     return config;
   });
 
-  // Response interceptor for API calls
-  api.interceptors.response.use(
-    (response) => {
-      return response;
-    },
-    async function (error) {
-      const originalRequest = error.config;
-
-      if (error?.response?.status === 401 && !originalRequest._retry) {
-        originalRequest._retry = true;
-      }
-      return Promise.reject(error);
-    }
-  );
-
   const value = useMemo(
     () => ({
       api,
+      requestsWithoutToken,
     }),
     [cookies]
   );

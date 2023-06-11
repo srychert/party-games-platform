@@ -43,7 +43,7 @@ function QuizRoom(props) {
         break;
 
       case TYPES.JOINED:
-        setPlayers([...players, { nick: msg.sender, id: msg.content }]);
+        setPlayers((prev) => [...players, { nick: msg.sender, id: msg.content }]);
         break;
 
       case TYPES.STARTED:
@@ -87,7 +87,7 @@ function QuizRoom(props) {
         {pin}
       </div>
       <button className="button" onClick={() => handleClick()}>
-        Rozpocznij grę
+        Start Quiz
       </button>
       <div className="mt-8 flex flex-wrap gap-2">
         {players.map((player, index) => (

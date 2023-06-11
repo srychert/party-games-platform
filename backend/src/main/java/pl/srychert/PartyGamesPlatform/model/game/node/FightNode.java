@@ -2,6 +2,7 @@ package pl.srychert.PartyGamesPlatform.model.game.node;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.json.JSONObject;
@@ -16,6 +17,7 @@ import pl.srychert.PartyGamesPlatform.model.game.Player;
 import pl.srychert.PartyGamesPlatform.model.game.enemy.Enemy;
 import pl.srychert.PartyGamesPlatform.model.game.item.Item;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
@@ -27,6 +29,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FightNode extends Node {
+    @NotNull
     private @Valid Enemy enemy;
     @JsonIgnore
     @Transient
@@ -81,11 +84,12 @@ public class FightNode extends Node {
             }
         }
 
-        answer.put("enemy", new JSONObject(enemyCurrent)
-                .put("atkFirst", enemyAtkFirst)
-                .put("dmgDealt", enemyDmgDealt)
-                .put("dmgTaken", enemyDmgTaken)
-                .put("died", enemyDied));
+        answer.put("node", new JSONObject().put("type", this.getType()).put(
+                "enemy", new JSONObject(enemyCurrent)
+                        .put("atkFirst", enemyAtkFirst)
+                        .put("dmgDealt", enemyDmgDealt)
+                        .put("dmgTaken", enemyDmgTaken)
+                        .put("died", enemyDied)));
         answer.put("player", new JSONObject(player)
                 .put("atkFirst", playerAtkFirst)
                 .put("dmgDealt", playerDmgDealt)
@@ -251,5 +255,6 @@ public class FightNode extends Node {
         playerDied = true;
         player.setCurrentRoundCompleted(true);
         player.setHp((int) Math.round(Player.builder().build().getHp() * 0.5));
+        player.setItems(new HashMap<>());
     }
 }

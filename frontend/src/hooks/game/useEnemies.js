@@ -7,7 +7,7 @@ export const useEnemies = (config) => {
   return useQuery({
     queryKey: ['enemies'],
     queryFn: async () => {
-      const enemies = await api.get(`/games/enemies`);
+      const enemies = await api.get(`/defaults/enemies`);
       return enemies.data;
     },
     ...config,

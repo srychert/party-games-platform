@@ -5,6 +5,7 @@ import { Combobox } from '@headlessui/react';
 import { GameContext } from './gameContext';
 import { CgInsertAfter } from 'react-icons/cg';
 import { IconContext } from 'react-icons';
+import { formatText } from '../../services/formatText';
 
 function uniqueID() {
   return Math.floor(Math.random() * Date.now());
@@ -25,7 +26,9 @@ function ItemsComboBox({ setNodeItems }) {
       <div className="relative">
         <Combobox.Input
           className="form-input border"
-          displayValue={(selectedItem) => selectedItem?.type}
+          displayValue={(selectedItem) => {
+            formatText(selectedItem?.type || '');
+          }}
         />
         <Combobox.Button className="absolute right-3 top-3">
           <IconContext.Provider value={{ size: '1.5em' }}>
@@ -40,7 +43,7 @@ function ItemsComboBox({ setNodeItems }) {
                   <div
                     className={`w-full p-2 ${active ? 'bg-emerald-600 text-white' : ''}`}
                   >
-                    {item.type}
+                    {formatText(item.type)}
                   </div>
                 </>
               )}

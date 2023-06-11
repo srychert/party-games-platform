@@ -4,7 +4,7 @@
 
 @layer components {
   .answerBox {
-    @apply flex content-center items-center justify-center rounded-lg shadow-md;
+    @apply flex content-center items-center justify-center rounded-lg shadow-md text-2xl;
   }
 
   .buttonSmall {
@@ -31,6 +31,10 @@
   .button:hover,
   .button:focus {
     @apply border-amber-600 text-gray-100 brightness-110;
+  }
+
+  .button:disabled{
+    @apply border-gray-400 bg-gray-600
   }
 
   /* form specific */

@@ -61,7 +61,7 @@ public class SecurityConfiguration {
                                     .requestMatchers("/api/v1/users/**").hasAnyAuthority("SCOPE_USER")
                                     .requestMatchers("/api/v1/games/**").hasAnyAuthority("SCOPE_USER")
                                     .requestMatchers("/api/v1/quizzes/**").hasAnyAuthority("SCOPE_USER")
-                                    .requestMatchers("/api/v1/auth/**", "/game/**", "/quiz/**").permitAll()
+                                    .requestMatchers("/api/v1/auth/**", "/api/v1/defaults/**", "/game/**", "/quiz/**").permitAll()
                                     .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                                     .anyRequest().hasAuthority("SCOPE_ADMIN");
                         }

@@ -32,7 +32,7 @@ function Quiz(props) {
         break;
 
       case TYPES.ENDED:
-        navigate(`/final-results`, {
+        navigate(`/player/join`, {
           state: { players: JSON.parse(msg.json).players },
         });
         break;

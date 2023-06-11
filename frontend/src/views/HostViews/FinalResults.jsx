@@ -5,42 +5,39 @@ import PointsChart from '../../components/PointsChart/PointsChart';
 function FinalResults() {
   const location = useLocation();
   const [chartData, setChartData] = useState({
-    labels: location.state.players.map((player) => player.nick),
+    labels: [],
     datasets: [
       {
         label: 'Wyniki',
-        data: location.state.players.map((player) => player.points),
-        backgroundColor: location.state.players.map(() => 'rgba(54, 162, 235, 0.2)'),
-        borderColor: location.state.players.map(() => 'rgba(54, 162, 235, 1)'),
+        data: [],
+        backgroundColor: [],
+        borderColor: [],
         borderWidth: 1,
       },
     ],
   });
 
-  console.log(chartData);
-
   useEffect(() => {
+    const players = location?.state?.players ?? [];
+    console.log(players);
     setChartData({
-      labels: location.state.players.map((player) => player.nick),
+      labels: players.map((player) => player.nick),
       datasets: [
         {
           label: 'Wyniki',
-          data: location.state.players.map((player) => player.points),
-          backgroundColor: location.state.players.map(() => 'rgba(54, 162, 235, 0.2)'),
-          borderColor: location.state.players.map(() => 'rgba(54, 162, 235, 1)'),
+          data: players.map((player) => player?.points || 0),
+          backgroundColor: players.map(() => 'rgba(54, 162, 235, 0.2)'),
+          borderColor: players.map(() => 'rgba(54, 162, 235, 1)'),
           borderWidth: 1,
         },
       ],
     });
-  }, [location.state.players]);
-
+  }, [location.state?.players]);
   return (
-    <div className="flex w-full flex-col">
+    <div className="flex flex-col items-center">
       <h1 className="self-center">Final Results</h1>
-      <div className="flex flex-col items-center">
-        <div className="w-1/2">
-          <PointsChart players={location?.state?.players || []} />
-        </div>
+      <div className="w-1/2">
+        <PointsChart chartData={chartData} />
       </div>
     </div>
   );

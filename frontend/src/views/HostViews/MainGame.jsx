@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import PointsChart from '../../components/PointsChart/PointsChart';
 import Loading from '../Loading';
 import { TYPES } from '../../enums/MessageTypes';
+import Helper from '../../components/Helper/Helper';
 
 function MainGame(props) {
   const { client, setTopics, setHandleMessage } = props;
@@ -32,37 +33,34 @@ function MainGame(props) {
   };
 
   const handleMessage = (msg) => {
-    console.log(msg);
-    console.log(JSON.parse(msg.json));
-
-    function setPlayersAndOptionsFromMessage(msg) {
-      const { players, options } = JSON.parse(msg.json);
-      setPlayers(players);
-      return { players, options };
-    }
+    const msgJson = JSON.parse(msg.json);
+    console.log(msgJson);
 
     switch (msg.type) {
       case TYPES.STARTED:
-        setPlayersAndOptionsFromMessage(msg);
+        setPlayers(msgJson.players);
         setLoading(false);
         break;
 
+      // TODO update host view with player info
+      case TYPES.ANSWER:
+        break;
+
       case TYPES.NEXT_ROUND:
-        setPlayersAndOptionsFromMessage(msg);
         setRound(round + 1);
         break;
 
       case TYPES.ENDED:
         // nagivate to end game page
-        navigate(`/host/final-results`, {
+        navigate(`/host/game/final-results`, {
           state: {
-            players: JSON.parse(msg.json).players,
+            players: msgJson.players,
           },
         });
         break;
 
       case TYPES.ERROR:
-        setError(JSON.parse(msg.json).message);
+        setError(msgJson.message);
         break;
 
       default:
@@ -91,17 +89,21 @@ function MainGame(props) {
             Leave
           </button>
         </div>
-        <div className="mx-5 flex flex-col items-center justify-center">STARTED</div>
+        <div className="mx-5 flex flex-col items-center justify-center">
+          <div>Started</div>
+          <div>
+            <iframe src="https://giphy.com/embed/QpWDP1YMziaQw" allowFullScreen></iframe>
+          </div>
+        </div>
         <div className="p-5">
           <button className="button" onClick={handleNextRound}>
             Next Round
           </button>
         </div>
       </div>
+      <Helper />
     </>
   );
 }
 
 export default MainGame;
-
-// TODO

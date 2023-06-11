@@ -3,10 +3,10 @@ import { Route, Routes } from 'react-router-dom';
 import { SockJsClientDefaults } from '../services/SockJsClientDefaults';
 import MainQuiz from '../views/HostViews/MainQuiz';
 import QuizRoom from '../views/HostViews/QuizRoom';
-import TestView from '../views/TestView';
 import GameRoom from '../views/HostViews/GameRoom';
 import MainGame from '../views/HostViews/MainGame';
 import GameFinalResults from '../views/HostViews/GameFinalResults';
+import FinalResults from '../views/HostViews/FinalResults';
 
 function HostLayoutConnected() {
   const [topics, setTopics] = useState([]);
@@ -55,12 +55,12 @@ function HostLayoutConnected() {
         ref={client}
       />
       <Routes>
+        <Route path="quiz/final-results" element={<FinalResults />} />
         <Route path="quiz/:id" element={<QuizRoom {...props} />} />
         <Route path="quiz/:id/quiz-room/:pin" element={<MainQuiz {...props} />} />
+        <Route path="game/final-results" element={<GameFinalResults />} />
         <Route path="game/:id" element={<GameRoom {...props} />} />
         <Route path="game/:id/game-room/:pin" element={<MainGame {...props} />} />
-        <Route path="test" element={<TestView {...props} />} />
-        <Route path="final-results" element={<GameFinalResults />} />
       </Routes>
     </>
   );

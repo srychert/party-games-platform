@@ -23,7 +23,8 @@ public class HealNode extends Node {
     public JSONObject freeHeal(Player player) {
         JSONObject answer = new JSONObject();
 
-        player.setHp(player.getHp() + baseHeal);
+        int maxHp = Player.builder().build().getHp();
+        player.setHp(Math.min(player.getHp() + baseHeal, maxHp));
         player.setCurrentRoundCompleted(true);
 
         answer.put("player", new JSONObject(player));
@@ -38,10 +39,21 @@ public class HealNode extends Node {
             throw new NotEnoughGoldException("Not enough gold");
         }
 
+        int maxHp = Player.builder().build().getHp();
         Integer hpToHeal = ThreadLocalRandom.current().nextInt(gold, gold + 3);
 
         player.setGold(player.getGold() - gold);
-        player.setHp(player.getHp() + hpToHeal + baseHeal);
+        player.setHp(Math.min(player.getHp() + hpToHeal + baseHeal, maxHp));
+        player.setCurrentRoundCompleted(true);
+
+        answer.put("player", new JSONObject(player));
+        return answer;
+    }
+
+    @NodeOptionMethod
+    public JSONObject leave(Player player) {
+        JSONObject answer = new JSONObject();
+
         player.setCurrentRoundCompleted(true);
 
         answer.put("player", new JSONObject(player));

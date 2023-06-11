@@ -1,11 +1,15 @@
 import React, { useState, useContext } from 'react';
 import playContext from '../../../../context/PlayContext';
 import { STANCES } from '../../../../enums/StanceTypes';
+import { formatText } from '../../../../services/formatText';
+import BaseModal from '../../../GameCreator/Modal/BaseModal';
 
-function Fight({ handleNodeOption }) {
-  const [stance, setStance] = useState(2);
-  const [itemID, setItemID] = useState(null);
+function Fight({ handleNodeOption, isOpen, setIsOpen, isOpenStance, setIsOpenStance }) {
   const { player } = useContext(playContext);
+  const [stance, setStance] = useState(
+    Object.values(STANCES).find((s) => s !== player.stance)
+  );
+
   return (
     <>
       <button
@@ -16,72 +20,44 @@ function Fight({ handleNodeOption }) {
       >
         Fight
       </button>
-      <div className="answerBox">
-        Change fight stance
+      <button className="answerBox" onClick={() => setIsOpenStance(true)}>
+        Change stance
+      </button>
+      <button className="answerBox" onClick={() => setIsOpen(true)}>
+        Use Item
+      </button>
+      <BaseModal
+        isOpen={isOpenStance}
+        handleClose={() => setIsOpenStance(false)}
+        title="Select stance"
+      >
         <div className="grid">
-          <select onChange={(e) => setStance(e.target.value)}>
-            <option
-              value={STANCES.DEFENSIVE}
-              visibility={(player.stance !== STANCES.DEFENSIVE).toString()}
-            >
-              Defensive
-            </option>
-            <option
-              value={STANCES.OFFENSIVE}
-              visibility={(player.stance !== STANCES.OFFENSIVE).toString()}
-            >
-              Offensive
-            </option>
-            <option
-              value={STANCES.COUNTER}
-              visibility={(player.stance !== STANCES.COUNTER).toString()}
-            >
-              Counter
-            </option>
-            <option
-              value={STANCES.NORMAL}
-              visibility={(player.stance !== STANCES.NORMAL).toString()}
-            >
-              Normal
-            </option>
-          </select>
+          {Object.values(STANCES).map((s) => {
+            return (
+              <div
+                value={s}
+                key={s}
+                onClick={() => setStance(s)}
+                className={`flex rounded p-4 ${s === stance ? 'bg-green-500/30' : ''}`}
+              >
+                {formatText(s)}
+              </div>
+            );
+          })}
           <button
-            className="button"
-            onClick={() =>
+            className="button mt-4"
+            onClick={() => {
               handleNodeOption({
                 ...player.options.find((option) => option.name === 'changeStance'),
                 parameters: [{ value: stance }],
-              })
-            }
+              });
+              setIsOpenStance(false);
+            }}
           >
-            Confirm
+            Change
           </button>
         </div>
-        <div className="grid">
-          {player.items.length > 0 ? (
-            <div>
-              <select onChange={(e) => setItemID(e.target.value)}>
-                {player.items.map((item, index) => (
-                  <option value={item.id} key={index}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
-              <button
-                className="button"
-                onClick={() =>
-                  handleNodeOption({
-                    ...player.options.find((option) => option.name === 'useItem'),
-                    parameters: [{ value: itemID }],
-                  })
-                }
-              >
-                Confirm
-              </button>
-            </div>
-          ) : null}
-        </div>
-      </div>
+      </BaseModal>
     </>
   );
 }

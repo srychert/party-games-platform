@@ -15,6 +15,8 @@ import {
   CgPill,
   CgToolbox,
   CgClose,
+  CgChevronLeftR,
+  CgChevronRightR,
 } from 'react-icons/cg';
 
 const switchIcon = (button) => {
@@ -49,6 +51,10 @@ const switchIcon = (button) => {
       return <CgAdd />;
     case '/player/join':
       return <CgTrophy />;
+    case '/help/right':
+      return <CgChevronRightR />;
+    case '/help/left':
+      return <CgChevronLeftR />;
     default:
       return <CgSandClock />;
   }

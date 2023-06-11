@@ -16,29 +16,24 @@ function GameFinalResults() {
       },
     ],
   });
-  // object to array
 
   useEffect(() => {
-    const players = Object.keys(location.state?.players).map(
-      (key) => location.state.players[key]
-    );
+    const players = location?.state?.players ?? {};
     console.log(players);
-    if (players !== 0) {
-      setChartData({
-        labels: players.map((player) => player.nick),
-        datasets: [
-          {
-            label: 'Wyniki',
-            data: players.map((player) => player.gold),
-            backgroundColor: players.map(() => 'rgba(54, 162, 235, 0.2)'),
-            borderColor: players.map(() => 'rgba(54, 162, 235, 1)'),
-            borderWidth: 1,
-          },
-        ],
-      });
-    }
+    const playersArray = Object.values(players);
+    setChartData({
+      labels: playersArray.map((player) => player.nick),
+      datasets: [
+        {
+          label: 'Wyniki',
+          data: playersArray.map((player) => player?.gold || 0),
+          backgroundColor: playersArray.map(() => 'rgba(54, 162, 235, 0.2)'),
+          borderColor: playersArray.map(() => 'rgba(54, 162, 235, 1)'),
+          borderWidth: 1,
+        },
+      ],
+    });
   }, [location.state?.players]);
-  console.log(chartData);
   return (
     <div className="flex flex-col items-center">
       <h1 className="self-center">Final Results</h1>

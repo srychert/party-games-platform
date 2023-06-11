@@ -10,6 +10,7 @@ import ProfileLayout from './components/ProfileLayout';
 import Game from './views/PlayerViews/Game';
 import Logout from './views/Logout';
 import GeneralLayout from './components/GeneralLayout';
+import TestingComponents from './views/Test';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/test" element={<TestingComponents />} />
 
         {/* Phone routes */}
         <Route path="/player/*" element={<PlayerLayout />} />

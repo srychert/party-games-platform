@@ -136,6 +136,11 @@ function Register() {
             </button>
           )}
         </div>
+        {isError && !error?.response?.data && (
+          <span className="font-semibold text-red-600">
+            Something went wrong try again later
+          </span>
+        )}
       </form>
     </div>
   );
