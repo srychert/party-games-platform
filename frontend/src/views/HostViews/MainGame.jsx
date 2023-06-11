@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import PointsChart from '../../components/PointsChart/PointsChart';
 import Loading from '../Loading';
 import { TYPES } from '../../enums/MessageTypes';
+import Helper from '../../components/Helper/Helper';
 
 function MainGame(props) {
   const { client, setTopics, setHandleMessage } = props;
@@ -100,6 +101,7 @@ function MainGame(props) {
           </button>
         </div>
       </div>
+      <Helper />
     </>
   );
 }

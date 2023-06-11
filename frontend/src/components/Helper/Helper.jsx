@@ -85,14 +85,18 @@ function Helper() {
         {helpElement === gameElements.NODES &&
           gameNodes.map((element, index) => (
             <>
-              <div className={gameNodeStyle}>{element.name}</div>
-              <div className={gameNodeStyle}>{element.desc}</div>
+              <div className={gameNodeStyle} key={'name'}>
+                {element.name}
+              </div>
+              <div className={gameNodeStyle} key={'desc'}>
+                {element.desc}
+              </div>
             </>
           ))}
         {helpElement === gameElements.ITEMS &&
           itemsQuery.data.map((element, index) => (
             <>
-              <div className={gameNodeStyle}>
+              <div className={gameNodeStyle} key={`item-${index}`}>
                 <img
                   src={getImgUrl(`${element?.path}`)}
                   alt={element.name}
@@ -100,7 +104,7 @@ function Helper() {
                 />
                 <div>{itemTypeToString(element.type)}</div>
               </div>
-              <div className={gameNodeStyle}>
+              <div className={gameNodeStyle} key={`item-stats-${index}`}>
                 <ItemsStats itemStats={itemEffectsToString(element.itemEffectMap)} />
               </div>
             </>
@@ -108,7 +112,7 @@ function Helper() {
         {helpElement === gameElements.ENEMY &&
           enemiesQuery.data.map((element, index) => (
             <>
-              <div className={gameNodeStyle}>
+              <div className={gameNodeStyle} key={`enemy-${index}`}>
                 <img
                   src={getImgUrl(`${element?.path}`)}
                   alt={element.name}
@@ -116,7 +120,7 @@ function Helper() {
                 />
                 <div>{enemieTypeToString(element.type)}</div>
               </div>
-              <div className={gameNodeStyle}>
+              <div className={gameNodeStyle} key={`enemy-stats-${index}`}>
                 <EnemiesStats enemie={element} />
               </div>
             </>
