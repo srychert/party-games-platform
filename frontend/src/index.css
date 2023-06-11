@@ -4,7 +4,7 @@
 
 @layer components {
   .answerBox {
-    @apply flex content-center items-center justify-center rounded-lg shadow-md;
+    @apply flex content-center items-center justify-center rounded-lg shadow-md text-2xl;
   }
 
   .buttonSmall {

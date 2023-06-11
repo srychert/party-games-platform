@@ -42,7 +42,10 @@ function Game(props) {
         break;
       case TYPES.NEXT_ROUND:
         setLoading(false);
-        setPlayer({ ...player, canChooseNode: true });
+        setPlayer((prev) => {
+          return { ...prev, canChooseNode: true };
+        });
+        setEnemy(null);
         setNextNodes(msgJson.playersOptions[player.id]);
         break;
       case TYPES.ENDED:

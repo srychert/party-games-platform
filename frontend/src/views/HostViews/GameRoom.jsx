@@ -86,7 +86,7 @@ function GameRoom(props) {
         {pin}
       </div>
       <button className="button" onClick={() => handleClick()}>
-        Rozpocznij grę
+        Start Game
       </button>
       <div className="mt-8 flex flex-wrap gap-2">
         {players?.map((player, index) => (

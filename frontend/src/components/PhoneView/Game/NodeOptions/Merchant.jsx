@@ -1,9 +1,10 @@
 import React, { useState, useContext } from 'react';
 import playContext from '../../../../context/PlayContext';
-import { itemTypeToString } from '../../../../utils/ItemUtils';
+import { formatText } from '../../../../services/formatText';
 import getImgUrl from '../../../../services/FileService';
+import BaseModal from '../../../GameCreator/Modal/BaseModal';
 
-function Merchant({ handleNodeOption }) {
+function Merchant({ handleNodeOption, isOpen, setIsOpen }) {
   const [selectedItemID, setselectedItemID] = useState(null);
   const { player, currentNode } = useContext(playContext);
 
@@ -17,9 +18,29 @@ function Merchant({ handleNodeOption }) {
 
   return (
     <>
-      <div className="answerBox flex-col">
-        <div>Select an item to buy</div>
-        <div className="grid">
+      <div className="answerBox" onClick={() => setIsOpen(true)} tabIndex={0}>
+        Buy Item
+      </div>
+      <button
+        className="answerBox"
+        onClick={() =>
+          handleNodeOption({
+            ...player.options.find((option) => option.name === 'leave'),
+          })
+        }
+      >
+        Leave
+      </button>
+      {[...Array(2).keys()].map((fakeButton) => {
+        return <button className="answerBox" key={`merchant-${fakeButton}`}></button>;
+      })}
+
+      <BaseModal
+        isOpen={isOpen}
+        handleClose={() => setIsOpen(false)}
+        title="Select an item to buy"
+      >
+        <div className="grid grid-cols-2 gap-2">
           {currentNode.itemsList
             .filter((item) => item.cost < player.gold)
             .map((item, index) => (
@@ -27,25 +48,36 @@ function Merchant({ handleNodeOption }) {
                 value={item.id}
                 style={{ green: '' }}
                 key={index}
-                className={`flex-row justify-center ${
+                className={`flex rounded p-4 ${
                   selectedItemID === item.id ? 'bg-green-500/30' : ''
                 }`}
+                onClick={() => handleClick(item.id)}
+                tabIndex={0}
               >
-                <button onClick={() => handleClick(item.id)}>
-                  <img
-                    src={getImgUrl(`${item.path}`)}
-                    alt={item.name}
-                    className="m-auto h-12 w-12"
-                  />
+                <img
+                  src={getImgUrl(`${item.path}`)}
+                  alt={item.name}
+                  className="h-12 w-12"
+                />
+                <div>
+                  {formatText(item.type)}
+                  <div>Cost: {item.cost}</div>
                   <div>
-                    {itemTypeToString(item.type)}
-                    <div>${item.cost}</div>
+                    {Object.entries(item.itemEffectMap).map(([effect, value], idx) => {
+                      return (
+                        <div key={idx}>
+                          {formatText(effect)}: {value}
+                        </div>
+                      );
+                    })}
                   </div>
-                </button>
+                </div>
               </div>
             ))}
+        </div>
+        <div className="mt-4 grid place-content-center">
           <button
-            className="button"
+            className="button w-32"
             onClick={() =>
               handleNodeOption({
                 ...player.options.find((option) => option.name === 'buyItem'),
@@ -53,22 +85,10 @@ function Merchant({ handleNodeOption }) {
               })
             }
           >
-            Confirm
+            Buy
           </button>
         </div>
-      </div>
-      <div className="answerBox">
-        <button
-          className="button"
-          onClick={() =>
-            handleNodeOption({
-              ...player.options.find((option) => option.name === 'leave'),
-            })
-          }
-        >
-          Leave
-        </button>
-      </div>
+      </BaseModal>
     </>
   );
 }

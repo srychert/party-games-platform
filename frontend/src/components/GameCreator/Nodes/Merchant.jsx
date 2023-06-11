@@ -3,6 +3,7 @@ import ItemsComboBox from '../ItemsComboBox';
 import { CgPen, CgTrash } from 'react-icons/cg';
 import { IconContext } from 'react-icons';
 import getImgUrl from '../../../services/FileService';
+import { formatText } from '../../../services/formatText';
 
 function Merchant({ node, setNode }) {
   const [nodeItems, setNodeItems] = useState(node.data.node.itemsList || []);
@@ -67,7 +68,7 @@ function Merchant({ node, setNode }) {
         return (
           <div className="grid gap-2" key={item.id}>
             <div className="flex items-center justify-between">
-              <h2 className="font-bold">{item.type}</h2>
+              <h2 className="font-bold">{formatText(item.type)}</h2>
               <div className="flex gap-2">
                 <button
                   className="buttonSmall bg-rose-600"
@@ -118,7 +119,9 @@ function Merchant({ node, setNode }) {
                   {Object.entries(item.itemEffectMap).map(([effect, value], idx) => {
                     return (
                       <div className="grid gap-1" key={`${item.id}-${idx}`}>
-                        <label htmlFor={`effect-${item.id}-${idx}`}>{effect}: </label>
+                        <label htmlFor={`effect-${item.id}-${idx}`}>
+                          {formatText(effect)}:{' '}
+                        </label>
                         <input
                           id={`effect-${item.id}-${idx}`}
                           placeholder={value}
