@@ -67,7 +67,7 @@ function Helper() {
   };
 
   return (
-    <div className="h-3/4 w-full overflow-y-scroll">
+    <>
       <div className="sticky top-0 flex w-full justify-between bg-stone-300 p-2">
         <button onClick={() => handleOnClick('/help/left')}>
           <IconContext.Provider value={{ size: '2em' }}>
@@ -126,7 +126,7 @@ function Helper() {
             </>
           ))}
       </div>
-    </div>
+    </>
   );
 }
 

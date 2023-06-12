@@ -64,6 +64,8 @@ function MainGame(props) {
     }
   };
 
+  console.log(players);
+
   useEffect(() => {
     client.current.sendMessage(
       `/app/game-room/${pin}/host`,

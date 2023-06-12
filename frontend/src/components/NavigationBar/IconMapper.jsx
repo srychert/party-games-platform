@@ -17,6 +17,7 @@ import {
   CgClose,
   CgChevronLeftR,
   CgChevronRightR,
+  CgInfo,
 } from 'react-icons/cg';
 
 const switchIcon = (button) => {
@@ -55,6 +56,8 @@ const switchIcon = (button) => {
       return <CgChevronRightR />;
     case '/help/left':
       return <CgChevronLeftR />;
+    case '/helper':
+      return <CgInfo />;
     default:
       return <CgSandClock />;
   }
