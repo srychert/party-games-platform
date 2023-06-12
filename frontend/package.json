@@ -28,6 +28,7 @@
     "start": "vite",
     "build": "vite build",
     "serve": "vite preview",
+    "startEx": "vite --host",
     "lint": "eslint --fix src",
     "format": "prettier --write src"
   },

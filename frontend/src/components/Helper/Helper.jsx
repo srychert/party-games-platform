@@ -74,7 +74,7 @@ function Helper() {
             {switchIcon('/help/left')}
           </IconContext.Provider>
         </button>
-        <div className="text-center">{helpElement}:</div>
+        <div className="text-center font-bold">{helpElement}:</div>
         <button onClick={() => handleOnClick('/help/right')}>
           <IconContext.Provider value={{ size: '2em' }}>
             {switchIcon('/help/right')}
@@ -85,10 +85,10 @@ function Helper() {
         {helpElement === gameElements.NODES &&
           gameNodes.map((element, index) => (
             <>
-              <div className={gameNodeStyle} key={'name'}>
+              <div className={gameNodeStyle} key={`node_name-${index}`}>
                 {element.name}
               </div>
-              <div className={gameNodeStyle} key={'desc'}>
+              <div className={gameNodeStyle} key={`node_desc-${index}`}>
                 {element.desc}
               </div>
             </>
@@ -96,7 +96,7 @@ function Helper() {
         {helpElement === gameElements.ITEMS &&
           itemsQuery.data.map((element, index) => (
             <>
-              <div className={gameNodeStyle} key={`item-${index}`}>
+              <div className={gameNodeStyle} key={`item_name-${index}`}>
                 <img
                   src={getImgUrl(`${element?.path}`)}
                   alt={element.name}
@@ -104,7 +104,7 @@ function Helper() {
                 />
                 <div>{itemTypeToString(element.type)}</div>
               </div>
-              <div className={gameNodeStyle} key={`item-stats-${index}`}>
+              <div className={gameNodeStyle} key={`item_stats-${index}`}>
                 <ItemsStats itemStats={itemEffectsToString(element.itemEffectMap)} />
               </div>
             </>
@@ -112,7 +112,7 @@ function Helper() {
         {helpElement === gameElements.ENEMY &&
           enemiesQuery.data.map((element, index) => (
             <>
-              <div className={gameNodeStyle} key={`enemy-${index}`}>
+              <div className={gameNodeStyle} key={`enemy_name-${index}`}>
                 <img
                   src={getImgUrl(`${element?.path}`)}
                   alt={element.name}
@@ -120,7 +120,7 @@ function Helper() {
                 />
                 <div>{enemieTypeToString(element.type)}</div>
               </div>
-              <div className={gameNodeStyle} key={`enemy-stats-${index}`}>
+              <div className={gameNodeStyle} key={`enemy_stats-${index}`}>
                 <EnemiesStats enemie={element} />
               </div>
             </>
