@@ -183,11 +183,13 @@ public class GameRoomService {
         try {
             JSONObject answer = gameStateService.handleChooseNode(playerOpt.get(), textMessageDTO.getContent(), pin);
 
-            messages.put(MessageReceiver.PLAYER,
-                    TextMessageDTO.builder()
-                            .type(MessageType.ANSWER)
-                            .json(answer.toString())
-                            .sender("SERVER").build());
+            TextMessageDTO answerMsg = TextMessageDTO.builder()
+                    .type(MessageType.ANSWER)
+                    .json(answer.toString())
+                    .sender("SERVER").build();
+
+            messages.put(MessageReceiver.PLAYER, answerMsg);
+            messages.put(MessageReceiver.HOST, answerMsg);
 
         } catch (Exception exception) {
             log.error(exception.getMessage());

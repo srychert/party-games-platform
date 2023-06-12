@@ -51,6 +51,7 @@ public class MerchantNode extends Node {
         player.setCurrentRoundCompleted(true);
 
         answer.put("player", new JSONObject(player));
+        answer.put("node", new JSONObject().put("type", this.getType()));
         return answer;
     }
 
@@ -61,6 +62,7 @@ public class MerchantNode extends Node {
         player.setCurrentRoundCompleted(true);
 
         answer.put("player", new JSONObject(player));
+        answer.put("node", new JSONObject().put("type", this.getType()));
         return answer;
     }
 

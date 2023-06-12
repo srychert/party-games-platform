@@ -140,6 +140,18 @@ public class GameStateService {
         return Optional.ofNullable(game.getNodes().get(player.getCurrentNode()));
     }
 
+    public Optional<Node> getNode(String gameId, Integer nodeId) {
+        Optional<Game> gameOpt = gameRepository.findById(gameId);
+
+        if (gameOpt.isEmpty()) {
+            return Optional.empty();
+        }
+
+        Game game = gameOpt.get();
+
+        return Optional.ofNullable(game.getNodes().get(nodeId));
+    }
+
     public List<NodeOption> getNodeOptions(String gameId, Integer nodeId) {
         Optional<Game> gameOpt = gameRepository.findById(gameId);
 
