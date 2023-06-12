@@ -8,19 +8,19 @@ function Logout() {
   const { mutate, isLoading, isError, isSuccess, error } = useLogout();
 
   useEffect(() => {
-    mutate()
-  }, [])
+    mutate();
+  }, []);
 
-  if(isLoading) {
-    return <Loading />
+  if (isLoading) {
+    return <Loading />;
   }
 
-  if(isSuccess) {
-    return <Navigate to='/login' />
+  if (isSuccess) {
+    return <Navigate to="/login" />;
   }
 
-  if(isError) {
-    if(error?.response?.status === 401) return <Navigate to='/login' />
+  if (isError) {
+    if (error?.response?.status === 401) return <Navigate to="/login" />;
 
     return <div>{error.message}</div>;
   }

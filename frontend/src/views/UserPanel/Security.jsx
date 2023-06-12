@@ -53,12 +53,12 @@ export default function Security() {
   }
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="flex max-w-[470px] flex-col rounded-lg border p-4 border-violet-600 shadow-lg shadow-violet-600 overflow-hidden">
+    <div className="flex h-screen items-center justify-center">
+      <div className="flex max-w-[470px] flex-col overflow-hidden rounded-lg border border-violet-600 p-4 shadow-lg shadow-violet-600">
         <div className="flex flex-col gap-10">
-            <h2 className="border-b-2 border-violet-600 text-center text-2xl font-bold text-violet-600">
-              {user?.userName}
-            </h2>
+          <h2 className="border-b-2 border-violet-600 text-center text-2xl font-bold text-violet-600">
+            {user?.userName}
+          </h2>
           <div className="mx-auto flex gap-4 whitespace-nowrap text-xl font-bold">
             <div className="flex flex-col ">
               <span>Account expiry time:</span>

@@ -15,8 +15,8 @@ export default function Yours() {
 
   return (
     <>
-      <div className="flex w-full justify-center items-center h-screen">
-        <table className="rounded-lg border border-violet-600 shadow-lg shadow-violet-600 overflow-hidden">
+      <div className="flex h-screen w-full items-center justify-center">
+        <table className="overflow-hidden rounded-lg border border-violet-600 shadow-lg shadow-violet-600">
           <thead className="border-b bg-amber-50 font-semibold">
             <tr>
               <th className="px-6 py-3">Title</th>
