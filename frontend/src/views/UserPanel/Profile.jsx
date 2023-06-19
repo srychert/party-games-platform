@@ -16,8 +16,8 @@ function Profile() {
   }
 
   return (
-    <div className="-mt-20 flex h-screen items-center justify-center">
-      <div className="flex aspect-square min-w-[400px] flex-col overflow-hidden rounded-lg border border-violet-600 shadow-lg shadow-violet-600">
+    <div className="grid h-full place-content-center">
+      <div className="flex flex-col overflow-hidden rounded-lg border border-violet-600 shadow-lg shadow-violet-600">
         <div className="flex h-full w-full flex-col overflow-y-auto p-4">
           <div className="flex justify-center">
             <IconContext.Provider value={{ size: '9em' }}>
@@ -34,9 +34,9 @@ function Profile() {
                 <span>Email:</span>
               </div>
               <div className="flex flex-col gap-5">
-                <div>
+                <div className="flex flex-wrap gap-1">
                   {user?.roles?.map((role) => {
-                    return <span key={role}>{role}</span>;
+                    return <span key={role}>{role},</span>;
                   })}
                 </div>
                 <div>{user?.email}</div>
