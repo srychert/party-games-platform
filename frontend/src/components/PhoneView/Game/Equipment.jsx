@@ -6,9 +6,7 @@ import getImgUrl from '../../../services/FileService';
 function Equipment({ canUse, handleNodeOption, setIsOpen }) {
   const { player, nodes } = useContext(playContext);
   const [selectedItemID, setselectedItemID] = useState(null);
-  console.log(player, nodes);
 
-  // TODO remove duplicate code here and Merchant.jsx
   const handleClick = (id) => {
     if (selectedItemID === id) {
       setselectedItemID(null);
@@ -59,12 +57,13 @@ function Equipment({ canUse, handleNodeOption, setIsOpen }) {
           <button
             className="button"
             disabled={selectedItemID === null}
-            onClick={() =>
+            onClick={() => {
               handleNodeOption({
                 ...player.options.find((option) => option.name === 'useItem'),
                 parameters: [{ value: selectedItemID }],
-              })
-            }
+              });
+              setIsOpen(false);
+            }}
           >
             Use
           </button>

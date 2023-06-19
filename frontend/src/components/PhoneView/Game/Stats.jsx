@@ -12,7 +12,11 @@ function Stats({ entity }) {
       <h2 className="text-center text-2xl capitalize">
         {entity.nick ? entity.nick : formatText(entity.type)}
       </h2>
-      <div className="m-1 flex gap-4 rounded border border-slate-50 p-4">
+      <div
+        className={`m-1 flex gap-4 rounded border border-slate-50 p-4 ${
+          entity?.died ? 'grayscale' : ''
+        }`}
+      >
         <div className="flex flex-col items-center justify-center">
           {<img src={getImgUrl(entity.path || 'knight.png')} className="h-16 w-16"></img>}
           <span className="text-lg font-bold">{entity.stance}</span>
@@ -27,7 +31,7 @@ function Stats({ entity }) {
 
             <div className="flex items-center gap-2">
               <LuHeart color="#e11d48" />
-              <span>{entity.hp}</span>
+              <span>{entity?.died ? 0 : entity.hp}</span>
             </div>
 
             <div className="flex items-center gap-2">
@@ -37,7 +41,7 @@ function Stats({ entity }) {
 
             <div className="flex items-center gap-2">
               <BiCoin color="#059669" />
-              <span>{entity.gold ? entity.gold : entity.loot.gold}</span>
+              <span>{entity?.gold ? entity.gold : entity?.loot?.gold}</span>
             </div>
           </IconContext.Provider>
         </div>
