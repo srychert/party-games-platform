@@ -76,31 +76,34 @@ public class UserService {
         return userRepository.save(updatedUser);
     }
 
-    public User updateUserName(String id, String userName) {
-        if (userName == null || userName.equals("")) {
-            throw new ApiRequestException("UserName can't be empty");
-        }
-
+    public User updateUserName(User user) {
         User updatedUser = userRepository
-                .findById(id)
+                .findById(user.getId())
                 .orElseThrow(() -> new ApiRequestException("No such User id in DB"));
 
-        checkForDuplicateUserName(userName);
-        updatedUser.setUserName(userName);
+        checkForDuplicateUserName(user.getUserName());
+        updatedUser.setUserName(user.getUserName());
 
         return userRepository.save(updatedUser);
     }
 
-    public User updatePassword(String id, String password) {
-        if (password == null || password.equals("")) {
-            throw new ApiRequestException("Password can't be empty");
-        }
-
+    public User updatePassword(User user) {
         User updatedUser = userRepository
-                .findById(id)
+                .findById(user.getId())
                 .orElseThrow(() -> new ApiRequestException("No such User id in DB"));
 
-        updatedUser.setPassword(passwordEncoder.encode(password));
+        updatedUser.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        return userRepository.save(updatedUser);
+    }
+
+    public User updateEmail(User user) {
+        User updatedUser = userRepository
+                .findById(user.getId())
+                .orElseThrow(() -> new ApiRequestException("No such User id in DB"));
+
+        checkForDuplicateEmail(user.getEmail());
+        updatedUser.setEmail(user.getEmail());
 
         return userRepository.save(updatedUser);
     }
