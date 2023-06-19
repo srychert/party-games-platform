@@ -11,7 +11,6 @@ export const useUpdateUser = () => {
 
   return useMutation({
     mutationFn: async ({ id, valueToUpdate, value }) => {
-      console.log(valueToUpdate);
       const updatedUser = await api.patch(`users/${id}/${valueToUpdate}`, {
         [valueToUpdate]: value,
       });
