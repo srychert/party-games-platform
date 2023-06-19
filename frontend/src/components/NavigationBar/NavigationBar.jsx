@@ -52,7 +52,12 @@ function NavigationBar({
           <BurgerButton onClick={handleBurgerClick} />
           <nav className={`flex h-full flex-col gap-2`}>
             {buttonsToRender.map((button, index) => (
-              <div className={`flex items-center gap-2 last:mt-auto`} key={index}>
+              <div
+                className={`flex items-center gap-2 ${
+                  button.to === '/logout' ? 'mt-auto' : ''
+                }`}
+                key={index}
+              >
                 <NavLink className="buttonSmall" to={button.to}>
                   <IconContext.Provider value={{ size: '2em' }}>
                     {switchIcon(button.to)}

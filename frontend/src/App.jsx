@@ -7,10 +7,8 @@ import ProtectRoutes from './components/ProtectRoutes/ProtectRoutes';
 import PlayerLayout from './components/PlayerLayout';
 import HostLayout from './components/HostLayout';
 import ProfileLayout from './components/ProfileLayout';
-import Game from './views/PlayerViews/Game';
 import Logout from './views/Logout';
 import GeneralLayout from './components/GeneralLayout';
-import TestingComponents from './views/Test';
 
 function App() {
   return (
@@ -20,7 +18,6 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/test" element={<TestingComponents />} />
 
         {/* Phone routes */}
         <Route path="/player/*" element={<PlayerLayout />} />
@@ -31,7 +28,6 @@ function App() {
           <Route path="/profile/*" element={<ProfileLayout />} />
         </Route>
         <Route path="/*" element={<GeneralLayout />} />
-        <Route path="/test" element={<Game />} />
       </Routes>
     </div>
   );
