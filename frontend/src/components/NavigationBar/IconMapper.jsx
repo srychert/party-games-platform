@@ -6,7 +6,6 @@ import {
   CgMenu,
   CgProfile,
   CgLock,
-  CgTrash,
   CgAdd,
   CgAddR,
   CgTrophy,
@@ -18,6 +17,7 @@ import {
   CgChevronLeftR,
   CgChevronRightR,
   CgInfo,
+  CgList,
 } from 'react-icons/cg';
 
 const switchIcon = (button) => {
@@ -45,7 +45,7 @@ const switchIcon = (button) => {
     case '/profile/security':
       return <CgLock />;
     case '/profile/yours':
-      return <CgTrash />;
+      return <CgList />;
     case '/profile/add-game':
       return <CgAddR />;
     case '/profile/add-quiz':

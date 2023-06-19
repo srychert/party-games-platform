@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { IconContext } from 'react-icons';
@@ -17,7 +17,7 @@ function NavigationBar({
     setShowNavbar(!showNavbar);
   };
 
-  const buttonsToRender = () => {
+  const buttonsToRender = useMemo(() => {
     const addedButtons = [];
 
     if (loggedIn) {
@@ -31,7 +31,7 @@ function NavigationBar({
       addedButtons.push({ to: '/host', text: 'Host' });
       addedButtons.push({ to: '/profile', text: 'Profile' });
       addedButtons.push({ to: '/profile/security', text: 'Security' });
-      addedButtons.push({ to: '/profile/yours', text: 'Quizzes' });
+      addedButtons.push({ to: '/profile/yours', text: 'Yours' });
       addedButtons.push({ to: '/profile/add-game', text: 'Add Game' });
       addedButtons.push({ to: '/profile/add-quiz', text: 'Add Quiz' });
       addedButtons.push({ to: '/logout', text: 'Logout' });
@@ -39,7 +39,7 @@ function NavigationBar({
     }
 
     return [...buttons, ...addedButtons];
-  };
+  }, [buttons]);
 
   return (
     <>
@@ -47,16 +47,17 @@ function NavigationBar({
         onClick={handleBurgerClick}
         position={`${showNavbar ? 'hidden' : 'absolute'}`}
       />
-      <aside
-        className={`flex h-full justify-center bg-gray-800 ${
-          showNavbar ? 'block' : 'hidden'
-        }`}
-      >
+      <aside className={`flex h-full bg-gray-800 ${showNavbar ? 'block' : 'hidden'}`}>
         <div className={`flex flex-col gap-2 overflow-hidden p-2 `}>
           <BurgerButton onClick={handleBurgerClick} />
-          <nav className={`flex flex-col justify-between gap-2`}>
-            {buttonsToRender().map((button, index) => (
-              <div className="flex items-center gap-2" key={index}>
+          <nav className={`flex h-full flex-col gap-2`}>
+            {buttonsToRender.map((button, index) => (
+              <div
+                className={`flex items-center gap-2 ${
+                  index === buttonsToRender.length - 1 ? 'mt-auto' : ''
+                } `}
+                key={index}
+              >
                 <NavLink className="buttonSmall" to={button.to}>
                   <IconContext.Provider value={{ size: '2em' }}>
                     {switchIcon(button.to)}
