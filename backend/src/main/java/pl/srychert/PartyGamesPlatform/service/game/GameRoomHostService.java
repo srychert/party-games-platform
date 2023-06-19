@@ -111,7 +111,7 @@ public class GameRoomHostService {
         try {
             Map<String, List<JSONObject>> playersOptions = gameStateService.handleNextRound(pin);
 
-            if (gameStateService.getGameInfo(pin, null).isAllPlayersGameEnded()) {
+            if (gameStateService.getGameInfo(pin).isAllPlayersGameEnded()) {
                 messages.put(MessageReceiver.ROOM,
                         TextMessageDTO.builder()
                                 .type(MessageType.ENDED)

@@ -100,7 +100,7 @@ public class GameRoomService {
             NodeOption nodeOption = objectMapper.readValue(textMessageDTO.getJson(), NodeOption.class);
 
             JSONObject answer = gameStateService.callNodeMethod(pin, id, nodeOption);
-            GameInfo gameInfo = gameStateService.getGameInfo(pin, id);
+            GameInfo gameInfo = gameStateService.getGameInfo(pin);
 
             if (gameInfo.isAllPlayersRoundCompleted() && !gameInfo.isAllPlayersGameEnded()) {
                 Map<String, List<JSONObject>> playersOptions = gameStateService.handleNextRound(pin);
@@ -112,7 +112,7 @@ public class GameRoomService {
                                 .sender("SERVER").build());
             }
 
-            if (gameInfo.isAllPlayersGameEnded()) {
+            if (gameStateService.getGameInfo(pin).isAllPlayersGameEnded()) {
                 messages.put(MessageReceiver.ROOM,
                         TextMessageDTO.builder()
                                 .type(MessageType.ENDED)

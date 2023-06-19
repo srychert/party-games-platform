@@ -355,7 +355,7 @@ public class GameStateService {
         return new TreeMap<>(players);
     }
 
-    public GameInfo getGameInfo(String pin, String playerId) throws NodeOptionProcessingException {
+    public GameInfo getGameInfo(String pin) throws NodeOptionProcessingException {
         GameState gameState = getGameStateOrThrow(pin);
         Map<String, Player> players = gameState.getPlayers();
         int numberOfPlayersWithCompletedCurrentRound = 0;
@@ -366,14 +366,6 @@ public class GameStateService {
 
             if (player.getCurrentRoundCompleted()) {
                 numberOfPlayersWithCompletedCurrentRound++;
-            }
-
-            if (player.getCurrentRoundCompleted() && player.getId().equals(playerId)) {
-                Game game = getGameOrThrow(gameState);
-                Node node = game.getNodes().get(player.getCurrentNode());
-                if (node.getNextNodesID().size() == 0) {
-                    numberOfPlayersWithGameEnded++;
-                }
             }
 
             if (player.getGameEnded()) {
