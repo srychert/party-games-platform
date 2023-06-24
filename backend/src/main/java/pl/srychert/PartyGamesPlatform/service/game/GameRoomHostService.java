@@ -9,7 +9,9 @@ import pl.srychert.PartyGamesPlatform.enums.MessageType;
 import pl.srychert.PartyGamesPlatform.model.TextMessageDTO;
 import pl.srychert.PartyGamesPlatform.model.game.GameState;
 import pl.srychert.PartyGamesPlatform.model.game.Player;
+import pl.srychert.PartyGamesPlatform.model.game.node.Node;
 import pl.srychert.PartyGamesPlatform.model.game.node.NodeOption;
+import pl.srychert.PartyGamesPlatform.model.game.node.SkipNode;
 
 import java.util.HashMap;
 import java.util.List;
@@ -80,6 +82,7 @@ public class GameRoomHostService {
         GameState gameState = gameStateOpt.get();
 
         List<NodeOption> options = gameStateService.getNodeOptions(gameState.getGameId(), 0);
+        Optional<Node> node = gameStateService.getNode(gameState.getGameId(), 0);
 
         TextMessageDTO startedMsg = TextMessageDTO.builder()
                 .type(MessageType.STARTED)
@@ -90,6 +93,7 @@ public class GameRoomHostService {
                 .json(new JSONObject()
                         .put("players", gameState.getPlayers())
                         .put("options", options)
+                        .put("node", new JSONObject(node.orElse(new SkipNode())))
                         .toString())
                 .sender("SERVER").build();
 
@@ -107,7 +111,7 @@ public class GameRoomHostService {
         try {
             Map<String, List<JSONObject>> playersOptions = gameStateService.handleNextRound(pin);
 
-            if (gameStateService.getGameInfo(pin, null).isAllPlayersGameEnded()) {
+            if (gameStateService.getGameInfo(pin).isAllPlayersGameEnded()) {
                 messages.put(MessageReceiver.ROOM,
                         TextMessageDTO.builder()
                                 .type(MessageType.ENDED)

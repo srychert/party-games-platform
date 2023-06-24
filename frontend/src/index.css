@@ -4,7 +4,7 @@
 
 @layer components {
   .answerBox {
-    @apply flex content-center items-center justify-center rounded-lg shadow-md text-2xl;
+    @apply flex content-center items-center justify-center rounded-lg text-2xl shadow-md cursor-pointer;
   }
 
   .buttonSmall {
@@ -33,8 +33,8 @@
     @apply border-amber-600 text-gray-100 brightness-110;
   }
 
-  .button:disabled{
-    @apply border-gray-400 bg-gray-600
+  .button:disabled {
+    @apply border-gray-400 bg-gray-600;
   }
 
   /* form specific */
@@ -55,6 +55,6 @@
   }
 
   .creator-input {
-    @apply form-input border p-1 placeholder-slate-600
+    @apply form-input border p-1 placeholder-slate-600;
   }
 }

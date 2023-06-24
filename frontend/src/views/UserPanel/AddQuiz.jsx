@@ -60,7 +60,7 @@ function AddQuiz() {
 
   return (
     <>
-      <div className="flex w-full justify-center items-center h-screen">
+      <div className="flex h-screen w-full items-center justify-center">
         <div className="form mx-auto w-fit ">
           {quizData.questions.map((question, index) => (
             <div key={`question-${index}`} className="flex gap-2 font-bold">

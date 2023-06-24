@@ -10,11 +10,8 @@ export const useUpdateUser = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ id, valueToUpdate, value }) => {
-      console.log(valueToUpdate);
-      const updatedUser = await api.patch(`users/${id}/${valueToUpdate}`, {
-        [valueToUpdate]: value,
-      });
+    mutationFn: async ({ id, valueToUpdate, user }) => {
+      const updatedUser = await api.patch(`users/${id}/${valueToUpdate}`, user);
       return updatedUser;
     },
     onError: (error, variables, context) => {
@@ -24,7 +21,7 @@ export const useUpdateUser = () => {
     },
     onSuccess: (data, variables, context) => {
       if (variables.valueToUpdate === 'userName') {
-        setCookie('user', variables.value, { path: '/' });
+        setCookie('user', variables.user.userName, { path: '/' });
       }
       queryClient.invalidateQueries(['user']);
       queryClient.invalidateQueries(['token']);

@@ -56,16 +56,20 @@ public class UserController {
 
     @PatchMapping(path = "{userId}/userName")
     @PreAuthorize("@authComponent.hasPermission(#id)")
-    public User updateUserName(
-            @PathVariable("userId") String id, @RequestBody HashMap<String, String> user) {
-        return userService.updateUserName(id, user.get("userName"));
+    public User updateUserName(@PathVariable("userId") String id, @RequestBody @Valid User user) {
+        return userService.updateUserName(user);
     }
 
     @PatchMapping(path = "{userId}/password")
     @PreAuthorize("@authComponent.hasPermission(#id)")
-    public User updatePassword(
-            @PathVariable("userId") String id, @RequestBody HashMap<String, String> user) {
-        return userService.updatePassword(id, user.get("password"));
+    public User updatePassword(@PathVariable("userId") String id, @RequestBody @Valid User user) {
+        return userService.updatePassword(user);
+    }
+
+    @PatchMapping(path = "{userId}/email")
+    @PreAuthorize("@authComponent.hasPermission(#id)")
+    public User updateEmail(@PathVariable("userId") String id, @RequestBody @Valid User user) {
+        return userService.updateEmail(user);
     }
 
     @PatchMapping(path = "{userId}")

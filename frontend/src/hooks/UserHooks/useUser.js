@@ -12,7 +12,6 @@ function useUser(username, config) {
     queryKey: ['user', key],
     queryFn: async () => {
       const user = await api.get(`users/user-name/${key}`);
-      console.log(user);
       return user.data;
     },
     ...config,

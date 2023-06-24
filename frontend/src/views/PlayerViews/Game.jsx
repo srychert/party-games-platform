@@ -49,7 +49,7 @@ function Game(props) {
         setNextNodes(msgJson.playersOptions[player.id]);
         break;
       case TYPES.ENDED:
-        navigate('/player/join');
+        navigate('/player/result', { state: { player, players: msgJson.players } });
         break;
       case TYPES.ERROR:
         setError(msg.content);

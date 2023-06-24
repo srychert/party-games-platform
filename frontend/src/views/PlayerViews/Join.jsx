@@ -111,7 +111,7 @@ function Join(props) {
 
         <div className="text-red-500">{error}</div>
         <button type="submit" className="button">
-          Dołącz
+          Join
         </button>
       </form>
     </div>

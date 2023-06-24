@@ -100,7 +100,7 @@ public class GameRoomService {
             NodeOption nodeOption = objectMapper.readValue(textMessageDTO.getJson(), NodeOption.class);
 
             JSONObject answer = gameStateService.callNodeMethod(pin, id, nodeOption);
-            GameInfo gameInfo = gameStateService.getGameInfo(pin, id);
+            GameInfo gameInfo = gameStateService.getGameInfo(pin);
 
             if (gameInfo.isAllPlayersRoundCompleted() && !gameInfo.isAllPlayersGameEnded()) {
                 Map<String, List<JSONObject>> playersOptions = gameStateService.handleNextRound(pin);
@@ -112,7 +112,7 @@ public class GameRoomService {
                                 .sender("SERVER").build());
             }
 
-            if (gameInfo.isAllPlayersGameEnded()) {
+            if (gameStateService.getGameInfo(pin).isAllPlayersGameEnded()) {
                 messages.put(MessageReceiver.ROOM,
                         TextMessageDTO.builder()
                                 .type(MessageType.ENDED)
@@ -183,11 +183,13 @@ public class GameRoomService {
         try {
             JSONObject answer = gameStateService.handleChooseNode(playerOpt.get(), textMessageDTO.getContent(), pin);
 
-            messages.put(MessageReceiver.PLAYER,
-                    TextMessageDTO.builder()
-                            .type(MessageType.ANSWER)
-                            .json(answer.toString())
-                            .sender("SERVER").build());
+            TextMessageDTO answerMsg = TextMessageDTO.builder()
+                    .type(MessageType.ANSWER)
+                    .json(answer.toString())
+                    .sender("SERVER").build();
+
+            messages.put(MessageReceiver.PLAYER, answerMsg);
+            messages.put(MessageReceiver.HOST, answerMsg);
 
         } catch (Exception exception) {
             log.error(exception.getMessage());

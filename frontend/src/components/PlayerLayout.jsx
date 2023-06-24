@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { SockJsClientDefaults } from '../services/SockJsClientDefaults';
-import TestView from '../views/TestView';
 import Join from '../views/PlayerViews/Join';
 import Quiz from '../views/PlayerViews/Quiz';
 import NavigationBar from './NavigationBar/NavigationBar';
 import Game from '../views/PlayerViews/Game';
+import Result from '../views/PlayerViews/Result';
 
 function PlayerLayout() {
   const [topics, setTopics] = useState([]);
@@ -63,10 +63,10 @@ function PlayerLayout() {
       />
       <main className="h-full w-full">
         <Routes>
-          <Route path="join" exact element={<Join {...props} />} />
-          <Route path="quiz/:pin" element={<Quiz {...props} />} />
-          <Route path="game/:pin" element={<Game {...props} />} />
-          <Route path="test" element={<TestView {...props} />} />
+          <Route path="/join" exact element={<Join {...props} />} />
+          <Route path="/quiz/:pin" element={<Quiz {...props} />} />
+          <Route path="/game/:pin" element={<Game {...props} />} />
+          <Route path="/result" element={<Result />} />
         </Routes>
       </main>
     </>

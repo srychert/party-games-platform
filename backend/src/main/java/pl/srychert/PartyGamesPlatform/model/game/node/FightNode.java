@@ -103,7 +103,11 @@ public class FightNode extends Node {
         JSONObject answer = new JSONObject();
         player.setStance(Stance.valueOf(stance));
 
+        Enemy enemyCurrent = getCurrentEnemy(player);
+
         answer.put("player", new JSONObject(player));
+        answer.put("node", new JSONObject().put("type", this.getType()).put(
+                "enemy", new JSONObject(enemyCurrent).put("died", enemyDied)));
         return answer;
     }
 
@@ -127,6 +131,8 @@ public class FightNode extends Node {
         player.getItems().remove(itemId);
 
         answer.put("player", new JSONObject(player));
+        answer.put("node", new JSONObject().put("type", this.getType()).put(
+                "enemy", new JSONObject(enemyCurrent).put("died", enemyDied)));
         return answer;
     }
 

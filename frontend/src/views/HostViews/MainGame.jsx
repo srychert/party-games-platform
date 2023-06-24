@@ -1,18 +1,20 @@
 import { createMessage } from '../../services/SocketMessage';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import PointsChart from '../../components/PointsChart/PointsChart';
 import Loading from '../Loading';
 import { TYPES } from '../../enums/MessageTypes';
-import Helper from '../../components/Helper/Helper';
+import Error from '../Error';
+import hostContext from '../../context/HostContext';
+import MainGameView from '../../components/HostView/MainGameView';
 
 function MainGame(props) {
   const { client, setTopics, setHandleMessage } = props;
   const { id, pin } = useParams();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [round, setRound] = useState(0);
-  const [players, setPlayers] = useState([]);
+  const [players, setPlayers] = useState({});
+  const [currentNodes, setCurrentNodes] = useState({});
+  const [gameEnded, setGameEnded] = useState(false);
 
   const navigate = useNavigate();
   const handleLeave = () => {
@@ -33,40 +35,36 @@ function MainGame(props) {
   };
 
   const handleMessage = (msg) => {
+    console.log(msg);
     const msgJson = JSON.parse(msg.json);
     console.log(msgJson);
-
     switch (msg.type) {
       case TYPES.STARTED:
         setPlayers(msgJson.players);
         setLoading(false);
         break;
-
-      // TODO update host view with player info
       case TYPES.ANSWER:
+        setPlayers((prev) => ({ ...prev, [msgJson.player.id]: msgJson.player }));
+        setCurrentNodes((prev) => ({
+          ...prev,
+          [msgJson.player.id]: msgJson?.node?.type,
+        }));
+        setLoading(false);
         break;
-
       case TYPES.NEXT_ROUND:
-        setRound(round + 1);
         break;
-
       case TYPES.ENDED:
-        // nagivate to end game page
-        navigate(`/host/game/final-results`, {
-          state: {
-            players: msgJson.players,
-          },
-        });
+        setGameEnded(true);
         break;
-
       case TYPES.ERROR:
         setError(msgJson.message);
         break;
-
       default:
         break;
     }
   };
+
+  console.log(players);
 
   useEffect(() => {
     client.current.sendMessage(
@@ -80,29 +78,22 @@ function MainGame(props) {
   if (loading) {
     return <Loading />;
   }
+  if (error) {
+    return <Error message={error} />;
+  }
 
   return (
-    <>
-      <div className="flex justify-between">
-        <div className="p-5">
-          <button className="button" onClick={handleLeave}>
-            Leave
-          </button>
-        </div>
-        <div className="mx-5 flex flex-col items-center justify-center">
-          <div>Started</div>
-          <div>
-            <iframe src="https://giphy.com/embed/QpWDP1YMziaQw" allowFullScreen></iframe>
-          </div>
-        </div>
-        <div className="p-5">
-          <button className="button" onClick={handleNextRound}>
-            Next Round
-          </button>
-        </div>
-      </div>
-      <Helper />
-    </>
+    <div className="h-full overflow-hidden">
+      <hostContext.Provider
+        value={{
+          players: players,
+          gameEnded: gameEnded,
+          currentNodes: currentNodes,
+        }}
+      >
+        <MainGameView handleLeave={handleLeave} handleNextRound={handleNextRound} />
+      </hostContext.Provider>
+    </div>
   );
 }
 

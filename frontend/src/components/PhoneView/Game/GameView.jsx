@@ -29,12 +29,12 @@ function GameView({ handleNextNode, handleNodeOption }) {
   );
 
   return (
-    <div className="relative mx-auto flex h-full max-w-[1024px] flex-col justify-between overflow-hidden pt-10 lg:rounded-lg lg:border-2 lg:border-emerald-600 lg:p-4">
+    <div className="relative mx-auto flex h-full max-w-[1024px] flex-col justify-between overflow-hidden pt-10 lg:border-2 lg:p-4">
       <div>
         <h1 className="text-center text-4xl">
           {renderChooseNode && <>Choose Node</>} {renderNodeOptions && currentNode.type}
         </h1>
-        <div className="realtive flex flex-wrap justify-between">
+        <div className="relative flex flex-wrap justify-center sm:justify-between">
           <div id="node-info">{enemy && <Stats entity={enemy} />}</div>
 
           <div className="grid place-content-center">
@@ -58,60 +58,64 @@ function GameView({ handleNextNode, handleNodeOption }) {
         />
       </BaseModal>
 
-      <div
-        id="controller"
-        className="grid h-1/2 grid-cols-2 grid-rows-2 gap-2 border-t-2 border-white pt-2"
-      >
+      <div id="controller" className="h-1/2 border-t-2 border-white pt-2">
         {renderLoading && <Loading message={'Waiting for other players'} />}
+        <div className="grid h-full select-none grid-cols-2 grid-rows-2 gap-2 pt-2">
+          {/** To jest po akcji w nodzie, wybierasz kolejną drogę */}
+          {renderChooseNode &&
+            nextNodes.map((nextNode, index) => (
+              <button
+                className="answerBox"
+                key={index}
+                onClick={() => handleNextNode(nextNode.id)}
+              >
+                {nextNode.type}
+              </button>
+            ))}
 
-        {/** To jest po akcji w nodzie, wybierasz kolejną drogę */}
-        {renderChooseNode &&
-          nextNodes.map((nextNode, index) => (
-            <button
-              className="answerBox"
-              key={index}
-              onClick={() => handleNextNode(nextNode.id)}
-            >
-              {nextNode.type}
-            </button>
-          ))}
+          {renderChooseNode &&
+            [...Array(4 - nextNodes.length).keys()].map((fakeButton) => {
+              return <button className="answerBox" key={`fake-${fakeButton}`}></button>;
+            })}
 
-        {renderChooseNode &&
-          [...Array(4 - nextNodes.length).keys()].map((fakeButton) => {
-            return <button className="answerBox" key={`fake-${fakeButton}`}></button>;
-          })}
-
-        {/** To akcja w nodzie, wybierasz opcje noda (params?) */}
-        {renderNodeOptions && (
-          <>
-            {currentNode.type === NODES.SKIP && (
-              <Skip handleNodeOption={handleNodeOption} />
-            )}
-            {currentNode.type === NODES.FIGHT && (
-              <Fight
-                handleNodeOption={handleNodeOption}
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
-                isOpenStance={isOpenStance}
-                setIsOpenStance={setIsOpenStance}
-              />
-            )}
-            {currentNode.type === NODES.HEAL && (
-              <Heal
-                handleNodeOption={handleNodeOption}
-                isOpen={isOpenHeal}
-                setIsOpen={setIsOpenHeal}
-              />
-            )}
-            {currentNode.type === NODES.MERCHANT && (
-              <Merchant
-                handleNodeOption={handleNodeOption}
-                isOpen={isOpenBuy}
-                setIsOpen={setIsOpenBuy}
-              />
-            )}
-          </>
-        )}
+          {/** To akcja w nodzie, wybierasz opcje noda (params?) */}
+          {renderNodeOptions && (
+            <>
+              {currentNode.type === NODES.SKIP && (
+                <Skip
+                  handleNodeOption={handleNodeOption}
+                  key={`node-${currentNode.id}`}
+                />
+              )}
+              {currentNode.type === NODES.FIGHT && (
+                <Fight
+                  handleNodeOption={handleNodeOption}
+                  isOpen={isOpen}
+                  setIsOpen={setIsOpen}
+                  isOpenStance={isOpenStance}
+                  setIsOpenStance={setIsOpenStance}
+                  key={`node-${currentNode.id}`}
+                />
+              )}
+              {currentNode.type === NODES.HEAL && (
+                <Heal
+                  handleNodeOption={handleNodeOption}
+                  isOpen={isOpenHeal}
+                  setIsOpen={setIsOpenHeal}
+                  key={`node-${currentNode.id}`}
+                />
+              )}
+              {currentNode.type === NODES.MERCHANT && (
+                <Merchant
+                  handleNodeOption={handleNodeOption}
+                  isOpen={isOpenBuy}
+                  setIsOpen={setIsOpenBuy}
+                  key={`node-${currentNode.id}`}
+                />
+              )}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
